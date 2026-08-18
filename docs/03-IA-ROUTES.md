@@ -19,7 +19,7 @@
 ├── /works               作品 · Works            做过什么
 │   ├── /works/matrix-calculator                 矩阵计算器（精确有理数）
 │   ├── /works/zgyc-smart-light                  智光耀城智慧路灯管理平台
-│   └── /works/intellibuddy                      智教结合虚拟化平台 🔴 待内容
+│   └── /works/intellibuddy                      智学伴（IntelliBuddy）AI 智能学习平台
 ├── /awards              荣誉 · Awards           证明实力
 └── /join                加入 · Join             登机口
 
@@ -327,11 +327,12 @@
                 │  🔴 需要项目截图                  │
                 └────────────────────────────────┘
                 ┌────────────────────────────────┐
-                │  智教结合虚拟化平台               │
-                │  集教学实验、云端资源调度与智能化   │
-                │  辅助于一体，已部署投入日常教学     │
-                │  intellibuddy.luck007.online ↗  │
-                │  🔴 需要项目截图与技术栈           │
+                │  智学伴 · AI 智能学习平台        │
+                │  AI 智能助教 · AntV X6 知识图谱   │
+                │  个性化学习路径与多模型容灾降级调度 │
+                │  Vue 3 · TypeScript · Express  │
+                │  intellibuddy.luck007.online ↗ │
+                │  [详情→]                       │
                 └────────────────────────────────┘
                 → 全宽横向卡片，图文左右分栏，交替方向
                 → 前两个有 [详情→] 链到 /works/[slug]；

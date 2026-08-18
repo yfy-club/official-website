@@ -141,7 +141,7 @@ Radix Dialog 封装。焦点陷阱、`Esc` 关闭、焦点归还、`aria-modal` 
 | `HomeHero` | 大标题（`Develop` 包裹）+ 副标题 + 双 CTA + 滚动指示器 |
 | `HomeStats` | 四个数字。**不做 count-up**，只有单位标签 60ms 交错 |
 | `HomeTracks` | 五条方向横排（五行，非网格）。hover 时其余四行降到 40% |
-| `HomeFeature` | 单个项目全宽展示（智教结合虚拟化平台） |
+| `HomeFeature` | 单个项目全宽展示（矩阵计算器） |
 | `HomeCta` | 结尾 CTA |
 
 ### `/about`
