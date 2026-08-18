@@ -1,0 +1,335 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   云飞扬社团官网 · Design Tokens
+   主题：Ink & Ember（墨与烬）
+
+   这是全站色彩、字体、间距、动效数值的【唯一真源】。
+   组件内不得出现裸十六进制色值。需要新值时先在这里加，再去用。
+
+   所有对比度均为实测值，行内以「→ N.NN:1」标注。
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── 字族 ───────────────────────────────────────────────────────────── */
+  /* --font-display-latin / --font-sans-latin 由 next/font/local 注入 */
+  --font-display: var(--font-display-latin, 'Instrument Serif'),
+                  'Noto Serif SC Heading', Georgia, 'Songti SC', serif;
+  --font-sans: var(--font-sans-latin, 'Geist Sans'), -apple-system,
+               BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei',
+               'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: var(--font-mono-latin, 'Geist Mono'), ui-monospace,
+               'SFMono-Regular', 'Cascadia Code', Consolas, monospace;
+
+  /* ── 字号阶梯（流式，比例 1.25）───────────────────────────────────────── */
+  --text-display-1: clamp(3.5rem, 10vw, 8.5rem);
+  --text-display-2: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h1: clamp(2rem, 4vw, 3rem);
+  --text-h2: clamp(1.5rem, 2.5vw, 1.875rem);
+  --text-h3: 1.25rem;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-label: 0.6875rem;
+
+  /* ── 行高 ───────────────────────────────────────────────────────────── */
+  /* 拉丁 */
+  --leading-display: 0.95;
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.6;
+  /* 中文 —— 不得低于这些值。中文字形填满字身框，用拉丁行高会让相邻两行相撞 */
+  --leading-cjk-display: 1.35;
+  --leading-cjk-heading: 1.4;
+  --leading-cjk-body: 1.75;
+  --leading-cjk-body-lg: 1.8;
+
+  /* ── 字距 ───────────────────────────────────────────────────────────── */
+  /* 负字距是拉丁专属。中文一律 0 */
+  --tracking-display-1: -0.03em;
+  --tracking-display-2: -0.025em;
+  --tracking-h1: -0.02em;
+  --tracking-h2: -0.015em;
+  --tracking-h3: -0.01em;
+  --tracking-normal: 0;
+  --tracking-small: 0.01em;
+  --tracking-caption: 0.02em;
+  --tracking-caps: 0.1em;   /* 全大写必须加，无例外 */
+  --tracking-cjk: 0;
+
+  /* ── 字重 ───────────────────────────────────────────────────────────── */
+  --weight-display: 400;    /* Instrument Serif 只有 400 */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* ── 间距（4px 基数）─────────────────────────────────────────────────── */
+  --space-1: 0.25rem;   /*  4px */
+  --space-2: 0.5rem;    /*  8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.5rem;    /* 24px */
+  --space-6: 2rem;      /* 32px */
+  --space-7: 3rem;      /* 48px */
+  --space-8: 4rem;      /* 64px */
+  --space-9: 6rem;      /* 96px */
+  --space-10: 8rem;     /* 128px */
+  --space-11: 12rem;    /* 192px */
+  --section-gap: clamp(6rem, 12vh, 10rem);
+
+  /* ── 布局 ───────────────────────────────────────────────────────────── */
+  --container: 1200px;
+  --container-wide: 1360px;   /* ≥1920px 时启用 */
+  --reading-width: 68ch;      /* 大屏也不放宽 —— 给留白，不给更长的行 */
+  --gutter-sm: 1.5rem;        /* 24px 手机 */
+  --gutter-md: 2.5rem;        /* 40px 平板 */
+  --gutter-lg: 4rem;          /* 64px 桌面 */
+  --header-height: 3.5rem;
+  --header-height-scrolled: 3rem;
+  --rail-offset: 2.5rem;      /* 航迹轨距左边缘 */
+
+  /* ── 圆角 ───────────────────────────────────────────────────────────── */
+  /* 只有三档。内容容器方正、交互控件全圆，二元对立即识别度 */
+  --radius-xs: 2px;     /* 输入框、复选框、标签 */
+  --radius-sm: 4px;     /* 卡片、表格、图片、模态框 */
+  --radius-full: 9999px;/* 仅导航胶囊与按钮 */
+
+  /* ── 动效 ───────────────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);      /* 默认。M3 standard */
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); /* 双向过渡 */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);       /* 仅退场 */
+
+  --dur-instant: 80ms;      /* 按钮按下 */
+  --dur-fast: 150ms;        /* 默认：状态确认 */
+  --dur-normal: 220ms;      /* 悬浮、下拉 */
+  --dur-slow: 320ms;        /* 模态框入场 */
+  --dur-page: 480ms;        /* 跨路由 */
+  --dur-signature: 900ms;   /* 仅记忆点动效 */
+
+  /* ── 层级 ───────────────────────────────────────────────────────────── */
+  --z-base: 0;
+  --z-rail: 20;
+  --z-header: 40;
+  --z-dialog: 60;
+  --z-toast: 80;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   暗色主题（默认）
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* 表面 —— 深度靠明度分级，不靠投影 */
+  --bg: #0B0D10;
+  --surface: #14171C;
+  --surface-2: #1B1F26;
+
+  /* 文字 */
+  --fg: #ECEFF3;         /* → 16.87:1 */
+  --fg-muted: #8B94A3;   /* →  6.36:1 */
+  --fg-faint: #767F8F;   /* →  4.82:1 */
+
+  /* 边框 —— 暗色下用半透明白，不用深色实线 */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border-control: #616671;  /* → 3.38:1，满足 WCAG 1.4.11 */
+
+  /* 强调（唯一）—— 每屏可见使用 ≤ 2 次 */
+  --accent: #F5794C;                          /* → 7.15:1 */
+  --accent-fg: #0B0D10;                       /* 强调底上的文字 → 7.15:1 */
+  --accent-quiet: rgba(245, 121, 76, 0.12);
+
+  /* 语义 —— 仅表单与状态，占比 < 3% */
+  --success: #3FB950;    /* → 7.66:1 */
+  --warn: #D6A040;       /* → 8.30:1 */
+  --danger: #F0655C;     /* → 6.23:1 */
+
+  /* 主按钮：中性高对比。把强调色配额省给真正需要的地方 */
+  --btn-primary-bg: var(--fg);
+  --btn-primary-fg: var(--bg);   /* → 16.87:1 */
+
+  /* 深度：暗色不用投影，用内高光 */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 24px 64px -16px rgba(0, 0, 0, 0.7);
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  /* 效果层 —— 全站仅航迹轨与 Hero 显影两处 */
+  --rail-fill: linear-gradient(to bottom, rgba(245, 121, 76, 0.6), transparent);
+  --overlay: rgba(11, 13, 16, 0.72);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   亮色主题 —— 暖纸，不是冷白。继承旧版最好的一处设计
+   ══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #FAF9F6;
+  --surface: #FFFFFF;
+  --surface-2: #F1EFEA;
+
+  --fg: #16181C;         /* → 16.88:1 */
+  --fg-muted: #5F6570;   /* →  5.57:1 */
+  --fg-faint: #6C727E;   /* →  4.59:1 */
+
+  --border: rgba(22, 24, 28, 0.10);
+  --border-strong: rgba(22, 24, 28, 0.18);
+  --border-control: #878C95;  /* → 3.21:1 */
+
+  --accent: #B4522C;                          /* → 4.77:1（正文可用） */
+  --accent-fg: #FFFFFF;                       /* 强调底上的文字 → 5.02:1 */
+  --accent-quiet: rgba(180, 82, 44, 0.10);
+
+  --success: #1F7A33;    /* → 5.13:1 */
+  --warn: #8A5A00;       /* → 5.63:1 */
+  --danger: #C0392B;     /* → 5.17:1 */
+
+  --btn-primary-bg: var(--fg);
+  --btn-primary-fg: var(--bg);   /* → 16.88:1 */
+
+  --shadow-sm: 0 1px 2px rgba(22, 24, 28, 0.05);
+  --shadow-md: 0 4px 16px -4px rgba(22, 24, 28, 0.08);
+  --shadow-lg: 0 16px 48px -12px rgba(22, 24, 28, 0.12);
+  --inner-highlight: none;
+
+  --rail-fill: linear-gradient(to bottom, rgba(180, 82, 44, 0.5), transparent);
+  --overlay: rgba(250, 249, 246, 0.78);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   基础样式
+   ══════════════════════════════════════════════════════════════════════════ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 平滑滚动交给浏览器原生实现。不引入 Lenis 等库 —— 它们破坏原生手感、
+     干扰 CSS 滚动驱动动画、对辅助技术不友好 */
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + var(--space-5));
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-cjk-body);   /* 中文优先。整站默认按中文正文起 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--dur-normal) var(--ease-in-out),
+              color var(--dur-normal) var(--ease-in-out);
+}
+
+/* 所有数字使用等宽数位，避免统计数字与年份在状态切换时抖动 */
+.tabular,
+time,
+[data-numeric] {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+/* 全大写必须加正字距 —— 无字距的全大写是最容易识别的业余痕迹 */
+.caps {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+}
+
+/* 拉丁显示字：紧的行高与负字距只加在拉丁元素上，不从父级继承给中文块 */
+.display-latin {
+  font-family: var(--font-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display-1);
+}
+
+/* 中文标题：行高不得低于 1.35，字距为 0 */
+.display-cjk {
+  font-family: var(--font-sans);
+  line-height: var(--leading-cjk-display);
+  letter-spacing: var(--tracking-cjk);
+  font-weight: var(--weight-semibold);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 焦点环不做动画 —— 键盘用户快速 Tab 时，任何过渡都会让焦点位置模糊 */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   减少动效
+   规则：剥离轴向运动（位移/缩放/旋转/视差），保留透明度与颜色的交叉淡入
+   作为状态变化的替代信号
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   无障碍工具类
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* 跳到主内容 —— 键盘用户的第一个 Tab 目标 */
+.skip-link {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-5);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border-radius: var(--radius-full);
+  transform: translateY(-200%);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
