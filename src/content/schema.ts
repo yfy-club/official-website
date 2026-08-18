@@ -1,0 +1,122 @@
+import { z } from "zod";
+
+export const trackSlugSchema = z.enum([
+  "ai",
+  "software",
+  "database",
+  "cloud-iot",
+  "industrial",
+]);
+
+const stageSchema = z.object({
+  label: z.string().min(2),
+  items: z.array(z.string().min(2)).min(3).max(5),
+});
+
+export const trackSchema = z.object({
+  slug: trackSlugSchema,
+  index: z.string().regex(/^0[1-5]$/),
+  nameZh: z.string().min(2),
+  nameEn: z.string().min(2),
+  tagline: z.string().min(10).max(40),
+  positioning: z.string().min(30),
+  stack: z.object({
+    languages: z.array(z.string()).min(1),
+    frameworks: z.array(z.string()).min(1),
+    engineering: z.array(z.string()).min(1),
+  }),
+  roadmap: z.object({
+    freshman: stageSchema,
+    sophomore: stageSchema,
+    junior: z.object({
+      employment: stageSchema,
+      postgrad: stageSchema,
+    }),
+  }),
+  goal: z.string().min(2),
+  relatedWorkSlugs: z.array(z.string()).default([]),
+  relatedAwardIds: z.array(z.string()).default([]),
+});
+
+export const workSchema = z.object({
+  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  nameZh: z.string().min(2),
+  nameEn: z.string().optional(),
+  status: z.enum(["已上线", "在研", "已结项"]),
+  tagline: z.string().min(10),
+  liveUrl: z.url().optional(),
+  repoUrl: z.url().optional(),
+  period: z.string().optional(),
+  trackSlugs: z.array(trackSlugSchema).default([]),
+  detail: z
+    .object({
+      problem: z.array(z.string()).min(2),
+      stack: z.record(z.string(), z.array(z.string())),
+      decisions: z.array(z.object({ what: z.string(), why: z.string() })).min(3),
+      evidence: z.array(z.object({ label: z.string(), value: z.string() })).min(2),
+      limits: z.array(z.string()).min(2),
+      shots: z
+        .object({
+          dark: z.string().startsWith("/images/works/"),
+          light: z.string().startsWith("/images/works/").optional(),
+          alt: z.string().min(2),
+        })
+        .optional(),
+    })
+    .optional(),
+});
+
+export const awardSchema = z.object({
+  id: z.string().min(1),
+  competition: z.string().min(2),
+  level: z.enum(["国家级", "省级", "校级"]),
+  result: z.string().min(2),
+  year: z.string().regex(/^\d{4}$/),
+  image: z.string().startsWith("/images/certs/").optional(),
+  description: z.string().optional(),
+  trackSlugs: z.array(trackSlugSchema).default([]),
+});
+
+export const clubSchema = z.object({
+  name: z.string().min(2),
+  nameEn: z.string().min(2),
+  abbreviation: z.string().min(2),
+  slogan: z.string().min(2),
+  subSlogan: z.string().min(2),
+  founded: z.number().int().min(2000),
+  affiliation: z.string().min(2),
+  advisor: z.string().min(2),
+  githubUrl: z.url(),
+  values: z.array(z.string()).min(3),
+});
+
+export const timelineItemSchema = z.object({
+  year: z.string().regex(/^\d{4}$/),
+  title: z.string().min(2),
+  description: z.string().min(10),
+});
+
+export const faqSchema = z.object({
+  question: z.string().min(5),
+  answer: z.string().min(10),
+});
+
+export const joinFormSchema = z.object({
+  name: z.string().trim().min(2).max(20),
+  studentId: z.string().trim().regex(/^\d{8,20}$/),
+  major: z.string().trim().min(2).max(40),
+  grade: z.string().trim().min(2).max(20),
+  contact: z.string().trim().min(5).max(40),
+  track: trackSlugSchema,
+  reason: z.string().trim().min(20).max(1000),
+  website: z.string().max(0).optional(),
+  turnstileToken: z.string().min(1),
+});
+
+export type Track = z.infer<typeof trackSchema>;
+export type Work = z.infer<typeof workSchema>;
+export type Award = z.infer<typeof awardSchema>;
+export type Club = z.infer<typeof clubSchema>;
+export type TimelineItem = z.infer<typeof timelineItemSchema>;
+export type Faq = z.infer<typeof faqSchema>;
+export type JoinFormInput = z.infer<typeof joinFormSchema>;

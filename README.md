@@ -7,7 +7,7 @@
 
 ## 这是什么
 
-本目录是 **重构版的设计与需求源文档**。代码尚未开始编写，先把"要做什么、长什么样、怎么动、怎么搭"定死，避免边写边改。
+本目录是 **重构版的设计、需求与实现仓库**。M0 地基已经完成，产品文档继续作为实现与验收的单一依据。
 
 旧版仓库：`G:\Code\Other\yunfeiyang-official-site`（Nuxt 4 + 原生 CSS，单页）
 重构版技术栈：**Next.js 15 + React 19 + Tailwind CSS v4 + Motion**
@@ -87,14 +87,17 @@
 
 ---
 
-## 快速开始（代码阶段）
+## 快速开始
 
 ```bash
-# 尚未初始化。M0 里程碑执行以下命令：
-npx create-next-app@latest . --typescript --tailwind --app --eslint --src-dir --use-npm
+npm install
+npm run dev
+
+# 提交前运行完整质量门禁
+npm run check
 ```
 
-详见 [`docs/07-ROADMAP.md`](docs/07-ROADMAP.md)。
+真实图片与历史材料统一从 `materials/` 整理到 `public/images/`；不要把聊天记录、训练资料或汇报源文件直接发布。
 
 ---
 

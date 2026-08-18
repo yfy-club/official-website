@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "../../design/tokens.css";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-faint: var(--fg-faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --text-display-1: var(--text-display-1);
+  --text-body-lg: var(--text-body-lg);
+  --spacing-gutter-sm: var(--gutter-sm);
+  --spacing-gutter-md: var(--gutter-md);
+  --spacing-gutter-lg: var(--gutter-lg);
+  --spacing-section: var(--section-gap);
+  --container-container: var(--container);
+  --container-reading: var(--reading-width);
+  --radius-sm: var(--radius-sm);
+  --ease-out: var(--ease-out);
+}

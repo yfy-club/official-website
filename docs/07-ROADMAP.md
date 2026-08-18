@@ -15,13 +15,13 @@ npm i @radix-ui/react-dialog @radix-ui/react-accordion @radix-ui/react-slot
 npm i -D vitest @playwright/test @axe-core/playwright @lhci/cli
 ```
 
-- [ ] 初始化 Next.js 15，TypeScript `strict: true`
-- [ ] `design/tokens.css` 接入 `globals.css`，Tailwind v4 `@theme inline` 映射
-- [ ] 字体自托管：Instrument Serif / Geist Sans / Geist Mono（`next/font/local` + `adjustFontFallback`）
-- [ ] `next-themes` 接入，验证首屏无 FOUC
-- [ ] `content/schema.ts` 写完全部 Zod schema；`content/index.ts` 做构建时校验
-- [ ] 从旧仓库迁移 `public/images/**`
-- [ ] GitHub Actions：`tsc` + `eslint` + `vitest` + `next build`
+- [x] 初始化 Next.js 15，TypeScript `strict: true`
+- [x] `design/tokens.css` 接入 `globals.css`，Tailwind v4 `@theme inline` 映射
+- [x] 字体自托管：Instrument Serif / Geist Sans / Geist Mono（`next/font/local` + `adjustFontFallback`）
+- [x] `next-themes` 接入，验证首屏无 FOUC
+- [x] `content/schema.ts` 写完全部 Zod schema；`content/index.ts` 做构建时校验
+- [x] 从 `materials/` 单一素材源整理 `public/images/**`
+- [x] GitHub Actions：`tsc` + `eslint` + `vitest` + `next build`
 
 **验收**：一个只有 `<h1>` 的页面，明暗两个主题都正确，字体正确，无 CLS。
 

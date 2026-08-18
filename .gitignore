@@ -8,6 +8,8 @@ node_modules/
 
 # Testing
 coverage/
+*.tsbuildinfo
+next-env.d.ts
 
 # Next.js build
 .next/
