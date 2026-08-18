@@ -1,25 +1,34 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
-  const isDark = !mounted || resolvedTheme === "dark";
+  const current: "system" | "light" | "dark" =
+    mounted && (theme === "light" || theme === "dark") ? theme : "system";
+  const next = current === "system" ? "light" : current === "light" ? "dark" : "system";
+  const labels = { system: "跟随系统", light: "亮色", dark: "暗色" } as const;
 
   return (
     <button
       type="button"
-      className="inline-flex size-11 items-center justify-center rounded-full border border-border-strong bg-surface text-fg transition-colors duration-150 hover:border-accent"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={mounted ? `切换到${isDark ? "亮色" : "暗色"}主题` : "切换主题"}
+      className="theme-toggle"
+      onClick={() => setTheme(next)}
+      aria-label={mounted ? `当前${labels[current]}主题，切换到${labels[next]}` : "切换主题"}
     >
-      {isDark ? <Sun aria-hidden="true" size={18} /> : <Moon aria-hidden="true" size={18} />}
+      {current === "system" ? (
+        <Monitor aria-hidden="true" size={18} />
+      ) : current === "light" ? (
+        <Moon aria-hidden="true" size={18} />
+      ) : (
+        <Sun aria-hidden="true" size={18} />
+      )}
     </button>
   );
 }

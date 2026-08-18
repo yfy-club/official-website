@@ -48,6 +48,10 @@ export const workSchema = z.object({
   repoUrl: z.url().optional(),
   period: z.string().optional(),
   trackSlugs: z.array(trackSlugSchema).default([]),
+  image: z.string().startsWith("/images/works/").optional(),
+  logo: z.string().startsWith("/images/works/").optional(),
+  stackSummary: z.array(z.string()).default([]),
+  highlights: z.array(z.string()).default([]),
   detail: z
     .object({
       problem: z.array(z.string()).min(2),
@@ -88,6 +92,12 @@ export const clubSchema = z.object({
   advisor: z.string().min(2),
   githubUrl: z.url(),
   values: z.array(z.string()).min(3),
+  motto: z.string().min(2),
+  origin: z.string().min(10),
+  platform: z.string().min(2),
+  memberCount: z.number().int().positive(),
+  annualAwards: z.string().min(2),
+  qqGroup: z.string().regex(/^\d{6,12}$/),
 });
 
 export const timelineItemSchema = z.object({
