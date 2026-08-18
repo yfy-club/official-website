@@ -112,15 +112,15 @@ export const faqSchema = z.object({
 });
 
 export const joinFormSchema = z.object({
-  name: z.string().trim().min(2).max(20),
-  studentId: z.string().trim().regex(/^\d{8,20}$/),
-  major: z.string().trim().min(2).max(40),
-  grade: z.string().trim().min(2).max(20),
-  contact: z.string().trim().min(5).max(40),
-  track: trackSlugSchema,
-  reason: z.string().trim().min(20).max(1000),
-  website: z.string().max(0).optional(),
-  turnstileToken: z.string().min(1),
+  name: z.string().trim().min(2, "姓名至少需要 2 个字符").max(20, "姓名不能超过 20 个字符"),
+  studentId: z.string().trim().regex(/^\d{8,20}$/, "请输入 8 至 20 位数字学号"),
+  major: z.string().trim().min(2, "请输入专业班级").max(40, "专业班级不能超过 40 个字符"),
+  grade: z.string().trim().min(2, "请输入年级").max(20, "年级不能超过 20 个字符"),
+  contact: z.string().trim().min(5, "请输入可联系到你的微信、QQ 或手机号").max(40, "联系方式不能超过 40 个字符"),
+  track: z.enum(trackSlugSchema.options, { error: "请选择一个志向方向" }),
+  reason: z.string().trim().min(20, "申请理由至少需要 20 个字符").max(1000, "申请理由不能超过 1000 个字符"),
+  website: z.string().trim().max(0, "请勿填写此字段").optional(),
+  turnstileToken: z.string().trim().max(2048, "人机验证令牌无效").optional(),
 });
 
 export type Track = z.infer<typeof trackSchema>;
