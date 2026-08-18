@@ -57,9 +57,9 @@ export function CompareSlider({ alt, dark, light }: { alt: string; dark: string;
       }}
       onPointerCancel={() => { draggingRef.current = false; }}
     >
-      <Image className="compare__image" src={dark} alt={`${alt}，暗色主题`} fill sizes="(max-width: 768px) 100vw, 80vw" priority />
+      <Image className="compare__image" src={dark} alt={`${alt}，暗色主题`} fill sizes="(max-width: 768px) 100vw, 80vw" />
       <div className="compare__top" aria-hidden="true">
-        <Image className="compare__image" src={light} alt="" fill sizes="(max-width: 768px) 100vw, 80vw" priority />
+        <Image className="compare__image" src={light} alt="" fill sizes="(max-width: 768px) 100vw, 80vw" />
       </div>
       <span className="compare__label compare__label--dark">暗色</span>
       <span className="compare__label compare__label--light">亮色</span>

@@ -35,7 +35,7 @@
 
 | 检查 | 工具 | 门槛 |
 | :--- | :--- | :--- |
-| 自动扫描 | `@axe-core/playwright`，六条路由全覆盖 | 零 serious / critical |
+| 自动扫描 | `@axe-core/playwright`，13 条公开路由 × 明暗主题全覆盖 | 零 serious / critical |
 | Lighthouse 可访问性 | Lighthouse CI | **100 分** |
 | 键盘遍历 | 人工 | 六条路由的关键路径全部可完成 |
 | 屏幕阅读器 | NVDA（Windows）抽查 | 首页 + `/join` 表单可用 |
@@ -223,7 +223,7 @@ CI 中任何一项失败即阻止合并：
 
 ## 7. 上线前终检
 
-- [ ] 六条路由 × 明暗两主题 × 三档屏幕 = 36 种组合全部肉眼过一遍
+- [ ] 13 条公开路由 × 明暗两主题 × 三档屏幕全部肉眼过一遍
 - [ ] **移动端测试矩阵全部走完**（见 [`09-MOBILE.md`](09-MOBILE.md) §11）
 - [ ] `prefers-reduced-motion: reduce` 下全站可用
 - [ ] 纯键盘走完：首页 → 方向详情 → 报名提交

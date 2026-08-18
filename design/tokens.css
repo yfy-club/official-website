@@ -10,9 +10,11 @@
 
 :root {
   /* ── 字族 ───────────────────────────────────────────────────────────── */
-  /* --font-display-latin / --font-sans-latin 由 next/font/local 注入 */
+  /* --font-display-latin / --font-display-cjk / --font-sans-latin 由 next/font/local 注入 */
   --font-display: var(--font-display-latin, 'Instrument Serif'),
-                  'Noto Serif SC Heading', Georgia, 'Songti SC', serif;
+                  Georgia, serif;
+  --font-display-heading-cjk: var(--font-display-cjk, 'Noto Serif SC Heading'),
+                              'Songti SC', SimSun, serif;
   --font-sans: var(--font-sans-latin, 'Geist Sans'), -apple-system,
                BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei',
                'Noto Sans SC', system-ui, sans-serif;
@@ -129,7 +131,7 @@
   /* 文字 */
   --fg: #ECEFF3;         /* → 16.87:1 */
   --fg-muted: #8B94A3;   /* →  6.36:1 */
-  --fg-faint: #767F8F;   /* →  4.82:1 */
+  --fg-faint: #788191;   /* →  4.95:1 on bg, 4.57:1 on surface */
 
   /* 边框 —— 暗色下用半透明白，不用深色实线 */
   --border: rgba(255, 255, 255, 0.08);
@@ -256,7 +258,7 @@ time,
 
 /* 中文标题：行高不得低于 1.35，字距为 0 */
 .display-cjk {
-  font-family: var(--font-sans);
+  font-family: var(--font-display-heading-cjk);
   line-height: var(--leading-cjk-display);
   letter-spacing: var(--tracking-cjk);
   font-weight: var(--weight-semibold);

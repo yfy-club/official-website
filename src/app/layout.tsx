@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
-import { ThemeProvider } from "@/components/layout/theme-provider";
 import { RouteTransitions } from "@/components/layout/route-transitions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { club } from "@/content";
+import { StructuredData } from "@/components/seo/structured-data";
+import { awards, club } from "@/content";
+import { siteUrl } from "@/lib/seo";
 
 import "./globals.css";
 
@@ -24,6 +25,7 @@ const sans = localFont({
   ],
   variable: "--font-sans-latin",
   display: "swap",
+  preload: false,
   adjustFontFallback: "Arial",
 });
 
@@ -31,8 +33,19 @@ const mono = localFont({
   src: "../../public/fonts/GeistMono-Regular.woff2",
   variable: "--font-mono-latin",
   display: "swap",
+  preload: false,
   adjustFontFallback: "Arial",
 });
+
+const displayCjk = localFont({
+  src: "../../public/fonts/NotoSerifSC-Heading-subset.woff2",
+  variable: "--font-display-cjk",
+  display: "swap",
+  weight: "600",
+  fallback: ["Songti SC", "SimSun", "serif"],
+});
+
+const themeBootScript = `(()=>{try{const s=localStorage.getItem("theme")||"system";const d=s==="dark"||s==="light"?s:matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=d;document.documentElement.style.colorScheme=d}catch{}})()`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://yfy.club"),
@@ -41,14 +54,6 @@ export const metadata: Metadata = {
     template: "%s · 云飞扬社团",
   },
   description: "南阳理工学院云飞扬社团官方网站。探索技术方向、项目实践与成长航迹。",
-  openGraph: {
-    type: "website",
-    locale: "zh_CN",
-    siteName: "云飞扬社团",
-    title: "云飞扬社团 · We Code the Future",
-    description: "南阳理工学院云飞扬社团官方网站。探索技术方向、项目实践与成长航迹。",
-  },
-  twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
@@ -67,25 +72,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     alternateName: club.nameEn,
     foundingDate: String(club.founded),
     slogan: club.slogan,
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://yfy.club",
-    logo: "/images/logo/logo.png",
+    url: siteUrl("/").toString(),
+    logo: siteUrl("/images/logo/logo.webp").toString(),
     sameAs: [club.githubUrl],
+    award: awards.map((award) => `${award.year} ${award.competition} ${award.result}`),
   };
 
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
-        <ThemeProvider>
-          <RouteTransitions />
-          <a className="skip-link" href="#main-content">跳到主内容</a>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
-        </ThemeProvider>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
-        />
+      <body className={`${display.variable} ${displayCjk.variable} ${sans.variable} ${mono.variable}`}>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <RouteTransitions />
+        <a className="skip-link" href="#main-content">跳到主内容</a>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+        <StructuredData data={organization} />
       </body>
     </html>
   );

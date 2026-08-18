@@ -6,15 +6,17 @@ import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { DrawPath } from "@/components/motion/draw-path";
+import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
 import { Tag } from "@/components/ui/tag";
 import { awards, tracks, works } from "@/content";
+import { breadcrumbJsonLd, createMetadata, trackJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() { return tracks.map((track) => ({ slug: track.slug })); }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params; const track = tracks.find((item) => item.slug === slug);
-  return track ? { title: track.nameZh, description: track.positioning } : {};
+  return track ? createMetadata({ title: track.nameZh, description: track.positioning, path: `/tracks/${track.slug}` }) : {};
 }
 
 export default async function TrackDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -23,7 +25,9 @@ export default async function TrackDetailPage({ params }: { params: Promise<{ sl
   const previous = tracks[(trackIndex - 1 + tracks.length) % tracks.length]; const next = tracks[(trackIndex + 1) % tracks.length];
   const stackGroups = [["语言", track.stack.languages], ["框架与平台", track.stack.frameworks], ["工程方向", track.stack.engineering]] as const;
   return (
-    <main id="main-content" className="page-main page-shell track-detail">
+    <main id="main-content" className="page-main page-shell track-detail" tabIndex={-1}>
+      <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "方向", path: "/tracks" }, { name: track.nameZh, path: `/tracks/${track.slug}` }])} />
+      <StructuredData data={trackJsonLd(track)} />
       <TrajectoryRail label={track.nameZh} sections={[{ id: "track-start", index: "01", label: "方向" }, { id: "track-stack", index: "02", label: "技术栈" }, { id: "track-roadmap", index: "03", label: "三年航迹" }, { id: "track-evidence", index: "04", label: "相关产出" }, { id: "track-switch", index: "05", label: "换道" }, { id: "track-join", index: "06", label: "加入" }]} />
       <header id="track-start" className="track-detail__hero"><p className="caps">{track.index} / Track</p><h1>{track.nameZh}</h1><p className="display-latin">{track.nameEn}</p><p>{track.positioning}</p></header>
       <section id="track-stack" className="section" aria-labelledby="stack-title"><div className="section__head"><p className="caps section__index">02 / Stack</p><h2 id="stack-title" className="section__title">要学会什么。</h2></div><div className="stack-groups">{stackGroups.map(([label, items]) => <div key={label}><h3 className="caps">{label}</h3><div className="stack-row">{items.map((item) => <Tag key={item}>{item}</Tag>)}</div></div>)}</div></section>

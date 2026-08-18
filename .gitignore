@@ -13,9 +13,18 @@ next-env.d.ts
 
 # Next.js build
 .next/
+.next-quality/
+.next-*/
 out/
 build/
 dist/
+
+# Browser and Lighthouse reports
+playwright-report/
+test-results/
+.lighthouseci/
+.next-*.log
+.next-*.png
 
 # Environment Variables
 .env

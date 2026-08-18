@@ -96,6 +96,21 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
       setTurnstileReset((value) => value + 1);
       setError("root.server", { message: "网络连接失败，请检查网络后重试。" });
     }
+  }, (validationErrors) => {
+    const ids: Array<[keyof JoinFormInput, string]> = [
+      ["name", "join-name"],
+      ["studentId", "join-student-id"],
+      ["major", "join-major"],
+      ["grade", "join-grade"],
+      ["contact", "join-contact"],
+      ["track", "join-track"],
+      ["reason", "join-reason"],
+    ];
+    const firstInvalid = ids.find(([field]) => validationErrors[field]);
+    if (!firstInvalid) return;
+    window.requestAnimationFrame(() => {
+      document.getElementById(firstInvalid[1])?.scrollIntoView({ block: "center", behavior: "auto" });
+    });
   });
 
   const nameError = errors.name?.message;
@@ -108,7 +123,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
   const rootError = errors.root?.server?.message;
 
   return (
-    <form className="join-form" noValidate onSubmit={onSubmit} aria-busy={isSubmitting}>
+    <form className="join-form" noValidate onSubmit={onSubmit} aria-busy={isSubmitting} aria-labelledby="join-form-title">
       <fieldset className="join-form__grid" disabled={isSubmitting || submitted}>
         <legend className="sr-only">报名信息</legend>
         <Field id="join-name" label="姓名" error={nameError}>

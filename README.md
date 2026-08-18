@@ -3,11 +3,13 @@
 > 代号 **Trajectory / 航迹**
 > 从"一页到底的情绪落地页"重构为"多页面、有叙事、动效克制而精准"的社团站点。
 
+当前状态：M0–M4 的代码与自动质量门禁已完成。部署平台仍待定；iPhone、安卓、微信、QQ 与 NVDA 的真机抽查必须在正式上线前人工执行。
+
 ---
 
 ## 这是什么
 
-本目录是 **重构版的设计、需求与实现仓库**。M0 地基已经完成，产品文档继续作为实现与验收的单一依据。
+本目录是 **重构版的设计、需求与实现仓库**。产品文档是实现与验收的单一依据，代码、内容、图片处理流程和质量门禁均保存在本仓库内。
 
 旧版仓库：`G:\Code\Other\yunfeiyang-official-site`（Nuxt 4 + 原生 CSS，单页）
 重构版技术栈：**Next.js 15 + React 19 + Tailwind CSS v4 + Motion**
@@ -89,15 +91,63 @@
 
 ## 快速开始
 
+要求 Node.js 22 与 npm。只有重新生成中文标题字体时才需要 Python 3、FontTools 和 Brotli。
+
 ```bash
-npm install
+npm ci
+npx playwright install chromium
 npm run dev
 
 # 提交前运行完整质量门禁
 npm run check
+npm run test:e2e:run
+npm run lighthouse:run
 ```
 
-真实图片与历史材料统一从 `materials/` 整理到 `public/images/`；不要把聊天记录、训练资料或汇报源文件直接发布。
+开发地址为 `http://localhost:3000`。`npm run check` 使用隔离的 `.next-quality` 构建目录，不会覆盖正在运行的开发服务。
+
+## 环境变量
+
+从 [`.env.example`](.env.example) 创建本地 `.env.local`。任何 Secret 都只能由服务端读取，不得改成 `NEXT_PUBLIC_*`。
+
+| 变量 | 用途 | 生产要求 |
+| :--- | :--- | :--- |
+| `TURNSTILE_SECRET_KEY` | Turnstile 服务端校验 | 启用 Turnstile 时必填 |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstile 客户端 Site Key | 与 Secret 配套 |
+| `JOIN_WEBHOOK_URL` | 飞书、企业微信或通用 Webhook | 通知渠道按需配置 |
+| `RESEND_API_KEY` | Resend 邮件投递 | 邮件渠道按需配置 |
+| `JOIN_NOTIFY_EMAIL` | 报名通知收件人 | 邮件渠道按需配置 |
+| `NEXT_PUBLIC_SITE_URL` | canonical、sitemap、robots、OG 的站点根地址 | 正式域名确定后必填 |
+
+本地未配置 Turnstile Key 时表单会进入开发降级模式；生产环境缺少 Secret 会返回 503。Resend 当前默认发件人为 `onboarding@resend.dev`，正式域名确定后应改为已验证发件域名。
+
+## 日常维护
+
+内容统一维护在 `src/content/`，结构约束在 `src/content/schema.ts`。修改标题或方向名称后运行 `npm run fonts:check`；若报告缺字，再按 [CONTRIBUTING.md](CONTRIBUTING.md) 重新生成中文标题子集。
+
+图片原件先放在被 Git 忽略的 `materials/` 审核，确认无隐私后再放入 `public/images/` 对应目录并运行 `npm run images:optimize`。公开栅格图只保留 AVIF/WebP，页面统一使用 `next/image` 和 `sizes`；未被页面引用的归档图继续留在 `materials/`，不得进入可部署的 `public/` 树。
+
+常用检查：
+
+| 命令 | 作用 |
+| :--- | :--- |
+| `npm run check` | 类型、Lint、Vitest、内容/图片/字体审计、生产构建 |
+| `npm run test:e2e:run` | 13 条公开路由的 axe、键盘、缩放、强制颜色、SEO 契约 |
+| `npm run test:browser` | 320/1440px、明暗主题、触屏和动效冒烟 |
+| `npm run lighthouse:run` | 移动端性能、LCP、CLS、TBT 与可访问性门禁 |
+| `npm run fonts:subset` | 提取实际标题字符并生成 WOFF2/TTF/WOFF 子集 |
+| `npm run audit:content` | 占位文案、外部占位图、私钥/IP 与真实性限定检查 |
+| `npm run audit:images` | 图片格式、引用和响应式加载策略检查 |
+
+GitHub Actions 会在 PR 和 `main` 推送时依次运行 `check`、Playwright 与 Lighthouse。Lighthouse 报告只保存在本地或 CI 工件目录，不上传公共服务。
+
+## 上线交接
+
+部署平台仍在 Cloudflare 与 EdgeOne 之间待定，本仓库没有创建任何线上资源。平台、正式域名、Turnstile、通知渠道和 Resend 发件域必须由现任负责人确认后再配置。
+
+上线前仍需人工完成：iPhone Safari、安卓 Chrome、微信/QQ 内置浏览器、横屏、系统大字号、NVDA 首页与报名表单抽查，以及 QQ 深链和复制群号兜底。完整流程见 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [`docs/09-MOBILE.md`](docs/09-MOBILE.md)。
+
+真实图片与历史材料统一从 `materials/` 整理到 `public/images/`；不要把聊天记录、训练资料、汇报源文件、服务器信息或凭据直接发布。
 
 ---
 

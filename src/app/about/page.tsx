@@ -3,14 +3,17 @@ import Image from "next/image";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
 import { advisorProfile, club, mechanisms, memberLadder, mentorship, timeline } from "@/content";
+import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "关于", description: "了解云飞扬社团的起源、成员梯队、阶段考核、一对一师徒制与指导教师。" };
+export const metadata: Metadata = createMetadata({ title: "关于", description: "了解云飞扬社团的起源、成员梯队、阶段考核、一对一师徒制与指导教师。", path: "/about" });
 
 export default function AboutPage() {
   return (
-    <main id="main-content" className="page-main page-shell">
+    <main id="main-content" className="page-main page-shell" tabIndex={-1}>
+      <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "关于", path: "/about" }])} />
       <TrajectoryRail label="我们是谁" sections={[
         { id: "about-start", index: "01", label: "我们是谁" }, { id: "about-origin", index: "02", label: "起源" },
         { id: "about-years", index: "03", label: "编年史" }, { id: "about-ladder", index: "04", label: "梯队" },
@@ -23,7 +26,7 @@ export default function AboutPage() {
           <p className="caps section__index">02 / Origin</p><h2 id="origin-title" className="section__title">从第一届云计算专业学生开始。</h2>
           <div className="prose"><p>{club.origin}</p><p>社团依托{club.platform}，坚持以成员为中心、立足技术实战、注重长远发展，并把兴趣与真实工程结合起来。</p></div>
         </div>
-        <Image src="/images/photos/lab-main-studio.png" alt="云飞扬社团主实验室工位全景" width={1400} height={900} sizes="(max-width: 1024px) 100vw, 50vw" />
+        <Image src="/images/photos/lab-main-studio.webp" alt="云飞扬社团主实验室工位全景" width={1400} height={900} sizes="(max-width: 1024px) 100vw, 50vw" />
       </section>
       <section id="about-years" className="section" aria-labelledby="timeline-title">
         <div className="section__head"><p className="caps section__index">03 / Years</p><h2 id="timeline-title" className="section__title">从 2014 到现在。</h2></div>

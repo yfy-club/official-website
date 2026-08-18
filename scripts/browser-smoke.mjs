@@ -3,6 +3,7 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const baseURL = process.env.SMOKE_BASE_URL ?? "http://127.0.0.1:3000";
+const buildDirectory = process.env.NEXT_DIST_DIR ?? ".next";
 const routes = [
   "/",
   "/about",
@@ -32,7 +33,7 @@ async function listFiles(directory) {
 }
 
 async function assertNoClientSecrets() {
-  const staticRoot = path.join(process.cwd(), ".next", "static");
+  const staticRoot = path.join(process.cwd(), buildDirectory, "static");
   const textExtensions = new Set([".css", ".html", ".js", ".json", ".map", ".txt"]);
   const files = (await listFiles(staticRoot)).filter((file) => textExtensions.has(path.extname(file)));
   const forbiddenNames = ["TURNSTILE_SECRET_KEY", "RESEND_API_KEY", "JOIN_WEBHOOK_URL", "JOIN_NOTIFY_EMAIL"];

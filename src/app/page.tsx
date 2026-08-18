@@ -7,17 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { Develop } from "@/components/motion/develop";
+import { createMetadata } from "@/lib/seo";
 import { club, tracks, works } from "@/content";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "起点",
   description: "云飞扬社团成立于 2014 年，在五条技术航道中以真实项目、竞赛和师徒制陪伴成员成长。",
-};
+  path: "/",
+});
 
 export default function Home() {
   const feature = works.find((work) => work.slug === "matrix-calculator");
   return (
-    <main id="main-content" className="home-main">
+    <main id="main-content" className="home-main" tabIndex={-1}>
       <TrajectoryRail label="起点" sections={[
         { id: "home-start", index: "01", label: "起点" },
         { id: "home-stats", index: "02", label: "社团数字" },

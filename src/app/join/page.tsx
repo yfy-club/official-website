@@ -5,18 +5,21 @@ import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
+import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
 import { Dialog } from "@/components/ui/dialog";
 import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/content";
+import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "加入",
   description: "了解云飞扬社团招新标准、流程、常见问题，并加入 2026 云飞扬迎新群。",
-};
+  path: "/join",
+});
 
 const posters = [
-  { src: "/images/posters/poster-recruit-2026-front.jpg", label: "2026 招新海报正面" },
-  { src: "/images/posters/poster-recruit-2026-back.jpg", label: "2026 招新海报背面" },
+  { src: "/images/posters/poster-recruit-2026-front.webp", label: "2026 招新海报正面" },
+  { src: "/images/posters/poster-recruit-2026-back.webp", label: "2026 招新海报背面" },
 ] as const;
 
 const sections = [
@@ -34,7 +37,8 @@ export default function JoinPage() {
   const trackOptions = tracks.map((track) => ({ label: track.nameZh, value: track.slug }));
 
   return (
-    <main id="main-content" className="page-main page-shell">
+    <main id="main-content" className="page-main page-shell" tabIndex={-1}>
+      <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "加入", path: "/join" }])} />
       <TrajectoryRail label="登机口" sections={sections} />
       <div id="join-start">
         <PageHero eyebrow="01 / Join" title="Join." subtitle="登机口" intro="我们要的不是已经会的人，是想学会的人。" />
@@ -112,7 +116,7 @@ export default function JoinPage() {
               title={poster.label}
               trigger={(
                 <button type="button" className="poster-card">
-                  <Image src={poster.src} alt={poster.label} width={900} height={1350} sizes="(max-width: 640px) 50vw, 35vw" />
+                  <Image src={poster.src} alt="" width={900} height={1350} sizes="(max-width: 640px) 50vw, 35vw" />
                   <span>{poster.label}</span>
                 </button>
               )}

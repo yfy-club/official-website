@@ -89,15 +89,16 @@ npm i -D vitest @playwright/test @axe-core/playwright @lhci/cli
 
 ## M4 · 打磨与上线（约 2 天）
 
-- [ ] 无障碍：axe 全站扫描零 serious/critical；纯键盘走完全部关键路径；屏幕阅读器抽查
+- [x] 无障碍自动门禁：13 条公开路由 × 明暗主题 axe 零 serious/critical；纯键盘走完首页 → 方向详情 → 报名表单
+- [ ] 无障碍人工抽查：NVDA（Windows）验证首页与报名表单
 - [ ] **移动端实机测试矩阵**（见 [`09-MOBILE.md`](09-MOBILE.md) §11）：iPhone Safari / 微信 / QQ 内置，安卓 Chrome / 微信，375px 窄屏，横屏，系统大字号，减弱动态效果
-- [ ] 性能：Lighthouse 移动端全页 ≥90；移动端首屏 JS ≤120KB gzip
-- [ ] 中文字体子集化（`scripts/extract-heading-glyphs.ts` + `pyftsubset`），产物 <40KB
-- [ ] 图片：全部转 AVIF/WebP + 多尺寸 `srcset`
-- [ ] `next/og` 动态社交卡片
-- [ ] 内容终审：无占位文案、无编造数据、无外部占位图 CDN
+- [x] 性能：Lighthouse 移动端 13 条路由全页 ≥90；LCP ≤2.5s；首页首载 JS 126KB（接近 120KB 目标，低于 180KB 上限）
+- [x] 中文字体子集化（`scripts/extract-heading-glyphs.ts` + `pyftsubset`），WOFF2 产物 <40KB
+- [x] 图片：全部转 AVIF/WebP + 多尺寸 `srcset`
+- [x] `next/og` 动态社交卡片
+- [x] 内容终审：无占位文案、无编造数据、无外部占位图 CDN
 - [ ] 部署 🟡（Cloudflare 或 EdgeOne，面向国内校园网）
-- [ ] `README` + `CONTRIBUTING`：让换届接手者能独立更新内容
+- [x] `README` + `CONTRIBUTING`：让换届接手者能独立更新内容
 
 **验收**：[`00-PRD.md`](00-PRD.md) §9 的 Definition of Done 逐页打勾。
 

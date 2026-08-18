@@ -10,7 +10,7 @@ export const worksRaw = [
     liveUrl: "https://atelier.luck007.online/",
     period: "2026-01 — 2026-07",
     trackSlugs: ["software"],
-    image: "/images/works/matrix-calculator/matrix-light.png",
+    image: "/images/works/matrix-calculator/matrix-light.webp",
     logo: "/images/works/matrix-calculator/matrix-logo.svg",
     stackSummary: ["Vue 3", "TypeScript", "Vite", "BigInt", "fast-check"],
     highlights: [
@@ -57,8 +57,8 @@ export const worksRaw = [
         "特征值、QR 与 SVD 没有混入有理数内核，当前版本不把近似数值算法伪装成精确计算。",
       ],
       shots: {
-        dark: "/images/works/matrix-calculator/matrix-dark.png",
-        light: "/images/works/matrix-calculator/matrix-light.png",
+        dark: "/images/works/matrix-calculator/matrix-dark.webp",
+        light: "/images/works/matrix-calculator/matrix-light.webp",
         alt: "矩阵计算器明暗主题主界面，包含矩阵输入区与精确分数计算结果",
       },
     },
@@ -71,7 +71,7 @@ export const worksRaw = [
     tagline: "面向城市道路照明与智慧多功能灯杆的 PC 端综合管理与试点展示平台。",
     liveUrl: "https://zht.makeup/",
     trackSlugs: ["software", "database", "cloud-iot"],
-    image: "/images/works/zgyc-smart-light/zgyc-light.png",
+    image: "/images/works/zgyc-smart-light/zgyc-light.webp",
     logo: "/images/works/zgyc-smart-light/zgyc-logo.svg",
     stackSummary: ["Java 21", "Spring Boot 3.5", "Vue 3", "TypeScript", "PostgreSQL"],
     highlights: [
@@ -119,7 +119,7 @@ export const worksRaw = [
         "平台用于业务闭环与试点展示，不把模拟环境描述为已接入真实城市物联网设施。",
       ],
       shots: {
-        dark: "/images/works/zgyc-smart-light/zgyc-light.png",
+        dark: "/images/works/zgyc-smart-light/zgyc-light.webp",
         alt: "智光耀城平台概览界面，展示区域、设备与照明运维数据",
       },
     },
@@ -132,8 +132,8 @@ export const worksRaw = [
     tagline: "集 AI 助教、交互式知识图谱、学习路径规划和数据看板于一体的智能助学平台。",
     liveUrl: "https://intellibuddy.luck007.online/",
     trackSlugs: ["ai", "software"],
-    image: "/images/works/zhixueban/zhixueban-light.png",
-    logo: "/images/works/zhixueban/zhixueban-logo.png",
+    image: "/images/works/zhixueban/zhixueban-light.webp",
+    logo: "/images/works/zhixueban/zhixueban-logo.webp",
     stackSummary: ["Vue 3", "TypeScript", "Express", "MongoDB", "AntV X6"],
     highlights: [
       "AI 智能助教与 SSE 流式对话",

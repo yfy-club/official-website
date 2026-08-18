@@ -1,0 +1,15 @@
+export const publicRoutes = [
+  "/",
+  "/about",
+  "/tracks",
+  "/tracks/ai",
+  "/tracks/software",
+  "/tracks/database",
+  "/tracks/cloud-iot",
+  "/tracks/industrial",
+  "/works",
+  "/works/matrix-calculator",
+  "/works/zgyc-smart-light",
+  "/awards",
+  "/join",
+] as const;
