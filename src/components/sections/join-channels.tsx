@@ -23,7 +23,10 @@ export function JoinChannels({ qqGroup }: { qqGroup: string }) {
         <div className="join-channels__number"><span className="tabular">群号：{qqGroup}</span><Button variant="ghost" type="button" onClick={copyGroup}>{copied ? <Check aria-hidden="true" size={16} /> : <Copy aria-hidden="true" size={16} />}{copied ? "已复制" : "复制"}</Button></div>
       </div>
       <div className="join-channels__qr">
-        <Image src="/images/qr/qr-group.svg" alt={`2026 云飞扬迎新 QQ 群二维码，群号 ${qqGroup}`} width={320} height={320} />
+        <span className="join-channels__finder">
+          <i /><i /><i /><i />
+          <Image src="/images/qr/qr-group.svg" alt={`2026 云飞扬迎新 QQ 群二维码，群号 ${qqGroup}`} width={320} height={320} />
+        </span>
         <p>长按二维码识别</p>
       </div>
     </div>

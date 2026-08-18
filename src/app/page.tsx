@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/components/ui/tag";
+import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { Develop } from "@/components/motion/develop";
 import { club, tracks, works } from "@/content";
 
 export const metadata: Metadata = {
@@ -16,21 +18,29 @@ export default function Home() {
   const feature = works.find((work) => work.slug === "matrix-calculator");
   return (
     <main id="main-content" className="home-main">
-      <section className="home-hero page-shell" aria-labelledby="home-title">
+      <TrajectoryRail label="起点" sections={[
+        { id: "home-start", index: "01", label: "起点" },
+        { id: "home-stats", index: "02", label: "社团数字" },
+        { id: "home-tracks", index: "03", label: "五条航道" },
+        { id: "home-feature", index: "04", label: "真实作品" },
+        { id: "home-join", index: "05", label: "加入" },
+      ]} />
+      <section id="home-start" className="home-hero page-shell" aria-labelledby="home-title">
         <div>
           <p className="caps home-hero__meta">YFY / 2014—NOW</p>
-          <h1 id="home-title" className="display-latin home-hero__title">We Code<br />the Future</h1>
-          <p className="home-hero__subtitle">学生技术社团 · 成立于 {club.founded}</p>
-          <p className="home-hero__affiliation">{club.affiliation}</p>
-          <div className="home-hero__actions">
-            <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
-            <Button asChild variant="ghost"><Link href="/tracks">看看五条航道</Link></Button>
-          </div>
+          <Develop title={<h1 id="home-title" className="display-latin home-hero__title">We Code<br />the Future</h1>}>
+            <p className="home-hero__subtitle">学生技术社团 · 成立于 {club.founded}</p>
+            <p className="home-hero__affiliation">{club.affiliation}</p>
+            <div className="home-hero__actions">
+              <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
+              <Button asChild variant="ghost"><Link href="/tracks">看看五条航道</Link></Button>
+            </div>
+          </Develop>
         </div>
         <p className="caps home-hero__scroll">Scroll / 向下</p>
       </section>
       <div className="home-breath" aria-hidden="true" />
-      <section className="section page-shell" aria-labelledby="stats-title">
+      <section id="home-stats" className="section page-shell" aria-labelledby="stats-title">
         <h2 id="stats-title" className="sr-only">社团数字</h2>
         <dl className="stats-grid">
           {[[String(club.founded), "成立"], [String(tracks.length), "技术方向"], [String(club.memberCount), "在册成员"], [club.annualAwards, "年均省级以上奖项"]].map(([value, label]) => (
@@ -38,7 +48,7 @@ export default function Home() {
           ))}
         </dl>
       </section>
-      <section className="section page-shell" aria-labelledby="tracks-title">
+      <section id="home-tracks" className="section page-shell" aria-labelledby="tracks-title">
         <div className="section__head"><p className="caps section__index">02 / Tracks</p><h2 id="tracks-title" className="section__title">五条航道，选一条走深。</h2></div>
         <ol className="home-tracks clean-list">
           {tracks.map((track) => (
@@ -47,7 +57,7 @@ export default function Home() {
         </ol>
       </section>
       {feature?.detail && feature.image && (
-        <section className="section page-shell" aria-labelledby="feature-title">
+        <section id="home-feature" className="section page-shell" aria-labelledby="feature-title">
           <div className="section__head"><p className="caps section__index">03 / One real thing</p><h2 id="feature-title" className="section__title">一件现在就能打开的真东西。</h2></div>
           <article className="home-feature">
             <div className="home-feature__media"><Image src={feature.image} alt="矩阵计算器亮色主题主界面" width={1600} height={900} sizes="(max-width: 1024px) 100vw, 58vw" /></div>
@@ -63,7 +73,7 @@ export default function Home() {
           </article>
         </section>
       )}
-      <section className="cta-band page-shell" aria-label="加入社团"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即加入 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
+      <section id="home-join" className="cta-band page-shell" aria-label="加入社团"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即加入 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
     </main>
   );
 }

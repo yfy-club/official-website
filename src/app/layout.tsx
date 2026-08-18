@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { RouteTransitions } from "@/components/layout/route-transitions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { club } from "@/content";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="zh-CN" suppressHydrationWarning>
       <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
         <ThemeProvider>
+          <RouteTransitions />
           <a className="skip-link" href="#main-content">跳到主内容</a>
           <SiteHeader />
           {children}
