@@ -50,9 +50,17 @@ npm run test:e2e:run
 git diff --check
 ```
 
-改动 UI 交互后，至少运行类型检查、lint、单元测试和 E2E；E2E 使用独立的 `.next-quality` 构建，CSS 或组件变化后先重新运行 `npm run build:quality`，再运行 E2E。
+- 改动 UI 交互后，至少运行类型检查、lint、单元测试和 E2E；E2E 使用独立的 `.next-quality` 构建，CSS 或组件变化后先重新运行 `npm run build:quality`，再运行 E2E。
+- **测试与执行效率**：运行耗时任务（如 `npm run test:e2e:run` 或 `npm run build:quality`）时，启动后等待任务自然完成，完成后直接检查退出码与主要日志摘要；**切勿以秒为单位频繁轮询查询状态**，避免产生无意义的中间日志并过度消耗上下文空间。
+- 编辑文件优先使用 `apply_patch` 或精确替换；不要重置、覆盖或删除用户未授权的改动。提交前检查 `git status`、`git diff --check` 和最终 diff。
 
-编辑文件优先使用 `apply_patch`；不要重置、覆盖或删除用户未授权的改动。提交前检查 `git status`、`git diff --check` 和最终 diff。
+## 核心交互组件资产
+
+- **智光耀城系统巡览 (`WorkSystemTour` & `WorkTourObserver`)**：`src/components/sections/work-system-tour.tsx`。多实例通过 `workSlug` 隔离锚点 ID（`work-tour-${workSlug}-group-${id}`），Observer 纯局部基于 `markerRef.closest('.work-tour')` 查找根节点，避免全局 ID 冲突；桌面端 sticky 挂载于 `.work-tour__nav` 网格项。
+- **招新页 3D 立体海报展台 (`PosterTiltCard`)**：`src/components/motion/poster-tilt-card.tsx`。基于 `motion/react` 的 `useSpring` 计算光标相对位置产生 ±6° 物理倾斜与径向高光，采用受控 Radix Dialog 弹窗查看大图，符合 W3C ARIA 1.2 规范。
+- **关于页文化实拍 Bento 展台 (`CultureGallery`)**：`src/components/sections/culture-gallery.tsx`。盘活 8 张实拍照，采用响应式 Bento 网格、等宽磨砂玻璃角标、Focus Dimming 悬停聚焦与受控 Dialog 灯箱。
+- **首页航道关联预览 (`TrackPreviewList`)**：`src/components/motion/track-preview-list.tsx`。航道悬停/聚焦显示关联真实作品截图。
+- **首页 Hero 工业蓝图网格**：`.home-hero` 背景加入 36px 纯 CSS 双轴网格与 `--hero-mouse-x/y` 低频视差。
 
 ## Git 协作
 

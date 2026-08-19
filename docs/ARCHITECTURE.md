@@ -91,6 +91,13 @@ tests/                   单元测试和端到端质量门禁
 - Works 在研卡片只在局部复用 `BorderBeam`，颜色来自现有 token；组件不接管指针事件，减弱动态效果下不渲染。
 - About 与 Join 共用 `MechanismAccordion` 的 Radix 单项折叠行为，不复制第二套 Accordion 原语。
 
+## P3 新组件与特色交互
+
+- **系统巡览 (`WorkSystemTour`)**：位于 `src/components/sections/work-system-tour.tsx`，将多图作品组织为业务分组与 Sticky 导航。通过 `buildTourGroups(gallery, galleryMode, workSlug)` 作用域化生成唯一 ID，`WorkTourObserver` 基于 `markerRef.closest('.work-tour')` 纯局部查询，实现同页多实例完全隔离。
+- **3D 海报展台 (`PosterTiltCard`)**：位于 `src/components/motion/poster-tilt-card.tsx`，基于 `useSpring` 计算光标相对位置生成 ±6° 3D 阻尼倾斜与径向高光扫光，受控 Radix Dialog 查看大图，严格通过 W3C ARIA 1.2 / Axe 校验。
+- **文化实拍 Bento 展台 (`CultureGallery`)**：位于 `src/components/sections/culture-gallery.tsx`，采用响应式 Bento 网格与 Focus Dimming 聚焦交互展示实拍照。
+- **首页航道即时预览 (`TrackPreviewList`)**：位于 `src/components/motion/track-preview-list.tsx`，桌面端悬停/聚焦即时展示关联作品截图。
+
 ## 报名请求流
 
 `POST /api/join` 的处理顺序：
