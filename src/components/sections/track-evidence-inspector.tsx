@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, CheckCircle2, ExternalLink, Eye, Layers, ShieldCheck, Sparkles, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { TechTag } from "@/components/ui/tech-tag";
 import type { Award, Work } from "@/content";
-import { cn } from "@/lib/utils";
 
 export interface TrackEvidenceInspectorProps {
   works: Work[];
@@ -178,7 +175,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
                           className="p-3 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/30 text-xs space-y-1"
                         >
                           <span className="font-mono font-bold text-[var(--fg)] block">
-                            0{i + 1} // {dec.what}
+                            {`0${i + 1} // ${dec.what}`}
                           </span>
                           <p className="text-[var(--fg-muted)] leading-relaxed">{dec.why}</p>
                         </div>

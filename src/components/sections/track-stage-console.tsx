@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Award, BookOpen, CheckCircle2, ChevronRight, Code2, FlaskConical, GraduationCap, ShieldCheck } from "lucide-react";
+import { Code2, FlaskConical, GraduationCap, ShieldCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { StageIndicator } from "@/components/ui/stage-indicator";
@@ -89,7 +89,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
                   : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
               )}
             >
-              <span className="text-[10px] text-[var(--accent)]">{tab.code} //</span>
+              <span className="text-[10px] text-[var(--accent)]">{`${tab.code} //`}</span>
               <span>{tab.label}</span>
 
               {isActive && (
@@ -122,7 +122,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-mono text-xs font-semibold text-[var(--accent)] tracking-wider">
-                  {stageTabs[activeStage].code} //
+                  {`${stageTabs[activeStage].code} //`}
                 </span>
                 <Badge variant={activeStage === 2 ? "active" : "success"} className="text-[10px]">
                   {stageTabs[activeStage].status}
@@ -222,7 +222,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
                       className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed group"
                     >
                       <span className="font-mono text-[11px] font-bold text-[var(--accent)] shrink-0 mt-0.5">
-                        0{i + 1} //
+                        {`0${i + 1} //`}
                       </span>
                       <span className="group-hover:text-[var(--fg)] transition-colors">
                         {topic}

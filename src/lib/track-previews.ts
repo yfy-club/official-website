@@ -1,4 +1,4 @@
-import type { Track, Work } from "@/content/schema";
+import type { Track } from "@/content/schema";
 
 export interface TrackPreviewTarget {
   title: string;
@@ -58,7 +58,6 @@ export function getTrackPreview(track: Pick<Track, "slug">): TrackPreviewTarget 
  */
 export function buildTrackPreviews(
   tracksList: readonly Track[],
-  _worksList?: readonly Work[],
 ): TrackWithPreview[] {
   return tracksList.map((track) => ({
     slug: track.slug,

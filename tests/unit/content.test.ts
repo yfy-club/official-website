@@ -10,6 +10,7 @@ describe("content model", () => {
     expect(culturePhotos).toHaveLength(8);
     expect(memberVoices).toHaveLength(10);
     expect(memberVoices.every((voice) => voice.author && voice.quote && voice.role && voice.tag && voice.avatar)).toBe(true);
+    expect(timeline.some((item) => item.isGap && item.year === "2015–2021")).toBe(true);
     expect(works.find((work) => work.slug === "intellibuddy")?.detail?.demoAccounts).toHaveLength(5);
   });
 });

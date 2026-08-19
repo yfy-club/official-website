@@ -56,7 +56,49 @@ export default function AboutPage() {
           <h2 id="timeline-title" className="section__title">发展历程（2014 至今）。</h2>
         </div>
         <TracingBeam className="year-tracing-beam">
-          <ol className="timeline year-scroll clean-list">{timeline.map((item) => <li key={item.year} data-current={item.year === "2026"}><time dateTime={item.year}>{item.year}</time><div><h3>{item.title}</h3><p>{item.description}</p></div></li>)}</ol>
+          <ol className="timeline year-scroll clean-list">
+            {timeline.map((item) => {
+              if (item.isGap) {
+                return (
+                  <li key={item.year} data-gap="true">
+                    <div className="timeline__time-range">
+                      <time dateTime="2015">2015</time>
+                      <span className="timeline__time-sep" aria-hidden="true">···</span>
+                      <time dateTime="2021">2021</time>
+                    </div>
+                    <div className="timeline__gap-card">
+                      <div className="timeline__gap-badge">
+                        <span className="caps font-mono text-[11px] text-[var(--fg-muted)]">{"// ARCHIVE GAP · 2015–2021"}</span>
+                        <span className="timeline__gap-pill font-mono text-[10px]">档案整理中</span>
+                      </div>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                      <div className="timeline__gap-meta font-mono">
+                        <span className="timeline__gap-tag">
+                          <i aria-hidden="true" />
+                          云计算 / Web / 算法探索
+                        </span>
+                        <span className="timeline__gap-tag">
+                          <i aria-hidden="true" />
+                          历届梯队传承
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={item.year} data-current={item.year === "2026"}>
+                  <time dateTime={item.year}>{item.year}</time>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </TracingBeam>
       </section>
       <section id="about-report" className="section annual-report" aria-labelledby="annual-report-title" data-reveal="section">

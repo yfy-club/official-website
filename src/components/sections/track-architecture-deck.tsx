@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Cpu, Layers, Sparkles, Terminal } from "lucide-react";
+import { Layers, Sparkles, Terminal } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { TechTag } from "@/components/ui/tech-tag";
@@ -62,7 +62,7 @@ export function TrackArchitectureDeck({ items }: { items: DeepFocusItem[] }) {
                   : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
               )}
             >
-              <span className="text-[10px] text-[var(--accent)]">0{idx + 1} //</span>
+              <span className="text-[10px] text-[var(--accent)]">{`0${idx + 1} //`}</span>
               <span>{shortTitle}</span>
 
               {isActive && (

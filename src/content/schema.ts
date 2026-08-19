@@ -168,9 +168,10 @@ export const clubSchema = z.object({
 });
 
 export const timelineItemSchema = z.object({
-  year: z.string().regex(/^\d{4}$/),
+  year: z.string().min(4),
   title: z.string().min(2),
   description: z.string().min(10),
+  isGap: z.boolean().optional(),
 });
 
 export const faqSchema = z.object({
