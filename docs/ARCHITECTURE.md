@@ -27,7 +27,7 @@
 | :--- | :--- |
 | 框架 | Next.js 15 App Router、React 19、TypeScript strict |
 | 样式 | Tailwind CSS v4、`design/tokens.css`、`src/app/globals.css` |
-| 交互 | Motion、Radix UI、Lucide React |
+| 交互 | Motion、React Archer、Radix UI、Lucide React |
 | 表单 | React Hook Form、Zod、Cloudflare Turnstile |
 | 测试 | Vitest、Playwright、axe-core、Lighthouse CI |
 | 图片与字体 | `next/image`、AVIF/WebP、自托管拉丁字体、中文标题子集 |
@@ -70,6 +70,18 @@ tests/                   单元测试和端到端质量门禁
 `src/content/schema.ts` 定义结构，其他 `src/content/*.ts` 提供事实数据，`src/content/index.ts` 在导出时执行校验。页面默认使用 React Server Components；只有主题、导航、Dialog、表单和动效等确需浏览器状态的组件使用 `'use client'`。
 
 内容缺失时不使用占位文案。可选区块应不渲染；项目详情的 `detail.limits` 等真实性字段由 Schema 强制要求。具体维护流程见 [CONTENT](CONTENT.md)。
+
+## Tracks 方向连接图
+
+`/tracks` 页面本身保持为 Server Component，方向卡片和连接关系集中在 `src/components/motion/divergence.tsx` 的 `TracksMap` 客户端边界中，避免把浏览器状态扩散到页面层。
+
+- 桌面端由 React Archer 根据起点和五张卡片的真实 DOM 位置生成贝塞尔曲线，响应式宽度变化后重新计算，不维护固定坐标。
+- 首次进入可视区时，独立 SVG 流光层复用已生成曲线的 `d` 数据，以 `--accent` 播放一次短光束；基础灰线始终完整可见。
+- 卡片 hover 或键盘聚焦时只强调对应路线，其他路线降低明度；触屏设备不依赖 hover。
+- 移动端隐藏桌面 SVG，改用灰色 CSS 主干、短分支和独立内容卡片，首次进入时只沿主干播放一次强调色光束。
+- `prefers-reduced-motion: reduce` 会关闭桌面和移动端流光，同时保留完整静态连接关系。
+
+连接线颜色、强调色、间距和动效时长继续来自 Design Token 与全局样式。若调整卡片结构、断点或连接锚点，应同时检查 320px 移动重排、宽桌面落点、键盘聚焦和减少动态效果。
 
 ## 报名请求流
 

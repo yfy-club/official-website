@@ -1,26 +1,146 @@
-export function Divergence() {
+"use client";
+
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { ArcherContainer, ArcherElement } from "react-archer";
+
+import { Tag } from "@/components/ui/tag";
+import type { Track } from "@/content/schema";
+
+type TracksMapProps = {
+  tracks: Track[];
+};
+
+export function TracksMap({ tracks }: TracksMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const beamStartedRef = useRef(false);
+  const [beamPaths, setBeamPaths] = useState<string[]>([]);
+  const [beamInView, setBeamInView] = useState(false);
+  const [beamActive, setBeamActive] = useState(false);
+  const relations = tracks.map((track, index) => ({
+    targetId: `track-${track.slug}`,
+    sourceAnchor: "bottom" as const,
+    targetAnchor: "top" as const,
+    order: index,
+    className: `tracks-connector__route tracks-connector__route--${track.slug}`,
+    style: {
+      endMarker: false,
+      lineStyle: "curve" as const,
+    },
+  }));
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const syncBeamPaths = () => {
+      const routePaths = mapRef.current?.querySelectorAll<SVGPathElement>(".tracks-connector__route path");
+      if (routePaths?.length !== tracks.length) return;
+
+      const nextPaths = Array.from(routePaths, (path) => path.getAttribute("d") ?? "");
+      setBeamPaths((currentPaths) => (
+        currentPaths.length === nextPaths.length && currentPaths.every((path, index) => path === nextPaths[index])
+          ? currentPaths
+          : nextPaths
+      ));
+    };
+
+    const scheduleSync = () => {
+      window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(syncBeamPaths);
+    };
+
+    const observer = new MutationObserver(scheduleSync);
+    if (mapRef.current) observer.observe(mapRef.current, { attributes: true, childList: true, subtree: true, attributeFilter: ["d"] });
+    scheduleSync();
+
+    return () => {
+      observer.disconnect();
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [tracks.length]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setBeamInView(true);
+      observer.disconnect();
+    }, { threshold: 0.12 });
+
+    observer.observe(map);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!beamInView || beamPaths.length !== tracks.length || beamStartedRef.current) return;
+
+    let secondFrameId = 0;
+    const firstFrameId = window.requestAnimationFrame(() => {
+      secondFrameId = window.requestAnimationFrame(() => {
+        beamStartedRef.current = true;
+        setBeamActive(true);
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(firstFrameId);
+      window.cancelAnimationFrame(secondFrameId);
+    };
+  }, [beamInView, beamPaths.length, tracks.length]);
+
   return (
-    <div className="divergence" aria-hidden="true">
-      <svg className="divergence__desktop" viewBox="0 0 1000 180" preserveAspectRatio="none">
-        <rect className="divergence__origin" x="496" y="4" width="8" height="8" />
-        <g className="divergence__routes">
-          <path pathLength="1" d="M500 12 C500 55 100 72 100 176" />
-          <path pathLength="1" d="M500 12 C500 58 300 72 300 176" />
-          <path pathLength="1" d="M500 12 L500 176" />
-          <path pathLength="1" d="M500 12 C500 58 700 72 700 176" />
-          <path pathLength="1" d="M500 12 C500 55 900 72 900 176" />
-        </g>
-      </svg>
-      <svg className="divergence__mobile" viewBox="0 0 320 250" preserveAspectRatio="xMinYMin meet">
-        <rect className="divergence__origin" x="20" y="4" width="8" height="8" />
-        <path className="divergence__trunk" pathLength="1" d="M24 12 L24 226" />
-        <g className="divergence__branches">
-          <path pathLength="1" d="M24 42 H302" />
-          <path pathLength="1" d="M24 84 H302" />
-          <path pathLength="1" d="M24 126 H302" />
-          <path pathLength="1" d="M24 168 H302" />
-          <path pathLength="1" d="M24 210 H302" />
-        </g>
+    <div
+      ref={mapRef}
+      className={`tracks-map${beamActive ? " tracks-map--beam-active" : ""}`}
+    >
+      <ArcherContainer
+        className="tracks-connector"
+        strokeColor="var(--track-connector-color)"
+        strokeWidth={1.5}
+        lineStyle="curve"
+        endMarker={false}
+        svgContainerStyle={{ zIndex: 0 }}
+      >
+        <ArcherElement id="tracks-origin" relations={relations}>
+          <span className="tracks-map__origin" aria-hidden="true" />
+        </ArcherElement>
+        <div className="tracks-map__lead" aria-hidden="true" />
+
+        <ol className="tracks-grid clean-list">
+          {tracks.map((track) => (
+            <li key={track.slug}>
+              <ArcherElement id={`track-${track.slug}`}>
+                <Link
+                  href={`/tracks/${track.slug}`}
+                  className="track-panel"
+                  data-track={track.slug}
+                >
+                  <span className="track-panel__index tabular">{track.index}</span>
+                  <div>
+                    <h2>{track.nameZh}</h2>
+                    <p className="track-panel__en">{track.nameEn}</p>
+                    <p>{track.positioning}</p>
+                    <div className="stack-row">
+                      {[...track.stack.languages, ...track.stack.frameworks].slice(0, 4).map((item) => (
+                        <Tag key={item}>{item}</Tag>
+                      ))}
+                    </div>
+                    <p className="track-panel__goal">→ {track.goal}</p>
+                  </div>
+                  <ArrowRight aria-hidden="true" size={20} />
+                </Link>
+              </ArcherElement>
+            </li>
+          ))}
+        </ol>
+      </ArcherContainer>
+      <svg className="tracks-connector__beams" aria-hidden="true" focusable="false">
+        {beamPaths.map((path, index) => (
+          <path key={tracks[index].slug} className="tracks-connector__beam" d={path} pathLength="1" />
+        ))}
       </svg>
     </div>
   );

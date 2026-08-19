@@ -399,7 +399,7 @@ button, a, [role='button'] {
 
 .tracks-grid { border-top: 1px solid var(--border); }
 .tracks-grid > li { border-bottom: 1px solid var(--border); }
-.track-panel { display: grid; grid-template-columns: 40px 1fr 24px; gap: var(--space-4); padding-block: var(--space-7); }
+.track-panel { display: grid; grid-template-columns: 40px 1fr 24px; gap: var(--space-4); padding-block: var(--space-8); }
 .track-panel__index { color: var(--fg-faint); font-size: var(--text-caption); }
 .track-panel h2 { margin: 0; font-size: var(--text-h2); }
 .track-panel__en { margin: var(--space-1) 0 var(--space-5); color: var(--fg-faint); font-family: var(--font-display); font-size: var(--text-h3); }
@@ -524,10 +524,16 @@ button, a, [role='button'] {
   .home-feature__copy, .work-row__copy { padding: var(--space-8); }
   .about-origin, .mentorship, .advisor { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-9); }
   .ladder-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .tracks-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 0; }
+  .tracks-routes {
+    position: relative;
+    left: 50%;
+    width: min(calc(100vw - (var(--gutter-md) * 2)), 1600px);
+    transform: translateX(-50%);
+  }
+  .tracks-grid { display: grid; grid-template-columns: repeat(5, minmax(176px, 1fr)); border-top: 0; }
   .tracks-grid > li { border: 1px solid var(--border); border-right: 0; }
   .tracks-grid > li:last-child { border-right: 1px solid var(--border); }
-  .track-panel { grid-template-columns: 1fr; min-height: 560px; align-content: start; padding: var(--space-6); }
+  .track-panel { grid-template-columns: 1fr; min-height: 600px; align-content: start; padding: var(--space-7) var(--space-6); }
   .track-panel > svg { align-self: end; margin-top: auto; }
   .stack-groups { grid-template-columns: repeat(3, 1fr); }
   .roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -586,17 +592,151 @@ button, a, [role='button'] {
 .develop[data-state='active'] .develop__title { will-change: opacity, mask-position; animation: develop-title 1100ms var(--ease-out) both; }
 .develop[data-state='active'] .develop__support { opacity: 0; animation: develop-support 180ms var(--ease-out) 1100ms both; }
 
-/* ── M2: tracks divergence ────────────────────────────────────────────── */
-@keyframes draw-stroke { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+/* ── M2: tracks connector ─────────────────────────────────────────────── */
+@keyframes tracks-beam-pass {
+  0% { opacity: 0; stroke-dashoffset: 0; }
+  8% { opacity: 1; }
+  82% { opacity: 1; }
+  100% { opacity: 0; stroke-dashoffset: -1; }
+}
+@keyframes tracks-mobile-beam-pass {
+  0% { opacity: 0; background-position: center -96px; }
+  8% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; background-position: center calc(100% + 96px); }
+}
 .tracks-routes { padding-top: var(--space-8); }
-.divergence { width: 100%; margin-bottom: var(--space-3); color: var(--fg-muted); }
-.divergence svg { display: block; width: 100%; overflow: visible; }
-.divergence path { fill: none; stroke: currentColor; stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
-.divergence__origin { fill: var(--accent); }
-.divergence__desktop { display: none !important; height: 180px; }
-.divergence__mobile { max-width: 360px; height: 250px; }
-.divergence__trunk { animation: draw-stroke 200ms var(--ease-out) both; }
-.divergence__branches { animation: draw-stroke 300ms var(--ease-out) 200ms both; }
+.tracks-map { --track-connector-color: var(--fg-muted); position: relative; }
+.tracks-connector > svg { overflow: visible; }
+.tracks-map__origin {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  z-index: 3;
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+.tracks-map__lead { height: 180px; }
+.tracks-connector__route { opacity: .9; transition: opacity var(--dur-fast) var(--ease-out); }
+.tracks-connector__route path { transition: stroke var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out); }
+.tracks-connector__beams {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.tracks-connector__beam {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-dasharray: .18 1;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent), transparent 40%));
+}
+.tracks-map--beam-active .tracks-connector__beam { animation: tracks-beam-pass 1100ms var(--ease-out) 160ms both; }
+.tracks-grid { position: relative; z-index: 2; }
+.tracks-map:has(.track-panel:focus-visible) .tracks-connector__route { opacity: .18; }
+.tracks-map:has(.track-panel[data-track='ai']:focus-visible) .tracks-connector__route--ai,
+.tracks-map:has(.track-panel[data-track='software']:focus-visible) .tracks-connector__route--software,
+.tracks-map:has(.track-panel[data-track='database']:focus-visible) .tracks-connector__route--database,
+.tracks-map:has(.track-panel[data-track='cloud-iot']:focus-visible) .tracks-connector__route--cloud-iot,
+.tracks-map:has(.track-panel[data-track='industrial']:focus-visible) .tracks-connector__route--industrial { opacity: 1; }
+.tracks-map:has(.track-panel[data-track='ai']:focus-visible) .tracks-connector__route--ai path,
+.tracks-map:has(.track-panel[data-track='software']:focus-visible) .tracks-connector__route--software path,
+.tracks-map:has(.track-panel[data-track='database']:focus-visible) .tracks-connector__route--database path,
+.tracks-map:has(.track-panel[data-track='cloud-iot']:focus-visible) .tracks-connector__route--cloud-iot path,
+.tracks-map:has(.track-panel[data-track='industrial']:focus-visible) .tracks-connector__route--industrial path { stroke: var(--accent) !important; }
+
+@media (max-width: 639px) {
+  .tracks-routes {
+    --tracks-trunk-x: 24px;
+    --track-card-offset: 48px;
+    --track-branch-y: calc(var(--space-6) + var(--space-3));
+  }
+  .tracks-map { --track-connector-color: var(--border-control); }
+  .tracks-connector > svg, .tracks-connector__beams { display: none; }
+  .tracks-map::before {
+    position: absolute;
+    top: 12px;
+    right: auto;
+    bottom: 0;
+    left: var(--tracks-trunk-x);
+    z-index: 0;
+    width: 1.5px;
+    background: var(--border-control);
+    content: '';
+    pointer-events: none;
+  }
+  .tracks-map::after {
+    position: absolute;
+    top: 12px;
+    bottom: 0;
+    left: calc(var(--tracks-trunk-x) - 2px);
+    z-index: 1;
+    width: 4px;
+    background: linear-gradient(to bottom, transparent, var(--accent) 28%, var(--accent) 72%, transparent) center -96px / 100% 96px no-repeat;
+    content: '';
+    opacity: 0;
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent), transparent 40%));
+    pointer-events: none;
+  }
+  .tracks-map--beam-active::after { animation: tracks-mobile-beam-pass 1600ms linear 160ms both; }
+  .tracks-map__origin { left: var(--tracks-trunk-x); transform: translateX(-50%); }
+  .tracks-map__lead { height: 64px; }
+  .tracks-grid { position: relative; display: grid; gap: var(--space-5); border-top: 0; }
+  .tracks-grid > li { position: relative; border-bottom: 0; }
+  .tracks-grid > li::before {
+    position: absolute;
+    top: var(--track-branch-y);
+    left: var(--tracks-trunk-x);
+    z-index: 2;
+    width: calc(var(--track-card-offset) - var(--tracks-trunk-x));
+    height: 1.5px;
+    background: var(--border-control);
+    content: '';
+    pointer-events: none;
+  }
+  .tracks-grid > li:last-child::after {
+    position: absolute;
+    top: calc(var(--track-branch-y) + 1.5px);
+    bottom: 0;
+    left: var(--tracks-trunk-x);
+    z-index: 1;
+    width: 2px;
+    background: var(--bg);
+    content: '';
+    pointer-events: none;
+  }
+  .track-panel {
+    position: relative;
+    z-index: 1;
+    width: calc(100% - var(--track-card-offset));
+    min-height: 0;
+    margin-left: var(--track-card-offset);
+    grid-template-columns: minmax(0, 1fr) 24px;
+    align-content: start;
+    padding: var(--space-6) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .track-panel__index {
+    position: absolute;
+    top: calc(var(--track-branch-y) - 0.65rem);
+    left: calc(var(--track-card-offset) * -1);
+    width: var(--tracks-trunk-x);
+  }
+  .track-panel > div { grid-row: 1; grid-column: 1; min-width: 0; }
+  .track-panel > svg { grid-row: 1; grid-column: 2; justify-self: end; }
+}
 
 /* ── M2: year scroll ──────────────────────────────────────────────────── */
 @keyframes year-light { from { transform: translateX(var(--space-3)); } to { transform: translateX(0); } }
@@ -662,6 +802,17 @@ button, a, [role='button'] {
   .home-tracks a, .track-panel { transition: opacity var(--focus-duration) var(--ease-out), transform var(--dur-normal) var(--ease-out), color var(--dur-fast) var(--ease-out); }
   .home-tracks:has(a:hover) a:not(:hover) { opacity: .4; }
   .tracks-grid:has(.track-panel:hover) .track-panel:not(:hover) { opacity: .3; }
+  .tracks-map:has(.track-panel:hover) .tracks-connector__route { opacity: .18; }
+  .tracks-map:has(.track-panel[data-track='ai']:hover) .tracks-connector__route--ai,
+  .tracks-map:has(.track-panel[data-track='software']:hover) .tracks-connector__route--software,
+  .tracks-map:has(.track-panel[data-track='database']:hover) .tracks-connector__route--database,
+  .tracks-map:has(.track-panel[data-track='cloud-iot']:hover) .tracks-connector__route--cloud-iot,
+  .tracks-map:has(.track-panel[data-track='industrial']:hover) .tracks-connector__route--industrial { opacity: 1; }
+  .tracks-map:has(.track-panel[data-track='ai']:hover) .tracks-connector__route--ai path,
+  .tracks-map:has(.track-panel[data-track='software']:hover) .tracks-connector__route--software path,
+  .tracks-map:has(.track-panel[data-track='database']:hover) .tracks-connector__route--database path,
+  .tracks-map:has(.track-panel[data-track='cloud-iot']:hover) .tracks-connector__route--cloud-iot path,
+  .tracks-map:has(.track-panel[data-track='industrial']:hover) .tracks-connector__route--industrial path { stroke: var(--accent) !important; }
   .home-tracks a:hover { transform: translateX(8px); }
   .spotlight-card__negative { filter: saturate(.25); }
   .spotlight-card__color { position: absolute; inset: 0; display: block !important; width: 100%; height: 100%; object-fit: cover; mask-image: radial-gradient(200px 200px at var(--mx) var(--my), black 0%, transparent 100%); pointer-events: none; }
@@ -676,9 +827,8 @@ button, a, [role='button'] {
 @media (min-width: 640px) {
   .join-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .join-form__actions .button { width: auto; }
-  .divergence__mobile, .draw-path__mobile { display: none !important; }
-  .divergence__desktop, .draw-path__desktop { display: block !important; }
-  .divergence__routes { animation: draw-stroke 700ms var(--ease-out) both; }
+  .draw-path__mobile { display: none !important; }
+  .draw-path__desktop { display: block !important; }
   @supports (animation-timeline: view()) {
     .draw-path__animated { animation-name: draw-path-x; }
   }
@@ -696,7 +846,10 @@ button, a, [role='button'] {
   .develop__title { opacity: 1 !important; mask-image: none !important; }
   .develop__support { opacity: 1 !important; }
   .year-scroll li { transform: none !important; }
-  .divergence path, .draw-path path { stroke-dashoffset: 0 !important; }
+  .tracks-connector__route { opacity: .9; }
+  .tracks-connector__beams { display: none; }
+  .tracks-map::after { display: none; }
+  .draw-path path { stroke-dashoffset: 0 !important; }
   .draw-path__animated { clip-path: inset(0) !important; }
   .spotlight-card__negative { filter: saturate(1) !important; }
   .spotlight-card__color { display: none !important; }
