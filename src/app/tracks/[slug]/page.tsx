@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
+import { FileTree } from "@/components/ui/file-tree";
 import { Kbd } from "@/components/ui/kbd";
 import { StageIndicator } from "@/components/ui/stage-indicator";
 import { Tag } from "@/components/ui/tag";
@@ -195,6 +196,13 @@ export default async function TrackDetailPage({
             </div>
           </div>
         </div>
+
+        {/* 标准化工程脚手架规范 (unlumen FileTree) */}
+        {track.scaffoldTree && track.scaffoldTree.length > 0 && (
+          <div className="mt-4">
+            <FileTree elements={track.scaffoldTree} />
+          </div>
+        )}
       </section>
 
       {/* 04 / 重点攻坚架构 */}

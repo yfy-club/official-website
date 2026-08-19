@@ -69,6 +69,41 @@ export const tracksRaw = [
         reviewStandard: "形成完整的工程代码仓库、API 文档与压测性能报告，通过导师组综合评审",
       },
     ],
+    scaffoldTree: [
+      {
+        id: "ai-root",
+        name: "vision-agent-pipeline",
+        type: "folder",
+        defaultOpen: true,
+        children: [
+          {
+            id: "ai-configs",
+            name: "configs",
+            type: "folder",
+            children: [{ id: "ai-cfg", name: "train_yolo.yaml" }, { id: "ai-rag-cfg", name: "rag_milvus.json" }],
+          },
+          {
+            id: "ai-models",
+            name: "models",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "ai-m1", name: "backbone_resnet.py" },
+              { id: "ai-m2", name: "yolo_detector.py", highlight: true, tag: "CORE" },
+              { id: "ai-m3", name: "agent_executor.py", highlight: true, tag: "AGENT" },
+            ],
+          },
+          {
+            id: "ai-scripts",
+            name: "scripts",
+            type: "folder",
+            children: [{ id: "ai-s1", name: "train.py", highlight: true }, { id: "ai-s2", name: "export_onnx.py" }],
+          },
+          { id: "ai-req", name: "requirements.txt" },
+          { id: "ai-readme", name: "README.md", tag: "SPEC" },
+        ],
+      },
+    ],
     roadmap: {
       freshman: {
         label: "大一 · 打基础",
@@ -177,6 +212,45 @@ export const tracksRaw = [
         coreTopics: ["Spring Cloud Alibaba 微服务治理组件 (Nacos/Sentinel)", "RabbitMQ 消息可靠性投递与死信队列", "408 计算机网络与操作系统考研重难点剖析", "真实高并发场景下的接口压测与性能排查", "技术博客沉淀与个人工程作品集提炼"],
         experiment: "主导设计一套包含服务注册、分布式锁与异步消息消费的微服务业务集群",
         reviewStandard: "提供完整的系统架构设计说明书、JMeter 压测报告与 GitHub 开源仓库",
+      },
+    ],
+    scaffoldTree: [
+      {
+        id: "se-root",
+        name: "enterprise-microservices",
+        type: "folder",
+        defaultOpen: true,
+        children: [
+          {
+            id: "se-core",
+            name: "core-service",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              {
+                id: "se-java",
+                name: "src/main/java/com/yfy",
+                type: "folder",
+                defaultOpen: true,
+                children: [
+                  { id: "se-c", name: "controller/ApiController.java", highlight: true, tag: "REST" },
+                  { id: "se-s", name: "service/impl/BusinessServiceImpl.java", highlight: true },
+                  { id: "se-e", name: "entity/DataRecord.java" },
+                ],
+              },
+              { id: "se-res", name: "src/main/resources/application.yml" },
+            ],
+          },
+          {
+            id: "se-web",
+            name: "web-portal",
+            type: "folder",
+            children: [{ id: "se-vue", name: "src/views/Dashboard.vue", highlight: true }, { id: "se-pkg", name: "package.json" }],
+          },
+          { id: "se-docker", name: "Dockerfile", highlight: true, tag: "DEVOPS" },
+          { id: "se-compose", name: "docker-compose.yml" },
+          { id: "se-pom", name: "pom.xml" },
+        ],
       },
     ],
     roadmap: {
@@ -289,6 +363,40 @@ export const tracksRaw = [
         reviewStandard: "成功模拟节点断电宕机并在 15 秒内完成主备切换，数据无丢失且应用无感知",
       },
     ],
+    scaffoldTree: [
+      {
+        id: "db-root",
+        name: "distributed-db-cluster",
+        type: "folder",
+        defaultOpen: true,
+        children: [
+          {
+            id: "db-schemas",
+            name: "schemas",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "db-ddl", name: "01_cluster_schema.sql", highlight: true, tag: "DDL" },
+              { id: "db-idx", name: "02_partition_indexing.sql", highlight: true },
+            ],
+          },
+          {
+            id: "db-mig",
+            name: "migrations",
+            type: "folder",
+            children: [{ id: "db-m1", name: "V1.0__init_telemetry.sql" }, { id: "db-m2", name: "V1.1__sharding_rules.sql" }],
+          },
+          {
+            id: "db-bench",
+            name: "benchmarks",
+            type: "folder",
+            children: [{ id: "db-b1", name: "sysbench_tps.sh", highlight: true }, { id: "db-b2", name: "explain_analyze.sql" }],
+          },
+          { id: "db-conf", name: "opengauss_cluster.conf", tag: "CONF" },
+          { id: "db-compose", name: "docker-compose.yml" },
+        ],
+      },
+    ],
     roadmap: {
       freshman: {
         label: "大一 · 打基础",
@@ -398,6 +506,44 @@ export const tracksRaw = [
         reviewStandard: "完成电路 PCB 原理图、固件源码与云端平台交互验收答辩，文档齐全可复现",
       },
     ],
+    scaffoldTree: [
+      {
+        id: "iot-root",
+        name: "edge-gateway-firmware",
+        type: "folder",
+        defaultOpen: true,
+        children: [
+          {
+            id: "iot-drivers",
+            name: "drivers",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "iot-uart", name: "stm32_uart_hal.c", highlight: true, tag: "HAL" },
+              { id: "iot-sensor", name: "modbus_sensor_poll.c" },
+            ],
+          },
+          {
+            id: "iot-net",
+            name: "protocols",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "iot-mqtt", name: "mqtt_client_emqx.c", highlight: true, tag: "MQTT" },
+              { id: "iot-ota", name: "ota_flash_upgrade.c" },
+            ],
+          },
+          {
+            id: "iot-tasks",
+            name: "rtos_tasks",
+            type: "folder",
+            children: [{ id: "iot-t1", name: "telemetry_queue_task.c", highlight: true }, { id: "iot-t2", name: "watchdog_task.c" }],
+          },
+          { id: "iot-ini", name: "platformio.ini", tag: "ENV" },
+          { id: "iot-cmake", name: "CMakeLists.txt" },
+        ],
+      },
+    ],
     roadmap: {
       freshman: {
         label: "大一 · 打基础",
@@ -505,6 +651,44 @@ export const tracksRaw = [
         coreTopics: ["Three.js 工业模型加载与着色器动画渲染", "Node-RED 工业低代码数据流引擎编排", "工业预测性维护 (PHM) 与设备寿命分析", "408 / 控制工程 / 机械自动化考研深度复习", "睿抗机器人与工业互联网大赛高难度赛题攻关"],
         experiment: "开发一套基于 WebGL 的车间数字孪生监控系统，实时绑定多台 PLC 设备运转状态",
         reviewStandard: "具备 3D 视角自由漫游、故障高亮报警与实时 OEE 效率计算，通过产学研联合答辩",
+      },
+    ],
+    scaffoldTree: [
+      {
+        id: "ind-root",
+        name: "smart-factory-twin",
+        type: "folder",
+        defaultOpen: true,
+        children: [
+          {
+            id: "ind-plc",
+            name: "plc_logic",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "ind-s7", name: "production_line_safety.s7p", highlight: true, tag: "PLC" },
+              { id: "ind-opc", name: "opcua_server_map.json" },
+            ],
+          },
+          {
+            id: "ind-cv",
+            name: "machine_vision",
+            type: "folder",
+            defaultOpen: true,
+            children: [
+              { id: "ind-py", name: "defect_classifier_yolo.py", highlight: true, tag: "CV" },
+              { id: "ind-calib", name: "hand_eye_calibration.py" },
+            ],
+          },
+          {
+            id: "ind-twin",
+            name: "digital_twin_web",
+            type: "folder",
+            children: [{ id: "ind-ts", name: "src/scene_3d_renderer.ts", highlight: true }, { id: "ind-pkg", name: "package.json" }],
+          },
+          { id: "ind-scada", name: "scada_dashboard.json", tag: "SCADA" },
+          { id: "ind-docker", name: "Dockerfile" },
+        ],
       },
     ],
     roadmap: {
