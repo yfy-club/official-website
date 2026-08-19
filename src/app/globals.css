@@ -523,6 +523,7 @@ button, a, [role='button'] {
 }
 .home-tracks { border-top: 1px solid var(--border); }
 .home-tracks a {
+  position: relative;
   display: grid;
   grid-template-columns: 36px minmax(80px, 0.45fr) 1fr 24px;
   gap: var(--space-3);
@@ -531,6 +532,16 @@ button, a, [role='button'] {
   border-bottom: 1px solid var(--border);
   color: inherit;
 }
+.home-tracks a::before {
+  position: absolute;
+  inset: var(--space-3) auto var(--space-3) 0;
+  width: 2px;
+  background: var(--accent);
+  content: '';
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.home-tracks a[data-active='true']::before { opacity: 1; }
 .home-track-preview__index { color: var(--fg-faint); font-size: var(--text-caption); }
 .home-track-preview__name { color: var(--fg); font-weight: var(--weight-semibold); }
 .home-track-preview__tagline { color: var(--fg-muted); font-size: var(--text-small); }
@@ -552,15 +563,20 @@ button, a, [role='button'] {
   background: var(--surface-2);
   overflow: hidden;
 }
+@keyframes track-preview-in {
+  from { opacity: 0; translate: 0 6px; }
+  to { opacity: 1; translate: 0 0; }
+}
 .home-track-preview__media {
   position: absolute;
   inset: 0;
+  animation: track-preview-in var(--dur-normal) var(--ease-out) both;
 }
 .home-track-preview__img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .home-track-preview__empty {
   position: absolute;
@@ -572,6 +588,7 @@ button, a, [role='button'] {
   gap: var(--space-2);
   color: var(--fg-faint);
   background: var(--surface-2);
+  animation: track-preview-in var(--dur-normal) var(--ease-out) both;
 }
 .home-track-preview__empty-tag {
   font: var(--weight-medium) var(--text-label)/1.4 var(--font-mono);
@@ -1437,6 +1454,7 @@ button, a, [role='button'] {
 
 @media (forced-colors: active) {
   :focus-visible { outline-color: Highlight; }
+  .home-tracks a[data-active='true']::before { background: Highlight; }
   .button, .card, .card--frame::before, .card__meta, .card__footer, .card__code,
   .badge, .tag, .field__control, .cert-card, .poster-card,
   .site-header, .site-header__nav, .mobile-rail, .dialog__content,

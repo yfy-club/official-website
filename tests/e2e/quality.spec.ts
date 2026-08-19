@@ -396,14 +396,20 @@ test("homepage desktop track preview responds to focus and hover with real works
   // Focus AI track link
   const aiLink = page.locator('.home-tracks a[href="/tracks/ai"]');
   await aiLink.focus();
+  await expect(aiLink).toHaveAttribute("data-active", "true");
+  const activeMarkerOpacity = await aiLink.evaluate((element) => getComputedStyle(element, "::before").opacity);
+  expect(activeMarkerOpacity).toBe("1");
   await expect(stage.locator(".home-track-preview__caption-work")).toHaveText("智学伴 · AI 智能学习平台");
   const aiImg = stage.locator(".home-track-preview__img");
   await expect(aiImg).toBeVisible();
   await expect(aiImg).toHaveAttribute("src", /zhixueban/);
+  await expect(aiImg).toHaveCSS("object-fit", "contain");
 
   // Hover Software track link
   const softwareLink = page.locator('.home-tracks a[href="/tracks/software"]');
   await softwareLink.hover();
+  await expect(softwareLink).toHaveAttribute("data-active", "true");
+  await expect(aiLink).not.toHaveAttribute("data-active", "true");
   await expect(stage.locator(".home-track-preview__caption-work")).toHaveText("矩阵计算器 · 精确有理数");
   const swImg = stage.locator(".home-track-preview__img");
   await expect(swImg).toBeVisible();

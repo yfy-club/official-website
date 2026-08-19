@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,7 +12,6 @@ export interface TrackPreviewListProps {
 }
 
 export function TrackPreviewList({ items }: TrackPreviewListProps) {
-  const reducedMotion = useReducedMotion();
   const initialSlug = items.find((item) => item.preview !== null)?.slug ?? items[0]?.slug ?? "ai";
   const [selectedSlug, setSelectedSlug] = useState<string>(initialSlug);
 
@@ -55,38 +53,22 @@ export function TrackPreviewList({ items }: TrackPreviewListProps) {
 
       <figure className="home-track-preview__stage" data-reveal="item" aria-hidden="true">
         <div className="home-track-preview__frame">
-          <AnimatePresence mode="wait">
-            {activeItem?.preview ? (
-              <motion.div
-                key={activeItem.slug}
-                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reducedMotion ? undefined : { opacity: 0, y: -6 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="home-track-preview__media"
-              >
-                <Image
-                  src={activeItem.preview.image}
-                  alt=""
-                  fill
-                  sizes="(max-width: 1024px) 40vw, 480px"
-                  className="home-track-preview__img"
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="empty"
-                initial={reducedMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={reducedMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: 0.22, ease: "easeOut" }}
-                className="home-track-preview__empty"
-              >
-                <span className="home-track-preview__empty-tag">EMPTY ARCHIVE</span>
-                <p className="home-track-preview__empty-text">暂无关联实录</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {activeItem?.preview ? (
+            <div key={activeItem.slug} className="home-track-preview__media">
+              <Image
+                src={activeItem.preview.image}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 40vw, 480px"
+                className="home-track-preview__img"
+              />
+            </div>
+          ) : (
+            <div key="empty" className="home-track-preview__empty">
+              <span className="home-track-preview__empty-tag">EMPTY ARCHIVE</span>
+              <p className="home-track-preview__empty-text">暂无关联实录</p>
+            </div>
+          )}
         </div>
         <figcaption className="home-track-preview__caption">
           <span className="home-track-preview__caption-track">{activeItem?.nameZh}</span>
