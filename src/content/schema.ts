@@ -38,18 +38,6 @@ export const trackCurriculumModuleSchema = z.object({
   reviewStandard: z.string(),
 });
 
-export const fileTreeElementSchema: z.ZodType<any> = z.lazy(() =>
-  z.object({
-    id: z.string(),
-    name: z.string(),
-    type: z.enum(["folder", "file"]).optional(),
-    children: z.array(fileTreeElementSchema).optional(),
-    highlight: z.boolean().optional(),
-    defaultOpen: z.boolean().optional(),
-    tag: z.string().optional(),
-  })
-);
-
 export const trackSchema = z.object({
   slug: trackSlugSchema,
   index: z.string().regex(/^0[1-5]$/),
@@ -66,7 +54,6 @@ export const trackSchema = z.object({
   }),
   deepFocus: z.array(trackDeepFocusSchema).optional(),
   curriculumModules: z.array(trackCurriculumModuleSchema).optional(),
-  scaffoldTree: z.array(fileTreeElementSchema).optional(),
   roadmap: z.object({
     freshman: stageSchema,
     sophomore: stageSchema,
