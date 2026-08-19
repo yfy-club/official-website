@@ -197,25 +197,25 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         revision="REV 2026.1"
                         status={{ label: work.status, variant: "warning" }}
                       />
-                      <CardBody className="flex flex-col flex-1 p-5 sm:p-6 pb-6">
-                        <div className="flex items-start gap-2.5 mb-2.5">
+                      <CardBody className="flex flex-col flex-1 p-6 sm:p-7 pb-6">
+                        <div className="flex items-start gap-2.5 mb-3">
                           <Sparkles className="h-4 w-4 text-[var(--warn)] mt-1 shrink-0" />
                           <h3 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight leading-snug">
                             {work.nameZh}
                           </h3>
                         </div>
-                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-5 min-h-[44px]">
+                        <p className="text-sm sm:text-[0.9375rem] text-[var(--fg-muted)] leading-relaxed mb-6">
                           {work.tagline}
                         </p>
 
                         {work.highlights.length > 0 && (
-                          <div className="space-y-2 mb-6">
+                          <div className="space-y-2.5 mb-6">
                             {work.highlights.map((item, idx) => (
                               <div
                                 key={item}
-                                className="flex items-start gap-2.5 p-2.5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)]/80 transition-colors text-xs text-[var(--fg)]"
+                                className="flex items-start gap-3 p-3 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)]/80 transition-colors text-xs sm:text-sm text-[var(--fg)]"
                               >
-                                <span className="font-mono text-[10px] font-bold text-[var(--accent)] shrink-0 mt-0.5 select-none">
+                                <span className="font-mono text-xs font-bold text-[var(--accent)] shrink-0 mt-0.5 select-none">
                                   0{idx + 1} {"//"}
                                 </span>
                                 <span className="leading-snug text-[var(--fg)] font-normal">
@@ -226,19 +226,19 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                           </div>
                         )}
 
-                        <div className="mt-auto pt-2 border-t border-[var(--border)]">
-                          <div className="font-mono text-[10px] uppercase tracking-wider text-[var(--fg-faint)] mb-2">
+                        <div className="mt-auto pt-3 border-t border-[var(--border)]">
+                          <div className="font-mono text-[11px] uppercase tracking-wider text-[var(--fg-faint)] mb-2.5">
                             {"在研验证栈 // STACK"}
                           </div>
-                          <div className="flex flex-wrap gap-1.5 w-full">
+                          <div className="flex flex-wrap gap-2 w-full">
                             {work.stackSummary.map((item) => (
-                              <TechTag key={item} name={item} className="flex-1 text-center justify-center min-w-[70px]" />
+                              <TechTag key={item} name={item} className="flex-1 text-center justify-center min-w-[80px] py-1.5" />
                             ))}
                           </div>
                         </div>
                       </CardBody>
                     </div>
-                    <CardFooter className="p-4 px-5 sm:px-6 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
+                    <CardFooter className="p-4 px-6 sm:px-7 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs sm:text-sm font-mono text-[var(--fg-muted)] flex items-center justify-between">
                       <span>{work.trackSlugs.length} 条关联航道</span>
                       <span>{work.stackSummary.length} 项技术验证</span>
                     </CardFooter>
