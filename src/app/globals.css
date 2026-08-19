@@ -1119,15 +1119,7 @@ button, a, [role='button'] {
 .join-process { display: grid; border-top: 1px solid var(--border); }
 .join-process li { display: grid; grid-template-columns: 48px 1fr; min-height: 72px; align-items: center; border-bottom: 1px solid var(--border); }
 .join-process span { color: var(--fg-faint); font-size: var(--text-caption); }
-.join-hero-stage { position: relative; overflow: hidden; padding-top: var(--space-4); padding-bottom: var(--space-10); border-bottom: 1px solid var(--border); }
-.join-hero-stage__watermark { position: absolute; left: 0; bottom: -10px; width: 300px; height: 300px; pointer-events: none; user-select: none; z-index: 0; transform: rotate(-6deg); opacity: 0.045; transition: opacity var(--dur-normal) var(--ease-out); }
-[data-theme='light'] .join-hero-stage__watermark { opacity: 0.06; }
-@media (max-width: 768px) {
-  .join-hero-stage__watermark { width: 200px; height: 200px; left: -8px; bottom: -8px; opacity: 0.035; }
-}
-@media (min-width: 1920px) {
-  .join-hero-stage__watermark { width: 360px; height: 360px; left: -8px; bottom: -8px; }
-}
+.join-hero-stage { padding-top: var(--space-4); padding-bottom: var(--space-10); border-bottom: 1px solid var(--border); }
 .yfy-emblem { display: block; width: 100%; height: 100%; }
 .yfy-emblem__path-1 { fill: url(#yfy_emblem_grad_1_dark); }
 .yfy-emblem__path-cloud { fill: url(#yfy_emblem_grad_cloud_dark); }

@@ -144,7 +144,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         <Field id="join-student-id" label="学号" error={studentIdError}>
           <InputGroup>
             <InputGroupAddon align="inline-start">
-              <InputGroupText>ID //</InputGroupText>
+              <InputGroupText>ID</InputGroupText>
             </InputGroupAddon>
             <Input
               id="join-student-id"
@@ -184,7 +184,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         <Field id="join-contact" label="联系方式" hint="微信、QQ 或手机号" error={contactError}>
           <InputGroup>
             <InputGroupAddon align="inline-start">
-              <InputGroupText>TEL //</InputGroupText>
+              <InputGroupText>TEL</InputGroupText>
             </InputGroupAddon>
             <Input
               id="join-contact"

@@ -20,7 +20,7 @@ export function JoinChannels({ qqGroup }: { qqGroup: string }) {
   return (
     <CardFrame
       id="join-channel"
-      className="join-channels-frame shadow-xs border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors w-full max-w-lg"
+      className="join-channels-frame shadow-xs border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors w-full"
     >
       <CardFrameHeader className="py-3 px-4 sm:px-5">
         <CardFrameTitle className="text-xs">QQ 迎新群</CardFrameTitle>

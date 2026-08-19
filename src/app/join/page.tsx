@@ -50,28 +50,33 @@ export default function JoinPage() {
 
       {/* 01 / 首屏双翼展台：左侧招新宣言、承诺清单与迎新群舱，右侧报名仪表舱 */}
       <section id="join-start" className="section join-hero-stage" aria-labelledby="join-heading" data-reveal="section">
-        {/* 背景水印徽标 */}
-        <div className="join-hero-stage__watermark" aria-hidden="true">
-          <BrandEmblem />
-        </div>
-
         <div className="join-hero-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
           {/* 左翼：宣言、承诺清单与迎新群 CardFrame */}
           <div className="join-pitch lg:col-span-6 flex flex-col gap-6" data-reveal="item">
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] w-fit shadow-2xs">
-              <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-              <span>Yunfeiyang Club // Est. 2014</span>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+              <div className="flex flex-col gap-4">
+                <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] w-fit shadow-2xs">
+                  <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+                  <span>Yunfeiyang Club // Est. 2014</span>
+                </div>
+
+                <div className="join-pitch__heading">
+                  <h1 id="join-heading" className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] font-normal leading-[1.08] tracking-tight text-[var(--fg)] break-words">
+                    Join the <br />
+                    <span className="text-[var(--accent)] font-medium">Revolution.</span>
+                  </h1>
+                </div>
+              </div>
+
+              {/* 官方 Logo 徽标 */}
+              <div className="join-pitch__emblem shrink-0 flex items-center justify-center pt-2 self-start sm:self-center" aria-hidden="true">
+                <BrandEmblem className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32" />
+              </div>
             </div>
 
-            <div className="join-pitch__heading">
-              <h1 id="join-heading" className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] font-normal leading-[1.08] tracking-tight text-[var(--fg)] break-words">
-                Join the <br />
-                <span className="text-[var(--accent)] font-medium">Revolution.</span>
-              </h1>
-              <p className="mt-4 text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed">
-                我们在寻找充满激情的建设者、设计师和梦想家。无论你是代码极客还是设计爱好者，这里都有你的位置。
-              </p>
-            </div>
+            <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed">
+              我们在寻找充满激情的建设者、设计师和梦想家。无论你是代码极客还是设计爱好者，这里都有你的位置。
+            </p>
 
             <ul className="clean-list flex flex-col gap-3.5 py-1 text-sm text-[var(--fg-muted)]">
               <li className="flex items-start gap-3">
