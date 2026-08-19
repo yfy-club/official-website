@@ -8,6 +8,7 @@ import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
+import { BrandEmblem } from "@/components/ui/brand-emblem";
 import {
   CardFrame,
   CardFrameAction,
@@ -49,6 +50,11 @@ export default function JoinPage() {
 
       {/* 01 / 首屏双翼展台：左侧招新宣言、承诺清单与迎新群舱，右侧报名仪表舱 */}
       <section id="join-start" className="section join-hero-stage" aria-labelledby="join-heading" data-reveal="section">
+        {/* 背景水印徽标 */}
+        <div className="join-hero-stage__watermark" aria-hidden="true">
+          <BrandEmblem />
+        </div>
+
         <div className="join-hero-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
           {/* 左翼：宣言、承诺清单与迎新群 CardFrame */}
           <div className="join-pitch lg:col-span-6 flex flex-col gap-6" data-reveal="item">
