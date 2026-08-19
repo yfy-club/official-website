@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { MemberVoice } from "@/content";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
@@ -55,12 +57,24 @@ function VoiceCard({ voice, index }: { index: number; voice: MemberVoice }) {
         {/* 卡片头部：二次元昵称、角色方向与标签 */}
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <span
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] font-mono text-sm font-semibold text-[var(--accent)] select-none shadow-xs"
-              aria-hidden="true"
-            >
-              {voice.avatar}
-            </span>
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] shadow-xs ring-1 ring-black/5 dark:ring-white/10">
+              {voice.avatar.startsWith("/") ? (
+                <Image
+                  src={voice.avatar}
+                  alt={voice.author}
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-cover object-center transition-transform duration-300 group-hover/card:scale-110"
+                />
+              ) : (
+                <span
+                  className="flex h-full w-full items-center justify-center font-mono text-sm font-semibold text-[var(--accent)] select-none"
+                  aria-hidden="true"
+                >
+                  {voice.avatar}
+                </span>
+              )}
+            </div>
             <div className="min-w-0">
               <figcaption className="truncate font-sans text-sm font-semibold text-[var(--fg)] tracking-tight">
                 {voice.author}
