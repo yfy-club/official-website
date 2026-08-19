@@ -98,7 +98,11 @@ tests/                   单元测试和端到端质量门禁
 - **文化实拍 Bento 展台 (`CultureGallery`)**：位于 `src/components/sections/culture-gallery.tsx`，采用响应式 Bento 网格与 Focus Dimming 聚焦交互展示实拍照。
 - **首页航道即时预览 (`TrackPreviewList`)**：位于 `src/components/motion/track-preview-list.tsx`，桌面端悬停/聚焦即时展示关联作品截图。
 - **双轨流光跑马灯 (`MemberVoicesMarquee` & `Marquee`)**：位于 `src/components/sections/member-voices-marquee.tsx` 与 `src/components/ui/marquee.tsx`，双轨异步错向流动，展示 10 条真实成员心声，支持悬停暂停与 reduced-motion 静态呈现。
-- **加入页首屏双翼展台 (`JoinPage` & `JoinChannels`)**：首屏采用 Split Hero Stage，左翼集成宣言、承诺清单与迎新群 CardFrame（含一键复制与唤起），右翼集成高质感 CardFrame 报名仪表舱，消除底部冗余区块。
+- **荣誉页核心指标与赛事矩阵 (`AwardsMetricsBar` & `AwardsOverviewMatrix`)**：位于 `src/components/sections/awards-metrics-bar.tsx` 与 `src/components/sections/awards-overview-matrix.tsx`，将静态荣誉数据转化为 4 格高精度指标仪表舱（搭载 `NumberTicker`）与高密度赛事成果矩阵。
+- **证书档案库控制台与宽幅暗室灯箱 (`CertArchive`)**：位于 `src/components/motion/cert-archive.tsx`，采用 Coss UI Segmented `Tabs` 多维分类筛选、卡片悬停金色/青色流光 `BorderBeam`、受控影院级 Radix Dialog 宽幅灯箱，集成键盘 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导，以及档案编号一键复制 Toast 联动。
+- **全局导航栏 Spring 滑行微胶囊 (`SiteHeader`)**：位于 `src/components/layout/site-header.tsx`，基于 `motion` 的 `layoutId="nav-active-pill"` 实现路由切换时的平滑物理滑行动效。
+- **技术栈元数据字典与标签系统 (`TechTag` & `tech-stack.ts`)**：位于 `src/components/ui/tech-tag.tsx` 与 `src/lib/tech-stack.ts`，全量接入各大官方文档跳转链接与 Tooltip 极简摘要。
+- **在研项目结构化全宽微卡片 (`WorksFilterView`)**：位于 `src/components/sections/works-filter-view.tsx`，废除硬编码进度条，以 `01 //` 磨砂微卡片组充实要点，自适应填满网格空间。
 - **Coss UI 精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：
   - `CardFrame` (`src/components/ui/card.tsx`)：工业仪表舱框架，用于 Fit 准则、迎新群舱位、作品演示账号与质量证据看板。
   - `Kbd` (`src/components/ui/kbd.tsx`)：等宽机械立体键帽，用于矩阵计算器滑块微调与快捷键引导。

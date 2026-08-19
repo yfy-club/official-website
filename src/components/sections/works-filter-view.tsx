@@ -65,8 +65,8 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       {filteredWorks.length === 0 ? (
         <Empty className="my-12">
           <EmptyHeader>
-            <EmptyTitle>暂无归档项目</EmptyTitle>
-            <EmptyDescription>当前分类下暂无已归档项目，敬请期待社团全新产出。</EmptyDescription>
+            <EmptyTitle>暂无匹配作品</EmptyTitle>
+            <EmptyDescription>当前分类下暂无匹配项目，请切换其他技术航道筛选。</EmptyDescription>
           </EmptyHeader>
         </Empty>
       ) : (

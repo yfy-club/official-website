@@ -30,8 +30,12 @@ M0 至 M4 的代码和自动质量门禁已经实现，P0 内容扩充、P1 已�
 - **关于页文化实拍 Bento 展台 (`CultureGallery`)**：响应式 Bento Grid 排布 8 张实验室、工位与团建实拍照，配合 Focus Dimming 悬停聚焦与高清弹窗。
 - **首页 Hero 工业蓝图视差**：`.home-hero` 背景加入 36px 纯 CSS 双轴细线网格与指针低频视差。
 - **首页航道关联预览 (`TrackPreviewList`)**：5 条航道桌面端悬停/聚焦即时展示关联作品截图与空状态占位。
-- **加入页首屏双翼展台 (`JoinPage` & `JoinChannels`)**：首屏采用 Split Hero Stage，左翼集成宣言、承诺清单与迎新群 CardFrame（含一键复制与唤起），右翼集成高质感 CardFrame 报名仪表舱，消除底部冗余区块。
-- **双轨流光跑马灯 (`MemberVoicesMarquee` & `Marquee`)**：双轨异步错向流动，展示 10 条真实成员心声，支持悬停暂停与 reduced-motion 降级。
+- **加入页双轨跑马灯展台 (`MemberVoicesMarquee` & `Marquee`)**：双轨异步错向流动，展示 10 条真实成员心声，支持悬停暂停与 reduced-motion 降级。
+- **荣誉页核心指标与赛事矩阵 (`AwardsMetricsBar` & `AwardsOverviewMatrix`)**：新增 4 格工业指标仪表舱（搭载 `NumberTicker`）与高密度赛事成果矩阵，清晰呈现国家级/省级奖项及对应赛道。
+- **证书档案库全功能控制台与暗室灯箱 (`CertArchive`)**：集成 Coss UI Segmented `Tabs` 多维分类即时筛选、卡片悬停金色/青色流光 `BorderBeam`、受控宽幅 Radix Dialog 暗室灯箱、快捷键 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导、档案编号一键复制 Toast 联动。
+- **全局导航栏微胶囊物理动效 (`SiteHeader`)**：基于 `motion` 的 `layoutId="nav-active-pill"` 实现丝滑 Spring 物理滑行动效。
+- **技术栈元数据字典与跳转系统 (`TechTag` & `tech-stack.ts`)**：全量接入各大技术栈官方文档链接与 Tooltip 极简摘要，消除图标留白偏移。
+- **在研项目结构化微卡片与全幅拉伸 (`WorksFilterView`)**：废除硬编码进度条，以 `01 //` 磨砂微卡片组充实要点，自适应撑满卡片横向与纵向可用空间。
 - **Coss UI 工业精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：全面落地于加入页 Fit 准则、迎新群、作品公开体验账号、质量验收凭证、表单前缀与字符计数器。下一阶段执行范围与验收标准见 [NEXT-PHASE](NEXT-PHASE.md)。
 
 ## 本次 P1 已有资产复用
