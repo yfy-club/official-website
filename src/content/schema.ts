@@ -83,10 +83,12 @@ export const workSchema = z.object({
           }),
         ])
         .optional(),
+      galleryMode: z.enum(["grid", "tour"]).default("grid").optional(),
       gallery: z
         .array(z.object({
           label: z.string().min(2),
           description: z.string().min(6),
+          group: z.string().min(2).optional(),
           shot: z.discriminatedUnion("type", [
             z.object({
               type: z.literal("single"),

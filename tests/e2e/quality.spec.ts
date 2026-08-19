@@ -457,3 +457,286 @@ test("homepage mobile track preview displays inline thumbnails with empty slot r
   // No horizontal overflow
   await expectNoHorizontalOverflow(page, "/");
 });
+
+test("work system tour for zgyc-smart-light exposes 5 groups, 15 items, sticky navigation staying in viewport under header, and syncs active state", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/works/zgyc-smart-light", { waitUntil: "networkidle" });
+
+  const tour = page.locator("#work-tour-zgyc-smart-light");
+  await expect(tour).toBeVisible();
+
+  const tourNav = page.locator(".work-tour__nav");
+  await expect(tourNav).toBeVisible();
+  await expect(tourNav).toHaveAttribute("aria-label", "智光耀城 · 智慧路灯管理平台系统巡览");
+
+  // Verify sticky positioning computed style on the actual sticky element .work-tour__nav
+  const navPosition = await tourNav.evaluate((el) => getComputedStyle(el).position);
+  expect(navPosition).toBe("sticky");
+
+  const navLinks = page.locator(".work-tour__nav-link");
+  await expect(navLinks).toHaveCount(5);
+
+  // Initial SSR state: first group active with slug-scoped ID
+  await expect(navLinks.nth(0)).toHaveAttribute("aria-current", "location");
+  await expect(navLinks.nth(0)).toHaveAttribute("data-active", "true");
+  await expect(navLinks.nth(0)).toHaveAttribute("data-group-id", "work-tour-zgyc-smart-light-group-1");
+
+  // Check 5 groups and 15 figures
+  const groups = page.locator(".work-tour__group");
+  await expect(groups).toHaveCount(5);
+  const items = page.locator(".work-tour__item");
+  await expect(items).toHaveCount(15);
+
+  // All screenshots have object-fit: contain
+  const tourImgs = page.locator(".work-tour__img");
+  await expect(tourImgs).toHaveCount(15);
+  const firstImg = tourImgs.first();
+  await expect(firstImg).toHaveCSS("object-fit", "contain");
+
+  // Keyboard focus navigation across all 5 links
+  await navLinks.nth(0).focus();
+  await expect(navLinks.nth(0)).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(navLinks.nth(1)).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(navLinks.nth(2)).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(navLinks.nth(3)).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(navLinks.nth(4)).toBeFocused();
+
+  // Fixed header bottom bound for sticky position reference
+  const siteHeader = page.locator(".site-header");
+  const headerBox = await siteHeader.boundingBox();
+  expect(headerBox).not.toBeNull();
+  const headerBottom = headerBox!.y + headerBox!.height;
+
+  // Scroll 4th group into view and check sticky nav stays in viewport below header
+  const fourthGroup = page.locator("#work-tour-zgyc-smart-light-group-4");
+  await fourthGroup.scrollIntoViewIfNeeded();
+
+  await expect(tourNav).toBeInViewport();
+  const navRect4 = await tourNav.evaluate((el) => el.getBoundingClientRect());
+  expect(navRect4.top).toBeGreaterThanOrEqual(headerBottom - 2);
+  expect(navRect4.bottom).toBeLessThanOrEqual(900 + 20);
+
+  // Scroll 5th group into view and observe aria-current update & sticky position
+  const fifthGroup = page.locator("#work-tour-zgyc-smart-light-group-5");
+  await fifthGroup.scrollIntoViewIfNeeded();
+
+  await expect(navLinks.nth(4)).toHaveAttribute("aria-current", "location");
+  await expect(tourNav).toBeInViewport();
+  const navRect5 = await tourNav.evaluate((el) => el.getBoundingClientRect());
+  expect(navRect5.top).toBeGreaterThanOrEqual(headerBottom - 2);
+  expect(navRect5.bottom).toBeLessThanOrEqual(900 + 20);
+
+  // Click 2nd group nav link to jump
+  const secondLink = navLinks.nth(1);
+  await secondLink.click();
+  const secondGroup = page.locator("#work-tour-zgyc-smart-light-group-2");
+  await expect(secondGroup).toBeInViewport();
+});
+
+test("work system tour isolates multiple instances: second instance observer and anchors only affect second instance", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/works/zgyc-smart-light", { waitUntil: "networkidle" });
+
+  // Dynamically append a second WorkSystemTour instance (mock-system) into DOM
+  await page.evaluate(() => {
+    const secondTour = document.createElement("div");
+    secondTour.className = "work-tour";
+    secondTour.id = "work-tour-mock-system";
+    secondTour.innerHTML = `
+      <nav class="work-tour__nav" aria-label="Mock系统巡览">
+        <div class="work-tour__nav-sticky">
+          <ul class="work-tour__nav-list clean-list" role="list">
+            <li>
+              <a href="#work-tour-mock-system-group-1" class="work-tour__nav-link" data-group-id="work-tour-mock-system-group-1" aria-current="location" data-active="true">
+                <span class="work-tour__nav-name">实例二 分组一</span>
+              </a>
+            </li>
+            <li>
+              <a href="#work-tour-mock-system-group-2" class="work-tour__nav-link" data-group-id="work-tour-mock-system-group-2">
+                <span class="work-tour__nav-name">实例二 分组二</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="work-tour__stream">
+        <section id="work-tour-mock-system-group-1" class="work-tour__group" data-tour-group="work-tour-mock-system-group-1">
+          <div style="height: 800px; padding: 20px;">Group 1 Content</div>
+        </section>
+        <section id="work-tour-mock-system-group-2" class="work-tour__group" data-tour-group="work-tour-mock-system-group-2">
+          <div style="height: 800px; padding: 20px;">Group 2 Content</div>
+        </section>
+      </div>
+      <div style="height: 1200px;" aria-hidden="true">Spacer</div>
+      <span id="mock-marker" style="display: none;" aria-hidden="true"></span>
+    `;
+    document.querySelector("main")?.appendChild(secondTour);
+
+    // Initialize IntersectionObserver on second tour simulating WorkTourObserver logic via closest(".work-tour")
+    const marker = document.getElementById("mock-marker");
+    const root = marker?.closest<HTMLElement>(".work-tour");
+    if (!root) return;
+
+    const groupIds = ["work-tour-mock-system-group-1", "work-tour-mock-system-group-2"];
+    const groupElements = groupIds
+      .map((id) => root.querySelector<HTMLElement>("#" + id))
+      .filter((el): el is HTMLElement => el !== null);
+    const navLinks = Array.from(root.querySelectorAll<HTMLAnchorElement>(".work-tour__nav-link"));
+
+    function setActiveGroup(id: string) {
+      for (const link of navLinks) {
+        if (link.getAttribute("data-group-id") === id) {
+          link.setAttribute("aria-current", "location");
+          link.setAttribute("data-active", "true");
+        } else {
+          link.removeAttribute("aria-current");
+          link.removeAttribute("data-active");
+        }
+      }
+    }
+
+    const visibleGroups = new Map<string, number>();
+    const obs = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          visibleGroups.set(entry.target.id, entry.intersectionRatio);
+        } else {
+          visibleGroups.delete(entry.target.id);
+        }
+      }
+      if (visibleGroups.size > 0) {
+        for (const el of groupElements) {
+          if (visibleGroups.has(el.id)) {
+            setActiveGroup(el.id);
+            break;
+          }
+        }
+      }
+    }, { rootMargin: "-15% 0px -40% 0px", threshold: [0, 0.1, 0.25, 0.5] });
+
+    for (const el of groupElements) {
+      obs.observe(el);
+    }
+  });
+
+  const tour1 = page.locator("#work-tour-zgyc-smart-light");
+  const tour2 = page.locator("#work-tour-mock-system");
+
+  await expect(tour1).toBeVisible();
+  await expect(tour2).toBeVisible();
+
+  const tour1Links = tour1.locator(".work-tour__nav-link");
+  const tour2Links = tour2.locator(".work-tour__nav-link");
+
+  // Initial state: first link of both instances is active
+  await expect(tour1Links.nth(0)).toHaveAttribute("data-active", "true");
+  await expect(tour2Links.nth(0)).toHaveAttribute("data-active", "true");
+
+  // Scroll instance 2 group 2 into view
+  const instance2Group2 = page.locator("#work-tour-mock-system-group-2");
+  await instance2Group2.scrollIntoViewIfNeeded();
+
+  // Assert instance 2 link 2 became active, link 1 became inactive
+  await expect(tour2Links.nth(1)).toHaveAttribute("aria-current", "location");
+  await expect(tour2Links.nth(0)).not.toHaveAttribute("aria-current", "location");
+
+  // Test anchor jump within second instance
+  await tour2Links.nth(0).click();
+  const instance2Group1 = page.locator("#work-tour-mock-system-group-1");
+  await expect(instance2Group1).toBeInViewport();
+
+  // Assert instance 1 links are completely unaffected and maintain their slug prefix
+  const tour1Count = await tour1Links.count();
+  expect(tour1Count).toBe(5);
+  for (let i = 0; i < tour1Count; i++) {
+    const link = tour1Links.nth(i);
+    const groupId = await link.getAttribute("data-group-id");
+    expect(groupId).toContain("work-tour-zgyc-smart-light-group-");
+  }
+});
+
+test("work system tour reflows properly at mobile viewports with static positioning and no overflow", async ({ page }) => {
+  for (const viewport of [{ width: 390, height: 844 }, { width: 320, height: 568 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/works/zgyc-smart-light", { waitUntil: "networkidle" });
+
+    const tour = page.locator(".work-tour");
+    await expect(tour).toBeVisible();
+
+    const tourNav = page.locator(".work-tour__nav");
+    const navPosition = await tourNav.evaluate((el) => getComputedStyle(el).position);
+    expect(navPosition).toBe("static");
+
+    const navSticky = page.locator(".work-tour__nav-sticky");
+    const stickyPosition = await navSticky.evaluate((el) => getComputedStyle(el).position);
+    expect(stickyPosition).toBe("static");
+
+    const groups = page.locator(".work-tour__group");
+    await expect(groups).toHaveCount(5);
+    const items = page.locator(".work-tour__item");
+    await expect(items).toHaveCount(15);
+
+    await expectNoHorizontalOverflow(page, "/works/zgyc-smart-light");
+  }
+});
+
+test("work system tour applies proper print rules: hidden nav, avoiding item page-break, and allowing group page-break", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/works/zgyc-smart-light", { waitUntil: "networkidle" });
+
+  await page.emulateMedia({ media: "print" });
+
+  const tourNav = page.locator(".work-tour__nav");
+  await expect(tourNav).toBeHidden();
+  const navDisplay = await tourNav.evaluate((el) => getComputedStyle(el).display);
+  expect(navDisplay).toBe("none");
+
+  const groups = page.locator(".work-tour__group");
+  await expect(groups).toHaveCount(5);
+  const groupBreakInside = await groups.first().evaluate((el) => getComputedStyle(el).breakInside);
+  expect(groupBreakInside).not.toBe("avoid");
+
+  const items = page.locator(".work-tour__item");
+  await expect(items).toHaveCount(15);
+  const itemBreakInside = await items.first().evaluate((el) => getComputedStyle(el).breakInside);
+  expect(itemBreakInside).toBe("avoid");
+});
+
+test("work system tour satisfies reduced-motion and forced-colors contracts", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+
+  // Reduced motion: nav-link transition disabled
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/works/zgyc-smart-light", { waitUntil: "networkidle" });
+  const navLink = page.locator(".work-tour__nav-link").first();
+  const linkTransition = await navLink.evaluate((el) => getComputedStyle(el).transitionDuration);
+  expect(linkTransition === "0s" || linkTransition === "none" || linkTransition === "").toBeTruthy();
+
+  // Forced colors: active nav link has visible outline
+  await page.emulateMedia({ forcedColors: "active" });
+  const activeLink = page.locator(".work-tour__nav-link[data-active='true']").first();
+  const outlineStyle = await activeLink.evaluate((el) => getComputedStyle(el).outlineStyle);
+  expect(outlineStyle).not.toBe("none");
+});
+
+test("matrix-calculator and intellibuddy preserve standard gallery layout without regression", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+
+  // Matrix Calculator
+  await page.goto("/works/matrix-calculator", { waitUntil: "networkidle" });
+  await expect(page.locator(".work-tour")).toHaveCount(0);
+  const matrixGallery = page.locator(".work-gallery");
+  await expect(matrixGallery).toBeVisible();
+  await expect(matrixGallery.locator(".work-gallery__item")).toHaveCount(1);
+
+  // IntelliBuddy
+  await page.goto("/works/intellibuddy", { waitUntil: "networkidle" });
+  await expect(page.locator(".work-tour")).toHaveCount(0);
+  const intelliGallery = page.locator(".work-gallery");
+  await expect(intelliGallery).toBeVisible();
+  await expect(intelliGallery.locator(".work-gallery__item")).toHaveCount(4);
+});
