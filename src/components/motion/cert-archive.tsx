@@ -99,10 +99,10 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
               全部 ({awards.length})
             </TabsTrigger>
             <TabsTrigger value="national">
-              🏆 国家级 ({awards.filter((a) => a.level === "国家级").length})
+              国家级 ({awards.filter((a) => a.level === "国家级").length})
             </TabsTrigger>
             <TabsTrigger value="provincial">
-              🥇 省级 ({awards.filter((a) => a.level === "省级").length})
+              省级 ({awards.filter((a) => a.level === "省级").length})
             </TabsTrigger>
             <TabsTrigger value="2025">
               2025 年度 ({awards.filter((a) => a.year === "2025").length})
@@ -148,7 +148,7 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                   />
                   <button
                     type="button"
-                    className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity"
+                    className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity cursor-pointer"
                     ref={(node) => {
                       if (node) triggers.current.set(award.id, node);
                       else triggers.current.delete(award.id);
@@ -200,28 +200,18 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
 
                 <CardFooter className="p-3.5 px-5 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
                   <span className="truncate">归档 ID: {award.id}</span>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 px-2 text-[11px] font-mono hover:text-[var(--fg)]"
-                    onClick={() => setOpenId(award.id)}
-                  >
-                    灯箱检索 ↗
-                  </Button>
+                  <span className="text-[11px] text-[var(--fg-faint)]">已脱敏原件</span>
                 </CardFooter>
 
-                {isNational && (
+                <div className="opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300 pointer-events-none">
                   <BorderBeam
                     borderWidth={1}
-                    colorFrom="var(--warn)"
+                    colorFrom={isNational ? "var(--warn)" : "var(--accent)"}
                     colorTo="var(--accent)"
-                    delay={index * 2.5}
-                    duration={9}
-                    initialOffset={index * 15}
-                    size={88}
+                    duration={8}
+                    size={92}
                   />
-                )}
+                </div>
               </Card>
             );
           })}
