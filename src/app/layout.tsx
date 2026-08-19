@@ -5,6 +5,8 @@ import { RouteTransitions } from "@/components/layout/route-transitions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { StructuredData } from "@/components/seo/structured-data";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { awards, club } from "@/content";
 import { siteUrl } from "@/lib/seo";
 
@@ -82,11 +84,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="zh-CN" suppressHydrationWarning>
       <body className={`${display.variable} ${displayCjk.variable} ${sans.variable} ${mono.variable}`}>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
-        <RouteTransitions />
-        <a className="skip-link" href="#main-content">跳到主内容</a>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
+        <TooltipProvider delayDuration={150}>
+          <RouteTransitions />
+          <a className="skip-link" href="#main-content">跳到主内容</a>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+          <Toaster />
+        </TooltipProvider>
         <StructuredData data={organization} />
       </body>
     </html>

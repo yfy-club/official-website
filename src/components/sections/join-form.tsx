@@ -239,6 +239,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         >
           <Textarea
             id="join-reason"
+            className="min-h-[170px]"
             placeholder="简单介绍自己与申请理由..."
             minLength={20}
             maxLength={1000}
@@ -264,11 +265,11 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
 
         <Turnstile siteKey={siteKey} onTokenChange={onTokenChange} resetSignal={turnstileReset} />
 
-        <div className="join-form__actions join-form__wide">
+        <div className="join-form__actions join-form__wide pt-1">
           {submitted ? (
             <Stamp message="报名已提交，我们会尽快与你联系。" />
           ) : (
-            <Button id="join-submit" type="submit" className="w-full h-11 text-base font-semibold" disabled={isSubmitting}>
+            <Button id="join-submit" type="submit" className="w-full h-11 text-base font-semibold rounded-[var(--radius-xs)]" disabled={isSubmitting}>
               <Send size={16} aria-hidden="true" />
               <span>{isSubmitting ? "正在提交…" : "立即提交申请"}</span>
             </Button>

@@ -9,6 +9,7 @@ import { CompareSlider } from "@/components/motion/compare-slider";
 import { WorkSystemTour } from "@/components/sections/work-system-tour";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardFrame, CardFrameAction, CardFrameDescription, CardFrameHeader, CardFrameTitle, CardPanel } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
@@ -41,6 +42,23 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
     <main id="main-content" className="page-main page-shell work-detail" tabIndex={-1}>
       <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "作品", path: "/works" }, { name: work.nameZh, path: `/works/${work.slug}` }])} />
       <TrajectoryRail label={work.nameZh} sections={[{ id: "work-start", index: "01", label: "项目" }, { id: "work-interface", index: "02", label: "界面" }, { id: "work-problem", index: "03", label: "问题" }, { id: "work-build", index: "04", label: "实现" }, { id: "work-evidence", index: "05", label: "质量" }, { id: "work-limits", index: "06", label: "边界" }, { id: "work-related", index: "07", label: "关联" }, { id: "work-switch", index: "08", label: "切换" }, { id: "work-join", index: "09", label: "加入" }]} />
+      <div className="pt-2 pb-1">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">首页</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/works">作品</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{work.nameZh}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
       <header id="work-start" className="work-detail__hero"><div><p className="caps">01 / Case file · {work.status}</p><h1>{work.nameZh}</h1>{work.nameEn && <p className="display-latin">{work.nameEn}</p>}<p>{work.tagline}</p><div className="stack-row">{work.stackSummary.map((item) => <Tag key={item}>{item}</Tag>)}</div><div className="work-detail__actions">{work.liveUrl && <Button asChild><a href={work.liveUrl} target="_blank" rel="noreferrer">打开使用 <ExternalLink aria-hidden="true" size={16} /></a></Button>}</div></div>{work.logo && <Image className="work-detail__logo" src={work.logo} alt="" width={220} height={220} />}{work.image && <div className="work-detail__hero-media" style={{ viewTransitionName: getWorkImageTransitionName(work.slug) }}><Image src={work.image} alt={`${work.nameZh}项目主界面预览`} width={1600} height={900} sizes="(max-width: 1024px) 100vw, 80vw" priority /></div>}</header>
       {(detail.demoAccounts?.length || detail.shots || detail.gallery?.length) && (
         <section id="work-interface" className="section" aria-labelledby="shots-title" data-reveal="section">

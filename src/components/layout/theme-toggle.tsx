@@ -3,6 +3,8 @@
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+
 type Theme = "system" | "light" | "dark";
 
 function applyTheme(theme: Theme) {
@@ -44,19 +46,26 @@ export function ThemeToggle() {
   }
 
   return (
-    <button
-      type="button"
-      className="theme-toggle"
-      onClick={() => selectTheme(next)}
-      aria-label={mounted ? `当前${labels[current]}主题，切换到${labels[next]}` : "切换主题"}
-    >
-      {current === "system" ? (
-        <Monitor aria-hidden="true" size={18} />
-      ) : current === "light" ? (
-        <Moon aria-hidden="true" size={18} />
-      ) : (
-        <Sun aria-hidden="true" size={18} />
-      )}
-    </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => selectTheme(next)}
+          aria-label={mounted ? `当前${labels[current]}主题，切换到${labels[next]}` : "切换主题"}
+        >
+          {current === "system" ? (
+            <Monitor aria-hidden="true" size={18} />
+          ) : current === "light" ? (
+            <Moon aria-hidden="true" size={18} />
+          ) : (
+            <Sun aria-hidden="true" size={18} />
+          )}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" align="end">
+        {mounted ? `当前：${labels[current]} · 切换至${labels[next]}` : "切换主题"}
+      </TooltipContent>
+    </Tooltip>
   );
 }

@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { DrawPath } from "@/components/motion/draw-path";
 import { StructuredData } from "@/components/seo/structured-data";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { StageIndicator } from "@/components/ui/stage-indicator";
@@ -77,6 +78,24 @@ export default async function TrackDetailPage({
           { id: "track-join", index: "06", label: "加入" },
         ]}
       />
+
+      <div className="pt-2 pb-1">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">首页</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/tracks">方向</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{track.nameZh}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
       <header id="track-start" className="track-detail__hero">
         <p className="caps">{track.index} / Track</p>
