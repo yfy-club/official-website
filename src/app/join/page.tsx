@@ -4,7 +4,6 @@ import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
-import { JoinLiveDispatch } from "@/components/sections/join-live-dispatch";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -96,9 +95,6 @@ export default function JoinPage() {
 
             {/* 迎新群舱直接集成在左翼 */}
             <JoinChannels qqGroup={club.qqGroup} />
-
-            {/* 实时招新流转与在研快讯 (unlumen AnimatedList 封装组件) */}
-            <JoinLiveDispatch />
           </div>
 
           {/* 右翼：高质感报名仪表舱 */}
