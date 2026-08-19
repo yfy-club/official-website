@@ -20,15 +20,15 @@ export function MemberVoicesMarquee({ className, voices }: MemberVoicesMarqueePr
       {/* 左右光学级 EdgeBlur 渐进羽化遮罩 */}
       <EdgeBlur direction="horizontal" intensity="md" />
 
-      {/* 第一行：悬停触发平滑向左流动 */}
-      <Marquee playOnHover repeat={4} className="[--duration:40s] [--gap:1.25rem]">
+      {/* 第一行：向左正向平滑持续流动 */}
+      <Marquee pauseOnHover repeat={4} className="[--duration:46s] [--gap:1.25rem]">
         {firstRow.map((voice, idx) => (
           <VoiceCard key={`${voice.author}-${idx}`} voice={voice} index={idx + 1} />
         ))}
       </Marquee>
 
-      {/* 第二行：悬停触发平滑向右流动 */}
-      <Marquee reverse playOnHover repeat={4} className="[--duration:45s] [--gap:1.25rem]">
+      {/* 第二行：向右反向平滑持续流动 */}
+      <Marquee reverse pauseOnHover repeat={4} className="[--duration:52s] [--gap:1.25rem]">
         {secondRow.map((voice, idx) => (
           <VoiceCard key={`${voice.author}-${idx}`} voice={voice} index={idx + half + 1} />
         ))}
@@ -36,7 +36,7 @@ export function MemberVoicesMarquee({ className, voices }: MemberVoicesMarqueePr
 
       {/* 底部交互指引与元数据 */}
       <p className="mt-2 text-center text-xs font-mono text-[var(--fg-muted)]">
-        光标悬停时触发平滑流动 · 23～25 级成长档案（匿名代称与虚拟角色头像）
+        悬停卡片可暂停滚动 · 23～25 级成长档案（匿名代称与虚拟角色头像）
       </p>
     </div>
   );
