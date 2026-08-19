@@ -1,158 +1,160 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import * as Tabs from "@radix-ui/react-tabs";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { ArcherContainer, ArcherElement } from "react-archer";
+import { createRef, useRef, useState } from "react";
 
-import { Tag } from "@/components/ui/tag";
-import { CardBody, CardCorners, CardFooter, CardMeta, cardVariants } from "@/components/ui/card";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
+import { Badge } from "@/components/ui/badge";
+import { CardCorners } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
+import { Tag } from "@/components/ui/tag";
 import type { Track } from "@/content/schema";
-import { cn } from "@/lib/utils";
 
 type TracksMapProps = {
   tracks: Track[];
 };
 
 export function TracksMap({ tracks }: TracksMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const beamStartedRef = useRef(false);
-  const [beamPaths, setBeamPaths] = useState<string[]>([]);
-  const [beamInView, setBeamInView] = useState(false);
-  const [beamActive, setBeamActive] = useState(false);
-  const relations = tracks.map((track, index) => ({
-    targetId: `track-${track.slug}`,
-    sourceAnchor: "bottom" as const,
-    targetAnchor: "top" as const,
-    order: index,
-    className: `tracks-connector__route tracks-connector__route--${track.slug}`,
-    style: {
-      endMarker: false,
-      lineStyle: "curve" as const,
-    },
-  }));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLSpanElement>(null);
+  const targetRefs = useRef(tracks.map(() => createRef<HTMLSpanElement>()));
+  const [activeSlug, setActiveSlug] = useState<Track["slug"]>(tracks[0]?.slug ?? "ai");
+  const activeTrack = tracks.find((track) => track.slug === activeSlug) ?? tracks[0];
 
-  useEffect(() => {
-    let frameId = 0;
+  function selectTrack(slug: Track["slug"]) {
+    setActiveSlug(slug);
+  }
 
-    const syncBeamPaths = () => {
-      const routePaths = mapRef.current?.querySelectorAll<SVGPathElement>(".tracks-connector__route path");
-      if (routePaths?.length !== tracks.length) return;
+  function previewTrack(slug: Track["slug"]) {
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) selectTrack(slug);
+  }
 
-      const nextPaths = Array.from(routePaths, (path) => path.getAttribute("d") ?? "");
-      setBeamPaths((currentPaths) => (
-        currentPaths.length === nextPaths.length && currentPaths.every((path, index) => path === nextPaths[index])
-          ? currentPaths
-          : nextPaths
-      ));
-    };
-
-    const scheduleSync = () => {
-      window.cancelAnimationFrame(frameId);
-      frameId = window.requestAnimationFrame(syncBeamPaths);
-    };
-
-    const observer = new MutationObserver(scheduleSync);
-    if (mapRef.current) observer.observe(mapRef.current, { attributes: true, childList: true, subtree: true, attributeFilter: ["d"] });
-    scheduleSync();
-
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(frameId);
-    };
-  }, [tracks.length]);
-
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setBeamInView(true);
-      observer.disconnect();
-    }, { threshold: 0.12 });
-
-    observer.observe(map);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!beamInView || beamPaths.length !== tracks.length || beamStartedRef.current) return;
-
-    let secondFrameId = 0;
-    const firstFrameId = window.requestAnimationFrame(() => {
-      secondFrameId = window.requestAnimationFrame(() => {
-        beamStartedRef.current = true;
-        setBeamActive(true);
-      });
-    });
-
-    return () => {
-      window.cancelAnimationFrame(firstFrameId);
-      window.cancelAnimationFrame(secondFrameId);
-    };
-  }, [beamInView, beamPaths.length, tracks.length]);
+  if (!activeTrack) return null;
 
   return (
-    <div
-      ref={mapRef}
-      className={`tracks-map${beamActive ? " tracks-map--beam-active" : ""}`}
+    <Tabs.Root
+      className="tracks-console"
+      data-active={activeSlug}
+      onValueChange={(value) => selectTrack(value as Track["slug"])}
+      orientation="vertical"
+      value={activeSlug}
     >
-      <ArcherContainer
-        className="tracks-connector"
-        strokeColor="var(--track-connector-color)"
-        strokeWidth={1.5}
-        lineStyle="curve"
-        endMarker={false}
-        svgContainerStyle={{ zIndex: 0 }}
-      >
-        <ArcherElement id="tracks-origin" relations={relations}>
-          <span className="tracks-map__origin" aria-hidden="true" />
-        </ArcherElement>
-        <div className="tracks-map__lead" aria-hidden="true" />
+      <div ref={containerRef} className="tracks-console__layout">
+        <div className="tracks-console__topology">
+          <div className="tracks-console__root" aria-label="云飞扬五条技术航道根节点">
+            <span className="caps">YFY</span>
+            <span ref={rootRef} className="tracks-console__root-node" aria-hidden="true">
+              <i />
+            </span>
+            <span className="caps tabular">ROOT / 05</span>
+          </div>
 
-        <ol className="tracks-grid clean-list">
-          {tracks.map((track) => (
-            <li key={track.slug}>
-              <ArcherElement id={`track-${track.slug}`}>
-                <MagicCard
-                  className={cn(cardVariants({ density: "compact", variant: "frame" }), "track-panel-shell")}
-                  gradientColor="var(--accent-quiet)"
-                  gradientFrom="var(--accent)"
-                  gradientOpacity={0.72}
-                  gradientSize={280}
-                  gradientTo="var(--border-strong)"
+          <aside className="tracks-console__selector" aria-label="技术航道选择">
+            <Tabs.List className="tracks-selector" aria-label="选择一条技术航道">
+              {tracks.map((track, index) => (
+                <Tabs.Trigger
+                  className="track-selector"
+                  data-track={track.slug}
+                  key={track.slug}
+                  onFocus={() => selectTrack(track.slug)}
+                  onPointerEnter={() => previewTrack(track.slug)}
+                  value={track.slug}
                 >
-                  <Link href={`/tracks/${track.slug}`} className="track-panel" data-track={track.slug}>
-                    <CardCorners />
-                    <CardMeta code={`TRK-${track.index}`} />
-                    <CardBody className="track-panel__body">
-                      <h2>{track.nameZh}</h2>
-                      <p className="track-panel__en">{track.nameEn}</p>
-                      <p>{track.tagline}</p>
+                  <span
+                    ref={targetRefs.current[index]}
+                    className="track-selector__socket"
+                    aria-hidden="true"
+                  >
+                    <i />
+                  </span>
+                  <span className="track-selector__index tabular">{track.index}</span>
+                  <span className="track-selector__label">
+                    <strong>{track.nameZh}</strong>
+                    <small>{track.nameEn}</small>
+                  </span>
+                  <ChevronRight className="track-selector__arrow" aria-hidden="true" size={15} />
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
+          </aside>
+
+          {tracks.map((track, index) => {
+            const isActive = track.slug === activeSlug;
+            return (
+              <AnimatedBeam
+                className={isActive ? "tracks-beam tracks-beam--active" : "tracks-beam"}
+                containerRef={containerRef}
+                curvature={(2 - index) * 28}
+                delay={index * 0.38}
+                duration={isActive ? 2.4 : 5.8}
+                endXOffset={0}
+                fromRef={rootRef}
+                gradientStartColor="var(--accent)"
+                gradientStopColor={isActive ? "var(--fg)" : "var(--accent)"}
+                key={`${track.slug}-${isActive ? "active" : "idle"}`}
+                pathColor={isActive ? "var(--accent)" : "var(--border-control)"}
+                pathOpacity={isActive ? 0.78 : 0.4}
+                pathWidth={isActive ? 1.5 : 1}
+                repeatDelay={isActive ? 0.2 : 0.9}
+                startXOffset={22}
+                toRef={targetRefs.current[index]}
+              />
+            );
+          })}
+        </div>
+
+        <MagicCard
+          className="tracks-detail"
+          gradientColor="var(--accent-quiet)"
+          gradientFrom="var(--accent)"
+          gradientOpacity={0.76}
+          gradientSize={420}
+          gradientTo="var(--border-strong)"
+        >
+          <CardCorners />
+          {tracks.map((track) => (
+            <Tabs.Content className="tracks-detail__panel" key={track.slug} value={track.slug}>
+              <header className="tracks-detail__meta">
+                <span className="caps tabular">TRK-{track.index} / DOSSIER</span>
+                <Badge pulse variant="active">ACTIVE</Badge>
+              </header>
+
+              <div className="tracks-detail__body">
+                <div className="tracks-detail__identity">
+                  <p className="caps">Technical Route {track.index}</p>
+                  <h2>{track.nameZh}</h2>
+                  <p className="display-latin tracks-detail__en">{track.nameEn}</p>
+                  <p className="tracks-detail__positioning">{track.positioning}</p>
+                </div>
+
+                <div className="tracks-detail__stack">
+                  {[
+                    ["Language", track.stack.languages],
+                    ["Platform", track.stack.frameworks],
+                    ["Engineering", track.stack.engineering],
+                  ].map(([label, items]) => (
+                    <section key={label as string}>
+                      <h3 className="caps">{label as string}</h3>
                       <div className="stack-row">
-                        {[...track.stack.languages, ...track.stack.frameworks].slice(0, 4).map((item) => (
-                          <Tag key={item}>{item}</Tag>
-                        ))}
+                        {(items as string[]).map((item) => <Tag key={item}>{item}</Tag>)}
                       </div>
-                    </CardBody>
-                    <CardFooter className="track-panel__footer">
-                      <span className="track-panel__goal">{track.goal}</span>
-                      <ArrowRight aria-hidden="true" size={18} />
-                    </CardFooter>
-                  </Link>
-                </MagicCard>
-              </ArcherElement>
-            </li>
+                    </section>
+                  ))}
+                </div>
+              </div>
+
+              <footer className="tracks-detail__footer">
+                <span><small>目标岗位</small>{track.goal}</span>
+                <Link className="tracks-detail__route track-panel" href={`/tracks/${track.slug}`}>
+                  进入航道 <ArrowRight aria-hidden="true" size={17} />
+                </Link>
+              </footer>
+            </Tabs.Content>
           ))}
-        </ol>
-      </ArcherContainer>
-      <svg className="tracks-connector__beams" aria-hidden="true" focusable="false">
-        {beamPaths.map((path, index) => (
-          <path key={tracks[index].slug} className="tracks-connector__beam" d={path} pathLength="1" />
-        ))}
-      </svg>
-    </div>
+        </MagicCard>
+      </div>
+    </Tabs.Root>
   );
 }

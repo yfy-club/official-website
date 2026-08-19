@@ -1,8 +1,36 @@
 export const memberLadder = [
-  { stage: "大一", count: 7, theme: "打基础", detail: "语法、Git 与系统基础，完成实验室融入。" },
-  { stage: "大二", count: 9, theme: "攻技术", detail: "技术攻坚，进入项目与竞赛主力。" },
-  { stage: "大三", count: 14, theme: "分流", detail: "就业实习 / 考研科研，两条路径等权。" },
-  { stage: "大四", count: 12, theme: "传承", detail: "复试、实习与毕设经验回流。" },
+  {
+    stage: "大一",
+    count: 7,
+    theme: "打基础",
+    detail: "建立编程、协作与系统意识，完成从兴趣到工程训练的第一次转换。",
+    signals: ["C/C++", "Git 协作", "Linux 实操"],
+  },
+  {
+    stage: "大二",
+    count: 9,
+    theme: "攻技术",
+    detail: "选择技术方向走深，在真实项目与竞赛中承担可验收的核心任务。",
+    signals: ["方向进阶", "项目交付", "竞赛主力"],
+  },
+  {
+    stage: "大三",
+    count: 14,
+    theme: "分流",
+    detail: "核心能力已经成形，按个人目标进入两条等权、可互相支撑的成长路径。",
+    signals: ["就业实习", "考研科研"],
+    branches: [
+      { label: "A / 就业", detail: "企业实习、工程作品集与岗位能力补全。" },
+      { label: "B / 考研", detail: "408 备考、科研训练与竞赛成果沉淀。" },
+    ],
+  },
+  {
+    stage: "大四",
+    count: 12,
+    theme: "传承",
+    detail: "把复试、实习和毕业设计中的方法回流给下一届成员。",
+    signals: ["经验复盘", "师徒交接", "成果归档"],
+  },
 ] as const;
 
 export const mechanisms = [

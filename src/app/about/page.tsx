@@ -3,13 +3,10 @@ import Image from "next/image";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { MemberLadder } from "@/components/sections/member-ladder";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
-import { BorderBeam } from "@/components/ui/border-beam";
-import { CardBody, CardCorners } from "@/components/ui/card";
-import { MagicCard } from "@/components/ui/magic-card";
-import { NumberTicker } from "@/components/ui/number-ticker";
-import { StageIndicator } from "@/components/ui/stage-indicator";
+import { TracingBeam } from "@/components/ui/tracing-beam";
 import { advisorProfile, club, mechanisms, memberLadder, mentorship, timeline } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
@@ -35,43 +32,13 @@ export default function AboutPage() {
       </section>
       <section id="about-years" className="section" aria-labelledby="timeline-title">
         <div className="section__head"><p className="caps section__index">03 / Years</p><h2 id="timeline-title" className="section__title">从 2014 到现在。</h2></div>
-        <ol className="timeline year-scroll clean-list">{timeline.map((item) => <li key={item.year} data-current={item.year === "2026"}><time dateTime={item.year}>{item.year}</time><div><h3>{item.title}</h3><p>{item.description}</p></div></li>)}</ol>
+        <TracingBeam className="year-tracing-beam">
+          <ol className="timeline year-scroll clean-list">{timeline.map((item) => <li key={item.year} data-current={item.year === "2026"}><time dateTime={item.year}>{item.year}</time><div><h3>{item.title}</h3><p>{item.description}</p></div></li>)}</ol>
+        </TracingBeam>
       </section>
       <section id="about-ladder" className="section" aria-labelledby="ladder-title">
         <div className="section__head"><p className="caps section__index">04 / Ladder</p><h2 id="ladder-title" className="section__title">四年成长，大三分岔。</h2></div>
-        <div className="ladder-grid">
-          {memberLadder.map((item, index) => (
-            <MagicCard
-              className="card card--compact card--frame ladder-card"
-              gradientColor="var(--accent-quiet)"
-              gradientFrom="var(--accent)"
-              gradientOpacity={0.8}
-              gradientSize={240}
-              gradientTo="var(--border-strong)"
-              key={item.stage}
-            >
-              <CardCorners />
-              <article className="ladder-card__inner">
-                <header className="ladder-card__head">
-                  <span className="ladder-card__index tabular">0{index + 1}</span>
-                  <span className="caps">{item.stage}</span>
-                  <span className="ladder-card__count tabular">{item.count} 人</span>
-                </header>
-                <CardBody>
-                  <h3>{item.theme}</h3>
-                  <p>{item.detail}</p>
-                </CardBody>
-                <StageIndicator
-                  active={index + 1}
-                  caption="PHASE"
-                  label={`${item.stage}成长阶段`}
-                  tone={index === 2 ? "warning" : index === 3 ? "success" : "accent"}
-                />
-              </article>
-              {index === 2 && <BorderBeam borderWidth={1} colorFrom="var(--warn)" colorTo="var(--accent)" duration={7} size={72} />}
-            </MagicCard>
-          ))}
-        </div>
+        <MemberLadder items={memberLadder} />
       </section>
       <section id="about-mechanism" className="section" aria-labelledby="mechanism-title">
         <div className="section__head"><p className="caps section__index">05 / How it works</p><h2 id="mechanism-title" className="section__title">制度让协作持续。</h2></div>
@@ -79,7 +46,7 @@ export default function AboutPage() {
       </section>
       <section id="about-mentorship" className="section mentorship" aria-labelledby="mentorship-title">
         <div><p className="caps section__index">06 / Mentorship</p><h2 id="mentorship-title" className="section__title">师徒制从进门第一天开始。</h2><p className="prose">{mentorship.description}</p></div>
-        <dl className="mentorship__stats">{mentorship.training.map((item, index) => <div key={item.label}><dt className="tabular"><NumberTicker aria-label={item.value} delay={index * 0.08} value={Number(item.value)} /></dt><dd>{item.label}</dd></div>)}</dl>
+        <dl className="mentorship__stats">{mentorship.training.map((item) => <div key={item.label}><dt className="tabular">{item.value}</dt><dd>{item.label}</dd></div>)}</dl>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title">
         <div className="advisor__portrait"><Image src={advisorProfile.image} alt={`${advisorProfile.name}教授肖像`} fill sizes="(max-width: 768px) 100vw, 38vw" /></div>
