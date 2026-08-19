@@ -93,27 +93,27 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                             {work.status}
                           </Badge>
                           {work.detail && (
-                            <span className="caps tabular text-xs font-mono text-[var(--fg-faint)]">
+                            <span className="caps tabular text-xs font-mono text-[var(--fg-muted)]">
                               {countWorkScreenshots(work)} SCREENS / 系统实录
                             </span>
                           )}
                         </div>
-                        <h2 className="text-xl sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
+                        <h2 className="text-2xl sm:text-[1.65rem] font-bold text-[var(--fg)] tracking-tight leading-snug">
                           {work.nameZh}
                         </h2>
                         {work.nameEn && (
-                          <p className="display-latin text-sm text-[var(--fg-faint)] mb-3">
+                          <p className="display-latin text-sm sm:text-base text-[var(--fg-muted)] opacity-85 mt-0.5 mb-3.5">
                             {work.nameEn}
                           </p>
                         )}
-                        <p className="text-sm text-[var(--fg-muted)] leading-relaxed mb-4">
+                        <p className="text-sm sm:text-[0.9375rem] text-[var(--fg-muted)] leading-relaxed mb-4">
                           {work.tagline}
                         </p>
-                        <ul className="space-y-1.5 text-xs text-[var(--fg-muted)] mb-5">
+                        <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg)] mb-5">
                           {work.highlights.map((item) => (
-                            <li key={item} className="flex items-center gap-2">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                              <span>{item}</span>
+                            <li key={item} className="flex items-start gap-2.5">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0 mt-1.5" />
+                              <span className="leading-snug">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -122,7 +122,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                             <Tooltip key={item}>
                               <TooltipTrigger asChild>
                                 <span tabIndex={0} className="inline-flex cursor-help">
-                                  <Tag>{item}</Tag>
+                                  <Tag className="text-xs sm:text-xs py-1 px-2.5">{item}</Tag>
                                 </span>
                               </TooltipTrigger>
                               <TooltipContent>
@@ -133,20 +133,20 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         </div>
                       </div>
 
-                      <div className="work-row__links flex flex-wrap items-center gap-3 pt-2 border-t border-[var(--border)]">
+                      <div className="work-row__links flex flex-wrap items-center gap-3 pt-3 border-t border-[var(--border)]">
                         {work.detail && (
-                          <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs">
+                          <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-9 sm:h-10 px-3.5 sm:px-4">
                             <Link href={`/works/${work.slug}`}>
                               <span>查看工程手记</span>
-                              <ArrowRight aria-hidden="true" size={14} />
+                              <ArrowRight aria-hidden="true" size={15} />
                             </Link>
                           </Button>
                         )}
                         {work.liveUrl && (
-                          <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs hover:bg-[var(--surface-2)]">
+                          <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs sm:text-sm h-9 sm:h-10 px-3.5 sm:px-4 hover:bg-[var(--surface-2)]">
                             <a href={work.liveUrl} target="_blank" rel="noreferrer">
                               <span>在线体验</span>
-                              <ExternalLink aria-hidden="true" size={13} />
+                              <ExternalLink aria-hidden="true" size={14} />
                             </a>
                           </Button>
                         )}

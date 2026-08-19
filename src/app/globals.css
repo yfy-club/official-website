@@ -1693,9 +1693,10 @@ button, a, [role='button'] {
   .home-tracks:has(a:hover) a:not(:hover) { opacity: .4; }
   .home-tracks a:hover { transform: translateX(8px); }
   .home-tracks a:hover,
-  .home-tracks a[data-active='true'] { color: var(--fg); }
-  .spotlight-card__negative { filter: saturate(.25); }
-  .spotlight-card__color { position: absolute; inset: 0; display: block !important; width: 100%; height: 100%; object-fit: cover; mask-image: radial-gradient(200px 200px at var(--mx) var(--my), black 0%, transparent 100%); pointer-events: none; }
+  .spotlight-card__negative { filter: saturate(.45) contrast(.95); transition: filter var(--dur-normal) var(--ease-out), transform var(--dur-slow) var(--ease-out); }
+  .spotlight-card:hover .spotlight-card__negative { filter: saturate(.75); transform: scale(1.02); }
+  .spotlight-card__color { position: absolute; inset: 0; display: block !important; width: 100%; height: 100%; object-fit: cover; mask-image: radial-gradient(360px 360px at var(--mx) var(--my), black 35%, transparent 100%); pointer-events: none; transition: transform var(--dur-slow) var(--ease-out); }
+  .spotlight-card:hover .spotlight-card__color { transform: scale(1.02); }
   .advisor::before { transition: transform var(--dur-normal) var(--ease-out); }
   .advisor:hover::before { transform: translate3d(2px, -2px, 0); }
   .join-channels__qr:hover .join-channels__finder > i:nth-child(1) { transform: translate(-4px, -4px); }
