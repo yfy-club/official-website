@@ -11,8 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tag } from "@/components/ui/tag";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TechTag } from "@/components/ui/tech-tag";
 import type { Work } from "@/content/schema";
 import { countWorkScreenshots } from "@/lib/work-media";
 
@@ -119,16 +118,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         </ul>
                         <div className="stack-row mb-6">
                           {work.stackSummary.map((item) => (
-                            <Tooltip key={item}>
-                              <TooltipTrigger asChild>
-                                <span tabIndex={0} className="inline-flex cursor-help">
-                                  <Tag className="text-xs sm:text-xs py-1 px-2.5">{item}</Tag>
-                                </span>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                {work.nameZh} 技术栈：{item}
-                              </TooltipContent>
-                            </Tooltip>
+                            <TechTag key={item} name={item} />
                           ))}
                         </div>
                       </div>
@@ -182,14 +172,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
 
                         <div className="stack-row">
                           {work.stackSummary.map((item) => (
-                            <Tooltip key={item}>
-                              <TooltipTrigger asChild>
-                                <span tabIndex={0} className="inline-flex cursor-help">
-                                  <Tag>{item}</Tag>
-                                </span>
-                              </TooltipTrigger>
-                              <TooltipContent>在研技术栈：{item}</TooltipContent>
-                            </Tooltip>
+                            <TechTag key={item} name={item} />
                           ))}
                         </div>
                       </CardBody>

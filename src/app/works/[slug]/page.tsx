@@ -15,8 +15,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Button } from "@/components/ui/button";
 import { Card, CardFrame, CardFrameAction, CardFrameHeader, CardFrameTitle, CardPanel } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
-import { Tag } from "@/components/ui/tag";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { TechTag } from "@/components/ui/tech-tag";
 import { tracks, works } from "@/content";
 import type { Work } from "@/content/schema";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
@@ -78,14 +77,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           <p>{work.tagline}</p>
           <div className="stack-row">
             {work.stackSummary.map((item) => (
-              <Tooltip key={item}>
-                <TooltipTrigger asChild>
-                  <span tabIndex={0} className="inline-flex cursor-help">
-                    <Tag>{item}</Tag>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>{work.nameZh} 架构组件：{item}</TooltipContent>
-              </Tooltip>
+              <TechTag key={item} name={item} />
             ))}
           </div>
           <div className="work-detail__actions">
@@ -149,7 +141,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           {Object.entries(detail.stack).map(([label, items]) => (
             <div key={label}>
               <h3 className="caps">{label}</h3>
-              <div className="stack-row">{items.map((item) => <Tag key={item}>{item}</Tag>)}</div>
+              <div className="stack-row">{items.map((item) => <TechTag key={item} name={item} />)}</div>
             </div>
           ))}
         </div>
