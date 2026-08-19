@@ -16,11 +16,31 @@ export interface DeepFocusItem {
   highlight: string;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 24 : -24,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 24 : -24,
+    opacity: 0,
+  }),
+};
+
 export function TrackArchitectureDeck({ items }: { items: DeepFocusItem[] }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [[activeIndex, direction], setPage] = useState<[number, number]>([0, 0]);
   const activeItem = items[activeIndex] || items[0];
 
   if (!items || items.length === 0) return null;
+
+  const handleTabChange = (newIndex: number) => {
+    if (newIndex === activeIndex) return;
+    setPage([newIndex, newIndex > activeIndex ? 1 : -1]);
+  };
 
   return (
     <div className="w-full space-y-6">
@@ -33,7 +53,7 @@ export function TrackArchitectureDeck({ items }: { items: DeepFocusItem[] }) {
           return (
             <button
               key={item.title}
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => handleTabChange(idx)}
               type="button"
               className={cn(
                 "relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-[var(--radius-xs)] text-xs font-mono transition-colors whitespace-nowrap cursor-pointer",
@@ -57,16 +77,19 @@ export function TrackArchitectureDeck({ items }: { items: DeepFocusItem[] }) {
         })}
       </div>
 
-      {/* 沉浸式宽幅单舱面板 */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeItem.title}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 shadow-xs"
-        >
+      {/* 沉浸式宽幅单舱面板（方向感知平滑推拉） */}
+      <div className="overflow-hidden">
+        <AnimatePresence custom={direction} mode="wait">
+          <motion.div
+            key={activeItem.title}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 shadow-xs"
+          >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* 左列：核心突破方向与课题解析 */}
             <div className="lg:col-span-7 space-y-5">
@@ -134,6 +157,7 @@ export function TrackArchitectureDeck({ items }: { items: DeepFocusItem[] }) {
           </div>
         </motion.div>
       </AnimatePresence>
+      </div>
     </div>
   );
 }

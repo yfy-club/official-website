@@ -21,8 +21,23 @@ export interface TrackStageConsoleProps {
   };
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 24 : -24,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 24 : -24,
+    opacity: 0,
+  }),
+};
+
 export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsoleProps) {
-  const [activeStage, setActiveStage] = useState<0 | 1 | 2>(0);
+  const [[activeStage, direction], setStage] = useState<[0 | 1 | 2, number]>([0, 0]);
   const [juniorChannel, setJuniorChannel] = useState<"employment" | "postgrad">("employment");
 
   const stageTabs = [
@@ -30,6 +45,11 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
     { code: "STG-02", label: "大二 · 攻技术", status: "SPECIALIZATION" },
     { code: "STG-03", label: "大三 · 双通道", status: "DUAL TRACK" },
   ];
+
+  const handleStageChange = (newStage: 0 | 1 | 2) => {
+    if (newStage === activeStage) return;
+    setStage([newStage, newStage > activeStage ? 1 : -1]);
+  };
 
   // Map module to stage index
   const currentModule = modules[activeStage] || {
@@ -60,7 +80,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
           return (
             <button
               key={tab.code}
-              onClick={() => setActiveStage(idx as 0 | 1 | 2)}
+              onClick={() => handleStageChange(idx as 0 | 1 | 2)}
               type="button"
               className={cn(
                 "relative z-10 flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-[var(--radius-xs)] text-xs font-mono transition-colors whitespace-nowrap cursor-pointer",
@@ -84,16 +104,19 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
         })}
       </div>
 
-      {/* 阶段工作台主面板 */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeStage}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 shadow-xs"
-        >
+      {/* 阶段工作台主面板（方向感知滑动） */}
+      <div className="overflow-hidden">
+        <AnimatePresence custom={direction} mode="wait">
+          <motion.div
+            key={activeStage}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 shadow-xs"
+          >
           {/* 面板头部 */}
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-[var(--border)]">
             <div>
@@ -212,6 +235,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
           </div>
         </motion.div>
       </AnimatePresence>
+      </div>
     </div>
   );
 }

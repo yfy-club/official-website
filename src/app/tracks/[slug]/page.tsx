@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { TrackArchitectureDeck } from "@/components/sections/track-architecture-deck";
+import { TrackEvidenceInspector } from "@/components/sections/track-evidence-inspector";
 import { TrackMetricsBar } from "@/components/sections/track-metrics-bar";
 import { TrackStageConsole } from "@/components/sections/track-stage-console";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -216,60 +217,17 @@ export default async function TrackDetailPage({
         <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
       </section>
 
-      {/* 06 / 相关代表项目与赛事成果 */}
+      {/* 06 / 相关代表项目与赛事成果 (Cult UI 风格 Side Panel 侧边解析) */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
         <section id="track-evidence" className="section mb-14" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head mb-6">
             <p className="caps section__index">06 / Outcomes & Evidence</p>
             <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-              该技术方向沉淀的真实工程系统与权威学科竞赛凭证。
+              该技术方向沉淀的真实工程系统与权威学科竞赛凭证，点击项目卡片可呼出侧边架构解析。
             </p>
           </div>
-          <div className="related-grid" data-reveal="group">
-            {relatedWorks.map((work, index) => (
-              <Card corners key={work.slug} variant="frame">
-                <CardMeta
-                  code={`WRK-${String(index + 1).padStart(2, "0")}`}
-                  revision="PROJECT CASE"
-                  status={{
-                    label: work.status,
-                    pulse: work.status === "已上线",
-                    variant: work.status === "已上线" ? "active" : work.status === "在研" ? "warning" : "neutral",
-                  }}
-                />
-                <CardBody>
-                  <h3 className="text-base font-bold text-[var(--fg)] mb-1.5">{work.nameZh}</h3>
-                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-2">{work.tagline}</p>
-                </CardBody>
-                {work.detail && (
-                  <CardFooter className="pt-2 border-t border-[var(--border)]">
-                    <Link className="text-link text-xs font-mono" href={`/works/${work.slug}`}>
-                      查看项目详情 <ArrowRight aria-hidden="true" size={13} />
-                    </Link>
-                  </CardFooter>
-                )}
-              </Card>
-            ))}
-            {relatedAwards.map((award, index) => (
-              <Card corners key={award.id} variant="frame">
-                <CardMeta
-                  code={`AWD-${String(index + 1).padStart(2, "0")}`}
-                  revision={award.year}
-                  status={{ label: award.level, variant: "success" }}
-                />
-                <CardBody>
-                  <h3 className="text-base font-bold text-[var(--fg)] mb-1.5">{award.competition}</h3>
-                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-2">{award.result}</p>
-                </CardBody>
-                <CardFooter className="pt-2 border-t border-[var(--border)]">
-                  <Link className="text-link text-xs font-mono" href="/awards">
-                    查看荣誉档案 <ArrowRight aria-hidden="true" size={13} />
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+          <TrackEvidenceInspector works={relatedWorks} awards={relatedAwards} />
         </section>
       )}
 
