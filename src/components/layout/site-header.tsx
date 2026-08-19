@@ -26,13 +26,18 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="site-header" data-scrolled={scrolled === null ? undefined : String(scrolled)}>
+    <motion.header
+      layoutScroll
+      layoutRoot
+      className="site-header"
+      data-scrolled={scrolled === null ? undefined : String(scrolled)}
+    >
       <div className="site-header__inner page-shell">
         <Link className="site-header__brand" href="/" aria-label="YFY 云飞扬社团首页">
           YFY
         </Link>
         <div className="site-header__nav">
-          <nav className="site-header__links" aria-label="主导航">
+          <motion.nav layoutScroll layoutRoot className="site-header__links" aria-label="主导航">
             <Link
               className="site-header__home relative inline-flex items-center justify-center transition-colors"
               href="/"
@@ -83,7 +88,7 @@ export function SiteHeader() {
               )}
               <span className="relative z-10">加入</span>
             </Link>
-          </nav>
+          </motion.nav>
           <span className="site-header__divider" aria-hidden="true" />
           <ThemeToggle />
         </div>
@@ -91,6 +96,6 @@ export function SiteHeader() {
           <MobileNav />
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

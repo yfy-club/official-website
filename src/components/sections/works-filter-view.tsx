@@ -10,7 +10,7 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TechTag } from "@/components/ui/tech-tag";
 import type { Work } from "@/content/schema";
 import { countWorkScreenshots } from "@/lib/work-media";
@@ -33,34 +33,34 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
   const incubating = filteredWorks.filter((w) => w.status === "在研");
 
   return (
-    <div className="works-explorer">
+    <Tabs value={activeFilter} onValueChange={setActiveFilter} className="works-explorer">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-        <Tabs value={activeFilter} onValueChange={setActiveFilter}>
-          <TabsList className="flex-wrap h-auto gap-1">
-            <TabsTrigger value="all">
-              全部 ({works.length})
-            </TabsTrigger>
-            <TabsTrigger value="shipped">
-              已上线 ({works.filter((w) => w.status === "已上线").length})
-            </TabsTrigger>
-            <TabsTrigger value="incubating">
-              在研实验室 ({works.filter((w) => w.status === "在研").length})
-            </TabsTrigger>
-            <TabsTrigger value="software">
-              软件全栈
-            </TabsTrigger>
-            <TabsTrigger value="ai">
-              AI 智能
-            </TabsTrigger>
-            <TabsTrigger value="iot">
-              物联网
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <TabsList className="flex-wrap h-auto gap-1">
+          <TabsTrigger value="all">
+            全部 ({works.length})
+          </TabsTrigger>
+          <TabsTrigger value="shipped">
+            已上线 ({works.filter((w) => w.status === "已上线").length})
+          </TabsTrigger>
+          <TabsTrigger value="incubating">
+            在研实验室 ({works.filter((w) => w.status === "在研").length})
+          </TabsTrigger>
+          <TabsTrigger value="software">
+            软件全栈
+          </TabsTrigger>
+          <TabsTrigger value="ai">
+            AI 智能
+          </TabsTrigger>
+          <TabsTrigger value="iot">
+            物联网
+          </TabsTrigger>
+        </TabsList>
         <div className="font-mono text-xs text-[var(--fg-muted)]">
           显示 {filteredWorks.length} / {works.length} 个项目
         </div>
       </div>
+
+      <TabsContent value={activeFilter} className="mt-0 focus-visible:outline-none">
 
       {filteredWorks.length === 0 ? (
         <Empty className="my-12">
@@ -258,6 +258,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
           )}
         </>
       )}
-    </div>
+      </TabsContent>
+    </Tabs>
   );
 }

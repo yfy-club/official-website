@@ -47,6 +47,33 @@ test("desktop navigation exposes home and marks the current route", async ({ pag
   await expect(navigation.locator('a[href="/about"]')).not.toHaveAttribute("aria-current", "page");
 });
 
+test("desktop navigation active pill stays horizontally bound without vertical drift when navigating from scrolled page", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  // Scroll down significantly
+  await page.evaluate(() => window.scrollTo(0, 800));
+  const siteHeader = page.locator(".site-header");
+  await expect(siteHeader).toHaveAttribute("data-scrolled", "true");
+
+  const headerBox = await siteHeader.boundingBox();
+  expect(headerBox).not.toBeNull();
+
+  // Click /about nav link
+  const aboutLink = page.locator('.site-header__nav a[href="/about"]');
+  await aboutLink.click();
+  await expect(page).toHaveURL(/\/about$/);
+  await expect(aboutLink).toHaveAttribute("aria-current", "page");
+
+  // Verify active indicator remains vertically within header bounds
+  const pill = siteHeader.locator('a[href="/about"] span[class*="absolute"]');
+  await expect(pill).toBeVisible();
+  const pillBox = await pill.boundingBox();
+  expect(pillBox).not.toBeNull();
+  expect(pillBox!.y).toBeGreaterThanOrEqual(headerBox!.y);
+  expect(pillBox!.y + pillBox!.height).toBeLessThanOrEqual(headerBox!.y + headerBox!.height + 20);
+});
+
 test("work cards expose real screenshot counts and unique shared media names", async ({ page }) => {
   const cases = [
     { slug: "matrix-calculator", count: 4 },
@@ -61,7 +88,7 @@ test("work cards expose real screenshot counts and unique shared media names", a
     await expect(card.getByText(`${item.count} Screens / 系统实录`)).toBeVisible();
     await expect(source).toHaveCSS("view-transition-name", `work-image-${item.slug}`);
 
-    await card.getByRole("link", { name: /工程记录/ }).click();
+    await card.getByRole("link", { name: /工程/ }).click();
     await expect(page).toHaveURL(`/works/${item.slug}`);
     const target = page.locator(".work-detail__hero-media");
     await expect(target).toHaveCSS("view-transition-name", `work-image-${item.slug}`);

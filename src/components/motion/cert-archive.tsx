@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tag } from "@/components/ui/tag";
 import { useToast } from "@/hooks/use-toast";
 
@@ -92,8 +92,8 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
 
   return (
     <div className="cert-archive-console">
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <TabsList className="flex-wrap h-auto gap-1">
             <TabsTrigger value="all">
               全部 ({awards.length})
@@ -111,112 +111,114 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
               2024 年度 ({awards.filter((a) => a.year === "2024").length})
             </TabsTrigger>
           </TabsList>
-        </Tabs>
-        <div className="font-mono text-xs text-[var(--fg-muted)]">
-          显示 {filteredAwards.length} / {awards.length} 份脱敏档案
+          <div className="font-mono text-xs text-[var(--fg-muted)]">
+            显示 {filteredAwards.length} / {awards.length} 份脱敏档案
+          </div>
         </div>
-      </div>
 
-      {filteredAwards.length === 0 ? (
-        <Empty className="my-12">
-          <EmptyHeader>
-            <EmptyTitle>暂无匹配证书</EmptyTitle>
-            <EmptyDescription>当前分类下暂无已归档证书，请切换其他分类。</EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAwards.map((award, index) => {
-            const isNational = award.level === "国家级";
-            const archiveCode = `CERT-${award.year}-${String(index + 1).padStart(2, "0")}`;
+        <TabsContent value={activeTab} className="mt-0 focus-visible:outline-none">
+          {filteredAwards.length === 0 ? (
+            <Empty className="my-12">
+              <EmptyHeader>
+                <EmptyTitle>暂无匹配证书</EmptyTitle>
+                <EmptyDescription>当前分类下暂无已归档证书，请切换其他分类。</EmptyDescription>
+              </EmptyHeader>
+            </Empty>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredAwards.map((award, index) => {
+                const isNational = award.level === "国家级";
+                const archiveCode = `CERT-${award.year}-${String(index + 1).padStart(2, "0")}`;
 
-            return (
-              <Card
-                corners
-                key={award.id}
-                variant="frame"
-                className="group/cert relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
-              >
-                <div className="flex flex-col flex-1">
-                  <CardMeta
-                    code={archiveCode}
-                    revision={`REV ${award.year}`}
-                    status={{
-                      label: award.level,
-                      variant: isNational ? "active" : "neutral",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity cursor-pointer"
-                    ref={(node) => {
-                      if (node) triggers.current.set(award.id, node);
-                      else triggers.current.delete(award.id);
-                    }}
-                    onClick={() => setOpenId(award.id)}
-                    aria-label={`查看 ${award.competition} ${award.result} 证书大图`}
+                return (
+                  <Card
+                    corners
+                    key={award.id}
+                    variant="frame"
+                    className="group/cert relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
                   >
-                    <Image
-                      src={award.image}
-                      alt={`${award.year} 年${award.competition}${award.result}证书`}
-                      fill
-                      className="object-cover object-top transition-transform duration-300 group-hover/cert:scale-[1.03]"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-end justify-between p-3 text-white">
-                      <span className="font-mono text-xs flex items-center gap-1">
-                        <Sparkles size={13} className="text-[var(--accent)]" /> 查看脱敏原件
-                      </span>
-                      <ExternalLink size={14} />
+                    <div className="flex flex-col flex-1">
+                      <CardMeta
+                        code={archiveCode}
+                        revision={`REV ${award.year}`}
+                        status={{
+                          label: award.level,
+                          variant: isNational ? "active" : "neutral",
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity cursor-pointer"
+                        ref={(node) => {
+                          if (node) triggers.current.set(award.id, node);
+                          else triggers.current.delete(award.id);
+                        }}
+                        onClick={() => setOpenId(award.id)}
+                        aria-label={`查看 ${award.competition} ${award.result} 证书大图`}
+                      >
+                        <Image
+                          src={award.image}
+                          alt={`${award.year} 年${award.competition}${award.result}证书`}
+                          fill
+                          className="object-cover object-top transition-transform duration-300 group-hover/cert:scale-[1.03]"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-end justify-between p-3 text-white">
+                          <span className="font-mono text-xs flex items-center gap-1">
+                            <Sparkles size={13} className="text-[var(--accent)]" /> 查看脱敏原件
+                          </span>
+                          <ExternalLink size={14} />
+                        </div>
+                      </button>
+
+                      <CardBody className="flex flex-col flex-1 p-5 pb-5">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Badge variant={isNational ? "active" : "warning"} className="text-[11px]">
+                            {award.result}
+                          </Badge>
+                          <span className="font-mono text-xs text-[var(--fg-faint)]">
+                            {award.year} 年度
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-bold text-[var(--fg)] tracking-tight leading-snug mb-2">
+                          {award.competition}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4">
+                          {award.description}
+                        </p>
+
+                        <div className="mt-auto pt-3 border-t border-[var(--border)] flex flex-wrap gap-1.5">
+                          {award.trackSlugs.map((slug) => (
+                            <Tag key={slug} className="text-[11px] py-0.5 px-2 font-mono">
+                              #{slug}
+                            </Tag>
+                          ))}
+                        </div>
+                      </CardBody>
                     </div>
-                  </button>
 
-                  <CardBody className="flex flex-col flex-1 p-5 pb-5">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Badge variant={isNational ? "active" : "warning"} className="text-[11px]">
-                        {award.result}
-                      </Badge>
-                      <span className="font-mono text-xs text-[var(--fg-faint)]">
-                        {award.year} 年度
-                      </span>
+                    <CardFooter className="p-3.5 px-5 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
+                      <span className="truncate">归档 ID: {award.id}</span>
+                      <span className="text-[11px] text-[var(--fg-faint)]">已脱敏原件</span>
+                    </CardFooter>
+
+                    <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300">
+                      <BorderBeam
+                        borderWidth={1.5}
+                        colorFrom={isNational ? "var(--warn)" : "var(--accent)"}
+                        colorTo="var(--accent)"
+                        duration={6}
+                        size={110}
+                      />
                     </div>
-
-                    <h3 className="text-base font-bold text-[var(--fg)] tracking-tight leading-snug mb-2">
-                      {award.competition}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4">
-                      {award.description}
-                    </p>
-
-                    <div className="mt-auto pt-3 border-t border-[var(--border)] flex flex-wrap gap-1.5">
-                      {award.trackSlugs.map((slug) => (
-                        <Tag key={slug} className="text-[11px] py-0.5 px-2 font-mono">
-                          #{slug}
-                        </Tag>
-                      ))}
-                    </div>
-                  </CardBody>
-                </div>
-
-                <CardFooter className="p-3.5 px-5 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
-                  <span className="truncate">归档 ID: {award.id}</span>
-                  <span className="text-[11px] text-[var(--fg-faint)]">已脱敏原件</span>
-                </CardFooter>
-
-                <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300">
-                  <BorderBeam
-                    borderWidth={1.5}
-                    colorFrom={isNational ? "var(--warn)" : "var(--accent)"}
-                    colorTo="var(--accent)"
-                    duration={6}
-                    size={110}
-                  />
-                </div>
-              </Card>
-            );
-          })}
-        </div>
-      )}
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
 
       {/* Coss UI / Radix Lightbox Dialog */}
       <Dialog.Root open={openId !== null} onOpenChange={(next) => { if (!next) setOpenId(null); }}>
