@@ -182,6 +182,9 @@ export default function JoinPage() {
         <div className="section__head">
           <p className="caps section__index">04 / Testimonials</p>
           <h2 id="voices-title" className="section__title">成员心声与成长感悟。</h2>
+          <p className="section__intro text-sm text-[var(--fg-faint)]">
+            注：成员档案采用二次元匿名代称，头像为虚拟角色示意。
+          </p>
         </div>
         <MemberVoicesMarquee voices={memberVoices} />
       </section>
