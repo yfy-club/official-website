@@ -40,7 +40,7 @@ export function MemberVoicesMarquee({ className, voices }: MemberVoicesMarqueePr
 
       {/* 底部交互指引与元数据 */}
       <p className="mt-2 text-center text-xs font-mono text-[var(--fg-faint)]">
-        💡 鼠标悬停卡片可暂停滚动 · 记录来自云飞扬 23～25 级各航道成员真实成长档案
+        悬停卡片可暂停滚动 · 23～25 级成长档案
       </p>
     </div>
   );

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
+import { Kbd } from "@/components/ui/kbd";
 import { clampSliderValue, getSliderValueFromKey } from "@/lib/motion";
 
 export function CompareSlider({ alt, dark, light }: { alt: string; dark: string; light: string }) {
@@ -40,46 +41,59 @@ export function CompareSlider({ alt, dark, light }: { alt: string; dark: string;
   }, []);
 
   return (
-    <div
-      className="compare"
-      ref={rootRef}
-      onPointerDown={(event) => {
-        draggingRef.current = true;
-        event.currentTarget.setPointerCapture(event.pointerId);
-        schedule(valueFromPointer(event.clientX));
-      }}
-      onPointerMove={(event) => {
-        if (draggingRef.current) schedule(valueFromPointer(event.clientX));
-      }}
-      onPointerUp={(event) => {
-        draggingRef.current = false;
-        if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-      }}
-      onPointerCancel={() => { draggingRef.current = false; }}
-    >
-      <Image className="compare__image" src={dark} alt={`${alt}，暗色主题`} fill sizes="(max-width: 768px) 100vw, 80vw" />
-      <div className="compare__top" aria-hidden="true">
-        <Image className="compare__image" src={light} alt="" fill sizes="(max-width: 768px) 100vw, 80vw" />
-      </div>
-      <span className="compare__label compare__label--dark">暗色</span>
-      <span className="compare__label compare__label--light">亮色</span>
+    <div className="compare-wrapper flex flex-col gap-2">
       <div
-        className="compare__handle"
-        ref={sliderRef}
-        role="slider"
-        tabIndex={0}
-        aria-label="调整暗色与亮色截图的对比位置"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={50}
-        onKeyDown={(event) => {
-          const next = getSliderValueFromKey(valueRef.current, event.key);
-          if (next === null) return;
-          event.preventDefault();
-          commit(next);
+        className="compare"
+        ref={rootRef}
+        onPointerDown={(event) => {
+          draggingRef.current = true;
+          event.currentTarget.setPointerCapture(event.pointerId);
+          schedule(valueFromPointer(event.clientX));
         }}
+        onPointerMove={(event) => {
+          if (draggingRef.current) schedule(valueFromPointer(event.clientX));
+        }}
+        onPointerUp={(event) => {
+          draggingRef.current = false;
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+        }}
+        onPointerCancel={() => { draggingRef.current = false; }}
       >
-        <span aria-hidden="true">↔</span>
+        <Image className="compare__image" src={dark} alt={`${alt}，暗色主题`} fill sizes="(max-width: 768px) 100vw, 80vw" />
+        <div className="compare__top" aria-hidden="true">
+          <Image className="compare__image" src={light} alt="" fill sizes="(max-width: 768px) 100vw, 80vw" />
+        </div>
+        <span className="compare__label compare__label--dark">暗色</span>
+        <span className="compare__label compare__label--light">亮色</span>
+        <div
+          className="compare__handle"
+          ref={sliderRef}
+          role="slider"
+          tabIndex={0}
+          aria-label="调整暗色与亮色截图的对比位置"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={50}
+          onKeyDown={(event) => {
+            const next = getSliderValueFromKey(valueRef.current, event.key);
+            if (next === null) return;
+            event.preventDefault();
+            commit(next);
+          }}
+        >
+          <span aria-hidden="true">↔</span>
+        </div>
+      </div>
+      <div className="compare__caption flex items-center justify-between text-xs font-mono text-[var(--fg-faint)] px-1">
+        <span>拖拽滑块对比</span>
+        <span className="hidden sm:inline-flex items-center gap-1">
+          <span>微调</span>
+          <Kbd>←</Kbd>
+          <Kbd>→</Kbd>
+          <span className="ml-1.5">边界</span>
+          <Kbd>Home</Kbd>
+          <Kbd>End</Kbd>
+        </span>
       </div>
     </div>
   );

@@ -8,7 +8,8 @@ import { JoinFormLoader } from "@/components/sections/join-form-loader";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
-import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CardFrame, CardFrameAction, CardFrameHeader, CardFrameTitle, CardPanel } from "@/components/ui/card";
 import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
@@ -51,8 +52,42 @@ export default function JoinPage() {
           <h2 id="criteria-title" className="section__title">先确认这里适不适合你。</h2>
         </div>
         <div className="criteria-grid" data-reveal="group">
-          <Card><p className="caps">适合加入</p><ul>{joinCriteria.suitable.map((item) => <li key={item}>{item}</li>)}</ul></Card>
-          <Card><p className="caps">暂不适合</p><ul>{joinCriteria.unsuitable.map((item) => <li key={item}>{item}</li>)}</ul></Card>
+          <CardFrame>
+            <CardFrameHeader>
+              <CardFrameTitle>01 // 适合加入</CardFrameTitle>
+              <CardFrameAction>
+                <Badge variant="success">FIT</Badge>
+              </CardFrameAction>
+            </CardFrameHeader>
+            <CardPanel>
+              <ul className="clean-list flex flex-col gap-3 text-sm text-[var(--fg-muted)]">
+                {joinCriteria.suitable.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="font-mono text-xs text-[var(--success)] mt-0.5" aria-hidden="true">+</span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardPanel>
+          </CardFrame>
+          <CardFrame>
+            <CardFrameHeader>
+              <CardFrameTitle>02 // 暂不适合</CardFrameTitle>
+              <CardFrameAction>
+                <Badge variant="neutral">UNFIT</Badge>
+              </CardFrameAction>
+            </CardFrameHeader>
+            <CardPanel>
+              <ul className="clean-list flex flex-col gap-3 text-sm text-[var(--fg-muted)]">
+                {joinCriteria.unsuitable.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <span className="font-mono text-xs text-[var(--fg-faint)] mt-0.5" aria-hidden="true">-</span>
+                    <span className="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardPanel>
+          </CardFrame>
         </div>
       </section>
 

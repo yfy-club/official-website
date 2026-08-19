@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { Empty, EmptyHeader } from "@/components/ui/empty";
 import type { TrackWithPreview } from "@/lib/track-previews";
 
 export interface TrackPreviewListProps {
@@ -65,8 +66,16 @@ export function TrackPreviewList({ items }: TrackPreviewListProps) {
             </div>
           ) : (
             <div key="empty" className="home-track-preview__empty">
-              <span className="home-track-preview__empty-tag">EMPTY ARCHIVE</span>
-              <p className="home-track-preview__empty-text">暂无关联实录</p>
+              <Empty className="border-0 bg-transparent p-0">
+                <EmptyHeader>
+                  <span className="home-track-preview__empty-tag font-mono text-[10px] uppercase text-[var(--accent)] tracking-wider">
+                    EMPTY // NO PROJECT
+                  </span>
+                  <p className="home-track-preview__empty-text font-sans text-xs text-[var(--fg-faint)]">
+                    暂无关联实录
+                  </p>
+                </EmptyHeader>
+              </Empty>
             </div>
           )}
         </div>

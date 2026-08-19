@@ -9,6 +9,7 @@ import { Stamp } from "@/components/motion/stamp";
 import { Turnstile } from "@/components/sections/turnstile";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupText } from "@/components/ui/input-group";
 import { joinFormSchema, type JoinFormInput } from "@/content/schema";
 
 type TrackOption = {
@@ -45,6 +46,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
     reset,
     setError,
     setValue,
+    watch,
   } = useForm<JoinFormInput>({
     resolver: zodResolver(joinFormSchema),
     defaultValues: {
@@ -122,6 +124,8 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
   const reasonError = errors.reason?.message;
   const rootError = errors.root?.server?.message;
 
+  const reasonText = watch("reason") || "";
+
   return (
     <form className="join-form" noValidate onSubmit={onSubmit} aria-busy={isSubmitting} aria-labelledby="join-form-title">
       <fieldset className="join-form__grid" disabled={isSubmitting || submitted}>
@@ -137,16 +141,21 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           />
         </Field>
         <Field id="join-student-id" label="学号" error={studentIdError}>
-          <Input
-            id="join-student-id"
-            autoComplete="off"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            aria-describedby={descriptionId("join-student-id", studentIdError)}
-            aria-invalid={Boolean(studentIdError)}
-            required
-            {...register("studentId")}
-          />
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>ID //</InputGroupText>
+            </InputGroupAddon>
+            <Input
+              id="join-student-id"
+              autoComplete="off"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              aria-describedby={descriptionId("join-student-id", studentIdError)}
+              aria-invalid={Boolean(studentIdError)}
+              required
+              {...register("studentId")}
+            />
+          </InputGroup>
         </Field>
         <Field id="join-major" label="专业班级" error={majorError}>
           <Input
@@ -169,15 +178,20 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             {...register("grade")}
           />
         </Field>
-        <Field id="join-contact" label="联系方式" hint="微信、QQ 或手机号均可" error={contactError}>
-          <Input
-            id="join-contact"
-            autoComplete="tel"
-            aria-describedby="join-contact-description"
-            aria-invalid={Boolean(contactError)}
-            required
-            {...register("contact")}
-          />
+        <Field id="join-contact" label="联系方式" hint="微信、QQ 或手机号" error={contactError}>
+          <InputGroup>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>TEL //</InputGroupText>
+            </InputGroupAddon>
+            <Input
+              id="join-contact"
+              autoComplete="tel"
+              aria-describedby="join-contact-description"
+              aria-invalid={Boolean(contactError)}
+              required
+              {...register("contact")}
+            />
+          </InputGroup>
         </Field>
         <Field id="join-track" label="志向方向" error={trackError}>
           <Select
@@ -192,7 +206,13 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             {tracks.map((track) => <option key={track.value} value={track.value}>{track.label}</option>)}
           </Select>
         </Field>
-        <Field className="join-form__wide" id="join-reason" label="申请理由" hint="至少 20 个字符" error={reasonError}>
+        <Field
+          className="join-form__wide"
+          id="join-reason"
+          label="申请理由"
+          hint={`${reasonText.length}/1000 字（至少 20 字）`}
+          error={reasonError}
+        >
           <Textarea
             id="join-reason"
             minLength={20}

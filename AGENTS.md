@@ -62,6 +62,12 @@ git diff --check
 - **首页航道关联预览 (`TrackPreviewList`)**：`src/components/motion/track-preview-list.tsx`。航道悬停/聚焦显示关联真实作品截图。
 - **首页 Hero 工业蓝图网格**：`.home-hero` 背景加入 36px 纯 CSS 双轴网格与 `--hero-mouse-x/y` 低频视差。
 - **加入页双轨跑马灯展台 (`MemberVoicesMarquee` & `Marquee`)**：`src/components/sections/member-voices-marquee.tsx` & `src/components/ui/marquee.tsx`。双轨异步反向无限流动，左右渐变羽化遮罩，支持悬停平滑暂停与 reduced-motion 降级，展示基于真实档案与二次元昵称的 10 位成员心声。
+- **Coss UI 工业精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：
+  - `CardFrame` (`src/components/ui/card.tsx`)：工业仪表舱框架，用于加入页 Fit 准则、迎新群舱位、作品演示账号与质量证据看板。
+  - `Kbd` (`src/components/ui/kbd.tsx`)：等宽机械立体键帽，用于矩阵计算器滑块微调与快捷键引导。
+  - `Empty` (`src/components/ui/empty.tsx`)：虚线工程占位与状态指示，用于首页与航道关联作品占位。
+  - `InputGroup` (`src/components/ui/input-group.tsx`)：等宽前缀（`ID //`, `TEL //`）与字符计数容器。
+  - `useCopyToClipboard` (`src/hooks/use-copy-to-clipboard.ts`)：带倒计时反馈状态的安全剪贴板 Hook。
 
 ## Git 协作
 
