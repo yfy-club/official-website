@@ -23,12 +23,14 @@ export function TechTag({
           target="_blank"
           rel="noreferrer"
           className={cn(
-            "tag group/tag inline-flex items-center gap-1 cursor-pointer transition-colors hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]",
+            "tag group/tag inline-flex items-center justify-center cursor-pointer transition-colors hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]",
             className
           )}
         >
           <span>{name}</span>
-          <ExternalLink size={10} className="text-[var(--fg-faint)] opacity-0 group-hover/tag:opacity-100 transition-opacity" />
+          <span className="inline-flex w-0 max-w-0 opacity-0 overflow-hidden shrink-0 transition-all duration-200 ease-out group-hover/tag:w-2.5 group-hover/tag:max-w-[12px] group-hover/tag:opacity-100 group-hover/tag:ml-1">
+            <ExternalLink size={10} className="text-[var(--fg-faint)]" />
+          </span>
         </a>
       </TooltipTrigger>
       <TooltipContent side="top" className="max-w-xs space-y-1 p-2.5 text-left">
