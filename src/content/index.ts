@@ -22,3 +22,16 @@ export const works = workSchema.array().parse(worksRaw);
 export const awards = awardSchema.array().parse(awardsRaw);
 export const timeline = timelineItemSchema.array().parse(timelineRaw);
 export const faq = faqSchema.array().parse(faqRaw);
+
+export type {
+  Award,
+  Club,
+  Faq,
+  JoinFormInput,
+  Stage,
+  TimelineItem,
+  Track,
+  TrackCurriculumModule,
+  TrackDeepFocusItem,
+  Work,
+} from "./schema";

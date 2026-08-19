@@ -203,6 +203,9 @@ export const joinFormSchema = z.object({
   turnstileToken: z.string().trim().max(2048, "人机验证令牌无效").optional(),
 });
 
+export type Stage = z.infer<typeof stageSchema>;
+export type TrackCurriculumModule = z.infer<typeof trackCurriculumModuleSchema>;
+export type TrackDeepFocusItem = z.infer<typeof trackDeepFocusSchema>;
 export type Track = z.infer<typeof trackSchema>;
 export type Work = z.infer<typeof workSchema>;
 export type Award = z.infer<typeof awardSchema>;

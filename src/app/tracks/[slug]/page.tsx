@@ -4,9 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
-import { TrackCurriculumAccordion } from "@/components/sections/track-curriculum-accordion";
-import { TrackDeepFocus } from "@/components/sections/track-deep-focus";
+import { TrackArchitectureDeck } from "@/components/sections/track-architecture-deck";
 import { TrackMetricsBar } from "@/components/sections/track-metrics-bar";
+import { TrackStageConsole } from "@/components/sections/track-stage-console";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -55,12 +55,6 @@ export default async function TrackDetailPage({
   const previous = tracks[(trackIndex - 1 + tracks.length) % tracks.length];
   const next = tracks[(trackIndex + 1) % tracks.length];
 
-  const primaryStages = [track.roadmap.freshman, track.roadmap.sophomore];
-  const branchStages = [
-    { ...track.roadmap.junior.employment, code: "STG-03A", path: "就业路径", tone: "success" as const },
-    { ...track.roadmap.junior.postgrad, code: "STG-03B", path: "升学路径", tone: "warning" as const },
-  ];
-
   return (
     <main id="main-content" className="page-main page-shell track-detail" tabIndex={-1}>
       <StructuredData data={breadcrumbJsonLd([
@@ -75,12 +69,11 @@ export default async function TrackDetailPage({
           { id: "track-start", index: "01", label: "方向概况" },
           { id: "track-metrics", index: "02", label: "核心指标" },
           { id: "track-stack", index: "03", label: "技术栈全景" },
-          { id: "track-focus", index: "04", label: "重点攻坚" },
-          { id: "track-curriculum", index: "05", label: "实训模块" },
-          { id: "track-roadmap", index: "06", label: "培养路线" },
-          { id: "track-evidence", index: "07", label: "相关成果" },
-          { id: "track-switch", index: "08", label: "方向切换" },
-          { id: "track-join", index: "09", label: "招新报名" },
+          { id: "track-focus", index: "04", label: "架构攻坚" },
+          { id: "track-stage", index: "05", label: "培养中枢" },
+          { id: "track-evidence", index: "06", label: "相关成果" },
+          { id: "track-switch", index: "07", label: "方向切换" },
+          { id: "track-join", index: "08", label: "招新报名" },
         ]}
       />
 
@@ -205,96 +198,37 @@ export default async function TrackDetailPage({
         )}
       </section>
 
-      {/* 04 / 重点攻坚架构 */}
+      {/* 04 / 核心架构与重点攻坚领域 (TrackArchitectureDeck 单舱深度解析) */}
       {track.deepFocus && track.deepFocus.length > 0 && (
         <section id="track-focus" className="section mb-14" aria-labelledby="focus-title" data-reveal="section">
-          <div className="section__head">
+          <div className="section__head mb-6">
             <p className="caps section__index">04 / Deep Architecture</p>
             <h2 id="focus-title" className="section__title">核心架构与重点攻坚领域。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
               深入底层原理与系统架构，真实攻坚工业界与科研中的核心难点。
             </p>
           </div>
-          <TrackDeepFocus items={track.deepFocus} />
+          <TrackArchitectureDeck items={track.deepFocus} />
         </section>
       )}
 
-      {/* 05 / 阶梯实训模块与考核标准 */}
-      {track.curriculumModules && track.curriculumModules.length > 0 && (
-        <section id="track-curriculum" className="section mb-14" aria-labelledby="curriculum-title" data-reveal="section">
-          <div className="section__head">
-            <p className="caps section__index">05 / Curriculum & Review</p>
-            <h2 id="curriculum-title" className="section__title">阶段实训模块与代码审查标准。</h2>
-            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-              以老带新导师制全程纠偏，期中/期末标准化代码讲评与答辩闭环。
-            </p>
-          </div>
-          <TrackCurriculumAccordion modules={track.curriculumModules} />
-        </section>
-      )}
-
-      {/* 06 / 三年培养体系与发展路径 */}
-      <section id="track-roadmap" className="section mb-14" aria-labelledby="roadmap-title">
-        <div className="section__head" data-reveal="group">
-          <p className="caps section__index">06 / Roadmap</p>
-          <h2 id="roadmap-title" className="section__title">三年培养体系与双通道发展。</h2>
+      {/* 05 / 三年培养体系与阶段实训中枢 (TrackStageConsole 统一集成) */}
+      <section id="track-stage" className="section mb-14" aria-labelledby="stage-title" data-reveal="section">
+        <div className="section__head mb-6">
+          <p className="caps section__index">05 / Engineering Console</p>
+          <h2 id="stage-title" className="section__title">三年培养体系与阶段实训中枢。</h2>
           <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            大一扎实打牢底层，大二项目全面攻坚，大三面向就业与升学双通道精准发力。
+            大一筑基、大二专项攻坚、大三就业/升学双通道精准赋能，全程导师代码审查与结项答辩闭环。
           </p>
         </div>
-        <div className="roadmap" data-reveal="group">
-          {primaryStages.map((stage, index) => (
-            <Card className="roadmap__stage" corners key={stage.label} variant="frame">
-              <CardMeta
-                code={`STG-0${index + 1}`}
-                revision={`STEP ${index + 1}/3`}
-                status={{ label: index === 0 ? "FOUNDATION" : "SPECIALIZATION", variant: "active" }}
-              />
-              <CardBody>
-                <StageIndicator active={index + 1} label={stage.label} total={3} />
-                <h3 className="text-base font-bold text-[var(--fg)] mb-3">{stage.label}</h3>
-                <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg-muted)]">
-                  {stage.items.map((item) => (
-                    <li key={item} className="leading-relaxed flex items-start gap-2">
-                      <span className="text-[var(--accent)] font-mono font-bold select-none">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardBody>
-            </Card>
-          ))}
-          <div className="roadmap__branches">
-            {branchStages.map((stage) => (
-              <Card corners key={stage.code} variant="frame">
-                <CardMeta
-                  code={stage.code}
-                  revision="STEP 3/3"
-                  status={{ label: stage.path, variant: stage.tone }}
-                />
-                <CardBody>
-                  <StageIndicator active={3} label={stage.label} tone={stage.tone} total={3} />
-                  <h3 className="text-base font-bold text-[var(--fg)] mb-3">{stage.label}</h3>
-                  <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg-muted)]">
-                    {stage.items.map((item) => (
-                      <li key={item} className="leading-relaxed flex items-start gap-2">
-                        <span className="text-[var(--accent)] font-mono font-bold select-none">•</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardBody>
-              </Card>
-            ))}
-          </div>
-        </div>
+        <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
       </section>
 
-      {/* 07 / 相关代表项目与赛事成果 */}
+      {/* 06 / 相关代表项目与赛事成果 */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
         <section id="track-evidence" className="section mb-14" aria-labelledby="related-title" data-reveal="section">
-          <div className="section__head">
-            <p className="caps section__index">07 / Outcomes & Evidence</p>
+          <div className="section__head mb-6">
+            <p className="caps section__index">06 / Outcomes & Evidence</p>
             <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
               该技术方向沉淀的真实工程系统与权威学科竞赛凭证。
@@ -347,7 +281,7 @@ export default async function TrackDetailPage({
         </section>
       )}
 
-      {/* 08 / 方向切换导航 */}
+      {/* 07 / 方向切换导航 */}
       <nav id="track-switch" className="pager pager--with-overview mb-12" aria-label="方向切换" data-reveal="group">
         <Link href={`/tracks/${previous.slug}`}>
           <ArrowLeft aria-hidden="true" size={18} />
@@ -363,7 +297,7 @@ export default async function TrackDetailPage({
         </Link>
       </nav>
 
-      {/* 09 / 招新加入 CTA */}
+      {/* 08 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <p>对【{track.nameZh}】方向感兴趣？欢迎加入云飞扬，在真实工程与竞赛中与我们同行。</p>
         <Button asChild>
