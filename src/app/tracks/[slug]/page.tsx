@@ -70,12 +70,12 @@ export default async function TrackDetailPage({
       <TrajectoryRail
         label={track.nameZh}
         sections={[
-          { id: "track-start", index: "01", label: "方向" },
-          { id: "track-stack", index: "02", label: "技术栈" },
-          { id: "track-roadmap", index: "03", label: "三年航迹" },
-          { id: "track-evidence", index: "04", label: "相关产出" },
-          { id: "track-switch", index: "05", label: "换道" },
-          { id: "track-join", index: "06", label: "加入" },
+          { id: "track-start", index: "01", label: "方向概况" },
+          { id: "track-stack", index: "02", label: "核心技术栈" },
+          { id: "track-roadmap", index: "03", label: "培养路线" },
+          { id: "track-evidence", index: "04", label: "相关成果" },
+          { id: "track-switch", index: "05", label: "方向切换" },
+          { id: "track-join", index: "06", label: "招新报名" },
         ]}
       />
 
@@ -87,7 +87,7 @@ export default async function TrackDetailPage({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/tracks">方向</BreadcrumbLink>
+              <BreadcrumbLink href="/tracks">技术方向</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -98,7 +98,7 @@ export default async function TrackDetailPage({
       </div>
 
       <header id="track-start" className="track-detail__hero">
-        <p className="caps">{track.index} / Track</p>
+        <p className="caps">{track.index} / Technical Track</p>
         <h1>{track.nameZh}</h1>
         <p className="display-latin">{track.nameEn}</p>
         <p>{track.positioning}</p>
@@ -107,7 +107,7 @@ export default async function TrackDetailPage({
       <section id="track-stack" className="section" aria-labelledby="stack-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">02 / Stack</p>
-          <h2 id="stack-title" className="section__title">要学会什么。</h2>
+          <h2 id="stack-title" className="section__title">核心技术栈。</h2>
         </div>
         <div className="stack-groups" data-reveal="group">
           {stackGroups.map(([label, items]) => (
@@ -122,7 +122,7 @@ export default async function TrackDetailPage({
       <section id="track-roadmap" className="section" aria-labelledby="roadmap-title">
         <div className="section__head" data-reveal="group">
           <p className="caps section__index">03 / Roadmap</p>
-          <h2 id="roadmap-title" className="section__title">三年航迹，终点是两条等权的路。</h2>
+          <h2 id="roadmap-title" className="section__title">三年培养体系与发展路径。</h2>
         </div>
         <DrawPath />
         <div className="roadmap" data-reveal="group">
@@ -162,8 +162,8 @@ export default async function TrackDetailPage({
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
         <section id="track-evidence" className="section" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">04 / Evidence</p>
-            <h2 id="related-title" className="section__title">相关产出。</h2>
+            <p className="caps section__index">04 / Outcomes</p>
+            <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
           </div>
           <div className="related-grid" data-reveal="group">
             {relatedWorks.map((work, index) => (
@@ -178,7 +178,7 @@ export default async function TrackDetailPage({
                   }}
                 />
                 <CardBody><h3>{work.nameZh}</h3><p>{work.tagline}</p></CardBody>
-                {work.detail && <CardFooter><Link className="text-link" href={`/works/${work.slug}`}>查看工程记录 <ArrowRight aria-hidden="true" size={15} /></Link></CardFooter>}
+                {work.detail && <CardFooter><Link className="text-link" href={`/works/${work.slug}`}>查看项目详情 <ArrowRight aria-hidden="true" size={15} /></Link></CardFooter>}
               </Card>
             ))}
             {relatedAwards.map((award, index) => (
@@ -197,12 +197,12 @@ export default async function TrackDetailPage({
       )}
 
       <nav id="track-switch" className="pager" aria-label="方向切换" data-reveal="group">
-        <Link href={`/tracks/${previous.slug}`}><ArrowLeft aria-hidden="true" size={18} /><span><small>上一条航道</small>{previous.nameZh}</span></Link>
-        <Link href={`/tracks/${next.slug}`}><span><small>下一条航道</small>{next.nameZh}</span><ArrowRight aria-hidden="true" size={18} /></Link>
+        <Link href={`/tracks/${previous.slug}`}><ArrowLeft aria-hidden="true" size={18} /><span><small>上一个方向</small>{previous.nameZh}</span></Link>
+        <Link href={`/tracks/${next.slug}`}><span><small>下一个方向</small>{next.nameZh}</span><ArrowRight aria-hidden="true" size={18} /></Link>
       </nav>
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <p>这条路听起来像你？</p>
-        <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
+        <p>对该技术方向感兴趣？欢迎加入云飞扬与我们同行。</p>
+        <Button asChild><Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
       </section>
     </main>
   );

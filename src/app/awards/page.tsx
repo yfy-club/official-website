@@ -10,8 +10,8 @@ import { awards, club } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
-  title: "荣誉",
-  description: "云飞扬社团竞赛成果与已脱敏证书档案，包含 iCAN、智能汽车、数学建模与统计建模等赛事。",
+  title: "竞赛荣誉",
+  description: "云飞扬社团学科竞赛成果与脱敏证书档案，涵盖 iCAN、智能汽车、蓝桥杯、数学建模等赛事。",
   path: "/awards",
 });
 
@@ -34,13 +34,13 @@ export default function AwardsPage() {
       <StructuredData
         data={breadcrumbJsonLd([
           { name: "首页", path: "/" },
-          { name: "荣誉", path: "/awards" },
+          { name: "竞赛荣誉", path: "/awards" },
         ])}
       />
       <TrajectoryRail
-        label="荣誉档案"
+        label="竞赛荣誉"
         sections={[
-          { id: "awards-start", index: "01", label: "荣誉" },
+          { id: "awards-start", index: "01", label: "荣誉概况" },
           { id: "awards-overview", index: "02", label: "赛事总览" },
           { id: "awards-archive", index: "03", label: "证书档案" },
         ]}
@@ -49,8 +49,8 @@ export default function AwardsPage() {
         <PageHero
           eyebrow="01 / Awards"
           title="Awards."
-          subtitle="荣誉档案"
-          intro={`国家级与省级赛事持续积累 · 省级及以上年均 ${club.annualAwards} 项`}
+          subtitle="竞赛荣誉"
+          intro={`国家级与省级学科竞赛成果持续沉淀 · 年均获省级及以上奖项 ${club.annualAwards} 项`}
         />
       </div>
 
@@ -65,10 +65,10 @@ export default function AwardsPage() {
         <div className="section__head">
           <p className="caps section__index">02 / Overview</p>
           <h2 id="overview-title" className="section__title">
-            赛事总览。
+            赛事成果总览。
           </h2>
           <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            覆盖算法编程、AI视觉、智能车、数学统计建模与创新创业等多维竞赛梯队。
+            涵盖算法编程、AI 视觉、嵌入式智能车、数学与统计建模、创新创业等多个赛道。
           </p>
         </div>
         <AwardsOverviewMatrix />
@@ -83,10 +83,10 @@ export default function AwardsPage() {
         <div className="section__head">
           <p className="caps section__index">03 / Archive</p>
           <h2 id="archive-title" className="section__title">
-            证书档案柜。
+            证书档案库。
           </h2>
           <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            公开图片均使用已脱敏版本；支持按赛事级别与年份即时检索，点击可进入暗室灯箱查看原件。
+            公开展示证书均已做脱敏处理；支持按级别与年份即时筛选，点击可查看原件大图。
           </p>
         </div>
         <CertArchive awards={certAwards} />

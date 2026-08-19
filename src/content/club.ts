@@ -5,7 +5,7 @@ export const clubRaw = {
   nameEn: "Yun Fei Yang Club",
   abbreviation: "YFY",
   slogan: "We Code the Future",
-  subSlogan: "伟大的想法始于单行代码",
+  subSlogan: "用代码构建未来，在工程实践中持续突破。",
   founded: 2014,
   affiliation: "南阳理工学院计算机与软件学院",
   advisor: "陈可 教授",

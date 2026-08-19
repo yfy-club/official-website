@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     default: "云飞扬社团 · We Code the Future",
     template: "%s · 云飞扬社团",
   },
-  description: "南阳理工学院云飞扬社团官方网站。探索技术方向、项目实践与成长航迹。",
+  description: "南阳理工学院云飞扬社团官方网站。涵盖五个核心技术方向，提供真实工程实践、学科竞赛指导与一对一师徒培养体系。",
 };
 
 export const viewport: Viewport = {

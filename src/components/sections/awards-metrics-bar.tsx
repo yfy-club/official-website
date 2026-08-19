@@ -10,20 +10,20 @@ export function AwardsMetricsBar({ certCount = 9 }: { certCount?: number }) {
       value: Number(club.annualAwards) || 10,
       suffix: "+",
       label: "省级及以上年均成果",
-      detail: "持续多届立项与攻坚突破",
+      detail: "持续多届立项与竞赛攻坚",
     },
     {
       code: "METRIC 02",
       value: 1,
       suffix: " 项",
       label: "iCAN 全国总决赛一等奖",
-      detail: "AI 视觉挑战赛顶级权威殊荣",
+      detail: "AI 视觉挑战赛国家级一等奖",
     },
     {
       code: "METRIC 03",
       value: certCount,
       suffix: " 份",
-      label: "真实已脱敏证书实存",
+      label: "已脱敏官方证书存档",
       detail: "官方发证凭证与图样可查",
     },
     {
@@ -31,7 +31,7 @@ export function AwardsMetricsBar({ certCount = 9 }: { certCount?: number }) {
       value: 7,
       suffix: "+ 项",
       label: "国家级/省级主流赛道覆盖",
-      detail: "算法 / 创新 / 硬件 / 建模",
+      detail: "算法 / 创新 / 智能车 / 建模",
     },
   ];
 

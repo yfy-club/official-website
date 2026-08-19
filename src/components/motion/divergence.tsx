@@ -43,7 +43,7 @@ export function TracksMap({ tracks }: TracksMapProps) {
     >
       <div ref={containerRef} className="tracks-console__layout">
         <div className="tracks-console__topology">
-          <div className="tracks-console__root" aria-label="云飞扬五条技术航道根节点">
+          <div className="tracks-console__root" aria-label="云飞扬技术方向体系">
             <span className="caps">YFY</span>
             <span ref={rootRef} className="tracks-console__root-node" aria-hidden="true">
               <i />
@@ -51,8 +51,8 @@ export function TracksMap({ tracks }: TracksMapProps) {
             <span className="caps tabular">ROOT / 05</span>
           </div>
 
-          <aside className="tracks-console__selector" aria-label="技术航道选择">
-            <Tabs.List className="tracks-selector" aria-label="选择一条技术航道">
+          <aside className="tracks-console__selector" aria-label="技术方向选择">
+            <Tabs.List className="tracks-selector" aria-label="选择一个技术方向">
               {tracks.map((track, index) => (
                 <Tabs.Trigger
                   className="track-selector"
@@ -148,7 +148,7 @@ export function TracksMap({ tracks }: TracksMapProps) {
               <footer className="tracks-detail__footer">
                 <span><small>目标岗位</small>{track.goal}</span>
                 <Link className="tracks-detail__route track-panel" href={`/tracks/${track.slug}`}>
-                  进入航道 <ArrowRight aria-hidden="true" size={17} />
+                  查看方向详情 <ArrowRight aria-hidden="true" size={17} />
                 </Link>
               </footer>
             </Tabs.Content>

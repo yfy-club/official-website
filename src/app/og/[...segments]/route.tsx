@@ -12,13 +12,13 @@ export const dynamicParams = false;
 const detailedWorks = works.filter((work) => work.detail);
 const cards = [
   { segments: ["home"], eyebrow: "YFY / 2014—NOW", title: club.name, subtitle: club.slogan },
-  { segments: ["about"], eyebrow: "01 / ABOUT", title: "关于", subtitle: "故事、机制与传承" },
-  { segments: ["tracks"], eyebrow: "02 / TRACKS", title: "五条航道", subtitle: "选一条，走三年" },
+  { segments: ["about"], eyebrow: "01 / ABOUT", title: "关于", subtitle: "发展历程、培养机制与团队传承" },
+  { segments: ["tracks"], eyebrow: "02 / TRACKS", title: "技术方向", subtitle: "循序渐进，因材施教" },
   ...tracks.map((track) => ({ segments: ["tracks", track.slug], eyebrow: `${track.index} / TRACK`, title: track.nameZh, subtitle: track.nameEn })),
-  { segments: ["works"], eyebrow: "03 / WORKS", title: "作品记录", subtitle: "打开、检验并解释边界" },
+  { segments: ["works"], eyebrow: "03 / WORKS", title: "工程项目", subtitle: "真实可运行的工程实践与质量凭证" },
   ...detailedWorks.map((work) => ({ segments: ["works", work.slug], eyebrow: "CASE FILE", title: work.nameZh, subtitle: work.nameEn ?? work.status })),
-  { segments: ["awards"], eyebrow: "04 / AWARDS", title: "荣誉档案", subtitle: "事实陈述，公开脱敏" },
-  { segments: ["join"], eyebrow: "05 / JOIN", title: "登机口", subtitle: "我们要的是想学会的人" },
+  { segments: ["awards"], eyebrow: "04 / AWARDS", title: "竞赛荣誉", subtitle: "学科竞赛成果与脱敏证书档案" },
+  { segments: ["join"], eyebrow: "05 / JOIN", title: "招新报名", subtitle: "加入云飞扬，用代码构建未来" },
 ] as const;
 
 const fontData = readFile(path.join(process.cwd(), "public/fonts/NotoSerifSC-Heading-subset.ttf"));

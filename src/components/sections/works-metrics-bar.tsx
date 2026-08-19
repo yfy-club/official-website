@@ -18,20 +18,20 @@ export function WorksMetricsBar() {
     {
       code: "METRIC 02",
       value: "100%",
-      label: "真实源码与逻辑",
-      subtext: "杜绝纯概念包装与虚假展示",
+      label: "真实项目代码",
+      subtext: "具备完整工程闭环与可验证成果",
     },
     {
       code: "METRIC 03",
       value: `${totalScreenshots}+`,
       label: "系统界面实录",
-      subtext: "全周期实机截图与双主题比对",
+      subtext: "多模块实机截图与真实交互",
     },
     {
       code: "METRIC 04",
       value: `${allTracks}`,
-      label: "技术航道深度覆盖",
-      subtext: "全栈 / AI / 物联网 / 算法内核",
+      label: "技术方向全面覆盖",
+      subtext: "全栈开发 / 算法应用 / 物联网 / 工业数智",
     },
   ];
 

@@ -14,8 +14,8 @@ import { buildTrackPreviews } from "@/lib/track-previews";
 import { club, tracks, works } from "@/content";
 
 export const metadata: Metadata = createMetadata({
-  title: "起点",
-  description: "云飞扬社团成立于 2014 年，在五条技术航道中以真实项目、竞赛和师徒制陪伴成员成长。",
+  title: "首页",
+  description: "云飞扬社团成立于 2014 年，涵盖五个核心技术方向，以真实项目驱动、学科竞赛与一对一师徒制陪伴成员成长。",
   path: "/",
 });
 
@@ -30,12 +30,12 @@ export default function Home() {
   ] as const;
   return (
     <main id="main-content" className="home-main" tabIndex={-1}>
-      <TrajectoryRail label="起点" sections={[
-        { id: "home-start", index: "01", label: "起点" },
-        { id: "home-stats", index: "02", label: "社团数字" },
-        { id: "home-tracks", index: "03", label: "五条航道" },
-        { id: "home-feature", index: "04", label: "真实作品" },
-        { id: "home-join", index: "05", label: "加入" },
+      <TrajectoryRail label="首页概览" sections={[
+        { id: "home-start", index: "01", label: "首页概览" },
+        { id: "home-stats", index: "02", label: "社团数据" },
+        { id: "home-tracks", index: "03", label: "技术方向" },
+        { id: "home-feature", index: "04", label: "代表项目" },
+        { id: "home-join", index: "05", label: "招新报名" },
       ]} />
       <section id="home-start" className="home-hero page-shell" aria-labelledby="home-title">
         <div className="home-hero__content">
@@ -53,7 +53,7 @@ export default function Home() {
             <p className="home-hero__affiliation"><span>{club.nameEn}</span><i aria-hidden="true" /><span>Guided by Prof. Chen Ke</span></p>
             <div className="home-hero__actions">
               <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
-              <Button asChild variant="ghost"><Link href="/works">查看项目</Link></Button>
+              <Button asChild variant="ghost"><Link href="/works">浏览项目</Link></Button>
             </div>
           </Develop>
         </div>
@@ -61,7 +61,7 @@ export default function Home() {
       </section>
       <div className="home-breath" aria-hidden="true" />
       <section id="home-stats" className="section page-shell" aria-labelledby="stats-title">
-        <h2 id="stats-title" className="sr-only">社团数字</h2>
+        <h2 id="stats-title" className="sr-only">社团数据</h2>
         <dl className="stats-grid" data-reveal="group">
           {stats.map((item, index) => (
             <div key={item.label}><dt className="tabular"><NumberTicker value={item.value} startValue={"startValue" in item ? item.startValue : 0} delay={index * 0.06} />{"suffix" in item && item.suffix}</dt><dd>{item.label}</dd></div>
@@ -69,12 +69,12 @@ export default function Home() {
         </dl>
       </section>
       <section id="home-tracks" className="section page-shell" aria-labelledby="tracks-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">02 / Tracks</p><h2 id="tracks-title" className="section__title">五条航道，选一条走深。</h2></div>
+        <div className="section__head"><p className="caps section__index">02 / Tracks</p><h2 id="tracks-title" className="section__title">五个技术方向，专注深耕。</h2></div>
         <TrackPreviewList items={trackPreviews} />
       </section>
       {feature?.detail && feature.image && (
         <section id="home-feature" className="section page-shell" aria-labelledby="feature-title" data-reveal="section">
-          <div className="section__head"><p className="caps section__index">03 / One real thing</p><h2 id="feature-title" className="section__title">一件现在就能打开的真东西。</h2></div>
+          <div className="section__head"><p className="caps section__index">03 / Featured Project</p><h2 id="feature-title" className="section__title">代表项目展示。</h2></div>
           <article className="home-feature" data-reveal="group">
             <div className="home-feature__media"><Image src={feature.image} alt="矩阵计算器亮色主题主界面" width={1600} height={900} sizes="(max-width: 1024px) 100vw, 58vw" /></div>
             <div className="home-feature__copy">
@@ -82,14 +82,14 @@ export default function Home() {
               <ul>{feature.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
               <div className="stack-row">{feature.stackSummary.map((item) => <Tag key={item}>{item}</Tag>)}</div>
               <div className="home-feature__links">
-                <Button asChild variant="ghost"><Link href={`/works/${feature.slug}`}>查看工程记录</Link></Button>
-                {feature.liveUrl && <Button asChild variant="link"><a href={feature.liveUrl} target="_blank" rel="noreferrer">打开使用 <ExternalLink aria-hidden="true" size={15} /></a></Button>}
+                <Button asChild variant="ghost"><Link href={`/works/${feature.slug}`}>查看项目详情</Link></Button>
+                {feature.liveUrl && <Button asChild variant="link"><a href={feature.liveUrl} target="_blank" rel="noreferrer">在线体验 <ExternalLink aria-hidden="true" size={15} /></a></Button>}
               </div>
             </div>
           </article>
         </section>
       )}
-      <section id="home-join" className="cta-band page-shell" aria-label="加入社团" data-reveal="group"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即加入 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
+      <section id="home-join" className="cta-band page-shell" aria-label="加入社团" data-reveal="group"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
     </main>
   );
 }

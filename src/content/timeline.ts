@@ -29,6 +29,6 @@ export const timelineRaw = [
   {
     year: "2026",
     title: "培养体系与官网升级",
-    description: "全面升级技术培养体系，并启动 Trajectory 航迹重构版官网。",
+    description: "全面升级五大技术方向培养体系，上线全新工业精工设计语言官方网站。",
   },
 ] satisfies TimelineItem[];

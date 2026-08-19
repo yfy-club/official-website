@@ -21,8 +21,8 @@ import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/co
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
-  title: "加入",
-  description: "了解云飞扬社团招新标准、流程、常见问题，并加入 2026 云飞扬迎新群。",
+  title: "加入我们",
+  description: "了解云飞扬社团招新要求、选拔流程与常见问题，提交报名申请并加入 2026 迎新交流群。",
   path: "/join",
 });
 
@@ -32,12 +32,12 @@ const posters = [
 ] as const;
 
 const sections = [
-  { id: "join-start", index: "01", label: "登机口" },
-  { id: "join-fit", index: "02", label: "适合谁" },
-  { id: "join-process", index: "03", label: "流程" },
-  { id: "join-voices", index: "04", label: "成员声音" },
+  { id: "join-start", index: "01", label: "招新概览" },
+  { id: "join-fit", index: "02", label: "招新要求" },
+  { id: "join-process", index: "03", label: "选拔流程" },
+  { id: "join-voices", index: "04", label: "成员心声" },
   { id: "join-faq", index: "05", label: "常见问题" },
-  { id: "join-poster", index: "06", label: "海报" },
+  { id: "join-poster", index: "06", label: "招新海报" },
 ];
 
 export default function JoinPage() {
@@ -45,8 +45,8 @@ export default function JoinPage() {
 
   return (
     <main id="main-content" className="page-main page-shell" tabIndex={-1}>
-      <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "加入", path: "/join" }])} />
-      <TrajectoryRail label="登机口" sections={sections} />
+      <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "加入我们", path: "/join" }])} />
+      <TrajectoryRail label="招新概览" sections={sections} />
 
       {/* 01 / 首屏双翼展台：左侧招新宣言、承诺清单与迎新群舱，右侧报名仪表舱 */}
       <section id="join-start" className="section join-hero-stage" aria-labelledby="join-heading" data-reveal="section">
@@ -57,13 +57,13 @@ export default function JoinPage() {
               <div className="flex flex-col gap-4">
                 <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] w-fit shadow-2xs">
                   <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-                  <span>Yunfeiyang Club // Est. 2014</span>
+                  <span>Yunfeiyang Club // 2026 招新</span>
                 </div>
 
                 <div className="join-pitch__heading">
                   <h1 id="join-heading" className="font-display text-4xl sm:text-5xl lg:text-[3.75rem] font-normal leading-[1.08] tracking-tight text-[var(--fg)] break-words">
-                    Join the <br />
-                    <span className="text-[var(--accent)] font-medium">Revolution.</span>
+                    Join <br />
+                    <span className="text-[var(--accent)] font-medium">Yunfeiyang.</span>
                   </h1>
                 </div>
               </div>
@@ -75,21 +75,21 @@ export default function JoinPage() {
             </div>
 
             <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed">
-              我们在寻找充满激情的建设者、设计师和梦想家。无论你是代码极客还是设计爱好者，这里都有你的位置。
+              面向热爱技术、追求工程实践的同学开放招新。无论你想深耕算法应用、软件全栈、数据库还是物联网嵌入式，这里都有完善的培养路径。
             </p>
 
             <ul className="clean-list flex flex-col gap-3.5 py-1 text-sm text-[var(--fg-muted)]">
               <li className="flex items-start gap-3">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-quiet)] text-[var(--accent)] font-mono text-xs font-bold mt-0.5">✓</span>
-                <span className="leading-relaxed">参与专属技术工坊，接受逐行审码与阶段讲评</span>
+                <span className="leading-relaxed">参与体系化技术工坊，接受代码审阅与阶段讲评</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-quiet)] text-[var(--accent)] font-mono text-xs font-bold mt-0.5">✓</span>
-                <span className="leading-relaxed">一对一师徒制带学，从基础语法跨越至工程实战</span>
+                <span className="leading-relaxed">一对一师徒定向带学，从编程基础稳步迈向工程实战</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--accent-quiet)] text-[var(--accent)] font-mono text-xs font-bold mt-0.5">✓</span>
-                <span className="leading-relaxed">科技园专属工位，亲历企业级真实项目全栈研发</span>
+                <span className="leading-relaxed">依托科技园专属工位，深度参与真实项目全流程研发</span>
               </li>
             </ul>
 
@@ -103,7 +103,7 @@ export default function JoinPage() {
               <CardFrameHeader>
                 <div>
                   <CardFrameTitle>01 // 招新报名表单</CardFrameTitle>
-                  <CardFrameDescription>留下你的基本信息与志向方向</CardFrameDescription>
+                  <CardFrameDescription>填写个人基本信息与感兴趣的技术方向</CardFrameDescription>
                 </div>
                 <CardFrameAction>
                   <Badge variant="active">2026 RECRUIT</Badge>
@@ -120,11 +120,11 @@ export default function JoinPage() {
         </div>
       </section>
 
-      {/* 02 / 适合谁 */}
+      {/* 02 / 招新要求 */}
       <section id="join-fit" className="section" aria-labelledby="criteria-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">02 / Fit</p>
-          <h2 id="criteria-title" className="section__title">先确认这里适不适合你。</h2>
+          <p className="caps section__index">02 / Requirements</p>
+          <h2 id="criteria-title" className="section__title">招新要求与适合人群。</h2>
         </div>
         <div className="criteria-grid" data-reveal="group">
           <CardFrame>
@@ -170,7 +170,7 @@ export default function JoinPage() {
       <section id="join-process" className="section" aria-labelledby="process-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">03 / Process</p>
-          <h2 id="process-title" className="section__title">从报名到转正。</h2>
+          <h2 id="process-title" className="section__title">选拔与培养流程。</h2>
         </div>
         <ol className="join-process clean-list" data-reveal="group">
           {joinProcess.map((item, index) => <li key={item}><span className="tabular">0{index + 1}</span><p>{item}</p></li>)}
@@ -180,8 +180,8 @@ export default function JoinPage() {
       {/* 04 / 成员声音 */}
       <section id="join-voices" className="section" aria-labelledby="voices-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">04 / Voices</p>
-          <h2 id="voices-title" className="section__title">成员怎么说。</h2>
+          <p className="caps section__index">04 / Testimonials</p>
+          <h2 id="voices-title" className="section__title">成员心声与成长感悟。</h2>
         </div>
         <MemberVoicesMarquee voices={memberVoices} />
       </section>
@@ -190,7 +190,7 @@ export default function JoinPage() {
       <section id="join-faq" className="section" aria-labelledby="faq-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">05 / FAQ</p>
-          <h2 id="faq-title" className="section__title">常见问题。</h2>
+          <h2 id="faq-title" className="section__title">常见问题解答。</h2>
         </div>
         <MechanismAccordion items={faq.map((item) => ({ title: item.question, detail: item.answer }))} />
       </section>
@@ -199,7 +199,7 @@ export default function JoinPage() {
       <section id="join-poster" className="section" aria-labelledby="poster-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">06 / Poster</p>
-          <h2 id="poster-title" className="section__title">2026 招新海报。</h2>
+          <h2 id="poster-title" className="section__title">2026 官方招新海报。</h2>
         </div>
         <PosterTiltCard posters={posters} />
       </section>

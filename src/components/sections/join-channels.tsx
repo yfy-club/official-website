@@ -74,7 +74,7 @@ export function JoinChannels({ qqGroup }: { qqGroup: string }) {
               </kbd>
             </div>
             <p className="font-sans text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed">
-              扫码直达迎新群，与学长学姐直接交流获取一手资讯
+              扫码直达迎新群，与高年级骨干交流答疑，获取招新与带学资讯
             </p>
             <div className="pt-1">
               <Button

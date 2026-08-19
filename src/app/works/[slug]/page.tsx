@@ -43,7 +43,20 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
   return (
     <main id="main-content" className="page-main page-shell work-detail" tabIndex={-1}>
       <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "作品", path: "/works" }, { name: work.nameZh, path: `/works/${work.slug}` }])} />
-      <TrajectoryRail label={work.nameZh} sections={[{ id: "work-start", index: "01", label: "项目" }, { id: "work-interface", index: "02", label: "界面" }, { id: "work-problem", index: "03", label: "问题" }, { id: "work-build", index: "04", label: "实现" }, { id: "work-evidence", index: "05", label: "质量" }, { id: "work-limits", index: "06", label: "边界" }, { id: "work-related", index: "07", label: "关联" }, { id: "work-switch", index: "08", label: "切换" }, { id: "work-join", index: "09", label: "加入" }]} />
+      <TrajectoryRail
+        label={work.nameZh}
+        sections={[
+          { id: "work-start", index: "01", label: "项目概览" },
+          { id: "work-interface", index: "02", label: "系统界面" },
+          { id: "work-problem", index: "03", label: "业务背景" },
+          { id: "work-build", index: "04", label: "架构实现" },
+          { id: "work-evidence", index: "05", label: "质量凭证" },
+          { id: "work-limits", index: "06", label: "系统边界" },
+          { id: "work-related", index: "07", label: "关联方向" },
+          { id: "work-switch", index: "08", label: "项目切换" },
+          { id: "work-join", index: "09", label: "招新报名" },
+        ]}
+      />
       
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-2">
         <Breadcrumb>
@@ -53,7 +66,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/works">作品</BreadcrumbLink>
+              <BreadcrumbLink href="/works">工程项目</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -64,14 +77,14 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <Button asChild variant="ghost" size="sm" className="h-8 px-2.5 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]">
           <Link href="/works">
             <ArrowLeft size={13} aria-hidden="true" />
-            <span>返回作品列表</span>
+            <span>返回项目列表</span>
           </Link>
         </Button>
       </div>
 
       <header id="work-start" className="work-detail__hero">
         <div>
-          <p className="caps">01 / Case file · {work.status}</p>
+          <p className="caps">01 / Project Case · {work.status}</p>
           <h1>{work.nameZh}</h1>
           {work.nameEn && <p className="display-latin">{work.nameEn}</p>}
           <p>{work.tagline}</p>
@@ -84,7 +97,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             {work.liveUrl && (
               <Button asChild className="rounded-[var(--radius-xs)]">
                 <a href={work.liveUrl} target="_blank" rel="noreferrer">
-                  打开使用 <ExternalLink aria-hidden="true" size={16} />
+                  在线体验 <ExternalLink aria-hidden="true" size={16} />
                 </a>
               </Button>
             )}
@@ -102,7 +115,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <section id="work-interface" className="section" aria-labelledby="shots-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">02 / Interface</p>
-            <h2 id="shots-title" className="section__title">界面实录。</h2>
+            <h2 id="shots-title" className="section__title">系统界面与演示。</h2>
           </div>
           {detail.demoAccounts && (
             <DemoAccountsTable workNameZh={work.nameZh} accounts={detail.demoAccounts} />
@@ -132,11 +145,11 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         </section>
       )}
       <section id="work-problem" className="section" aria-labelledby="problem-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">03 / Problem</p><h2 id="problem-title" className="section__title">它解决什么。</h2></div>
+        <div className="section__head"><p className="caps section__index">03 / Problem</p><h2 id="problem-title" className="section__title">业务背景与问题分析。</h2></div>
         <div className="prose">{detail.problem.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
       </section>
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">04 / Build</p><h2 id="build-title" className="section__title">怎么做的。</h2></div>
+        <div className="section__head"><p className="caps section__index">04 / Architecture</p><h2 id="build-title" className="section__title">技术架构与系统实现。</h2></div>
         <div className="stack-groups" data-reveal="group">
           {Object.entries(detail.stack).map(([label, items]) => (
             <div key={label}>
@@ -149,8 +162,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       </section>
       <section id="work-evidence" className="section" aria-labelledby="evidence-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">05 / Evidence</p>
-          <h2 id="evidence-title" className="section__title">怎么保证对。</h2>
+          <p className="caps section__index">05 / Quality</p>
+          <h2 id="evidence-title" className="section__title">质量保障与验证凭证。</h2>
         </div>
         <CardFrame>
           <CardFrameHeader>
@@ -165,40 +178,40 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         </CardFrame>
       </section>
       <section id="work-limits" className="section work-limits" aria-labelledby="limits-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">06 / Boundaries</p><h2 id="limits-title" className="section__title">边界写在明处。</h2></div>
+        <div className="section__head"><p className="caps section__index">06 / Boundaries</p><h2 id="limits-title" className="section__title">系统边界与已知说明。</h2></div>
         <ul data-reveal="group">{detail.limits.map((limit) => <li key={limit}>{limit}</li>)}</ul>
       </section>
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">07 / Related</p><h2 id="related-track-title" className="section__title">关联航道。</h2></div>
+        <div className="section__head"><p className="caps section__index">07 / Tracks</p><h2 id="related-track-title" className="section__title">关联技术方向。</h2></div>
         <div className="related-grid" data-reveal="group">
           {relatedTracks.map((track) => (
             <Card key={track.slug}>
               <p className="caps tabular">{track.index}</p>
               <h3>{track.nameZh}</h3>
               <p>{track.tagline}</p>
-              <Link className="text-link" href={`/tracks/${track.slug}`}>查看方向 →</Link>
+              <Link className="text-link" href={`/tracks/${track.slug}`}>查看方向详情 →</Link>
             </Card>
           ))}
         </div>
       </section>
-      <nav id="work-switch" className="pager pager--with-overview" aria-label="作品切换" data-reveal="group">
+      <nav id="work-switch" className="pager pager--with-overview" aria-label="项目切换" data-reveal="group">
         <Link href={`/works/${previous.slug}`}>
           <ArrowLeft aria-hidden="true" size={18} />
-          <span><small>上一个作品</small>{previous.nameZh}</span>
+          <span><small>上一个项目</small>{previous.nameZh}</span>
         </Link>
         <Link href="/works" className="pager__overview">
           <LayoutGrid aria-hidden="true" size={16} />
-          <span><small>总览索引</small>全部作品列表</span>
+          <span><small>总览索引</small>全部项目列表</span>
         </Link>
         <Link href={`/works/${next.slug}`}>
-          <span><small>下一个作品</small>{next.nameZh}</span>
+          <span><small>下一个项目</small>{next.nameZh}</span>
           <ArrowRight aria-hidden="true" size={18} />
         </Link>
       </nav>
       <section id="work-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <p>想做出下一个？</p>
+        <p>想参与开发更多实际工程项目？</p>
         <Button asChild>
-          <Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link>
+          <Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link>
         </Button>
       </section>
     </main>

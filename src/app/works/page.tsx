@@ -12,8 +12,8 @@ import { works } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
-  title: "作品",
-  description: "云飞扬社团已上线项目与在研工程记录，包括精确有理数矩阵计算器、智光耀城和智学伴。",
+  title: "工程项目",
+  description: "云飞扬社团已上线与在研工程项目记录，涵盖矩阵计算器、智光耀城路灯管理平台、智学伴 AI 平台等。",
   path: "/works",
 });
 
@@ -23,24 +23,24 @@ export default function WorksPage() {
       <StructuredData
         data={breadcrumbJsonLd([
           { name: "首页", path: "/" },
-          { name: "作品", path: "/works" },
+          { name: "工程项目", path: "/works" },
         ])}
       />
       <TrajectoryRail
-        label="作品记录"
+        label="工程项目"
         sections={[
-          { id: "works-start", index: "01", label: "作品" },
+          { id: "works-start", index: "01", label: "项目总览" },
           { id: "works-live", index: "02", label: "已上线" },
-          { id: "works-incubating", index: "03", label: "在研" },
-          { id: "works-join", index: "04", label: "加入" },
+          { id: "works-incubating", index: "03", label: "在研项目" },
+          { id: "works-join", index: "04", label: "招新报名" },
         ]}
       />
       <div id="works-start">
         <PageHero
           eyebrow="01 / Works"
           title="Works."
-          subtitle="做过什么"
-          intro="技术标签谁都能贴，能被打开、检验和解释边界的作品更有分量。"
+          subtitle="工程项目"
+          intro="坚持真实可运行的工程落地，展示完整架构设计、技术选型与质量验收依据。"
         />
       </div>
 
@@ -49,10 +49,10 @@ export default function WorksPage() {
       <WorksFilterView works={works} />
 
       <section id="works-join" className="cta-band mt-12" aria-label="加入社团" data-reveal="group">
-        <p>想做出下一个？</p>
+        <p>想参与开发更多实际工程项目？</p>
         <Button asChild>
           <Link href="/join">
-            加入我们 <ArrowRight aria-hidden="true" size={17} />
+            立即报名 <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </Button>
       </section>

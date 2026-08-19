@@ -82,7 +82,7 @@ export function TrackPreviewList({ items }: TrackPreviewListProps) {
         <figcaption className="home-track-preview__caption">
           <span className="home-track-preview__caption-track">{activeItem?.nameZh}</span>
           <span className="home-track-preview__caption-work">
-            {activeItem?.preview ? activeItem.preview.workNameZh : "暂无关联实录"}
+            {activeItem?.preview ? activeItem.preview.title : "技术方向示例"}
           </span>
         </figcaption>
       </figure>

@@ -43,7 +43,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
             已上线 ({works.filter((w) => w.status === "已上线").length})
           </TabsTrigger>
           <TabsTrigger value="incubating">
-            在研实验室 ({works.filter((w) => w.status === "在研").length})
+            在研项目 ({works.filter((w) => w.status === "在研").length})
           </TabsTrigger>
           <TabsTrigger value="software">
             软件全栈
@@ -65,8 +65,8 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       {filteredWorks.length === 0 ? (
         <Empty className="my-12">
           <EmptyHeader>
-            <EmptyTitle>暂无匹配作品</EmptyTitle>
-            <EmptyDescription>当前分类下暂无匹配项目，请切换其他技术航道筛选。</EmptyDescription>
+            <EmptyTitle>暂无匹配项目</EmptyTitle>
+            <EmptyDescription>当前分类下暂无匹配项目，请切换其他技术方向筛选。</EmptyDescription>
           </EmptyHeader>
         </Empty>
       ) : (
@@ -75,7 +75,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
             <section id="works-live" className="section mb-14" aria-labelledby="live-title">
               <div className="section__head">
                 <p className="caps section__index">02 / Shipped</p>
-                <h2 id="live-title" className="section__title">已上线交付。</h2>
+                <h2 id="live-title" className="section__title">已上线项目。</h2>
               </div>
               <div className="works-list">
                 {live.map((work) => (
@@ -150,7 +150,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                           {work.detail && (
                             <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-10 px-5 shadow-xs">
                               <Link href={`/works/${work.slug}`}>
-                                <span>查看工程手记</span>
+                                <span>查看项目详情</span>
                                 <ArrowRight aria-hidden="true" size={15} />
                               </Link>
                             </Button>
@@ -181,7 +181,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
             <section id="works-incubating" className="section" aria-labelledby="incubating-title">
               <div className="section__head">
                 <p className="caps section__index">03 / Incubating</p>
-                <h2 id="incubating-title" className="section__title">在研与验证中。</h2>
+                <h2 id="incubating-title" className="section__title">在研与孵化项目。</h2>
               </div>
               <div className="incubating-grid">
                 {incubating.map((work, index) => (
@@ -239,7 +239,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                       </CardBody>
                     </div>
                     <CardFooter className="p-4 px-6 sm:px-7 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs sm:text-sm font-mono text-[var(--fg-muted)] flex items-center justify-between">
-                      <span>{work.trackSlugs.length} 条关联航道</span>
+                      <span>{work.trackSlugs.length} 个关联方向</span>
                       <span>{work.stackSummary.length} 项技术验证</span>
                     </CardFooter>
                     <BorderBeam
