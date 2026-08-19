@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { clampSliderValue, getSliderValueFromKey } from "@/lib/motion";
+import { clampSliderValue, getNumberTickerInitialValue, getSliderValueFromKey } from "@/lib/motion";
 import { works } from "@/content";
+import { countWorkScreenshots, getWorkImageTransitionName } from "@/lib/work-media";
 
 describe("motion contracts", () => {
   it("keeps compare slider input within its ARIA range", () => {
@@ -26,5 +27,20 @@ describe("motion contracts", () => {
     expect(matrix?.detail?.gallery?.[0]?.shot.type).toBe("comparison");
     expect(smartLight?.detail?.shots?.type).toBe("single");
     expect(intellibuddy?.detail?.shots?.type).toBe("comparison");
+  });
+
+  it("renders the NumberTicker target immediately when motion is reduced", () => {
+    expect(getNumberTickerInitialValue({ direction: "up", reduceMotion: true, startValue: 2000, value: 2014 })).toBe(2014);
+    expect(getNumberTickerInitialValue({ direction: "down", reduceMotion: true, startValue: 0, value: 42 })).toBe(42);
+    expect(getNumberTickerInitialValue({ direction: "up", reduceMotion: false, startValue: 2000, value: 2014 })).toBe(2000);
+  });
+
+  it("counts only accessible work screenshots and keeps stable transition names", () => {
+    const counts = Object.fromEntries(works.map((work) => [work.slug, countWorkScreenshots(work)]));
+
+    expect(counts["matrix-calculator"]).toBe(4);
+    expect(counts["zgyc-smart-light"]).toBe(16);
+    expect(counts.intellibuddy).toBe(6);
+    expect(getWorkImageTransitionName("intellibuddy")).toBe("work-image-intellibuddy");
   });
 });

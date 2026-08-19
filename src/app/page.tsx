@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import { Tag } from "@/components/ui/tag";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { Develop } from "@/components/motion/develop";
@@ -18,6 +19,12 @@ export const metadata: Metadata = createMetadata({
 
 export default function Home() {
   const feature = works.find((work) => work.slug === "matrix-calculator");
+  const stats = [
+    { value: club.founded, startValue: 2000, label: "成立" },
+    { value: tracks.length, label: "技术方向" },
+    { value: club.memberCount, label: "在册成员" },
+    { value: Number.parseInt(club.annualAwards, 10), suffix: "+", label: "年均省级以上奖项" },
+  ] as const;
   return (
     <main id="main-content" className="home-main" tabIndex={-1}>
       <TrajectoryRail label="起点" sections={[
@@ -53,8 +60,8 @@ export default function Home() {
       <section id="home-stats" className="section page-shell" aria-labelledby="stats-title">
         <h2 id="stats-title" className="sr-only">社团数字</h2>
         <dl className="stats-grid">
-          {[[String(club.founded), "成立"], [String(tracks.length), "技术方向"], [String(club.memberCount), "在册成员"], [club.annualAwards, "年均省级以上奖项"]].map(([value, label]) => (
-            <div key={label}><dt className="tabular">{value}</dt><dd>{label}</dd></div>
+          {stats.map((item, index) => (
+            <div key={item.label}><dt className="tabular"><NumberTicker value={item.value} startValue={"startValue" in item ? item.startValue : 0} delay={index * 0.06} />{"suffix" in item && item.suffix}</dt><dd>{item.label}</dd></div>
           ))}
         </dl>
       </section>

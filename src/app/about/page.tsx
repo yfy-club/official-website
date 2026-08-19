@@ -6,6 +6,7 @@ import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { MemberLadder } from "@/components/sections/member-ladder";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { advisorProfile, annualReport, club, culturePhotos, mechanisms, memberLadder, mentorship, timeline } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
@@ -39,7 +40,7 @@ export default function AboutPage() {
       </section>
       <section id="about-report" className="section annual-report" aria-labelledby="annual-report-title">
         <div className="section__head"><p className="caps section__index">04 / Annual file</p><h2 id="annual-report-title" className="section__title">{annualReport.year} · {annualReport.title}。</h2><p className="section__intro">{annualReport.description}</p></div>
-        <dl className="annual-report__metrics">{annualReport.metrics.map((item) => <div key={item.label}><dt className="tabular">{item.value}</dt><dd>{item.label}</dd></div>)}</dl>
+        <dl className="annual-report__metrics">{annualReport.metrics.map((item, index) => <div key={item.label}><dt className="tabular"><NumberTicker value={Number(item.value)} delay={index * 0.06} /></dt><dd>{item.label}</dd></div>)}</dl>
         <ol className="annual-report__outcomes clean-list">{annualReport.outcomes.map((item, index) => <li key={item}><span className="caps tabular">0{index + 1}</span><p>{item}</p></li>)}</ol>
       </section>
       <section id="about-ladder" className="section" aria-labelledby="ladder-title">
@@ -52,7 +53,7 @@ export default function AboutPage() {
       </section>
       <section id="about-mentorship" className="section mentorship" aria-labelledby="mentorship-title">
         <div><p className="caps section__index">07 / Mentorship</p><h2 id="mentorship-title" className="section__title">师徒制从进门第一天开始。</h2><p className="prose">{mentorship.description}</p></div>
-        <dl className="mentorship__stats">{mentorship.training.map((item) => <div key={item.label}><dt className="tabular">{item.value}</dt><dd>{item.label}</dd></div>)}</dl>
+        <dl className="mentorship__stats">{mentorship.training.map((item, index) => <div key={item.label}><dt className="tabular"><NumberTicker value={Number(item.value)} delay={index * 0.06} /></dt><dd>{item.label}</dd></div>)}</dl>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title">
         <div className="advisor__portraits"><div className="advisor__portrait"><Image src={advisorProfile.image} alt={`${advisorProfile.name}教授正式肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div><div className="advisor__portrait"><Image src={advisorProfile.imageSecondary} alt={`${advisorProfile.name}教授工作肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div></div>

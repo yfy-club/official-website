@@ -513,6 +513,8 @@ button, a, [role='button'] {
 .stats-grid div { display: grid; gap: var(--space-2); }
 .stats-grid dt { font-size: var(--text-h1); line-height: 1; }
 .stats-grid dd { margin: 0; color: var(--fg-faint); font-size: var(--text-small); }
+.number-ticker { display: inline-block; min-width: var(--number-ticker-width); font-variant-numeric: tabular-nums; }
+.number-ticker__reduced { display: none; }
 .home-tracks { border-top: 1px solid var(--border); }
 .home-tracks a { display: grid; grid-template-columns: 36px minmax(90px, 0.6fr) 1fr 24px; gap: var(--space-3); min-height: 68px; align-items: center; border-bottom: 1px solid var(--border); }
 .home-tracks a > span:first-child { color: var(--fg-faint); font-size: var(--text-caption); }
@@ -590,6 +592,7 @@ button, a, [role='button'] {
 .timeline li[data-current='true'] time, .timeline li[data-current='true'] h3 { color: var(--fg); }
 .related-grid, .incubating-grid, .decision-list { display: grid; gap: var(--space-4); }
 .incubating-grid .caps { color: var(--fg-faint); }
+.incubating-grid .card--frame > .border-beam { position: absolute; inset: 0; z-index: 1; overflow: clip; }
 .related-grid h3, .incubating-grid h3, .decision-list h3 { margin: var(--space-3) 0; font-size: var(--text-h3); }
 .related-grid p, .incubating-grid p, .decision-list p { color: var(--fg-muted); }
 .ladder-console { --ladder-color: var(--accent); }
@@ -895,6 +898,8 @@ button, a, [role='button'] {
 .work-row__media { background: var(--surface-2); }
 .work-row__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .work-row__copy { padding: var(--space-6); }
+.work-row__status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.work-row__status > .caps { color: var(--fg-faint); font-size: var(--text-caption); }
 .work-row__copy > .caps { color: var(--fg-faint); }
 .work-row__copy h2 { margin: var(--space-3) 0 0; font-size: var(--text-h2); line-height: var(--leading-cjk-heading); }
 .work-row__en { margin: 0 0 var(--space-5); color: var(--fg-faint); font-size: var(--text-h3); }
@@ -903,6 +908,8 @@ button, a, [role='button'] {
 .work-row__links { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-6); }
 .work-detail__hero { grid-template-columns: 1fr; gap: var(--space-8); }
 .work-detail__logo { width: 140px; height: 140px; object-fit: contain; }
+.work-detail__hero-media { grid-column: 1 / -1; overflow: hidden; aspect-ratio: 16 / 9; background: var(--surface-2); }
+.work-detail__hero-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .work-detail__actions { margin-top: var(--space-7); }
 .demo-access { margin-bottom: var(--space-9); border-top: 1px solid var(--border-strong); }
 .demo-access__head { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
@@ -934,6 +941,8 @@ button, a, [role='button'] {
 .cert-card strong { font-size: var(--text-small); line-height: var(--leading-cjk-heading); }
 .cert-card > span:last-child { color: var(--fg-muted); font-size: var(--text-caption); }
 .cert-full { display: block; width: 100%; height: auto; }
+.awards-archive__count { display: flex; width: fit-content; align-items: baseline; gap: var(--space-3); margin: var(--space-5) 0 0; color: var(--fg-faint); }
+.awards-archive__count strong { color: var(--fg); font-size: var(--text-h1); font-weight: var(--weight-normal); line-height: 1; }
 
 .criteria-grid, .voices-grid { display: grid; gap: var(--space-4); }
 .criteria-grid .caps { color: var(--fg-faint); }
@@ -957,10 +966,6 @@ button, a, [role='button'] {
 .voices-grid blockquote { margin: 0; padding: var(--space-6) 0; border-top: 1px solid var(--border); }
 .voices-grid blockquote p { margin: 0; font-size: var(--text-body-lg); line-height: var(--leading-cjk-body-lg); }
 .voices-grid cite { display: block; margin-top: var(--space-4); color: var(--fg-faint); font-size: var(--text-small); font-style: normal; }
-.faq-list { border-top: 1px solid var(--border); }
-.faq-list details { border-bottom: 1px solid var(--border); }
-.faq-list summary { min-height: 64px; padding-block: var(--space-5); font-weight: var(--weight-medium); cursor: pointer; }
-.faq-list details p { max-width: var(--reading-width); margin: 0 0 var(--space-6); color: var(--fg-muted); }
 .join-channels { display: grid; gap: var(--space-8); padding: var(--space-6); border: 1px solid var(--border); background: var(--surface); }
 .join-channels > * { min-width: 0; }
 .join-channels__actions { display: flex; min-width: 0; flex-direction: column; align-items: stretch; justify-content: center; gap: var(--space-4); }
@@ -1137,6 +1142,9 @@ button, a, [role='button'] {
 /* ── M2: shared element and route transitions ────────────────────────── */
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; animation-timing-function: var(--ease-out); }
 ::view-transition-group(cert-image) { animation-duration: var(--dur-slow); animation-timing-function: var(--ease-out); }
+::view-transition-group(work-image-matrix-calculator),
+::view-transition-group(work-image-zgyc-smart-light),
+::view-transition-group(work-image-intellibuddy) { animation-duration: var(--dur-slow); animation-timing-function: var(--ease-out); }
 .cert-drawer { overflow: visible; }
 .cert-drawer .dialog__body { overflow: auto; max-height: calc(100dvh - 12rem); }
 
@@ -1193,6 +1201,8 @@ button, a, [role='button'] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .number-ticker__animated { display: none; }
+  .number-ticker__reduced { display: inline; }
   .develop, .develop__title, .develop__support, .develop__support > *, .home-hero__title-line,
   .home-hero__we, .home-hero__code, .home-hero__the, .home-hero__future { opacity: 1 !important; transform: none !important; clip-path: none !important; }
   .home-hero__code { animation: none !important; background: none; color: var(--accent); -webkit-text-fill-color: var(--accent); }
@@ -1206,7 +1216,10 @@ button, a, [role='button'] {
   .advisor::before, .join-channels__finder > i { transform: none !important; }
   .badge[data-pulse='true'] .badge__dot { animation: none !important; }
   .card--frame { transform: none !important; }
-  ::view-transition-old(root), ::view-transition-new(root), ::view-transition-group(cert-image) { animation: none !important; }
+  ::view-transition-old(root), ::view-transition-new(root), ::view-transition-group(cert-image),
+  ::view-transition-group(work-image-matrix-calculator),
+  ::view-transition-group(work-image-zgyc-smart-light),
+  ::view-transition-group(work-image-intellibuddy) { animation: none !important; }
 }
 
 @media (forced-colors: active) {

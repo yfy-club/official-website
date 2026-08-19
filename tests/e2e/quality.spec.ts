@@ -47,6 +47,67 @@ test("desktop navigation exposes home and marks the current route", async ({ pag
   await expect(navigation.locator('a[href="/about"]')).not.toHaveAttribute("aria-current", "page");
 });
 
+test("work cards expose real screenshot counts and unique shared media names", async ({ page }) => {
+  const cases = [
+    { slug: "matrix-calculator", count: 4 },
+    { slug: "zgyc-smart-light", count: 16 },
+    { slug: "intellibuddy", count: 6 },
+  ] as const;
+
+  for (const item of cases) {
+    await page.goto("/works");
+    const card = page.locator(`[data-work-slug="${item.slug}"]`);
+    const source = card.locator(".work-row__media");
+    await expect(card.getByText(`${item.count} Screens / 系统实录`)).toBeVisible();
+    await expect(source).toHaveCSS("view-transition-name", `work-image-${item.slug}`);
+
+    await card.getByRole("link", { name: /工程记录/ }).click();
+    await expect(page).toHaveURL(`/works/${item.slug}`);
+    const target = page.locator(".work-detail__hero-media");
+    await expect(target).toHaveCSS("view-transition-name", `work-image-${item.slug}`);
+    await expect(page.locator('[style*="view-transition-name: work-image-"]')).toHaveCount(1);
+  }
+});
+
+test("incubating works use the existing token-colored BorderBeam", async ({ page }) => {
+  await page.goto("/works");
+  const beams = page.locator(".incubating-grid .border-beam");
+  await expect(beams).toHaveCount(3);
+  const tokens = await page.locator("html").evaluate((element) => ({
+    accent: getComputedStyle(element).getPropertyValue("--accent").trim(),
+    warn: getComputedStyle(element).getPropertyValue("--warn").trim(),
+  }));
+  for (const beam of await beams.all()) {
+    const colors = await beam.locator(".absolute.aspect-square").evaluate((element) => ({
+      from: getComputedStyle(element).getPropertyValue("--color-from").trim(),
+      to: getComputedStyle(element).getPropertyValue("--color-to").trim(),
+    }));
+    expect(colors).toEqual({ from: tokens.warn, to: tokens.accent });
+  }
+});
+
+test("join FAQ uses one collapsible Radix accordion with keyboard navigation", async ({ page }) => {
+  await page.goto("/join");
+  const triggers = page.locator("#join-faq .mechanism-accordion__trigger");
+  const panels = page.locator("#join-faq .mechanism-accordion__content");
+  const first = triggers.nth(0);
+  const second = triggers.nth(1);
+
+  await first.focus();
+  await page.keyboard.press("Enter");
+  await expect(first).toHaveAttribute("aria-expanded", "true");
+  await expect(panels.nth(0)).toBeVisible();
+
+  await page.keyboard.press("ArrowDown");
+  await expect(second).toBeFocused();
+  await page.keyboard.press("Space");
+  await expect(first).toHaveAttribute("aria-expanded", "false");
+  await expect(second).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Space");
+  await expect(second).toHaveAttribute("aria-expanded", "false");
+  await expect(second).toBeFocused();
+});
+
 test("home hero preserves the original code shimmer and pointer-scroll motion", async ({ page }) => {
   await page.addInitScript(() => window.localStorage.setItem("theme", "dark"));
   await page.goto("/");
@@ -207,6 +268,13 @@ test("reduced motion exposes complete static states", async ({ browser }) => {
       document.getAnimations().filter((animation) => animation.effect?.getTiming().iterations === Infinity).length,
     );
     expect(infiniteAnimations).toBe(0);
+    const tickerValues = await page.locator("[data-number-ticker-value]").evaluateAll((elements) =>
+      elements.map((element) => ({
+        expected: element.getAttribute("data-number-ticker-value"),
+        rendered: (element as HTMLElement).innerText,
+      })),
+    );
+    expect(tickerValues.every((ticker) => ticker.rendered === ticker.expected)).toBe(true);
   }
   await context.close();
 });

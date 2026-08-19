@@ -40,7 +40,7 @@
 | :--- | :---: | :--- |
 | `/`、`/about`、`/tracks`、`/works`、`/awards`、`/join` | 6 | 静态生成 |
 | `/tracks/[slug]` | 5 | `generateStaticParams` 静态生成 |
-| `/works/[slug]` | 2 | 仅为有完整 `detail` 的项目静态生成 |
+| `/works/[slug]` | 3 | 仅为有完整 `detail` 的项目静态生成 |
 | `/api/join` | 1 | `force-dynamic`、Node.js runtime |
 | `/og/[...segments]` | 按路由 | `next/og` 动态图像响应 |
 | `/sitemap.xml`、`/robots.txt` | 2 | Next.js metadata routes |
@@ -82,6 +82,14 @@ tests/                   单元测试和端到端质量门禁
 - `prefers-reduced-motion: reduce` 会关闭桌面和移动端流光，同时保留完整静态连接关系。
 
 连接线颜色、强调色、间距和动效时长继续来自 Design Token 与全局样式。若调整卡片结构、断点或连接锚点，应同时检查 320px 移动重排、宽桌面落点、键盘聚焦和减少动态效果。
+
+## P1 共享交互
+
+- `NumberTicker` 只在首页、About 与 Awards 的关键数字上使用。数字进入视口后计数一次；服务端同时输出减弱动态效果的静态终值，避免 hydration 前显示起始值。
+- Works 截图数量由 `src/lib/work-media.ts` 对 `detail.shots` 与 `detail.gallery` 纯函数计算；单图计 1、明暗对照计 2，Logo 不参与计数。
+- Works 列表媒体与详情 Hero 通过 `work-image-${slug}` 建立唯一 View Transition 名称。`RouteTransitions` 继续统一接管同源导航，减弱动态效果或 API 不可用时保持普通导航。
+- Works 在研卡片只在局部复用 `BorderBeam`，颜色来自现有 token；组件不接管指针事件，减弱动态效果下不渲染。
+- About 与 Join 共用 `MechanismAccordion` 的 Radix 单项折叠行为，不复制第二套 Accordion 原语。
 
 ## 报名请求流
 

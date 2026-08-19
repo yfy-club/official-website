@@ -8,7 +8,7 @@
 | :--- | :--- |
 | `npm run audit:docs` | Markdown 本地链接与引用文件 |
 | `npm run check` | 类型、ESLint、Vitest、文档/内容/图片/字体审计、隔离生产构建 |
-| `npm run test:e2e:run` | 已有质量构建上的 33 项 Playwright 测试，覆盖 14 条公开路由 |
+| `npm run test:e2e:run` | 已有质量构建上的 42 项 Playwright 测试，覆盖 14 条公开路由 |
 | `npm run test:e2e` | 先构建，再运行 Playwright |
 | `npm run test:browser` | 320/1440px、明暗主题、触屏和动效冒烟 |
 | `npm run lighthouse:run` | 已有质量构建上的 14 路由 Lighthouse |
@@ -35,6 +35,8 @@
 | TBT | 不高于 300ms |
 | 首页首载 JS | 理想低于 120kB，上限 180kB |
 | 其他页面首载 JS | 理想低于 150kB，上限 200kB |
+
+P1 新增的浏览器契约覆盖真实截图计数、三组作品共享媒体名称、BorderBeam token 颜色、FAQ 键盘展开与收起、减弱动态效果下 NumberTicker 终值，以及强制颜色模式下的横向溢出。Vitest 当前为 14 项，并包含截图计数纯函数与 NumberTicker 初值契约。
 
 不要通过删除断言、忽略失败页面或提高既有上限来处理回归。
 

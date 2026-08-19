@@ -4,16 +4,20 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
+import { getWorkImageTransitionName } from "@/lib/work-media";
+
 export function SpotlightCard({
   alt,
   children,
   flip,
   image,
+  workSlug,
 }: {
   alt: string;
   children: ReactNode;
   flip: boolean;
   image?: string;
+  workSlug?: string;
 }) {
   const cardRef = useRef<HTMLElement>(null);
 
@@ -59,9 +63,12 @@ export function SpotlightCard({
   }, []);
 
   return (
-    <article className="work-row spotlight-card" ref={cardRef} data-flip={flip}>
+    <article className="work-row spotlight-card" ref={cardRef} data-flip={flip} data-work-slug={workSlug}>
       {image && (
-        <div className="work-row__media spotlight-card__media">
+        <div
+          className="work-row__media spotlight-card__media"
+          style={{ viewTransitionName: workSlug ? getWorkImageTransitionName(workSlug) : "none" }}
+        >
           <Image className="spotlight-card__negative" src={image} alt={alt} width={1600} height={900} sizes="(max-width: 1024px) 100vw, 54vw" />
           <Image className="spotlight-card__color" src={image} alt="" aria-hidden="true" width={1600} height={900} sizes="(max-width: 1024px) 100vw, 54vw" />
         </div>

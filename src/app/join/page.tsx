@@ -5,6 +5,7 @@ import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
+import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
 import { Dialog } from "@/components/ui/dialog";
@@ -80,9 +81,7 @@ export default function JoinPage() {
           <p className="caps section__index">05 / FAQ</p>
           <h2 id="faq-title" className="section__title">常见问题。</h2>
         </div>
-        <div className="faq-list">
-          {faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}
-        </div>
+        <MechanismAccordion items={faq.map((item) => ({ title: item.question, detail: item.answer }))} />
       </section>
 
       <section id="join-form" className="section" aria-labelledby="join-form-title">
