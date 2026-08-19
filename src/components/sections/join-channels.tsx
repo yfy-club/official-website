@@ -23,7 +23,7 @@ export function JoinChannels({ qqGroup }: { qqGroup: string }) {
       className="join-channels-frame shadow-xs border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors w-full max-w-lg"
     >
       <CardFrameHeader className="py-3 px-4 sm:px-5">
-        <CardFrameTitle className="text-xs">01.1 // QQ 迎新群</CardFrameTitle>
+        <CardFrameTitle className="text-xs">QQ 迎新群</CardFrameTitle>
         <CardFrameAction>
           <Button
             type="button"
