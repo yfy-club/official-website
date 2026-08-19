@@ -82,35 +82,23 @@ button, a, [role='button'] {
   backdrop-filter: blur(18px);
   animation: nav-arrive 560ms var(--ease-out) 120ms both;
 }
-.site-header__links { display: flex; align-items: center; }
+.site-header__links { display: flex; align-items: center; gap: 2px; }
 .site-header__links > a {
   position: relative;
   display: inline-flex;
-  min-height: 44px;
+  min-height: 38px;
   align-items: center;
+  justify-content: center;
   padding-inline: var(--space-3);
+  border-radius: var(--radius-full);
   color: var(--fg-muted);
   font-size: var(--text-caption);
-  transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out);
 }
-.site-header__links > a::after {
-  position: absolute;
-  right: var(--space-3);
-  bottom: 7px;
-  left: var(--space-3);
-  height: 1px;
-  background: var(--accent);
-  content: '';
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-normal) var(--ease-out);
-}
-.site-header__links > a[aria-current='page'] { color: var(--fg); background: var(--accent-quiet); border-radius: var(--radius-full); }
-.site-header__links > a[aria-current='page']::after { opacity: 1; transform: scaleX(1); }
-.site-header__links > .site-header__home { width: 36px; justify-content: center; padding-inline: 0; }
-.site-header__links > .site-header__home::after { right: 10px; left: 10px; }
-.site-header__divider { width: 1px; height: 20px; background: var(--border-strong); }
+.site-header__links > a:hover { color: var(--fg); }
+.site-header__links > a[aria-current='page'] { color: var(--fg); font-weight: 500; }
+.site-header__links > .site-header__home { width: 38px; justify-content: center; padding-inline: 0; }
+.site-header__divider { width: 1px; height: 18px; background: var(--border); margin-inline: 2px; }
 .site-header__nav .theme-toggle { flex: 0 0 auto; border-color: transparent; background: transparent; transition: color var(--dur-fast) var(--ease-out), transform var(--dur-normal) var(--ease-out); }
 .site-header__mobile { display: block; }
 .theme-toggle, .mobile-nav__trigger, .mobile-nav__close, .dialog__close {
@@ -426,8 +414,6 @@ button, a, [role='button'] {
   .button--ghost:hover { background: var(--surface-2); border-color: var(--border-strong); }
   .button--link:hover { border-bottom-color: var(--accent); }
   .site-header__links > a:hover, .site-footer a:hover { color: var(--fg); }
-  .site-header__links > a:hover::after { opacity: .55; transform: scaleX(1); }
-  .site-header__links > a[aria-current='page']:hover::after { opacity: 1; }
   .site-header__nav .theme-toggle:hover { color: var(--accent); transform: rotate(18deg); }
   .home-hero__actions .button:hover svg { transform: translateX(3px); }
 }
