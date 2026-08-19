@@ -740,3 +740,44 @@ test("matrix-calculator and intellibuddy preserve standard gallery layout withou
   await expect(intelliGallery).toBeVisible();
   await expect(intelliGallery.locator(".work-gallery__item")).toHaveCount(4);
 });
+
+test("join page renders 3D poster tilt cards with dialog lightbox", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/join", { waitUntil: "networkidle" });
+
+  const posterGrid = page.locator(".poster-tilt-grid");
+  await expect(posterGrid).toBeVisible();
+
+  const tiltCards = page.locator(".poster-tilt");
+  await expect(tiltCards).toHaveCount(2);
+
+  // First card trigger opens Dialog
+  await tiltCards.first().click();
+  const dialog = page.locator(".dialog__content");
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+});
+
+test("about page renders culture bento photo gallery with focus dimming and lightbox", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/about", { waitUntil: "networkidle" });
+
+  const cultureBento = page.locator(".culture-bento");
+  await expect(cultureBento).toBeVisible();
+
+  const cards = page.locator(".culture-bento__card");
+  await expect(cards).toHaveCount(8);
+
+  // Hover first card triggers focus dimming on others
+  await cards.first().hover();
+  await expect(cards.first()).toHaveAttribute("data-hovered", "true");
+  await expect(cards.nth(1)).toHaveAttribute("data-dimmed", "true");
+
+  // Click card opens Dialog lightbox
+  await cards.first().click();
+  const dialog = page.locator(".dialog__content");
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+});

@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { CultureGallery } from "@/components/sections/culture-gallery";
 import { MemberLadder } from "@/components/sections/member-ladder";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -59,7 +60,16 @@ export default function AboutPage() {
         <div className="advisor__portraits"><div className="advisor__portrait"><Image src={advisorProfile.image} alt={`${advisorProfile.name}教授正式肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div><div className="advisor__portrait"><Image src={advisorProfile.imageSecondary} alt={`${advisorProfile.name}教授工作肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div></div>
         <div><p className="caps section__index">08 / Advisor</p><h2 id="advisor-title" className="section__title">{advisorProfile.name} · {advisorProfile.title}</h2><p className="section__intro">{advisorProfile.summary}</p><ul>{advisorProfile.roles.map((role) => <li key={role}>{role}</li>)}</ul></div>
       </section>
-      <section id="about-culture" className="about-culture" aria-labelledby="culture-title" data-reveal="section"><p className="caps">09 / Culture</p><h2 id="culture-title">{club.values.map((value) => <span key={value}>[ {value} ]</span>)}</h2><p>{club.motto}</p><div className="culture-gallery" data-reveal="group">{culturePhotos.map((photo) => <figure key={photo.src} data-orientation={photo.orientation}><div className="culture-gallery__image"><Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" /></div><figcaption className="caps">{photo.caption}</figcaption></figure>)}</div></section>
+      <section id="about-culture" className="about-culture" aria-labelledby="culture-title" data-reveal="section">
+        <div className="section__head">
+          <p className="caps section__index">09 / Culture</p>
+          <h2 id="culture-title" className="section__title">
+            {club.values.map((value) => <span key={value}>[ {value} ] </span>)}
+          </h2>
+          <p className="section__intro">{club.motto}</p>
+        </div>
+        <CultureGallery photos={culturePhotos} />
+      </section>
     </main>
   );
 }

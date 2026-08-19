@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
-import { Dialog } from "@/components/ui/dialog";
 import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
@@ -108,22 +107,7 @@ export default function JoinPage() {
           <p className="caps section__index">08 / Poster</p>
           <h2 id="poster-title" className="section__title">2026 招新海报。</h2>
         </div>
-        <div className="poster-grid" data-reveal="group">
-          {posters.map((poster) => (
-            <Dialog
-              key={poster.src}
-              title={poster.label}
-              trigger={(
-                <button type="button" className="poster-card">
-                  <Image src={poster.src} alt="" width={900} height={1350} sizes="(max-width: 640px) 50vw, 35vw" />
-                  <span>{poster.label}</span>
-                </button>
-              )}
-            >
-              <Image src={poster.src} alt={poster.label} width={1400} height={2100} sizes="90vw" />
-            </Dialog>
-          ))}
-        </div>
+        <PosterTiltCard posters={posters} />
       </section>
     </main>
   );
