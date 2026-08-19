@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, ExternalLink, Sparkles, Terminal } from "lucide-react";
+import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { SpotlightCard } from "@/components/motion/spotlight-card";
@@ -10,7 +10,6 @@ import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tag } from "@/components/ui/tag";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -74,67 +73,80 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       ) : (
         <>
           {live.length > 0 && (
-            <section id="works-live" className="section mb-12" aria-labelledby="live-title">
+            <section id="works-live" className="section mb-14" aria-labelledby="live-title">
               <div className="section__head">
                 <p className="caps section__index">02 / Shipped</p>
                 <h2 id="live-title" className="section__title">已上线交付。</h2>
               </div>
               <div className="works-list">
-                {live.map((work, index) => (
+                {live.map((work) => (
                   <SpotlightCard
                     key={work.slug}
                     image={work.image}
                     alt={`${work.nameZh}运行界面`}
-                    flip={index % 2 === 1}
                     workSlug={work.detail ? work.slug : undefined}
                   >
-                    <div className="work-row__copy">
-                      <div className="work-row__status">
-                        <Badge variant="active" pulse>
-                          {work.status}
-                        </Badge>
-                        {work.detail && (
-                          <span className="caps tabular">
-                            {countWorkScreenshots(work)} Screens / 系统实录
-                          </span>
+                    <div className="work-row__copy flex flex-col justify-between p-6 sm:p-8">
+                      <div>
+                        <div className="work-row__status mb-3">
+                          <Badge variant="active" pulse>
+                            {work.status}
+                          </Badge>
+                          {work.detail && (
+                            <span className="caps tabular text-xs font-mono text-[var(--fg-faint)]">
+                              {countWorkScreenshots(work)} SCREENS / 系统实录
+                            </span>
+                          )}
+                        </div>
+                        <h2 className="text-xl sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
+                          {work.nameZh}
+                        </h2>
+                        {work.nameEn && (
+                          <p className="display-latin text-sm text-[var(--fg-faint)] mb-3">
+                            {work.nameEn}
+                          </p>
                         )}
+                        <p className="text-sm text-[var(--fg-muted)] leading-relaxed mb-4">
+                          {work.tagline}
+                        </p>
+                        <ul className="space-y-1.5 text-xs text-[var(--fg-muted)] mb-5">
+                          {work.highlights.map((item) => (
+                            <li key={item} className="flex items-center gap-2">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" />
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="stack-row mb-6">
+                          {work.stackSummary.map((item) => (
+                            <Tooltip key={item}>
+                              <TooltipTrigger asChild>
+                                <span tabIndex={0} className="inline-flex cursor-help">
+                                  <Tag>{item}</Tag>
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                {work.nameZh} 技术栈：{item}
+                              </TooltipContent>
+                            </Tooltip>
+                          ))}
+                        </div>
                       </div>
-                      <h2>{work.nameZh}</h2>
-                      {work.nameEn && <p className="display-latin work-row__en">{work.nameEn}</p>}
-                      <p>{work.tagline}</p>
-                      <ul>
-                        {work.highlights.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                      <div className="stack-row">
-                        {work.stackSummary.map((item) => (
-                          <Tooltip key={item}>
-                            <TooltipTrigger asChild>
-                              <span tabIndex={0} className="inline-flex cursor-help">
-                                <Tag>{item}</Tag>
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {work.nameZh} 核心技术组件：{item}
-                            </TooltipContent>
-                          </Tooltip>
-                        ))}
-                      </div>
-                      <div className="work-row__links pt-2">
+
+                      <div className="work-row__links flex flex-wrap items-center gap-3 pt-2 border-t border-[var(--border)]">
                         {work.detail && (
-                          <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] hover:bg-[var(--surface-2)]">
+                          <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs">
                             <Link href={`/works/${work.slug}`}>
-                              <Terminal size={14} aria-hidden="true" />
-                              <span>工程记录</span>
-                              <ArrowRight aria-hidden="true" size={15} />
+                              <span>查看工程手记</span>
+                              <ArrowRight aria-hidden="true" size={14} />
                             </Link>
                           </Button>
                         )}
                         {work.liveUrl && (
-                          <Button asChild variant="link" className="font-mono text-xs">
+                          <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs hover:bg-[var(--surface-2)]">
                             <a href={work.liveUrl} target="_blank" rel="noreferrer">
-                              在线访问 <ExternalLink aria-hidden="true" size={14} />
+                              <span>在线体验</span>
+                              <ExternalLink aria-hidden="true" size={13} />
                             </a>
                           </Button>
                         )}
@@ -154,27 +166,19 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
               </div>
               <div className="incubating-grid">
                 {incubating.map((work, index) => (
-                  <Card corners key={work.slug} variant="frame" className="relative flex flex-col justify-between overflow-hidden">
+                  <Card corners key={work.slug} variant="frame" className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors">
                     <div>
                       <CardMeta
                         code={`LAB-${String(index + 1).padStart(2, "0")}`}
                         revision="REV 2026.1"
                         status={{ label: work.status, variant: "warning" }}
                       />
-                      <CardBody className="pb-3">
-                        <div className="flex items-center gap-2 mb-1">
+                      <CardBody className="pb-4">
+                        <div className="flex items-center gap-2 mb-1.5">
                           <Sparkles className="h-4 w-4 text-[var(--warn)]" />
                           <h3 className="text-base font-semibold text-[var(--fg)]">{work.nameZh}</h3>
                         </div>
-                        <p className="text-sm text-[var(--fg-muted)] mb-3">{work.tagline}</p>
-
-                        <div className="space-y-1.5 p-3 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] mb-3">
-                          <div className="flex justify-between text-xs font-mono">
-                            <span className="text-[var(--fg-muted)]">阶段目标: 模型评测与微调</span>
-                            <span className="text-[var(--fg)] font-semibold">75%</span>
-                          </div>
-                          <Progress value={75} className="h-1.5 bg-[var(--surface)]" />
-                        </div>
+                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4">{work.tagline}</p>
 
                         <div className="stack-row">
                           {work.stackSummary.map((item) => (
@@ -184,7 +188,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                                   <Tag>{item}</Tag>
                                 </span>
                               </TooltipTrigger>
-                              <TooltipContent>在研验证栈：{item}</TooltipContent>
+                              <TooltipContent>在研技术栈：{item}</TooltipContent>
                             </Tooltip>
                           ))}
                         </div>

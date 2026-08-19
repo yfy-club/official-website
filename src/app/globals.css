@@ -1423,7 +1423,6 @@ button, a, [role='button'] {
   .stack-groups { grid-template-columns: repeat(3, 1fr); }
   .roadmap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .roadmap__branches { grid-column: 1 / -1; }
-  .work-row[data-flip='true'] .work-row__media { order: 2; }
   .work-detail__hero { grid-template-columns: 1fr auto; align-items: end; }
   .work-detail__logo { width: 200px; height: 200px; }
   .shot-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
