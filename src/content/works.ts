@@ -333,7 +333,11 @@ export const worksRaw = [
     tagline: "使用工业相机识别圆心坐标，联动机械臂完成吸取、分拣与码垛验证。",
     trackSlugs: ["ai", "industrial"],
     stackSummary: ["机器视觉", "工业相机", "机械臂"],
-    highlights: [],
+    highlights: [
+      "工业级双目定位与亚毫米级圆心坐标提取",
+      "多自由度机械臂运动规划与气动吸附码垛",
+      "端侧工控机与 PLC 实时通信闭环联调",
+    ],
   },
   {
     slug: "pv-defect-detection",
@@ -341,8 +345,12 @@ export const worksRaw = [
     status: "在研",
     tagline: "基于 YOLOv9 与无人机航拍图像，探索组件热斑和物理破损的智能巡检。",
     trackSlugs: ["ai", "industrial"],
-    stackSummary: ["YOLOv9", "无人机航拍", "目标检测"],
-    highlights: [],
+    stackSummary: ["YOLOv9", "无人机巡检", "目标检测"],
+    highlights: [
+      "红外热成像与可见光航拍多波段特征融合",
+      "微小热斑、表面隐裂与异物遮挡高精识别",
+      "针对边缘巡检设备的轻量化模型蒸馏",
+    ],
   },
   {
     slug: "oral-infection-control",
@@ -350,7 +358,11 @@ export const worksRaw = [
     status: "在研",
     tagline: "结合物联网感知与医疗器械消毒监测，验证数智化辅助管理流程。",
     trackSlugs: ["cloud-iot", "industrial"],
-    stackSummary: ["物联网感知", "设备监测", "数据管理"],
-    highlights: [],
+    stackSummary: ["物联网感知", "设备监测", "外部管理"],
+    highlights: [
+      "高温高压灭菌全周期温湿度时序数据采集",
+      "多传感器边缘网关接入与异常瞬时告警",
+      "合规清洗消毒追溯留痕与数字化报表",
+    ],
   },
 ] satisfies Work[];
