@@ -13,6 +13,31 @@ const stageSchema = z.object({
   items: z.array(z.string().min(2)).min(3).max(5),
 });
 
+export const trackMetricSchema = z.object({
+  code: z.string(),
+  label: z.string(),
+  value: z.number(),
+  suffix: z.string().optional(),
+  detail: z.string(),
+});
+
+export const trackDeepFocusSchema = z.object({
+  title: z.string(),
+  subtitle: z.string(),
+  description: z.string(),
+  techTags: z.array(z.string()),
+  highlight: z.string(),
+});
+
+export const trackCurriculumModuleSchema = z.object({
+  stage: z.string(),
+  title: z.string(),
+  objective: z.string(),
+  coreTopics: z.array(z.string()),
+  experiment: z.string(),
+  reviewStandard: z.string(),
+});
+
 export const trackSchema = z.object({
   slug: trackSlugSchema,
   index: z.string().regex(/^0[1-5]$/),
@@ -20,11 +45,15 @@ export const trackSchema = z.object({
   nameEn: z.string().min(2),
   tagline: z.string().min(10).max(40),
   positioning: z.string().min(30),
+  metrics: z.array(trackMetricSchema).optional(),
   stack: z.object({
     languages: z.array(z.string()).min(1),
     frameworks: z.array(z.string()).min(1),
     engineering: z.array(z.string()).min(1),
+    toolchain: z.array(z.string()).optional(),
   }),
+  deepFocus: z.array(trackDeepFocusSchema).optional(),
+  curriculumModules: z.array(trackCurriculumModuleSchema).optional(),
   roadmap: z.object({
     freshman: stageSchema,
     sophomore: stageSchema,

@@ -1,16 +1,22 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid, Terminal, Wrench } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { DrawPath } from "@/components/motion/draw-path";
+import { TrackCurriculumAccordion } from "@/components/sections/track-curriculum-accordion";
+import { TrackDeepFocus } from "@/components/sections/track-deep-focus";
+import { TrackMetricsBar } from "@/components/sections/track-metrics-bar";
 import { StructuredData } from "@/components/seo/structured-data";
+import { Badge } from "@/components/ui/badge";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
+import { Kbd } from "@/components/ui/kbd";
 import { StageIndicator } from "@/components/ui/stage-indicator";
 import { Tag } from "@/components/ui/tag";
+import { TechTag } from "@/components/ui/tech-tag";
 import { awards, tracks, works } from "@/content";
 import { breadcrumbJsonLd, createMetadata, trackJsonLd } from "@/lib/seo";
 
@@ -27,8 +33,8 @@ export async function generateMetadata({
   const track = tracks.find((item) => item.slug === slug);
   return track
     ? createMetadata({
-        title: track.nameZh,
-        description: track.positioning,
+        title: `${track.nameZh}方向`,
+        description: `${track.positioning} 涵盖大一至大三阶梯进阶实训、重点攻坚架构与真实工程项目。`,
         path: `/tracks/${track.slug}`,
       })
     : {};
@@ -48,11 +54,7 @@ export default async function TrackDetailPage({
   const relatedAwards = awards.filter((award) => track.relatedAwardIds.includes(award.id));
   const previous = tracks[(trackIndex - 1 + tracks.length) % tracks.length];
   const next = tracks[(trackIndex + 1) % tracks.length];
-  const stackGroups = [
-    ["语言", track.stack.languages],
-    ["框架与平台", track.stack.frameworks],
-    ["工程方向", track.stack.engineering],
-  ] as const;
+
   const primaryStages = [track.roadmap.freshman, track.roadmap.sophomore];
   const branchStages = [
     { ...track.roadmap.junior.employment, code: "STG-03A", path: "就业路径", tone: "success" as const },
@@ -63,7 +65,7 @@ export default async function TrackDetailPage({
     <main id="main-content" className="page-main page-shell track-detail" tabIndex={-1}>
       <StructuredData data={breadcrumbJsonLd([
         { name: "首页", path: "/" },
-        { name: "方向", path: "/tracks" },
+        { name: "技术方向", path: "/tracks" },
         { name: track.nameZh, path: `/tracks/${track.slug}` },
       ])} />
       <StructuredData data={trackJsonLd(track)} />
@@ -71,15 +73,18 @@ export default async function TrackDetailPage({
         label={track.nameZh}
         sections={[
           { id: "track-start", index: "01", label: "方向概况" },
-          { id: "track-stack", index: "02", label: "核心技术栈" },
-          { id: "track-roadmap", index: "03", label: "培养路线" },
-          { id: "track-evidence", index: "04", label: "相关成果" },
-          { id: "track-switch", index: "05", label: "方向切换" },
-          { id: "track-join", index: "06", label: "招新报名" },
+          { id: "track-metrics", index: "02", label: "核心指标" },
+          { id: "track-stack", index: "03", label: "技术栈全景" },
+          { id: "track-focus", index: "04", label: "重点攻坚" },
+          { id: "track-curriculum", index: "05", label: "实训模块" },
+          { id: "track-roadmap", index: "06", label: "培养路线" },
+          { id: "track-evidence", index: "07", label: "相关成果" },
+          { id: "track-switch", index: "08", label: "方向切换" },
+          { id: "track-join", index: "09", label: "招新报名" },
         ]}
       />
 
-      <div className="pt-2 pb-1">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-2">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -95,34 +100,140 @@ export default async function TrackDetailPage({
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
+        <Button asChild variant="ghost" size="sm" className="h-8 px-2.5 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]">
+          <Link href="/tracks">
+            <ArrowLeft size={13} aria-hidden="true" />
+            <span>返回技术拓扑中枢</span>
+          </Link>
+        </Button>
       </div>
 
-      <header id="track-start" className="track-detail__hero">
-        <p className="caps">{track.index} / Technical Track</p>
-        <h1>{track.nameZh}</h1>
-        <p className="display-latin">{track.nameEn}</p>
-        <p>{track.positioning}</p>
+      {/* 01 / 方向概况 Header */}
+      <header id="track-start" className="track-detail__hero mb-8">
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="font-mono text-xs font-semibold text-[var(--accent)]">
+              TRK-{track.index} {"//"} TECHNICAL DOSSIER
+            </span>
+            <Badge variant="active">ACTIVE TRACK</Badge>
+          </div>
+          <h1>{track.nameZh}</h1>
+          <p className="display-latin">{track.nameEn}</p>
+          <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-2 mb-4">
+            {track.positioning}
+          </p>
+          <div className="flex items-center gap-2 pt-2 text-xs font-mono text-[var(--fg-muted)]">
+            <span className="text-[var(--fg-faint)]">目标岗位：</span>
+            <span className="font-semibold text-[var(--fg)]">{track.goal}</span>
+          </div>
+        </div>
       </header>
 
-      <section id="track-stack" className="section" aria-labelledby="stack-title" data-reveal="section">
+      {/* 02 / 核心指标舱 */}
+      {track.metrics && (
+        <section id="track-metrics" aria-label="技术方向指标舱">
+          <TrackMetricsBar metrics={track.metrics} />
+        </section>
+      )}
+
+      {/* 03 / 核心技术栈全景与工具链 */}
+      <section id="track-stack" className="section mb-14" aria-labelledby="stack-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">02 / Stack</p>
-          <h2 id="stack-title" className="section__title">核心技术栈。</h2>
+          <p className="caps section__index">03 / Stack & Toolchain</p>
+          <h2 id="stack-title" className="section__title">核心技术栈与工具链全景。</h2>
+          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
+            覆盖底层语言、核心框架、工程范式与高频开发调试工具，点击技术标签可查看精炼简介与官方文档。
+          </p>
         </div>
-        <div className="stack-groups" data-reveal="group">
-          {stackGroups.map(([label, items]) => (
-            <div key={label}>
-              <h3 className="caps">{label}</h3>
-              <div className="stack-row">{items.map((item) => <Tag key={item}>{item}</Tag>)}</div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" data-reveal="group">
+          {/* 语言 & 核心框架 */}
+          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+            <div className="flex items-center gap-2 mb-4">
+              <Terminal size={16} className="text-[var(--accent)]" />
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                {"编程语言与核心库 // LANGUAGES & LIBS"}
+              </h3>
             </div>
-          ))}
+            <div className="flex flex-wrap gap-2">
+              {track.stack.languages.concat(track.stack.frameworks).map((tech) => (
+                <TechTag key={tech} name={tech} className="py-1.5 px-3 text-xs" />
+              ))}
+            </div>
+          </div>
+
+          {/* 工程方向与架构范式 */}
+          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                {"工程范式与攻坚方向 // PARADIGMS"}
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {track.stack.engineering.map((item) => (
+                <Tag key={item} className="py-1.5 px-2.5 text-xs bg-[var(--surface-2)] border border-[var(--border)]">
+                  {item}
+                </Tag>
+              ))}
+            </div>
+          </div>
+
+          {/* 开发者工具链 */}
+          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs">
+            <div className="flex items-center gap-2 mb-4">
+              <Wrench size={16} className="text-[var(--accent)]" />
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                {"开发者工具链 // TOOLCHAIN"}
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {(track.stack.toolchain ?? ["Git", "Docker", "Linux", "VS Code"]).map((tool) => (
+                <Kbd key={tool} className="py-1 px-2.5 text-xs">
+                  {tool}
+                </Kbd>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section id="track-roadmap" className="section" aria-labelledby="roadmap-title">
+      {/* 04 / 重点攻坚架构 */}
+      {track.deepFocus && track.deepFocus.length > 0 && (
+        <section id="track-focus" className="section mb-14" aria-labelledby="focus-title" data-reveal="section">
+          <div className="section__head">
+            <p className="caps section__index">04 / Deep Architecture</p>
+            <h2 id="focus-title" className="section__title">核心架构与重点攻坚领域。</h2>
+            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
+              深入底层原理与系统架构，真实攻坚工业界与科研中的核心难点。
+            </p>
+          </div>
+          <TrackDeepFocus items={track.deepFocus} />
+        </section>
+      )}
+
+      {/* 05 / 阶梯实训模块与考核标准 */}
+      {track.curriculumModules && track.curriculumModules.length > 0 && (
+        <section id="track-curriculum" className="section mb-14" aria-labelledby="curriculum-title" data-reveal="section">
+          <div className="section__head">
+            <p className="caps section__index">05 / Curriculum & Review</p>
+            <h2 id="curriculum-title" className="section__title">阶段实训模块与代码审查标准。</h2>
+            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
+              以老带新导师制全程纠偏，期中/期末标准化代码讲评与答辩闭环。
+            </p>
+          </div>
+          <TrackCurriculumAccordion modules={track.curriculumModules} />
+        </section>
+      )}
+
+      {/* 06 / 三年培养体系与发展路径 */}
+      <section id="track-roadmap" className="section mb-14" aria-labelledby="roadmap-title">
         <div className="section__head" data-reveal="group">
-          <p className="caps section__index">03 / Roadmap</p>
-          <h2 id="roadmap-title" className="section__title">三年培养体系与发展路径。</h2>
+          <p className="caps section__index">06 / Roadmap</p>
+          <h2 id="roadmap-title" className="section__title">三年培养体系与双通道发展。</h2>
+          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
+            大一扎实打牢底层，大二项目全面攻坚，大三面向就业与升学双通道精准发力。
+          </p>
         </div>
         <DrawPath />
         <div className="roadmap" data-reveal="group">
@@ -131,12 +242,19 @@ export default async function TrackDetailPage({
               <CardMeta
                 code={`STG-0${index + 1}`}
                 revision={`STEP ${index + 1}/3`}
-                status={{ label: index === 0 ? "FOUNDATION" : "CORE", variant: "active" }}
+                status={{ label: index === 0 ? "FOUNDATION" : "SPECIALIZATION", variant: "active" }}
               />
               <CardBody>
                 <StageIndicator active={index + 1} label={stage.label} total={3} />
-                <h3>{stage.label}</h3>
-                <ul>{stage.items.map((item) => <li key={item}>{item}</li>)}</ul>
+                <h3 className="text-base font-bold text-[var(--fg)] mb-3">{stage.label}</h3>
+                <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg-muted)]">
+                  {stage.items.map((item) => (
+                    <li key={item} className="leading-relaxed flex items-start gap-2">
+                      <span className="text-[var(--accent)] font-mono font-bold select-none">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </CardBody>
             </Card>
           ))}
@@ -150,8 +268,15 @@ export default async function TrackDetailPage({
                 />
                 <CardBody>
                   <StageIndicator active={3} label={stage.label} tone={stage.tone} total={3} />
-                  <h3>{stage.label}</h3>
-                  <ul>{stage.items.map((item) => <li key={item}>{item}</li>)}</ul>
+                  <h3 className="text-base font-bold text-[var(--fg)] mb-3">{stage.label}</h3>
+                  <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg-muted)]">
+                    {stage.items.map((item) => (
+                      <li key={item} className="leading-relaxed flex items-start gap-2">
+                        <span className="text-[var(--accent)] font-mono font-bold select-none">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </CardBody>
               </Card>
             ))}
@@ -159,26 +284,39 @@ export default async function TrackDetailPage({
         </div>
       </section>
 
+      {/* 07 / 相关代表项目与赛事成果 */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
-        <section id="track-evidence" className="section" aria-labelledby="related-title" data-reveal="section">
+        <section id="track-evidence" className="section mb-14" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">04 / Outcomes</p>
+            <p className="caps section__index">07 / Outcomes & Evidence</p>
             <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
+            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
+              该技术方向沉淀的真实工程系统与权威学科竞赛凭证。
+            </p>
           </div>
           <div className="related-grid" data-reveal="group">
             {relatedWorks.map((work, index) => (
               <Card corners key={work.slug} variant="frame">
                 <CardMeta
                   code={`WRK-${String(index + 1).padStart(2, "0")}`}
-                  revision="PROJECT"
+                  revision="PROJECT CASE"
                   status={{
                     label: work.status,
                     pulse: work.status === "已上线",
                     variant: work.status === "已上线" ? "active" : work.status === "在研" ? "warning" : "neutral",
                   }}
                 />
-                <CardBody><h3>{work.nameZh}</h3><p>{work.tagline}</p></CardBody>
-                {work.detail && <CardFooter><Link className="text-link" href={`/works/${work.slug}`}>查看项目详情 <ArrowRight aria-hidden="true" size={15} /></Link></CardFooter>}
+                <CardBody>
+                  <h3 className="text-base font-bold text-[var(--fg)] mb-1.5">{work.nameZh}</h3>
+                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-2">{work.tagline}</p>
+                </CardBody>
+                {work.detail && (
+                  <CardFooter className="pt-2 border-t border-[var(--border)]">
+                    <Link className="text-link text-xs font-mono" href={`/works/${work.slug}`}>
+                      查看项目详情 <ArrowRight aria-hidden="true" size={13} />
+                    </Link>
+                  </CardFooter>
+                )}
               </Card>
             ))}
             {relatedAwards.map((award, index) => (
@@ -188,21 +326,43 @@ export default async function TrackDetailPage({
                   revision={award.year}
                   status={{ label: award.level, variant: "success" }}
                 />
-                <CardBody><h3>{award.competition}</h3><p>{award.result}</p></CardBody>
-                <CardFooter><Link className="text-link" href="/awards">查看荣誉档案 <ArrowRight aria-hidden="true" size={15} /></Link></CardFooter>
+                <CardBody>
+                  <h3 className="text-base font-bold text-[var(--fg)] mb-1.5">{award.competition}</h3>
+                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-2">{award.result}</p>
+                </CardBody>
+                <CardFooter className="pt-2 border-t border-[var(--border)]">
+                  <Link className="text-link text-xs font-mono" href="/awards">
+                    查看荣誉档案 <ArrowRight aria-hidden="true" size={13} />
+                  </Link>
+                </CardFooter>
               </Card>
             ))}
           </div>
         </section>
       )}
 
-      <nav id="track-switch" className="pager" aria-label="方向切换" data-reveal="group">
-        <Link href={`/tracks/${previous.slug}`}><ArrowLeft aria-hidden="true" size={18} /><span><small>上一个方向</small>{previous.nameZh}</span></Link>
-        <Link href={`/tracks/${next.slug}`}><span><small>下一个方向</small>{next.nameZh}</span><ArrowRight aria-hidden="true" size={18} /></Link>
+      {/* 08 / 方向切换导航 */}
+      <nav id="track-switch" className="pager pager--with-overview mb-12" aria-label="方向切换" data-reveal="group">
+        <Link href={`/tracks/${previous.slug}`}>
+          <ArrowLeft aria-hidden="true" size={18} />
+          <span><small>上一个方向</small>{previous.nameZh}</span>
+        </Link>
+        <Link href="/tracks" className="pager__overview">
+          <LayoutGrid aria-hidden="true" size={16} />
+          <span><small>拓扑索引</small>技术方向总览</span>
+        </Link>
+        <Link href={`/tracks/${next.slug}`}>
+          <span><small>下一个方向</small>{next.nameZh}</span>
+          <ArrowRight aria-hidden="true" size={18} />
+        </Link>
       </nav>
+
+      {/* 09 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <p>对该技术方向感兴趣？欢迎加入云飞扬与我们同行。</p>
-        <Button asChild><Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
+        <p>对【{track.nameZh}】方向感兴趣？欢迎加入云飞扬，在真实工程与竞赛中与我们同行。</p>
+        <Button asChild>
+          <Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link>
+        </Button>
       </section>
     </main>
   );
