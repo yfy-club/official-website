@@ -314,3 +314,71 @@ test("semantic, canonical, image, sitemap, and robots contracts", async ({ page,
   expect(robots).toContain("Allow: /");
   expect(robots).toContain("Sitemap:");
 });
+
+test("tracks console is strictly isolated from reveal annotations", async ({ page }) => {
+  await page.goto("/tracks", { waitUntil: "networkidle" });
+  const tracksRoutes = page.locator("#tracks-routes");
+  await expect(tracksRoutes).toBeVisible();
+  await expect(tracksRoutes).not.toHaveAttribute("data-reveal");
+  await expect(page.locator("#tracks-routes [data-reveal]")).toHaveCount(0);
+});
+
+test("scroll-driven reveal animates offscreen narrative targets into viewport", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  const supportsViewTimeline = await page.evaluate(() => CSS.supports("animation-timeline", "view()"));
+  if (!supportsViewTimeline) return;
+
+  const target = page.locator("#home-join p").first();
+  await expect(target).toBeAttached();
+
+  const initial = await target.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      opacity: Number.parseFloat(style.opacity),
+      translate: style.translate,
+    };
+  });
+  expect(initial.opacity).toBeLessThanOrEqual(0.1);
+
+  await target.scrollIntoViewIfNeeded();
+
+  await expect.poll(async () => {
+    return target.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const opacity = Number.parseFloat(style.opacity);
+      const tr = style.translate;
+      const settled = tr === "none" || tr === "0px" || tr === "0px 0px" || tr === "0px 0px 0px" || tr === "0% 0%";
+      return {
+        visible: opacity >= 0.99,
+        settled,
+      };
+    });
+  }).toEqual({
+    visible: true,
+    settled: true,
+  });
+});
+
+test("reduced motion disables all reveal animations with immediate full display", async ({ browser }) => {
+  const context = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  for (const route of ["/", "/works", "/about", "/join", "/tracks/ai"] as const) {
+    await page.goto(route, { waitUntil: "networkidle" });
+    const count = await page.locator("[data-reveal]").count();
+    expect(count).toBeGreaterThan(0);
+
+    const invalid = await page.evaluate(() => {
+      const elements = [...document.querySelectorAll<HTMLElement>("[data-reveal], [data-reveal] > *, [data-reveal='section'] > .section__head > *")];
+      return elements
+        .filter((el) => {
+          const style = getComputedStyle(el);
+          const tr = style.translate;
+          const isZeroTranslate = tr === "none" || tr === "0px" || tr === "0px 0px" || tr === "0px 0px 0px";
+          return style.opacity !== "1" || !isZeroTranslate;
+        })
+        .map((el) => `${el.tagName.toLowerCase()}.${el.className}`);
+    });
+    expect(invalid, `${route} had elements not fully visible in reduced motion`).toEqual([]);
+  }
+  await context.close();
+});

@@ -85,12 +85,12 @@ export default async function TrackDetailPage({
         <p>{track.positioning}</p>
       </header>
 
-      <section id="track-stack" className="section" aria-labelledby="stack-title">
+      <section id="track-stack" className="section" aria-labelledby="stack-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">02 / Stack</p>
           <h2 id="stack-title" className="section__title">要学会什么。</h2>
         </div>
-        <div className="stack-groups">
+        <div className="stack-groups" data-reveal="group">
           {stackGroups.map(([label, items]) => (
             <div key={label}>
               <h3 className="caps">{label}</h3>
@@ -101,12 +101,12 @@ export default async function TrackDetailPage({
       </section>
 
       <section id="track-roadmap" className="section" aria-labelledby="roadmap-title">
-        <div className="section__head">
+        <div className="section__head" data-reveal="group">
           <p className="caps section__index">03 / Roadmap</p>
           <h2 id="roadmap-title" className="section__title">三年航迹，终点是两条等权的路。</h2>
         </div>
         <DrawPath />
-        <div className="roadmap">
+        <div className="roadmap" data-reveal="group">
           {primaryStages.map((stage, index) => (
             <Card className="roadmap__stage" corners key={stage.label} variant="frame">
               <CardMeta
@@ -141,12 +141,12 @@ export default async function TrackDetailPage({
       </section>
 
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
-        <section id="track-evidence" className="section" aria-labelledby="related-title">
+        <section id="track-evidence" className="section" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">04 / Evidence</p>
             <h2 id="related-title" className="section__title">相关产出。</h2>
           </div>
-          <div className="related-grid">
+          <div className="related-grid" data-reveal="group">
             {relatedWorks.map((work, index) => (
               <Card corners key={work.slug} variant="frame">
                 <CardMeta
@@ -177,11 +177,11 @@ export default async function TrackDetailPage({
         </section>
       )}
 
-      <nav id="track-switch" className="pager" aria-label="方向切换">
+      <nav id="track-switch" className="pager" aria-label="方向切换" data-reveal="group">
         <Link href={`/tracks/${previous.slug}`}><ArrowLeft aria-hidden="true" size={18} /><span><small>上一条航道</small>{previous.nameZh}</span></Link>
         <Link href={`/tracks/${next.slug}`}><span><small>下一条航道</small>{next.nameZh}</span><ArrowRight aria-hidden="true" size={18} /></Link>
       </nav>
-      <section id="track-join" className="cta-band" aria-label="加入社团">
+      <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <p>这条路听起来像你？</p>
         <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
       </section>

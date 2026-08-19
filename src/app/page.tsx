@@ -59,24 +59,24 @@ export default function Home() {
       <div className="home-breath" aria-hidden="true" />
       <section id="home-stats" className="section page-shell" aria-labelledby="stats-title">
         <h2 id="stats-title" className="sr-only">社团数字</h2>
-        <dl className="stats-grid">
+        <dl className="stats-grid" data-reveal="group">
           {stats.map((item, index) => (
             <div key={item.label}><dt className="tabular"><NumberTicker value={item.value} startValue={"startValue" in item ? item.startValue : 0} delay={index * 0.06} />{"suffix" in item && item.suffix}</dt><dd>{item.label}</dd></div>
           ))}
         </dl>
       </section>
-      <section id="home-tracks" className="section page-shell" aria-labelledby="tracks-title">
+      <section id="home-tracks" className="section page-shell" aria-labelledby="tracks-title" data-reveal="section">
         <div className="section__head"><p className="caps section__index">02 / Tracks</p><h2 id="tracks-title" className="section__title">五条航道，选一条走深。</h2></div>
-        <ol className="home-tracks clean-list">
+        <ol className="home-tracks clean-list" data-reveal="group">
           {tracks.map((track) => (
             <li key={track.slug}><Link href={`/tracks/${track.slug}`}><span className="tabular">{track.index}</span><strong>{track.nameZh}</strong><span>{track.tagline}</span><ArrowRight aria-hidden="true" size={18} /></Link></li>
           ))}
         </ol>
       </section>
       {feature?.detail && feature.image && (
-        <section id="home-feature" className="section page-shell" aria-labelledby="feature-title">
+        <section id="home-feature" className="section page-shell" aria-labelledby="feature-title" data-reveal="section">
           <div className="section__head"><p className="caps section__index">03 / One real thing</p><h2 id="feature-title" className="section__title">一件现在就能打开的真东西。</h2></div>
-          <article className="home-feature">
+          <article className="home-feature" data-reveal="group">
             <div className="home-feature__media"><Image src={feature.image} alt="矩阵计算器亮色主题主界面" width={1600} height={900} sizes="(max-width: 1024px) 100vw, 58vw" /></div>
             <div className="home-feature__copy">
               <p className="caps">{feature.status}</p><h3>{feature.nameZh}</h3><p>{feature.tagline}</p>
@@ -90,7 +90,7 @@ export default function Home() {
           </article>
         </section>
       )}
-      <section id="home-join" className="cta-band page-shell" aria-label="加入社团"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即加入 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
+      <section id="home-join" className="cta-band page-shell" aria-label="加入社团" data-reveal="group"><p>{club.subSlogan}</p><Button asChild><Link href="/join">立即加入 <ArrowRight aria-hidden="true" size={17} /></Link></Button></section>
     </main>
   );
 }

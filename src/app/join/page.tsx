@@ -45,38 +45,38 @@ export default function JoinPage() {
         <PageHero eyebrow="01 / Join" title="Join." subtitle="登机口" intro="我们要的不是已经会的人，是想学会的人。" />
       </div>
 
-      <section id="join-fit" className="section" aria-labelledby="criteria-title">
+      <section id="join-fit" className="section" aria-labelledby="criteria-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">02 / Fit</p>
           <h2 id="criteria-title" className="section__title">先确认这里适不适合你。</h2>
         </div>
-        <div className="criteria-grid">
+        <div className="criteria-grid" data-reveal="group">
           <Card><p className="caps">适合加入</p><ul>{joinCriteria.suitable.map((item) => <li key={item}>{item}</li>)}</ul></Card>
           <Card><p className="caps">暂不适合</p><ul>{joinCriteria.unsuitable.map((item) => <li key={item}>{item}</li>)}</ul></Card>
         </div>
       </section>
 
-      <section id="join-process" className="section" aria-labelledby="process-title">
+      <section id="join-process" className="section" aria-labelledby="process-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">03 / Process</p>
           <h2 id="process-title" className="section__title">从报名到转正。</h2>
         </div>
-        <ol className="join-process clean-list">
+        <ol className="join-process clean-list" data-reveal="group">
           {joinProcess.map((item, index) => <li key={item}><span className="tabular">0{index + 1}</span><p>{item}</p></li>)}
         </ol>
       </section>
 
-      <section id="join-voices" className="section" aria-labelledby="voices-title">
+      <section id="join-voices" className="section" aria-labelledby="voices-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">04 / Voices</p>
           <h2 id="voices-title" className="section__title">成员怎么说。</h2>
         </div>
-        <div className="voices-grid">
+        <div className="voices-grid" data-reveal="group">
           {memberVoices.map((voice) => <blockquote key={voice.author}><p>“{voice.quote}”</p><cite>{voice.author}</cite></blockquote>)}
         </div>
       </section>
 
-      <section id="join-faq" className="section" aria-labelledby="faq-title">
+      <section id="join-faq" className="section" aria-labelledby="faq-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">05 / FAQ</p>
           <h2 id="faq-title" className="section__title">常见问题。</h2>
@@ -84,7 +84,7 @@ export default function JoinPage() {
         <MechanismAccordion items={faq.map((item) => ({ title: item.question, detail: item.answer }))} />
       </section>
 
-      <section id="join-form" className="section" aria-labelledby="join-form-title">
+      <section id="join-form" className="section" aria-labelledby="join-form-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">06 / Apply</p>
           <h2 id="join-form-title" className="section__title">留下你的航向。</h2>
@@ -95,7 +95,7 @@ export default function JoinPage() {
         />
       </section>
 
-      <section id="join-channel" className="section" aria-labelledby="channel-title">
+      <section id="join-channel" className="section" aria-labelledby="channel-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">07 / Boarding</p>
           <h2 id="channel-title" className="section__title">加入 2026 迎新群。</h2>
@@ -103,12 +103,12 @@ export default function JoinPage() {
         <JoinChannels qqGroup={club.qqGroup} />
       </section>
 
-      <section id="join-poster" className="section" aria-labelledby="poster-title">
+      <section id="join-poster" className="section" aria-labelledby="poster-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">08 / Poster</p>
           <h2 id="poster-title" className="section__title">2026 招新海报。</h2>
         </div>
-        <div className="poster-grid">
+        <div className="poster-grid" data-reveal="group">
           {posters.map((poster) => (
             <Dialog
               key={poster.src}

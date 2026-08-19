@@ -1148,6 +1148,76 @@ button, a, [role='button'] {
 .cert-drawer { overflow: visible; }
 .cert-drawer .dialog__body { overflow: auto; max-height: calc(100dvh - 12rem); }
 
+/* ── M2: scroll-driven narrative reveal ─────────────────────────────── */
+:root {
+  --reveal-y: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --reveal-y: var(--space-5);
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--reveal-y);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  [data-reveal='item'] {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+    animation-range: entry 2% cover 24%;
+  }
+
+  [data-reveal='group'] > * {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+  }
+  [data-reveal='group'] > :nth-child(4n + 1) {
+    animation-range: entry 2% cover 24%;
+  }
+  [data-reveal='group'] > :nth-child(4n + 2) {
+    animation-range: entry 6% cover 28%;
+  }
+  [data-reveal='group'] > :nth-child(4n + 3) {
+    animation-range: entry 10% cover 32%;
+  }
+  [data-reveal='group'] > :nth-child(4n) {
+    animation-range: entry 14% cover 36%;
+  }
+
+  [data-reveal='section'] > .section__head > * {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+  }
+  [data-reveal='section'] > .section__head > :nth-child(1) {
+    animation-range: entry 2% cover 24%;
+  }
+  [data-reveal='section'] > .section__head > :nth-child(2) {
+    animation-range: entry 6% cover 28%;
+  }
+  [data-reveal='section'] > .section__head > :nth-child(3) {
+    animation-range: entry 10% cover 32%;
+  }
+  [data-reveal='section'] > .section__head > :nth-child(n + 4) {
+    animation-range: entry 14% cover 36%;
+  }
+
+  [data-reveal='section'] > :not(.section__head):not([data-reveal]) {
+    animation: reveal-in linear both;
+    animation-timeline: view();
+    animation-range: entry 6% cover 28%;
+  }
+}
+
 /* ── M2: anti-pattern details ─────────────────────────────────────────── */
 .advisor { position: relative; isolation: isolate; padding-inline: var(--space-5); }
 .advisor::before { position: absolute; inset: var(--space-5) 0; z-index: -1; border: 1px solid var(--border); background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 24px 24px; content: ''; }
@@ -1201,6 +1271,14 @@ button, a, [role='button'] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal] *,
+  [data-reveal] > *,
+  [data-reveal='section'] > .section__head > * {
+    animation: none !important;
+    opacity: 1 !important;
+    translate: none !important;
+  }
   .number-ticker__animated { display: none; }
   .number-ticker__reduced { display: inline; }
   .develop, .develop__title, .develop__support, .develop__support > *, .home-hero__title-line,
@@ -1220,6 +1298,17 @@ button, a, [role='button'] {
   ::view-transition-group(work-image-matrix-calculator),
   ::view-transition-group(work-image-zgyc-smart-light),
   ::view-transition-group(work-image-intellibuddy) { animation: none !important; }
+}
+
+@media print {
+  [data-reveal],
+  [data-reveal] *,
+  [data-reveal] > *,
+  [data-reveal='section'] > .section__head > * {
+    animation: none !important;
+    opacity: 1 !important;
+    translate: none !important;
+  }
 }
 
 @media (forced-colors: active) {
