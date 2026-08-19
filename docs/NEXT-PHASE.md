@@ -196,4 +196,16 @@ P1 完成后，再决定 P2 与 P3 的先后顺序：
 - Works 列表根据 `detail.shots` 与 `detail.gallery` 计算系统实录数量，当前分别为矩阵计算器 4 张、智光耀城 16 张、智学伴 6 张。
 - 三个已上线作品使用稳定 slug 建立列表媒体到详情 Hero 的 View Transition；减弱动态效果下保留普通路由导航。
 - Join FAQ 已统一复用 About 的 Radix `MechanismAccordion`，并覆盖单项展开、全部收起、方向键与 Enter / Space 操作。
-- Vitest 14/14、Playwright 42/42 与 14 条公开路由明暗主题 axe 检查通过；未执行浏览器肉眼、截图、NVDA 或移动端实机检查。
+
+## 九、P2 / P3 完成记录
+
+- **P2 滚动叙事层**：全站通用 `[data-reveal]` 纯 CSS 滚动驱动入场叙事体系，支持 `prefers-reduced-motion` 零闪烁即时呈现。
+- **P3 核心交互与新组件落地**：
+  - **智光耀城系统巡览 (`WorkSystemTour`)**：15 组系统实录以 5 个业务组编排，Sticky 局部导航与实例 ID 隔离。
+  - **3D 立体海报展台 (`PosterTiltCard`)**：±6° 阻尼物理倾斜、径向高光扫光与受控 Radix Dialog 大图查看。
+  - **文化实拍 Bento 展台 (`CultureGallery`)**：8 张实拍照 Bento 网格、Focus Dimming 悬停聚焦与高清弹窗。
+  - **首页航道即时预览 (`TrackPreviewList`)**：桌面端悬停/聚焦即时展示关联作品截图与 Empty 空状态。
+  - **双轨流光跑马灯 (`MemberVoicesMarquee` & `Marquee`)**：双轨错向无限流动呈现 10 位成员成长档案。
+  - **加入页首屏双翼展台 (`JoinPage` & `JoinChannels`)**：首屏 Split Hero 架构，左翼宣言承诺清单与迎新群 CardFrame，右翼 CardFrame 报名仪表舱，去重底部冗余区块。
+  - **Coss UI 精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：全面落地于表单、仪表舱容器、空状态与快捷键提示。
+- **全量门禁**：55 项 Playwright E2E 测试 100% 通过，构建生成 33 个静态路由。

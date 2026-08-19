@@ -97,6 +97,14 @@ tests/                   单元测试和端到端质量门禁
 - **3D 海报展台 (`PosterTiltCard`)**：位于 `src/components/motion/poster-tilt-card.tsx`，基于 `useSpring` 计算光标相对位置生成 ±6° 3D 阻尼倾斜与径向高光扫光，受控 Radix Dialog 查看大图，严格通过 W3C ARIA 1.2 / Axe 校验。
 - **文化实拍 Bento 展台 (`CultureGallery`)**：位于 `src/components/sections/culture-gallery.tsx`，采用响应式 Bento 网格与 Focus Dimming 聚焦交互展示实拍照。
 - **首页航道即时预览 (`TrackPreviewList`)**：位于 `src/components/motion/track-preview-list.tsx`，桌面端悬停/聚焦即时展示关联作品截图。
+- **双轨流光跑马灯 (`MemberVoicesMarquee` & `Marquee`)**：位于 `src/components/sections/member-voices-marquee.tsx` 与 `src/components/ui/marquee.tsx`，双轨异步错向流动，展示 10 条真实成员心声，支持悬停暂停与 reduced-motion 静态呈现。
+- **加入页首屏双翼展台 (`JoinPage` & `JoinChannels`)**：首屏采用 Split Hero Stage，左翼集成宣言、承诺清单与迎新群 CardFrame（含一键复制与唤起），右翼集成高质感 CardFrame 报名仪表舱，消除底部冗余区块。
+- **Coss UI 精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：
+  - `CardFrame` (`src/components/ui/card.tsx`)：工业仪表舱框架，用于 Fit 准则、迎新群舱位、作品演示账号与质量证据看板。
+  - `Kbd` (`src/components/ui/kbd.tsx`)：等宽机械立体键帽，用于矩阵计算器滑块微调与快捷键引导。
+  - `Empty` (`src/components/ui/empty.tsx`)：虚线工程占位与状态指示，用于作品空状态提示。
+  - `InputGroup` (`src/components/ui/input-group.tsx`)：等宽前缀（`ID //`, `TEL //`）与字符计数容器。
+  - `useCopyToClipboard` (`src/hooks/use-copy-to-clipboard.ts`)：带倒计时反馈状态的安全剪贴板 Hook。
 
 ## 报名请求流
 

@@ -60,7 +60,7 @@ tests/                   Vitest 与 Playwright
 docs/                    当前维护文档与历史归档
 ```
 
-当前公开路由共 13 条：6 条顶层页面、5 条方向详情和 2 条作品详情。`POST /api/join` 是唯一动态业务接口。架构细节以 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) 和源码为准。
+当前公开路由共 14 条：6 条顶层页面、5 条方向详情和 3 条作品详情（智光耀城、矩阵计算器、智学伴）。`POST /api/join` 是唯一动态业务接口。全站引入 Coss UI 精工组件族与首屏双翼展台架构。架构细节以 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) 和源码为准。
 
 ## 常用命令
 
