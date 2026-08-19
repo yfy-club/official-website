@@ -8,9 +8,8 @@ import { NumberTicker } from "@/components/ui/number-ticker";
 import { Tag } from "@/components/ui/tag";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { Develop } from "@/components/motion/develop";
-import { TrackPreviewList } from "@/components/motion/track-preview-list";
+import { TrackOverviewMatrix } from "@/components/sections/track-overview-matrix";
 import { createMetadata } from "@/lib/seo";
-import { buildTrackPreviews } from "@/lib/track-previews";
 import { club, tracks, works } from "@/content";
 
 export const metadata: Metadata = createMetadata({
@@ -21,7 +20,6 @@ export const metadata: Metadata = createMetadata({
 
 export default function Home() {
   const feature = works.find((work) => work.slug === "matrix-calculator");
-  const trackPreviews = buildTrackPreviews(tracks, works);
   const stats = [
     { value: club.founded, startValue: 2000, label: "成立" },
     { value: tracks.length, label: "技术方向" },
@@ -70,7 +68,7 @@ export default function Home() {
       </section>
       <section id="home-tracks" className="section page-shell" aria-labelledby="tracks-title" data-reveal="section">
         <div className="section__head"><p className="caps section__index">02 / Tracks</p><h2 id="tracks-title" className="section__title">五个技术方向，专注深耕。</h2></div>
-        <TrackPreviewList items={trackPreviews} />
+        <TrackOverviewMatrix tracks={tracks} />
       </section>
       {feature?.detail && feature.image && (
         <section id="home-feature" className="section page-shell" aria-labelledby="feature-title" data-reveal="section">
