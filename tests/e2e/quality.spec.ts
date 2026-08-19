@@ -53,6 +53,7 @@ test("home hero preserves the original code shimmer and pointer-scroll motion", 
   const code = page.locator(".home-hero__code");
   const develop = page.locator(".develop");
   await expect(code).toHaveCSS("animation-name", /hero-code-shimmer/);
+  await expect(develop).toHaveAttribute("data-state", "active");
   await expect.poll(() => page.locator("html").evaluate((element) =>
     getComputedStyle(element).getPropertyValue("--hero-code-accent").trim().toLowerCase(),
   )).toBe("#4da3ff");
@@ -67,6 +68,34 @@ test("home hero preserves the original code shimmer and pointer-scroll motion", 
   await expect.poll(() => develop.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).getPropertyValue("--hero-scroll-progress")),
   )).toBeGreaterThan(0.4);
+});
+
+test("home headline keeps the original spacious desktop and stacked mobile composition", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  const desktop = await page.locator(".home-hero__title").evaluate((title) => {
+    const codeLine = title.querySelector<HTMLElement>(".home-hero__title-line--code")!;
+    const futureLine = title.querySelector<HTMLElement>(".home-hero__title-line--future")!;
+    return {
+      codeSize: Number.parseFloat(getComputedStyle(codeLine).fontSize),
+      futureSize: Number.parseFloat(getComputedStyle(futureLine).fontSize),
+      codeDirection: getComputedStyle(codeLine).flexDirection,
+      codeGap: Number.parseFloat(getComputedStyle(codeLine).columnGap),
+    };
+  });
+  expect(desktop.codeSize).toBeGreaterThanOrEqual(140);
+  expect(desktop.futureSize).toBeGreaterThanOrEqual(110);
+  expect(desktop.codeDirection).toBe("row");
+  expect(desktop.codeGap).toBeGreaterThan(35);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const mobile = await page.locator(".home-hero__title").evaluate((title) => ({
+    codeDirection: getComputedStyle(title.querySelector(".home-hero__title-line--code")!).flexDirection,
+    futureDirection: getComputedStyle(title.querySelector(".home-hero__title-line--future")!).flexDirection,
+  }));
+  expect(mobile.codeDirection).toBe("column");
+  expect(mobile.futureDirection).toBe("column");
 });
 
 test("page and hero shells expand at wide and 2K breakpoints", async ({ page }) => {

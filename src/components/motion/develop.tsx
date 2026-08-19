@@ -1,22 +1,42 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-
-const SESSION_KEY = "yfy-develop-played";
+import { useEffect, useRef, useState } from "react";
 
 export function Develop({ children, title }: { children: ReactNode; title: ReactNode }) {
-  const [state, setState] = useState<"active" | "done">("done");
+  const [state, setState] = useState<"idle" | "active" | "done">("idle");
   const rootRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || window.sessionStorage.getItem(SESSION_KEY)) return;
-    window.sessionStorage.setItem(SESSION_KEY, "1");
-    const frame = window.requestAnimationFrame(() => setState("active"));
-    const timer = window.setTimeout(() => setState("done"), 2300);
+    if (reduce) {
+      setState("done");
+      return;
+    }
+
+    let cancelled = false;
+    let frame = 0;
+    let timer = 0;
+    let fontTimer = 0;
+    const fontTimeout = new Promise<void>((resolve) => {
+      fontTimer = window.setTimeout(resolve, 1000);
+    });
+    const fontsReady = document.fonts
+      ? Promise.race([document.fonts.ready, fontTimeout])
+      : Promise.resolve();
+
+    fontsReady.then(() => {
+      if (cancelled) return;
+      frame = window.requestAnimationFrame(() => {
+        setState("active");
+        timer = window.setTimeout(() => setState("done"), 2300);
+      });
+    });
+
     return () => {
+      cancelled = true;
       window.cancelAnimationFrame(frame);
+      window.clearTimeout(fontTimer);
       window.clearTimeout(timer);
     };
   }, []);
