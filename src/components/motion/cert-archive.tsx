@@ -203,13 +203,13 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                   <span className="text-[11px] text-[var(--fg-faint)]">已脱敏原件</span>
                 </CardFooter>
 
-                <div className="opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300">
                   <BorderBeam
-                    borderWidth={1}
+                    borderWidth={1.5}
                     colorFrom={isNational ? "var(--warn)" : "var(--accent)"}
                     colorTo="var(--accent)"
-                    duration={8}
-                    size={92}
+                    duration={6}
+                    size={110}
                   />
                 </div>
               </Card>
@@ -221,18 +221,18 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
       {/* Coss UI / Radix Lightbox Dialog */}
       <Dialog.Root open={openId !== null} onOpenChange={(next) => { if (!next) setOpenId(null); }}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm animate-in fade-in-0 duration-200" />
+          <Dialog.Overlay className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md animate-in fade-in-0 duration-200" />
           {currentAward && (
             <Dialog.Content
-              className="fixed left-1/2 top-1/2 z-50 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-[var(--radius-sm)] border border-[var(--border-strong)] bg-[var(--surface)] p-6 shadow-2xl animate-in fade-in-0 zoom-in-95 duration-200 focus:outline-hidden"
+              className="fixed left-1/2 top-1/2 z-50 w-[94vw] max-w-6xl max-h-[94vh] -translate-x-1/2 -translate-y-1/2 flex flex-col rounded-[var(--radius-sm)] border border-[var(--border-strong)] bg-[var(--surface)] p-5 sm:p-7 shadow-2xl animate-in fade-in-0 zoom-in-95 duration-200 focus:outline-hidden overflow-hidden"
               onCloseAutoFocus={(e) => {
                 e.preventDefault();
                 if (openId) triggers.current.get(openId)?.focus();
               }}
             >
-              <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--border)] mb-4">
+              <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--border)] shrink-0">
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <Badge variant={currentAward.level === "国家级" ? "active" : "warning"}>
                       {currentAward.level} · {currentAward.result}
                     </Badge>
@@ -240,29 +240,32 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                       {currentAward.year} 年档案
                     </span>
                   </div>
-                  <Dialog.Title className="text-lg sm:text-xl font-bold text-[var(--fg)] tracking-tight">
+                  <Dialog.Title className="text-lg sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
                     {currentAward.competition}
                   </Dialog.Title>
-                  <Dialog.Description className="text-xs text-[var(--fg-muted)] mt-1">
+                  <Dialog.Description className="text-xs sm:text-sm text-[var(--fg-muted)] mt-1">
                     {currentAward.description} · 公开脱敏版验证原件
                   </Dialog.Description>
                 </div>
                 <Dialog.Close asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full border border-[var(--border)]">
-                    <X size={16} />
-                    <span className="sr-only">关闭</span>
-                  </Button>
+                  <button
+                    type="button"
+                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--fg)] hover:bg-[var(--surface)] hover:text-[var(--accent)] hover:rotate-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-hidden"
+                    aria-label="关闭灯箱"
+                  >
+                    <X size={18} className="stroke-[2.5]" />
+                  </button>
                 </Dialog.Close>
               </div>
 
               {/* Certificate Image Frame */}
-              <div className="relative flex items-center justify-center rounded-[var(--radius-xs)] border border-[var(--border)] bg-black/40 p-2 sm:p-4 mb-4 overflow-hidden min-h-[300px] max-h-[60vh]">
+              <div className="relative flex-1 flex items-center justify-center rounded-[var(--radius-xs)] border border-[var(--border)] bg-black/60 p-4 sm:p-6 my-4 overflow-hidden min-h-[380px] max-h-[68vh]">
                 <Image
                   src={currentAward.image}
                   alt={`${currentAward.year} 年${currentAward.competition}${currentAward.result}证书，公开脱敏版`}
-                  width={1600}
-                  height={1100}
-                  className="max-h-[55vh] w-auto object-contain rounded-[var(--radius-xs)] shadow-lg"
+                  width={1800}
+                  height={1300}
+                  className="max-h-[64vh] max-w-full w-auto h-auto object-contain rounded-[var(--radius-xs)] shadow-2xl select-none"
                   priority
                 />
 
@@ -270,29 +273,29 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                 <button
                   type="button"
                   onClick={handlePrev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-[var(--surface)]/90 border border-[var(--border)] flex items-center justify-center text-[var(--fg)] hover:bg-[var(--surface)] shadow-md transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border-strong)] flex items-center justify-center text-[var(--fg)] hover:bg-[var(--surface)] hover:scale-110 shadow-xl transition-all cursor-pointer"
                   aria-label="查看上一份证书"
                 >
-                  <ArrowLeft size={18} />
+                  <ArrowLeft size={20} className="stroke-[2.2]" />
                 </button>
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-[var(--surface)]/90 border border-[var(--border)] flex items-center justify-center text-[var(--fg)] hover:bg-[var(--surface)] shadow-md transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-[var(--surface)]/95 backdrop-blur-md border border-[var(--border-strong)] flex items-center justify-center text-[var(--fg)] hover:bg-[var(--surface)] hover:scale-110 shadow-xl transition-all cursor-pointer"
                   aria-label="查看下一份证书"
                 >
-                  <ArrowRight size={18} />
+                  <ArrowRight size={20} className="stroke-[2.2]" />
                 </button>
               </div>
 
               {/* Dialog Footer Actions & Shortcuts */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[var(--border)] text-xs text-[var(--fg-muted)]">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[var(--border)] text-xs text-[var(--fg-muted)] shrink-0">
                 <div className="flex items-center gap-3">
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="h-8 px-3 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:text-[var(--fg)]"
+                    className="h-8 px-3 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]"
                     onClick={() => handleCopyArchiveId(currentAward)}
                   >
                     {copied ? <Check size={13} className="text-[var(--accent)] mr-1" /> : <Copy size={13} className="mr-1" />}
