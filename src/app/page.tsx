@@ -1,4 +1,4 @@
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowDown, ArrowRight, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,18 +28,26 @@ export default function Home() {
         { id: "home-join", index: "05", label: "加入" },
       ]} />
       <section id="home-start" className="home-hero page-shell" aria-labelledby="home-title">
-        <div>
-          <p className="caps home-hero__meta">YFY / 2014—NOW</p>
-          <Develop title={<h1 id="home-title" className="display-latin home-hero__title">We Code<br />the Future</h1>}>
-            <p className="home-hero__subtitle">学生技术社团 · 成立于 {club.founded}</p>
-            <p className="home-hero__affiliation">{club.affiliation}</p>
+        <div className="home-hero__content">
+          <Develop title={(
+            <h1 id="home-title" className="display-latin home-hero__title">
+              <span className="home-hero__title-line home-hero__title-line--code">
+                <span className="home-hero__we">We</span>{" "}<span className="home-hero__code">Code</span>
+              </span>
+              <span className="home-hero__title-line home-hero__title-line--future">
+                <span className="home-hero__the">the</span><span className="home-hero__future">Future</span>
+              </span>
+            </h1>
+          )}>
+            <p className="home-hero__subtitle">Student Tech Community <span aria-hidden="true">·</span> Est. {club.founded}</p>
+            <p className="home-hero__affiliation"><span>{club.nameEn}</span><i aria-hidden="true" /><span>Guided by Prof. Chen Ke</span></p>
             <div className="home-hero__actions">
               <Button asChild><Link href="/join">加入我们 <ArrowRight aria-hidden="true" size={17} /></Link></Button>
-              <Button asChild variant="ghost"><Link href="/tracks">看看五条航道</Link></Button>
+              <Button asChild variant="ghost"><Link href="/works">查看项目</Link></Button>
             </div>
           </Develop>
         </div>
-        <p className="caps home-hero__scroll">Scroll / 向下</p>
+        <a className="caps home-hero__scroll" href="#home-stats">Scroll <ArrowDown aria-hidden="true" size={14} /></a>
       </section>
       <div className="home-breath" aria-hidden="true" />
       <section id="home-stats" className="section page-shell" aria-labelledby="stats-title">

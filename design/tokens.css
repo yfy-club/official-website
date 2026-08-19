@@ -142,6 +142,8 @@
   --accent: #F5794C;                          /* → 7.15:1 */
   --accent-fg: #0B0D10;                       /* 强调底上的文字 → 7.15:1 */
   --accent-quiet: rgba(245, 121, 76, 0.12);
+  --hero-code-mid: var(--fg);
+  --hero-code-highlight: var(--accent);
 
   /* 语义 —— 仅表单与状态，占比 < 3% */
   --success: #3FB950;    /* → 7.66:1 */
@@ -185,6 +187,8 @@
   --accent: #B4522C;                          /* → 4.77:1（正文可用） */
   --accent-fg: #FFFFFF;                       /* 强调底上的文字 → 5.02:1 */
   --accent-quiet: rgba(180, 82, 44, 0.10);
+  --hero-code-mid: #C2410C;
+  --hero-code-highlight: #FB923C;
 
   --success: #1F7A33;    /* → 5.13:1 */
   --warn: #8A5A00;       /* → 5.63:1 */

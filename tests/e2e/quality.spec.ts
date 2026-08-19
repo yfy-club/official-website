@@ -39,6 +39,32 @@ test("skip link is first and moves focus to main content", async ({ page }) => {
   await expect(page.locator("#main-content")).toBeFocused();
 });
 
+test("desktop navigation exposes home and marks the current route", async ({ page }) => {
+  await page.goto("/works/matrix-calculator");
+  const navigation = page.locator(".site-header__nav");
+  await expect(navigation.getByRole("link", { name: "返回首页" })).toHaveAttribute("href", "/");
+  await expect(navigation.locator('a[href="/works"]')).toHaveAttribute("aria-current", "page");
+  await expect(navigation.locator('a[href="/about"]')).not.toHaveAttribute("aria-current", "page");
+});
+
+test("home hero preserves the original code shimmer and pointer-scroll motion", async ({ page }) => {
+  await page.goto("/");
+  const code = page.locator(".home-hero__code");
+  const develop = page.locator(".develop");
+  await expect(code).toHaveCSS("animation-name", /hero-code-shimmer/);
+
+  await page.mouse.move(1, 1);
+  await page.mouse.move(1200, 500);
+  await expect.poll(() => develop.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).getPropertyValue("--hero-mouse-x")),
+  )).toBeGreaterThan(0.5);
+
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight / 2));
+  await expect.poll(() => develop.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).getPropertyValue("--hero-scroll-progress")),
+  )).toBeGreaterThan(0.4);
+});
+
 test("keyboard path reaches a track detail and the join form", async ({ page }) => {
   await page.goto("/");
   const tracksLink = page.locator('.site-header__nav a[href="/tracks"]');

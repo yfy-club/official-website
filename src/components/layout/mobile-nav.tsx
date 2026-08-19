@@ -2,6 +2,7 @@
 
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef } from "react";
 
 import { ThemeToggle } from "./theme-toggle";
@@ -10,6 +11,7 @@ import { navItems } from "./nav-items";
 export function MobileNav() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
+  const pathname = usePathname();
 
   function unlockPage() {
     delete document.body.dataset.scrollLocked;
@@ -50,7 +52,12 @@ export function MobileNav() {
         </button>
         <nav aria-label="移动端主导航" className="mobile-nav__links">
           {navItems.map((item, index) => (
-            <Link href={item.href} key={item.href} onClick={close}>
+            <Link
+              href={item.href}
+              key={item.href}
+              onClick={close}
+              aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}
+            >
               <span className="tabular">0{index + 1}</span>
               {item.label}
             </Link>
