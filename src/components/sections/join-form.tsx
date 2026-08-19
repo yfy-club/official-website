@@ -189,7 +189,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             {...register("grade")}
           />
         </Field>
-        <Field id="join-contact" label="联系方式" hint="微信、QQ 或手机号" error={contactError}>
+        <Field id="join-contact" label="联系方式" error={contactError}>
           <InputGroup>
             <InputGroupAddon align="inline-start">
               <InputGroupText>TEL</InputGroupText>
@@ -197,8 +197,8 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             <Input
               id="join-contact"
               autoComplete="tel"
-              placeholder="可联系到你的方式"
-              aria-describedby="join-contact-description"
+              placeholder="微信、QQ 或手机号"
+              aria-describedby={descriptionId("join-contact", contactError)}
               aria-invalid={Boolean(contactError)}
               required
               {...register("contact")}
