@@ -13,8 +13,6 @@ export function EdgeBlur({
   className,
   ...props
 }: EdgeBlurProps) {
-  const isHorizontal = direction === "horizontal" || direction === "left" || direction === "right";
-
   return (
     <div
       aria-hidden="true"

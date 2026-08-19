@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 
+import { CheckCircle2, XCircle } from "lucide-react";
+
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
+import { JoinProcessStepper } from "@/components/sections/join-process-stepper";
 import { FaqAccordion } from "@/components/sections/faq-accordion";
 import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
+import { CutoutCard, CutoutCardContent, CutoutCardHeader, CutoutCardTitle } from "@/components/ui/cutout-card";
 import { BrandEmblem } from "@/components/ui/brand-emblem";
 import {
   CardFrame,
@@ -17,7 +21,7 @@ import {
   CardFrameTitle,
   CardPanel,
 } from "@/components/ui/card";
-import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/content";
+import { club, faq, joinCriteria, memberVoices, tracks } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
@@ -126,43 +130,52 @@ export default function JoinPage() {
           <p className="caps section__index">02 / Requirements</p>
           <h2 id="criteria-title" className="section__title">招新要求与适合人群。</h2>
         </div>
-        <div className="criteria-grid" data-reveal="group">
-          <CardFrame>
-            <CardFrameHeader>
-              <CardFrameTitle>01 // 适合加入</CardFrameTitle>
-              <CardFrameAction>
-                <Badge variant="success">FIT</Badge>
-              </CardFrameAction>
-            </CardFrameHeader>
-            <CardPanel>
+        <div className="criteria-grid grid grid-cols-1 md:grid-cols-2 gap-4" data-reveal="group">
+          <CutoutCard className="h-full border-[var(--border)] bg-[var(--surface)] hover:border-[var(--success)] transition-colors">
+            <CutoutCardHeader>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-bold text-[var(--success)]">01 //</span>
+                <CutoutCardTitle>适合加入 · FIT SIGNALS</CutoutCardTitle>
+              </div>
+              <div className="flex items-center gap-1.5 font-mono text-[10px] text-[var(--success)] bg-[var(--surface-2)] px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--border)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--success)] animate-pulse" />
+                <span>优先准入</span>
+              </div>
+            </CutoutCardHeader>
+            <CutoutCardContent>
               <ul className="clean-list flex flex-col gap-3 text-sm text-[var(--fg-muted)]">
                 {joinCriteria.suitable.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <span className="font-mono text-xs text-[var(--success)] mt-0.5" aria-hidden="true">+</span>
-                    <span className="leading-relaxed">{item}</span>
+                    <CheckCircle2 className="w-4 h-4 text-[var(--success)] shrink-0 mt-0.5" aria-hidden="true" />
+                    <span className="leading-relaxed text-[var(--fg)]">{item}</span>
                   </li>
                 ))}
               </ul>
-            </CardPanel>
-          </CardFrame>
-          <CardFrame>
-            <CardFrameHeader>
-              <CardFrameTitle>02 // 暂不适合</CardFrameTitle>
-              <CardFrameAction>
-                <Badge variant="neutral">UNFIT</Badge>
-              </CardFrameAction>
-            </CardFrameHeader>
-            <CardPanel>
+            </CutoutCardContent>
+          </CutoutCard>
+
+          <CutoutCard className="h-full border-[var(--border)] bg-[var(--surface)] hover:border-[var(--warn)] transition-colors">
+            <CutoutCardHeader>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-bold text-[var(--fg-muted)]">02 //</span>
+                <CutoutCardTitle>暂不适合 · UNFIT SIGNALS</CutoutCardTitle>
+              </div>
+              <div className="flex items-center gap-1.5 font-mono text-[10px] text-[var(--fg-muted)] bg-[var(--surface-2)] px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--border)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--fg-muted)]" />
+                <span>审慎评估</span>
+              </div>
+            </CutoutCardHeader>
+            <CutoutCardContent>
               <ul className="clean-list flex flex-col gap-3 text-sm text-[var(--fg-muted)]">
                 {joinCriteria.unsuitable.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <span className="font-mono text-xs text-[var(--fg-faint)] mt-0.5" aria-hidden="true">-</span>
+                    <XCircle className="w-4 h-4 text-[var(--fg-muted)] shrink-0 mt-0.5" aria-hidden="true" />
                     <span className="leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
-            </CardPanel>
-          </CardFrame>
+            </CutoutCardContent>
+          </CutoutCard>
         </div>
       </section>
 
@@ -172,9 +185,7 @@ export default function JoinPage() {
           <p className="caps section__index">03 / Process</p>
           <h2 id="process-title" className="section__title">选拔与培养流程。</h2>
         </div>
-        <ol className="join-process clean-list" data-reveal="group">
-          {joinProcess.map((item, index) => <li key={item}><span className="tabular">0{index + 1}</span><p>{item}</p></li>)}
-        </ol>
+        <JoinProcessStepper />
       </section>
 
       {/* 04 / 成员声音 */}
