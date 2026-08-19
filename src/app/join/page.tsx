@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
@@ -37,8 +36,7 @@ const sections = [
   { id: "join-process", index: "03", label: "流程" },
   { id: "join-voices", index: "04", label: "成员声音" },
   { id: "join-faq", index: "05", label: "常见问题" },
-  { id: "join-channel", index: "06", label: "迎新群" },
-  { id: "join-poster", index: "07", label: "海报" },
+  { id: "join-poster", index: "06", label: "海报" },
 ];
 
 export default function JoinPage() {
@@ -49,10 +47,10 @@ export default function JoinPage() {
       <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "加入", path: "/join" }])} />
       <TrajectoryRail label="登机口" sections={sections} />
 
-      {/* 01 / 首屏双翼展台：左侧招新宣言与承诺清单，右侧报名仪表舱 */}
+      {/* 01 / 首屏双翼展台：左侧招新宣言、承诺清单与迎新群舱，右侧报名仪表舱 */}
       <section id="join-start" className="section join-hero-stage" aria-labelledby="join-heading" data-reveal="section">
         <div className="join-hero-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
-          {/* 左翼：宣言、承诺清单与快速入群 Bento */}
+          {/* 左翼：宣言、承诺清单与迎新群 CardFrame */}
           <div className="join-pitch lg:col-span-6 flex flex-col gap-6" data-reveal="item">
             <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] w-fit shadow-2xs">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
@@ -84,16 +82,8 @@ export default function JoinPage() {
               </li>
             </ul>
 
-            <div className="join-pitch__bento rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-3.5 sm:p-4 flex flex-wrap sm:flex-nowrap items-center gap-3.5 sm:gap-4.5 w-full max-w-md shadow-xs hover:border-[var(--border-strong)] transition-colors">
-              <div className="relative h-16 w-16 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-[var(--radius-xs)] border border-[var(--border)] bg-white p-1">
-                <Image src="/images/qr/qr-group.svg" alt="2026 云飞扬迎新群二维码" width={80} height={80} className="object-contain w-full h-full" />
-              </div>
-              <div className="flex flex-col justify-center gap-1 min-w-0 flex-1">
-                <h4 className="font-mono text-xs font-semibold uppercase text-[var(--fg)] tracking-tight">QQ 扫码加入迎新群</h4>
-                <p className="font-sans text-xs text-[var(--fg-muted)] leading-snug">与学长学姐直接交流，获取一手招新资讯</p>
-                <span className="font-mono text-xs text-[var(--accent)] mt-0.5 tabular">群号：{club.qqGroup}</span>
-              </div>
-            </div>
+            {/* 迎新群舱直接集成在左翼 */}
+            <JoinChannels qqGroup={club.qqGroup} />
           </div>
 
           {/* 右翼：高质感报名仪表舱 */}
@@ -194,19 +184,10 @@ export default function JoinPage() {
         <MechanismAccordion items={faq.map((item) => ({ title: item.question, detail: item.answer }))} />
       </section>
 
-      {/* 06 / 迎新群 */}
-      <section id="join-channel" className="section" aria-labelledby="channel-title" data-reveal="section">
-        <div className="section__head">
-          <p className="caps section__index">06 / Boarding</p>
-          <h2 id="channel-title" className="section__title">加入 2026 迎新群。</h2>
-        </div>
-        <JoinChannels qqGroup={club.qqGroup} />
-      </section>
-
-      {/* 07 / 海报 */}
+      {/* 06 / 海报 */}
       <section id="join-poster" className="section" aria-labelledby="poster-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">07 / Poster</p>
+          <p className="caps section__index">06 / Poster</p>
           <h2 id="poster-title" className="section__title">2026 招新海报。</h2>
         </div>
         <PosterTiltCard posters={posters} />
