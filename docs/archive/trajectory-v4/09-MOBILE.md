@@ -379,4 +379,4 @@ button, a, [role="button"] {
 
 ---
 
-**返回** → [`README`](../README.md) · 相关：[`01-DESIGN.md`](01-DESIGN.md) §8 · [`02-MOTION.md`](02-MOTION.md) · [`08-QUALITY.md`](08-QUALITY.md)
+**返回** → [`README`](../../README.md) · 相关：[`01-DESIGN.md`](01-DESIGN.md) §8 · [`02-MOTION.md`](02-MOTION.md) · [`08-QUALITY.md`](08-QUALITY.md)

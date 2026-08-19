@@ -368,7 +368,7 @@
 10. 卡片 hover 是不是又写成了 translateY？改成边框变化
 ```
 
-**引用而非重定义**：所有值从 [`design/tokens.css`](../design/tokens.css) 取用。若某个值不存在，先在 tokens 里加，再用——不要在组件里硬写。
+**引用而非重定义**：所有值从 [`design/tokens.css`](../../../design/tokens.css) 取用。若某个值不存在，先在 tokens 里加，再用——不要在组件里硬写。
 
 ---
 

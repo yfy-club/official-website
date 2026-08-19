@@ -16,6 +16,7 @@
     "test:e2e": "npm run build:quality && playwright test",
     "test:e2e:run": "playwright test",
     "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
+    "audit:docs": "node scripts/docs-audit.mjs",
     "audit:content": "node scripts/content-audit.mjs",
     "audit:images": "node scripts/image-audit.mjs",
     "images:optimize": "node scripts/optimize-images.mjs --replace",
@@ -24,7 +25,7 @@
     "fonts:check": "npm run fonts:extract && python scripts/check-font-coverage.py",
     "lighthouse": "npm run build:quality && lhci autorun",
     "lighthouse:run": "lhci autorun",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run audit:content && npm run audit:images && npm run fonts:check && npm run build:quality"
+    "check": "npm run typecheck && npm run lint && npm run test && npm run audit:docs && npm run audit:content && npm run audit:images && npm run fonts:check && npm run build:quality"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",

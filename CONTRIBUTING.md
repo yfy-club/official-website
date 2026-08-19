@@ -1,90 +1,111 @@
-# 云飞扬官网维护与换届交接
+# 云飞扬官网维护与贡献指南
 
-本文面向第一次接手 YFY v4 / Trajectory 的维护者。先阅读 `README.md`、`docs/00-PRD.md`、`docs/01-DESIGN.md`、`docs/02-MOTION.md`、`docs/05-ARCHITECTURE.md`、`docs/08-QUALITY.md` 与 `docs/09-MOBILE.md`，再修改代码或内容。
+本文面向第一次接手 YFY v4 / Trajectory 的维护者。开始前先阅读 [README](README.md)、[项目状态](docs/STATUS.md) 和与任务对应的活跃文档；历史编号文档只用于理解设计背景。
 
-## 1. 本地环境
+## 1. 基本约束
 
-- Node.js 22、npm
-- Chromium（`npx playwright install chromium`）
-- 仅字体再生成需要 Python 3、`fonttools` 与 `brotli`
+- 先核对 `git status`、当前分支、最新提交和远端 CI，再修改文件。
+- 保留工作树中不属于自己的改动，不回退、不覆盖、不顺手整理无关文件。
+- 未获明确授权时，不提交、推送、部署、创建外部资源或改动线上配置。
+- Secret 不得进入源码、Markdown、截图、构建产物或日志。
+- 一个变更应有清晰目标，验证范围与风险相匹配。
+
+## 2. 本地环境
+
+要求 Node.js 22、npm 和 Chromium：
 
 ```bash
 npm ci
+npx playwright install chromium
 npm run dev
 ```
 
-环境变量从 `.env.example` 开始配置。Secret 只允许出现在 `.env.local` 或部署平台的服务端 Secret 中，禁止进入 `NEXT_PUBLIC_*`、源码、截图、日志和构建产物。
+只有重建中文标题字体时才需要 Python 3、FontTools 和 Brotli。环境变量从 `.env.example` 开始，个人配置放在 `.env.local`。
 
-## 2. 修改内容
+## 3. 先找到单一真源
 
-1. 在 `src/content/` 修改事实数据，不要直接在组件里复制一份。
-2. 若结构变化，同步更新 `src/content/schema.ts` 和对应测试。
-3. 奖项、人数、项目状态和性能数字必须有可追溯材料；没有材料就删除区块，不写占位内容。
-4. 智光耀城必须保留“模拟数据、不连接真实灯杆”和 `195 / 425 / 9` 的归档日期限定。
-5. 修改页面标题、方向名或作品名后运行 `npm run fonts:check`。
+| 要修改的内容 | 单一真源 | 维护说明 |
+| :--- | :--- | :--- |
+| 社团事实、方向、项目、奖项、招新 | `src/content/` | [docs/CONTENT.md](docs/CONTENT.md) |
+| 内容结构与表单字段 | `src/content/schema.ts` | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) |
+| 色彩、字体、间距和动效数值 | `design/tokens.css` | [v4 设计基线](docs/archive/trajectory-v4/01-DESIGN.md) |
+| 当前进度与阻塞项 | `docs/STATUS.md` | [文档维护规则](docs/README.md) |
+| 自动门禁和人工矩阵 | `docs/QUALITY.md` | [docs/QUALITY.md](docs/QUALITY.md) |
+| 部署与生产配置 | `docs/OPERATIONS.md` | [docs/OPERATIONS.md](docs/OPERATIONS.md) |
 
-内容原始材料放在被 Git 忽略的 `materials/`。聊天记录、名单、学号、手机号、账号、Token、私钥路径、服务器地址和内网 IP 不得进入 `public/`。
+不要在第二个文件里复制会变化的事实。需要从其他位置说明时，链接到单一真源。
 
-## 3. 更新图片
+## 4. 内容、图片与字体
 
-1. 人工查看原图，确认没有真实账号、主机名、Token、内网 IP 或未授权个人信息。
-2. 将待处理 PNG/JPG 放入 `public/images/` 对应目录。
-3. 运行 `npm run images:optimize`。脚本会按类别限制尺寸，生成 AVIF/WebP，并删除公开目录中的旧栅格源文件。
-4. 在页面中使用 `next/image`，为响应式图片填写准确的 `sizes`，装饰图片使用 `alt=""`。
-5. 运行 `npm run audit:images` 和浏览器测试。
+内容必须可追溯。奖项、人数、项目状态和性能数字没有依据时删除区块，不写占位。智光耀城的模拟数据说明和 `195 / 425 / 9` 归档日期限定必须保留。
 
-不要对证书或海报做会改变事实内容的生成式编辑。证书公开前必须脱敏。未被当前页面引用的截图和证件只保留在 `materials/`；图片审计会拒绝可部署目录中的未引用资产，避免账号或个人信息通过直链意外公开。
+图片原件先在 `materials/` 人工检查隐私与授权，再进入 `public/images/` 并运行：
 
-## 4. 更新中文标题字体
-
-标题子集由实际源码确定，不要手工维护字符列表。
-
-```powershell
-python -m pip install fonttools brotli
-$env:YFY_HEADING_FONT_SOURCE = "D:\Fonts\NotoSerifSC-VariableFont_wght.ttf"
-npm run fonts:subset
-npm run fonts:check
+```bash
+npm run images:optimize
+npm run audit:images
 ```
 
-`fonts:subset` 会生成 Web 使用的 WOFF2，以及动态 OG 使用的 TTF/WOFF。CI 会检查字符覆盖率和 WOFF2 小于 40KB；缺少字体源时只需运行 `fonts:check`，不必重新生成。
+修改页面标题、方向名或作品名后运行 `npm run fonts:check`。缺字时再按 [docs/CONTENT.md](docs/CONTENT.md) 重建子集。
+
+不要使用真实学生信息做自动化测试。聊天记录、名单、账号、Token、服务器信息和内网 IP 不得进入可部署目录。
 
 ## 5. 报名链路
 
-前后端共用 `joinFormSchema`。修改字段时必须同时检查表单、`POST /api/join`、投递模板、脱敏日志和 `tests/unit/join.test.ts`。
+前后端共用 `joinFormSchema`。修改报名字段时必须同时检查：
 
-本地无 Turnstile Key 时允许开发降级；生产环境缺少 `TURNSTILE_SECRET_KEY` 会返回 503。Webhook 或邮件投递失败会记录脱敏日志，但不改变已接收报名的成功响应。
+- `src/components/sections/join-form.tsx`
+- `POST /api/join`
+- Turnstile、蜜罐和限流
+- Webhook 与邮件模板
+- 错误信息和脱敏日志
+- `tests/unit/join.test.ts` 与 Playwright 报名路径
 
-不要用真实学生信息做自动化测试。浏览器测试只验证控件、键盘顺序和客户端状态，不向外部服务提交。
+本地无 Turnstile Key 时允许开发降级；生产缺少 Secret 返回 503。当前通知投递没有持久兜底，限流也不跨实例，相关生产决策见 [docs/OPERATIONS.md](docs/OPERATIONS.md)。
 
-## 6. 质量门禁
+## 6. 文档
+
+活跃文档放在 `docs/` 根目录并按职责命名。`docs/archive/trajectory-v4/` 是只读历史基线，不再记录当前进度。
+
+修改架构、命令、质量门槛、环境变量或上线状态时，同步对应活跃文档。完成后运行：
+
+```bash
+npm run audit:docs
+```
+
+不要把临时调查日志、重复清单或某次对话交接全文新增为长期文档。
+
+## 7. 验证
+
+最低提交前门禁：
 
 ```bash
 npm run check
+```
+
+页面、组件、样式、表单或共享行为变更还应运行：
+
+```bash
 npm run test:e2e:run
 npm run test:browser
 npm run lighthouse:run
 ```
 
-`check` 包含类型、ESLint、Vitest、内容/图片/字体审计和隔离生产构建。Playwright 覆盖 13 条公开路由、明暗主题、axe、键盘路径、320px、200% 大字号、强制颜色、reduced-motion、canonical、JSON-LD、sitemap 与 robots。
+`check` 会生成 `.next-quality`。如果之后又修改了运行时代码，必须重新构建，不能让后续浏览器测试继续使用旧产物。完整门槛与 CI 排查方式见 [docs/QUALITY.md](docs/QUALITY.md)。
 
-Lighthouse 门槛为性能 ≥90、可访问性 100、LCP ≤2.5s、CLS ≤0.1、TBT ≤300ms。不要通过删除断言或提高上限解决回归。
+不要通过删除断言、忽略失败路由或提高上限解决回归。自动化通过也不能替代 NVDA、微信/QQ 和真机大字号测试。
 
-## 7. 提交与评审
+## 8. 评审与提交
 
-- 一个提交只处理一个可解释的目标，提交信息写清行为变化和验证结果。
-- 不提交 `.env*`、`.next*`、Lighthouse/Playwright 报告或 `materials/`。
-- PR 必须通过 GitHub Actions；内容变化还需要内容负责人核对事实与图片授权。
-- 不在未获负责人授权时创建部署项目、域名、Turnstile、Webhook 或邮件资源。
+- 提交信息说明行为变化，不只写“update”或“fix”。
+- 不提交 `.env*`、`.next*`、Lighthouse/Playwright 报告、`materials/` 或测试个人数据。
+- PR 说明包含目标、风险、验证命令和任何未完成的人工测试。
+- 内容变化需要内容负责人核对事实和图片授权。
+- 架构变化同步测试和活跃文档；部署变化同步操作与回滚说明。
+- 不在未获授权时创建部署项目、域名、Turnstile、Webhook、数据库或邮件资源。
 
-## 8. 正式上线前人工清单
+## 9. 正式上线前
 
-- iPhone Safari、安卓 Chrome、微信与 QQ 内置浏览器
-- 375px 窄屏、横屏、系统大字号、减弱动态效果
-- NVDA 验证首页与报名表单
-- QQ 深链、复制群号、二维码长按识别
-- 中端安卓滚动和动效帧率
-- 分享到微信/QQ 后核对动态 OG 卡片
-- 正式域名下核对 canonical、sitemap、robots 与 Turnstile
-- 用测试报名确认通知渠道，再删除测试数据
+正式上线必须按 [docs/OPERATIONS.md](docs/OPERATIONS.md) 的清单执行，至少包括绿色 CI、NVDA、移动实机矩阵、正式域名、Turnstile、通知渠道、报名可靠性、分享卡片、日志和回滚验证。
 
-部署平台目前仍待定。选择 Cloudflare 或 EdgeOne 时，以国内校园网可达性、Next.js Route Handler 支持和 Secret 管理能力为准，并把最终部署步骤补回本文。
+平台当前仍待 Cloudflare 或 EdgeOne 决策。选择结果必须基于国内校园网可达性、Next.js 动态能力、Secret 管理、共享存储和回滚，而不是只比较构建是否成功。
