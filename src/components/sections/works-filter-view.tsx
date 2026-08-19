@@ -85,60 +85,89 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                     alt={`${work.nameZh}运行界面`}
                     workSlug={work.detail ? work.slug : undefined}
                   >
-                    <div className="work-row__copy flex flex-col justify-between p-6 sm:p-8">
+                    <div className="work-row__copy flex flex-col justify-between p-6 sm:p-8 lg:p-10">
                       <div>
-                        <div className="work-row__status mb-3">
-                          <Badge variant="active" pulse>
-                            {work.status}
-                          </Badge>
+                        <div className="work-row__status flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--border)]">
+                          <div className="flex items-center gap-3">
+                            <Badge variant="active" pulse>
+                              {work.status}
+                            </Badge>
+                            {work.period && (
+                              <span className="font-mono text-xs text-[var(--fg-faint)]">
+                                {work.period}
+                              </span>
+                            )}
+                          </div>
                           {work.detail && (
                             <span className="caps tabular text-xs font-mono text-[var(--fg-muted)]">
                               {countWorkScreenshots(work)} SCREENS / 系统实录
                             </span>
                           )}
                         </div>
-                        <h2 className="text-2xl sm:text-[1.65rem] font-bold text-[var(--fg)] tracking-tight leading-snug">
+
+                        <h2 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight leading-tight mb-1">
                           {work.nameZh}
                         </h2>
                         {work.nameEn && (
-                          <p className="display-latin text-sm sm:text-base text-[var(--fg-muted)] opacity-85 mt-0.5 mb-3.5">
+                          <p className="display-latin text-sm sm:text-base text-[var(--fg-muted)] italic mb-4">
                             {work.nameEn}
                           </p>
                         )}
-                        <p className="text-sm sm:text-[0.9375rem] text-[var(--fg-muted)] leading-relaxed mb-4">
+                        <p className="text-sm sm:text-base text-[var(--fg)] font-medium leading-relaxed mb-6">
                           {work.tagline}
                         </p>
-                        <ul className="space-y-2 text-xs sm:text-sm text-[var(--fg)] mb-5">
-                          {work.highlights.map((item) => (
-                            <li key={item} className="flex items-start gap-2.5">
-                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0 mt-1.5" />
-                              <span className="leading-snug">{item}</span>
-                            </li>
+
+                        <div className="space-y-2 mb-6">
+                          {work.highlights.map((item, idx) => (
+                            <div
+                              key={item}
+                              className="flex items-start gap-3 p-3 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)]/80 hover:border-[var(--border-strong)] transition-colors"
+                            >
+                              <span className="font-mono text-xs font-bold text-[var(--accent)] shrink-0 mt-0.5 select-none">
+                                0{idx + 1} {"//"}
+                              </span>
+                              <span className="text-xs sm:text-sm text-[var(--fg)] leading-relaxed font-normal">
+                                {item}
+                              </span>
+                            </div>
                           ))}
-                        </ul>
-                        <div className="stack-row mb-6">
-                          {work.stackSummary.map((item) => (
-                            <TechTag key={item} name={item} />
-                          ))}
+                        </div>
+
+                        <div className="mb-6">
+                          <div className="font-mono text-[11px] uppercase tracking-wider text-[var(--fg-faint)] mb-2.5">
+                            {"技术体系与选型 // ARCHITECTURE STACK"}
+                          </div>
+                          <div className="stack-row">
+                            {work.stackSummary.map((item) => (
+                              <TechTag key={item} name={item} />
+                            ))}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="work-row__links flex flex-wrap items-center gap-3 pt-3 border-t border-[var(--border)]">
-                        {work.detail && (
-                          <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-9 sm:h-10 px-3.5 sm:px-4">
-                            <Link href={`/works/${work.slug}`}>
-                              <span>查看工程手记</span>
-                              <ArrowRight aria-hidden="true" size={15} />
-                            </Link>
-                          </Button>
-                        )}
-                        {work.liveUrl && (
-                          <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs sm:text-sm h-9 sm:h-10 px-3.5 sm:px-4 hover:bg-[var(--surface-2)]">
-                            <a href={work.liveUrl} target="_blank" rel="noreferrer">
-                              <span>在线体验</span>
-                              <ExternalLink aria-hidden="true" size={14} />
-                            </a>
-                          </Button>
+                      <div className="work-row__links flex flex-wrap items-center justify-between gap-4 pt-5 mt-auto border-t border-[var(--border)]">
+                        <div className="flex flex-wrap items-center gap-3">
+                          {work.detail && (
+                            <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-10 px-5 shadow-xs">
+                              <Link href={`/works/${work.slug}`}>
+                                <span>查看工程手记</span>
+                                <ArrowRight aria-hidden="true" size={15} />
+                              </Link>
+                            </Button>
+                          )}
+                          {work.liveUrl && (
+                            <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs sm:text-sm h-10 px-5 hover:bg-[var(--surface-2)]">
+                              <a href={work.liveUrl} target="_blank" rel="noreferrer">
+                                <span>在线体验</span>
+                                <ExternalLink aria-hidden="true" size={14} />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                        {work.detail?.evidence?.[0] && (
+                          <div className="hidden xl:block font-mono text-[11px] text-[var(--fg-faint)]">
+                            验收凭证: {work.detail.evidence[0].label} · {work.detail.evidence[0].value}
+                          </div>
                         )}
                       </div>
                     </div>
