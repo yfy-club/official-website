@@ -61,6 +61,7 @@ git diff --check
 - **关于页文化实拍 Bento 展台 (`CultureGallery`)**：`src/components/sections/culture-gallery.tsx`。盘活 8 张实拍照，采用响应式 Bento 网格、等宽磨砂玻璃角标、Focus Dimming 悬停聚焦与受控 Dialog 灯箱。
 - **首页航道关联预览 (`TrackPreviewList`)**：`src/components/motion/track-preview-list.tsx`。航道悬停/聚焦显示关联真实作品截图。
 - **首页 Hero 工业蓝图网格**：`.home-hero` 背景加入 36px 纯 CSS 双轴网格与 `--hero-mouse-x/y` 低频视差。
+- **加入页双轨跑马灯展台 (`MemberVoicesMarquee` & `Marquee`)**：`src/components/sections/member-voices-marquee.tsx` & `src/components/ui/marquee.tsx`。双轨异步反向无限流动，左右渐变羽化遮罩，支持悬停平滑暂停与 reduced-motion 降级，展示基于真实档案与二次元昵称的 10 位成员心声。
 
 ## Git 协作
 
