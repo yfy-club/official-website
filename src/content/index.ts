@@ -1,7 +1,7 @@
 import { awardsRaw } from "./awards";
 export { competitionOverview } from "./awards";
 export { advisorProfile, annualReport, culturePhotos, mechanisms, memberLadder, mentorship } from "./about";
-export { joinCriteria, joinProcess, memberVoices } from "./join";
+export { joinCriteria, joinProcess, memberVoices, type MemberVoice } from "./join";
 import { clubRaw } from "./club";
 import { faqRaw } from "./faq";
 import {

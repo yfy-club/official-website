@@ -6,6 +6,7 @@ import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
+import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Card } from "@/components/ui/card";
 import { club, faq, joinCriteria, joinProcess, memberVoices, tracks } from "@/content";
@@ -70,9 +71,7 @@ export default function JoinPage() {
           <p className="caps section__index">04 / Voices</p>
           <h2 id="voices-title" className="section__title">成员怎么说。</h2>
         </div>
-        <div className="voices-grid" data-reveal="group">
-          {memberVoices.map((voice) => <blockquote key={voice.author}><p>“{voice.quote}”</p><cite>{voice.author}</cite></blockquote>)}
-        </div>
+        <MemberVoicesMarquee voices={memberVoices} />
       </section>
 
       <section id="join-faq" className="section" aria-labelledby="faq-title" data-reveal="section">

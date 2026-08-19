@@ -24,6 +24,8 @@
   --container-reading: var(--reading-width);
   --radius-sm: var(--radius-sm);
   --ease-out: var(--ease-out);
+  --animate-marquee: marquee var(--duration, 40s) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
 }
 
 body { overflow-x: clip; }
@@ -1471,6 +1473,22 @@ button, a, [role='button'] {
 }
 @keyframes rail-progress { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @keyframes rail-progress-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 1rem)));
+  }
+}
 
 .trajectory-rail {
   position: fixed;
@@ -1719,6 +1737,7 @@ button, a, [role='button'] {
   ::view-transition-group(work-image-matrix-calculator),
   ::view-transition-group(work-image-zgyc-smart-light),
   ::view-transition-group(work-image-intellibuddy) { animation: none !important; }
+  .animate-marquee, .animate-marquee-vertical, [class*="animate-marquee"] { animation: none !important; }
 }
 
 @media print {
