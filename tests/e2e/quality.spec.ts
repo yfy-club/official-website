@@ -48,10 +48,14 @@ test("desktop navigation exposes home and marks the current route", async ({ pag
 });
 
 test("home hero preserves the original code shimmer and pointer-scroll motion", async ({ page }) => {
+  await page.addInitScript(() => window.localStorage.setItem("theme", "dark"));
   await page.goto("/");
   const code = page.locator(".home-hero__code");
   const develop = page.locator(".develop");
   await expect(code).toHaveCSS("animation-name", /hero-code-shimmer/);
+  await expect.poll(() => page.locator("html").evaluate((element) =>
+    getComputedStyle(element).getPropertyValue("--hero-code-accent").trim().toLowerCase(),
+  )).toBe("#4da3ff");
 
   await page.mouse.move(1, 1);
   await page.mouse.move(1200, 500);
@@ -63,6 +67,25 @@ test("home hero preserves the original code shimmer and pointer-scroll motion", 
   await expect.poll(() => develop.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).getPropertyValue("--hero-scroll-progress")),
   )).toBeGreaterThan(0.4);
+});
+
+test("page and hero shells expand at wide and 2K breakpoints", async ({ page }) => {
+  const cases = [
+    { viewport: 1440, pageWidth: 1200, heroWidth: 940 },
+    { viewport: 1680, pageWidth: 1360, heroWidth: 1200 },
+    { viewport: 2200, pageWidth: 1600, heroWidth: 1600 },
+  ] as const;
+
+  for (const entry of cases) {
+    await page.setViewportSize({ width: entry.viewport, height: 1000 });
+    await page.goto("/");
+    const widths = await page.evaluate(() => ({
+      page: document.querySelector<HTMLElement>("#home-stats")?.getBoundingClientRect().width,
+      hero: document.querySelector<HTMLElement>(".home-hero")?.getBoundingClientRect().width,
+    }));
+    expect(widths.page).toBeCloseTo(entry.pageWidth, 0);
+    expect(widths.hero).toBeCloseTo(entry.heroWidth, 0);
+  }
 });
 
 test("keyboard path reaches a track detail and the join form", async ({ page }) => {

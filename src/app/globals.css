@@ -437,7 +437,7 @@ button, a, [role='button'] {
 }
 @media (min-width: 1024px) {
   .site-header { background: transparent; border-bottom: 0; backdrop-filter: none; }
-  .site-header__inner, .home-hero { width: min(calc(100% - (var(--gutter-lg) * 2)), 940px); }
+  .site-header__inner, .home-hero { width: min(calc(100% - (var(--gutter-lg) * 2)), var(--hero-container)); }
   .site-header__nav { display: flex; }
   .site-header__nav { transition: transform var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) var(--ease-out); }
   .site-header[data-scrolled='true'] .site-header__nav { transform: translateY(-2px) scale(.97); box-shadow: var(--shadow-lg), var(--inner-highlight); }
@@ -447,7 +447,14 @@ button, a, [role='button'] {
 @media (min-width: 1280px) {
   .trajectory-rail { display: block; }
 }
-@media (min-width: 1920px) { .page-shell { max-width: var(--container-wide); } }
+@media (min-width: 1600px) {
+  .page-shell { width: min(calc(100% - (var(--gutter-lg) * 2)), var(--container-wide)); }
+  .site-header__inner, .home-hero { width: min(calc(100% - (var(--gutter-lg) * 2)), var(--hero-container-wide)); }
+}
+@media (min-width: 1920px) {
+  .page-shell { width: min(calc(100% - (var(--gutter-lg) * 2)), var(--container-2k)); }
+  .site-header__inner, .home-hero { width: min(calc(100% - (var(--gutter-lg) * 2)), var(--hero-container-2k)); }
+}
 @media (max-width: 639px) {
   .data-table, .data-table tbody, .data-table tr, .data-table td { display: block; width: 100%; }
   .data-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -474,7 +481,7 @@ button, a, [role='button'] {
 .home-hero__the { color: var(--fg-muted); font-size: .43em; }
 .home-hero__future { color: var(--fg); }
 .home-hero__code {
-  background: linear-gradient(90deg, var(--accent) 0%, var(--hero-code-mid) 40%, var(--hero-code-highlight) 60%, var(--accent) 100%);
+  background: linear-gradient(90deg, var(--hero-code-accent) 0%, var(--hero-code-mid) 40%, var(--hero-code-highlight) 60%, var(--hero-code-accent) 100%);
   background-size: 200% auto;
   background-clip: text;
   color: transparent;

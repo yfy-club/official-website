@@ -80,7 +80,11 @@
 
   /* ── 布局 ───────────────────────────────────────────────────────────── */
   --container: 1200px;
-  --container-wide: 1360px;   /* ≥1920px 时启用 */
+  --container-wide: 1360px;   /* ≥1600px */
+  --container-2k: 1600px;     /* ≥1920px */
+  --hero-container: 940px;
+  --hero-container-wide: 1200px;
+  --hero-container-2k: 1600px;
   --reading-width: 68ch;      /* 大屏也不放宽 —— 给留白，不给更长的行 */
   --gutter-sm: 1.5rem;        /* 24px 手机 */
   --gutter-md: 2.5rem;        /* 40px 平板 */
@@ -142,8 +146,10 @@
   --accent: #F5794C;                          /* → 7.15:1 */
   --accent-fg: #0B0D10;                       /* 强调底上的文字 → 7.15:1 */
   --accent-quiet: rgba(245, 121, 76, 0.12);
-  --hero-code-mid: var(--fg);
-  --hero-code-highlight: var(--accent);
+  /* 原站 Midnight Code 蓝仅用于 Hero 扫光，不进入全站语义色。 */
+  --hero-code-accent: #4DA3FF;
+  --hero-code-mid: #FFFFFF;
+  --hero-code-highlight: #4DA3FF;
 
   /* 语义 —— 仅表单与状态，占比 < 3% */
   --success: #3FB950;    /* → 7.66:1 */
@@ -187,6 +193,7 @@
   --accent: #B4522C;                          /* → 4.77:1（正文可用） */
   --accent-fg: #FFFFFF;                       /* 强调底上的文字 → 5.02:1 */
   --accent-quiet: rgba(180, 82, 44, 0.10);
+  --hero-code-accent: var(--accent);
   --hero-code-mid: #C2410C;
   --hero-code-highlight: #FB923C;
 
