@@ -367,7 +367,7 @@ button, a, [role='button'] {
 }
 .field__control:focus { border-color: var(--accent); }
 .field__control:disabled { cursor: not-allowed; opacity: .65; }
-.field__textarea { min-height: 120px; resize: vertical; }
+.field__textarea { min-height: 8em; resize: vertical; }
 .field__hint, .field__error { margin: 0; font-size: var(--text-small); }
 .field__hint { color: var(--fg-faint); }
 .field__error { color: var(--danger); animation: field-error-in var(--dur-fast) var(--ease-out) both; }
@@ -1119,7 +1119,12 @@ button, a, [role='button'] {
 .join-process { display: grid; border-top: 1px solid var(--border); }
 .join-process li { display: grid; grid-template-columns: 48px 1fr; min-height: 72px; align-items: center; border-bottom: 1px solid var(--border); }
 .join-process span { color: var(--fg-faint); font-size: var(--text-caption); }
-.join-process p { margin: 0; }
+.join-hero-stage { padding-top: var(--space-4); padding-bottom: var(--space-10); border-bottom: 1px solid var(--border); }
+.join-hero-layout { min-width: 0; }
+.join-pitch, .join-hero-form { min-width: 0; max-width: 100%; }
+.join-pitch__heading h1 { font-feature-settings: "ss01" on, "cv01" on; overflow-wrap: break-word; }
+.join-hero-form .join-form,
+.join-hero-form .join-form__loading { width: 100%; max-width: 100%; }
 .join-form { width: 100%; max-width: var(--reading-width); }
 .join-form__loading { width: 100%; max-width: var(--reading-width); min-height: 360px; }
 .join-form__grid { display: grid; min-width: 0; margin: 0; padding: 0; border: 0; gap: var(--space-5); }

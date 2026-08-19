@@ -134,6 +134,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           <Input
             id="join-name"
             autoComplete="name"
+            placeholder="你的名字"
             aria-describedby={descriptionId("join-name", nameError)}
             aria-invalid={Boolean(nameError)}
             required
@@ -150,6 +151,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
               autoComplete="off"
               inputMode="numeric"
               pattern="[0-9]*"
+              placeholder="8-20 位数字学号"
               aria-describedby={descriptionId("join-student-id", studentIdError)}
               aria-invalid={Boolean(studentIdError)}
               required
@@ -161,6 +163,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           <Input
             id="join-major"
             autoComplete="organization-title"
+            placeholder="如：软件工程 2401 班"
             aria-describedby={descriptionId("join-major", majorError)}
             aria-invalid={Boolean(majorError)}
             required
@@ -186,6 +189,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             <Input
               id="join-contact"
               autoComplete="tel"
+              placeholder="可联系到你的方式"
               aria-describedby="join-contact-description"
               aria-invalid={Boolean(contactError)}
               required
@@ -193,7 +197,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             />
           </InputGroup>
         </Field>
-        <Field id="join-track" label="志向方向" error={trackError}>
+        <Field id="join-track" label="感兴趣的方向" error={trackError}>
           <Select
             id="join-track"
             defaultValue=""
@@ -202,19 +206,20 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             required
             {...register("track")}
           >
-            <option value="" disabled>请选择志向方向</option>
+            <option value="" disabled>请选择感兴趣的技术方向</option>
             {tracks.map((track) => <option key={track.value} value={track.value}>{track.label}</option>)}
           </Select>
         </Field>
         <Field
           className="join-form__wide"
           id="join-reason"
-          label="申请理由"
+          label="自我介绍 / 申请理由"
           hint={`${reasonText.length}/1000 字（至少 20 字）`}
           error={reasonError}
         >
           <Textarea
             id="join-reason"
+            placeholder="简单介绍自己与申请理由..."
             minLength={20}
             maxLength={1000}
             aria-describedby="join-reason-description"
@@ -243,9 +248,9 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           {submitted ? (
             <Stamp message="报名已提交，我们会尽快与你联系。" />
           ) : (
-            <Button id="join-submit" type="submit" disabled={isSubmitting}>
+            <Button id="join-submit" type="submit" className="w-full h-11 text-base font-semibold" disabled={isSubmitting}>
               <Send size={16} aria-hidden="true" />
-              {isSubmitting ? "正在提交…" : "提交报名"}
+              <span>{isSubmitting ? "正在提交…" : "立即提交申请"}</span>
             </Button>
           )}
           {rootError && !submitted ? (

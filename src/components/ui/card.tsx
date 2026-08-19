@@ -143,7 +143,7 @@ export function CardFrameTitle({ className, ...props }: HTMLAttributes<HTMLHeadi
 export function CardFrameDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn("card-frame__description font-sans text-xs text-[var(--fg-faint)]", className)}
+      className={cn("card-frame__description font-sans text-xs text-[var(--fg-muted)]", className)}
       {...props}
     />
   );
