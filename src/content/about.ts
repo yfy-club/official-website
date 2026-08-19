@@ -1,3 +1,5 @@
+import type { Mechanism } from "./schema";
+
 export const memberLadder = [
   {
     stage: "大一",
@@ -34,14 +36,49 @@ export const memberLadder = [
 ] as const;
 
 export const mechanisms = [
-  { title: "导师带学", detail: "高年级骨干持续承担讲课、日常答疑与代码纠偏，把个人问题沉淀为全员可复用的经验。" },
-  { title: "阶段考核", detail: "每学年设置期中、期末两次内部考核，并结合 C++ 课设、Linux 实操与 MySQL 控制台任务检验基础。" },
-  { title: "联合测试", detail: "与其他工作室开展同阶段联合测试，通过横向对比发现知识盲区与编码规范问题。" },
-  { title: "工位打卡", detail: "常规周固定打卡 16～22 小时，期末复习周最长可达 30 小时。" },
-  { title: "任务跟踪", detail: "每周例会同步学习与项目进度，阶段任务经过代码检查、集中讲评和复盘改进。" },
-  { title: "环境维护", detail: "每日轮值、周六深度维护，离室关闭设备并落实实验室安全。" },
-  { title: "退出机制", detail: "长期未达阶段考核、严重违纪或出勤长期不达标者执行退出机制。" },
-] as const;
+  {
+    index: "01",
+    title: "导师带学",
+    tag: "培养带学",
+    detail: "高年级骨干持续承担讲课、日常答疑与代码纠偏，把个人问题沉淀为全员可复用的经验。",
+  },
+  {
+    index: "02",
+    title: "阶段考核",
+    tag: "考核测试",
+    detail: "每学年设置期中、期末两次内部考核，并结合 C++ 课设、Linux 实操与 MySQL 控制台任务检验基础。",
+  },
+  {
+    index: "03",
+    title: "联合测试",
+    tag: "考核测试",
+    detail: "与其他工作室开展同阶段联合测试，通过横向对比发现知识盲区与编码规范问题。",
+  },
+  {
+    index: "04",
+    title: "工位打卡",
+    tag: "日常运转",
+    detail: "常规周固定打卡 16～22 小时，期末复习周最长可达 30 小时。",
+  },
+  {
+    index: "05",
+    title: "任务跟踪",
+    tag: "日常运转",
+    detail: "每周例会同步学习与项目进度，阶段任务经过代码检查、集中讲评和复盘改进。",
+  },
+  {
+    index: "06",
+    title: "环境维护",
+    tag: "日常运转",
+    detail: "每日轮值、周六深度维护，离室关闭设备并落实实验室安全。",
+  },
+  {
+    index: "07",
+    title: "退出机制",
+    tag: "准入退出",
+    detail: "长期未达阶段考核、严重违纪或出勤长期不达标者执行退出机制。",
+  },
+] satisfies Mechanism[];
 
 export const annualReport = {
   year: "2025",

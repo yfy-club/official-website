@@ -28,6 +28,7 @@ export type {
   Club,
   Faq,
   JoinFormInput,
+  Mechanism,
   Stage,
   TimelineItem,
   Track,

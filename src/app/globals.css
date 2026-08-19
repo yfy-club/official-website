@@ -896,12 +896,25 @@ button, a, [role='button'] {
 .ladder-dossier__branches h4 { margin: 0 0 var(--space-5); color: var(--warn); }
 .ladder-dossier__branches p { margin: 0; color: var(--fg-muted); }
 #about-ladder.section, #about-mechanism.section, #about-mentorship.section { padding-block: clamp(5rem, 9vh, 7rem); }
+.mechanism-matrix {
+  position: relative;
+}
+.mechanism-matrix__toolbar {
+  backdrop-filter: blur(8px);
+}
+.mechanism-card {
+  position: relative;
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
+.mechanism-card:hover {
+  border-color: var(--border-strong);
+}
 .mechanism-accordion { border-top: 1px solid var(--border-strong); }
 .mechanism-accordion__item { border-bottom: 1px solid var(--border); }
 .mechanism-accordion__item h3 { margin: 0; }
 .mechanism-accordion__trigger { display: grid; width: 100%; min-height: 68px; grid-template-columns: 42px 1fr 24px; align-items: center; gap: var(--space-3); padding: 0; border: 0; background: transparent; color: var(--fg); font: var(--weight-medium) var(--text-body)/var(--leading-snug) var(--font-sans); text-align: left; cursor: pointer; }
-.mechanism-accordion__index { color: var(--fg-faint); font-size: var(--text-caption); }
-.mechanism-accordion__chevron { justify-self: end; color: var(--fg-faint); transition: transform var(--dur-normal) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.mechanism-accordion__index { color: var(--fg-muted); font-size: var(--text-caption); }
+.mechanism-accordion__chevron { justify-self: end; color: var(--fg-muted); transition: transform var(--dur-normal) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .mechanism-accordion__trigger[data-state='open'] .mechanism-accordion__chevron { color: var(--accent); transform: rotate(180deg); }
 .mechanism-accordion__content { overflow: hidden; }
 .mechanism-accordion__content[data-state='open'] { animation: accordion-open var(--dur-normal) var(--ease-out); }

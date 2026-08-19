@@ -4,7 +4,7 @@ import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { PosterTiltCard } from "@/components/motion/poster-tilt-card";
 import { JoinChannels } from "@/components/sections/join-channels";
 import { JoinFormLoader } from "@/components/sections/join-form-loader";
-import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
+import { FaqAccordion } from "@/components/sections/faq-accordion";
 import { MemberVoicesMarquee } from "@/components/sections/member-voices-marquee";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
@@ -195,7 +195,7 @@ export default function JoinPage() {
           <p className="caps section__index">05 / FAQ</p>
           <h2 id="faq-title" className="section__title">常见问题解答。</h2>
         </div>
-        <MechanismAccordion items={faq.map((item) => ({ title: item.question, detail: item.answer }))} />
+        <FaqAccordion items={faq} />
       </section>
 
       {/* 06 / 海报 */}
