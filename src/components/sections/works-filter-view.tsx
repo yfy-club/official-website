@@ -185,28 +185,42 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
               </div>
               <div className="incubating-grid">
                 {incubating.map((work, index) => (
-                  <Card corners key={work.slug} variant="frame" className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors">
-                    <div>
+                  <Card
+                    corners
+                    key={work.slug}
+                    variant="frame"
+                    className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
+                  >
+                    <div className="flex flex-col flex-1">
                       <CardMeta
                         code={`LAB-${String(index + 1).padStart(2, "0")}`}
                         revision="REV 2026.1"
                         status={{ label: work.status, variant: "warning" }}
                       />
-                      <CardBody className="pb-4">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Sparkles className="h-4 w-4 text-[var(--warn)]" />
-                          <h3 className="text-base font-semibold text-[var(--fg)]">{work.nameZh}</h3>
+                      <CardBody className="flex flex-col flex-1 p-5 sm:p-6 pb-6">
+                        <div className="flex items-start gap-2.5 mb-3">
+                          <Sparkles className="h-4 w-4 text-[var(--warn)] mt-1 shrink-0" />
+                          <h3 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight leading-snug">
+                            {work.nameZh}
+                          </h3>
                         </div>
-                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4">{work.tagline}</p>
+                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-6 min-h-[44px]">
+                          {work.tagline}
+                        </p>
 
-                        <div className="stack-row">
-                          {work.stackSummary.map((item) => (
-                            <TechTag key={item} name={item} />
-                          ))}
+                        <div className="mt-auto">
+                          <div className="font-mono text-[10px] uppercase tracking-wider text-[var(--fg-faint)] mb-2">
+                            {"在研验证栈 // STACK"}
+                          </div>
+                          <div className="stack-row">
+                            {work.stackSummary.map((item) => (
+                              <TechTag key={item} name={item} />
+                            ))}
+                          </div>
                         </div>
                       </CardBody>
                     </div>
-                    <CardFooter className="pt-3 border-t border-[var(--border)] text-xs font-mono text-[var(--fg-muted)]">
+                    <CardFooter className="p-4 px-5 sm:px-6 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
                       <span>{work.trackSlugs.length} 条关联航道</span>
                       <span>{work.stackSummary.length} 项技术验证</span>
                     </CardFooter>
