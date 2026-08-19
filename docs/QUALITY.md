@@ -8,10 +8,10 @@
 | :--- | :--- |
 | `npm run audit:docs` | Markdown 本地链接与引用文件 |
 | `npm run check` | 类型、ESLint、Vitest、文档/内容/图片/字体审计、隔离生产构建 |
-| `npm run test:e2e:run` | 已有质量构建上的 33 项 Playwright 测试 |
+| `npm run test:e2e:run` | 已有质量构建上的 33 项 Playwright 测试，覆盖 14 条公开路由 |
 | `npm run test:e2e` | 先构建，再运行 Playwright |
 | `npm run test:browser` | 320/1440px、明暗主题、触屏和动效冒烟 |
-| `npm run lighthouse:run` | 已有质量构建上的 13 路由 Lighthouse |
+| `npm run lighthouse:run` | 已有质量构建上的 14 路由 Lighthouse |
 | `npm run lighthouse` | 先构建，再运行 Lighthouse |
 
 质量构建使用 `.next-quality`，不会覆盖 `npm run dev` 使用的 `.next`。Playwright 默认在 `3100` 启动质量构建，Lighthouse 默认使用 `3101`。
@@ -27,7 +27,7 @@
 | 图片审计 | 无公开旧栅格、无未引用公开资产、响应式图有 `sizes` |
 | 字体审计 | 标题字符全覆盖，中文标题 WOFF2 小于 40KB |
 | 文档审计 | 仓库 Markdown 的本地目标存在 |
-| axe | 13 条公开路由、明暗主题零 serious/critical |
+| axe | 14 条公开路由、明暗主题零 serious/critical |
 | Lighthouse 可访问性 | 100 |
 | Lighthouse 性能 | 每条公开路由不低于 90 |
 | LCP | 不高于 2.5s |

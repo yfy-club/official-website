@@ -676,14 +676,31 @@ button, a, [role='button'] {
 .mentorship__stats div { padding-top: var(--space-4); border-top: 1px solid var(--border); }
 .mentorship__stats dt { font-size: var(--text-h1); line-height: 1; }
 .mentorship__stats dd { margin: var(--space-2) 0 0; color: var(--fg-faint); font-size: var(--text-caption); }
-.advisor__portrait { position: relative; min-height: 420px; overflow: hidden; border-radius: var(--radius-sm); background: var(--surface-2); }
+.annual-report__metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--border-strong); }
+.annual-report__metrics div { padding: var(--space-5) 0; border-bottom: 1px solid var(--border); }
+.annual-report__metrics div:nth-child(odd) { padding-right: var(--space-4); border-right: 1px solid var(--border); }
+.annual-report__metrics div:nth-child(even) { padding-left: var(--space-4); }
+.annual-report__metrics dt { font-size: var(--text-h1); line-height: 1; }
+.annual-report__metrics dd { margin: var(--space-2) 0 0; color: var(--fg-faint); font-size: var(--text-caption); }
+.annual-report__outcomes { margin-top: var(--space-8); border-top: 1px solid var(--border); }
+.annual-report__outcomes li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-4); padding-block: var(--space-4); border-bottom: 1px solid var(--border); }
+.annual-report__outcomes span { color: var(--fg-faint); }
+.annual-report__outcomes p { margin: 0; color: var(--fg-muted); }
+.advisor__portraits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.advisor__portrait { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-sm); background: var(--surface-2); }
 .advisor__portrait img { object-fit: cover; object-position: center top; }
 .advisor .section__title { margin: var(--space-3) 0 var(--space-5); }
 .advisor ul { padding-left: var(--space-5); color: var(--fg-muted); }
 .about-culture { padding-block: var(--space-11); text-align: center; }
 .about-culture > .caps { color: var(--fg-faint); }
 .about-culture h2 { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-4); margin: var(--space-6) 0; font-size: var(--text-h1); }
-.about-culture > p:last-child { color: var(--fg-muted); font-size: var(--text-body-lg); }
+.about-culture > p:nth-of-type(2) { color: var(--fg-muted); font-size: var(--text-body-lg); }
+.culture-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--space-9); text-align: left; }
+.culture-gallery figure { min-width: 0; margin: 0; }
+.culture-gallery__image { position: relative; overflow: hidden; aspect-ratio: 4 / 3; border: 1px solid var(--border); background: var(--surface-2); }
+.culture-gallery figure[data-orientation='portrait'] .culture-gallery__image { aspect-ratio: 3 / 4; }
+.culture-gallery img { object-fit: cover; }
+.culture-gallery figcaption { padding-top: var(--space-2); color: var(--fg-faint); }
 
 .tracks-console { position: relative; }
 .tracks-console__layout {
@@ -887,10 +904,24 @@ button, a, [role='button'] {
 .work-detail__hero { grid-template-columns: 1fr; gap: var(--space-8); }
 .work-detail__logo { width: 140px; height: 140px; object-fit: contain; }
 .work-detail__actions { margin-top: var(--space-7); }
+.demo-access { margin-bottom: var(--space-9); border-top: 1px solid var(--border-strong); }
+.demo-access__head { display: grid; gap: var(--space-2); padding-block: var(--space-5); }
+.demo-access__head > * { margin: 0; }
+.demo-access__head > .caps { color: var(--fg-faint); }
+.demo-access__head h3 { font-size: var(--text-h3); }
+.demo-access__head > p:last-child { color: var(--fg-muted); }
+.demo-access code { font-family: var(--font-mono); font-size: var(--text-small); overflow-wrap: anywhere; user-select: all; }
 .shot-pair, .shot-single { display: grid; gap: var(--space-4); }
-.shot-pair figure, .shot-single figure { margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
+.shot-pair figure, .shot-single { margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); }
 .shot-pair img, .shot-single img { display: block; width: 100%; height: auto; }
 .shot-pair figcaption { padding: var(--space-2) var(--space-3); color: var(--fg-faint); font: var(--weight-normal) var(--text-caption)/1.5 var(--font-mono); }
+.work-gallery { display: grid; gap: var(--space-8); margin-top: var(--space-10); }
+.work-gallery__item { display: grid; gap: var(--space-4); min-width: 0; margin: 0; padding-top: var(--space-5); border-top: 1px solid var(--border-strong); }
+.work-gallery__meta { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: var(--space-4); }
+.work-gallery__meta > span { color: var(--fg-faint); }
+.work-gallery__meta h3, .work-gallery__meta p { margin: 0; }
+.work-gallery__meta h3 { font-size: var(--text-h3); }
+.work-gallery__meta p { max-width: 62ch; margin-top: var(--space-2); color: var(--fg-muted); }
 .decision-list { margin-top: var(--space-8); }
 .work-limits { margin-inline: calc(var(--gutter-sm) * -0.5); padding-inline: calc(var(--gutter-sm) * 0.5); background: var(--surface-2); }
 .work-limits .section__index { color: var(--fg-muted); }
@@ -962,6 +993,7 @@ button, a, [role='button'] {
   .cert-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
   .join-channels { grid-template-columns: 1fr 280px; }
   .poster-grid { gap: var(--space-5); }
+  .culture-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
   .roadmap__branches { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
@@ -983,6 +1015,8 @@ button, a, [role='button'] {
   .work-detail__hero { grid-template-columns: 1fr auto; align-items: end; }
   .work-detail__logo { width: 200px; height: 200px; }
   .shot-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-gallery__item:has(.compare) { grid-column: 1 / -1; }
   .decision-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .criteria-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .voices-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }

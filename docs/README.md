@@ -9,6 +9,7 @@
 | [根 README](../README.md) | 项目入口、快速开始、常用命令 | 第一次打开仓库 |
 | [CONTRIBUTING](../CONTRIBUTING.md) | 修改、验证和评审约定 | 准备改代码或内容 |
 | [STATUS](STATUS.md) | 当前基线、已知问题、上线阻塞项 | 接手任务或排优先级 |
+| [NEXT-PHASE](NEXT-PHASE.md) | 下一阶段范围、实施顺序与验收标准 | 开始新一轮功能开发 |
 | [ARCHITECTURE](ARCHITECTURE.md) | 现行系统边界、路由、数据流和实现约束 | 修改共享行为或服务端逻辑 |
 | [CONTENT](CONTENT.md) | 内容、图片、字体与真实性维护流程 | 更新社团资料或视觉素材 |
 | [QUALITY](QUALITY.md) | 自动门禁、性能预算、人工测试矩阵 | 提交前或排查 CI |
@@ -30,6 +31,7 @@
 docs/
 ├── README.md
 ├── STATUS.md
+├── NEXT-PHASE.md
 ├── ARCHITECTURE.md
 ├── CONTENT.md
 ├── QUALITY.md
@@ -45,6 +47,7 @@ docs/
 | 文档 | 必须更新的触发条件 |
 | :--- | :--- |
 | `STATUS.md` | 完成里程碑、发现或关闭阻塞项、远端 CI 状态变化 |
+| `NEXT-PHASE.md` | 阶段目标、范围、顺序或验收标准变化 |
 | `ARCHITECTURE.md` | 路由、运行时、数据流、依赖边界或目录职责变化 |
 | `CONTENT.md` | 内容 Schema、素材流程、字体流程或真实性规则变化 |
 | `QUALITY.md` | npm 命令、测试覆盖、性能预算或浏览器支持变化 |

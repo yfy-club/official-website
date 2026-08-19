@@ -59,12 +59,48 @@ export const workSchema = z.object({
       decisions: z.array(z.object({ what: z.string(), why: z.string() })).min(3),
       evidence: z.array(z.object({ label: z.string(), value: z.string() })).min(2),
       limits: z.array(z.string()).min(2),
+      demoAccounts: z
+        .array(z.object({
+          role: z.string().min(2),
+          account: z.string().min(2),
+          password: z.string().min(6),
+          access: z.string().min(4),
+        }))
+        .min(1)
+        .optional(),
       shots: z
-        .object({
-          dark: z.string().startsWith("/images/works/"),
-          light: z.string().startsWith("/images/works/").optional(),
-          alt: z.string().min(2),
-        })
+        .discriminatedUnion("type", [
+          z.object({
+            type: z.literal("single"),
+            image: z.string().startsWith("/images/works/"),
+            alt: z.string().min(2),
+          }),
+          z.object({
+            type: z.literal("comparison"),
+            dark: z.string().startsWith("/images/works/"),
+            light: z.string().startsWith("/images/works/"),
+            alt: z.string().min(2),
+          }),
+        ])
+        .optional(),
+      gallery: z
+        .array(z.object({
+          label: z.string().min(2),
+          description: z.string().min(6),
+          shot: z.discriminatedUnion("type", [
+            z.object({
+              type: z.literal("single"),
+              image: z.string().startsWith("/images/works/"),
+              alt: z.string().min(2),
+            }),
+            z.object({
+              type: z.literal("comparison"),
+              dark: z.string().startsWith("/images/works/"),
+              light: z.string().startsWith("/images/works/"),
+              alt: z.string().min(2),
+            }),
+          ]),
+        }))
         .optional(),
     })
     .optional(),

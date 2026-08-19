@@ -16,6 +16,7 @@ const routes = [
   "/works",
   "/works/matrix-calculator",
   "/works/zgyc-smart-light",
+  "/works/intellibuddy",
   "/awards",
   "/join",
 ];
@@ -247,7 +248,7 @@ for (const viewport of [{ width: 320, height: 900 }, { width: 1440, height: 1000
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
   await page.goto(`${baseURL}/works/matrix-calculator`, { waitUntil: "networkidle" });
-  const slider = page.getByRole("slider", { name: "调整暗色与亮色截图的对比位置" });
+  const slider = page.getByRole("slider", { name: "调整暗色与亮色截图的对比位置" }).first();
   await slider.focus();
   await page.keyboard.press("End");
   if (await slider.getAttribute("aria-valuenow") !== "100") throw new Error("CompareSlider End key failed");

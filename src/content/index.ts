@@ -1,6 +1,6 @@
 import { awardsRaw } from "./awards";
 export { competitionOverview } from "./awards";
-export { advisorProfile, mechanisms, memberLadder, mentorship } from "./about";
+export { advisorProfile, annualReport, culturePhotos, mechanisms, memberLadder, mentorship } from "./about";
 export { joinCriteria, joinProcess, memberVoices } from "./join";
 import { clubRaw } from "./club";
 import { faqRaw } from "./faq";

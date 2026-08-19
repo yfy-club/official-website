@@ -19,6 +19,7 @@
     "audit:docs": "node scripts/docs-audit.mjs",
     "audit:content": "node scripts/content-audit.mjs",
     "audit:images": "node scripts/image-audit.mjs",
+    "images:publish-materials": "node scripts/publish-material-images.mjs",
     "images:optimize": "node scripts/optimize-images.mjs --replace",
     "fonts:extract": "node --experimental-strip-types scripts/extract-heading-glyphs.ts",
     "fonts:subset": "npm run fonts:extract && node --experimental-strip-types scripts/subset-heading-font.ts",

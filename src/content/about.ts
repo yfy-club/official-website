@@ -34,12 +34,31 @@ export const memberLadder = [
 ] as const;
 
 export const mechanisms = [
-  { title: "阶段考核", detail: "C 语言期中考、C++ 课设验收、Linux 综合实操考与 MySQL 控制台实训。" },
+  { title: "导师带学", detail: "高年级骨干持续承担讲课、日常答疑与代码纠偏，把个人问题沉淀为全员可复用的经验。" },
+  { title: "阶段考核", detail: "每学年设置期中、期末两次内部考核，并结合 C++ 课设、Linux 实操与 MySQL 控制台任务检验基础。" },
+  { title: "联合测试", detail: "与其他工作室开展同阶段联合测试，通过横向对比发现知识盲区与编码规范问题。" },
   { title: "工位打卡", detail: "常规周固定打卡 16～22 小时，期末复习周最长可达 30 小时。" },
-  { title: "任务跟踪", detail: "每周例会同步学习与项目进度，阶段任务有明确验收节点与讲评复盘。" },
+  { title: "任务跟踪", detail: "每周例会同步学习与项目进度，阶段任务经过代码检查、集中讲评和复盘改进。" },
   { title: "环境维护", detail: "每日轮值、周六深度维护，离室关闭设备并落实实验室安全。" },
   { title: "退出机制", detail: "长期未达阶段考核、严重违纪或出勤长期不达标者执行退出机制。" },
 ] as const;
+
+export const annualReport = {
+  year: "2025",
+  title: "大一培养形成可复盘闭环",
+  description: "年度记录覆盖基础学习、阶段考核、项目辅助与方向分流，所有数字均来自《2025 云飞扬社团年度汇报》。",
+  metrics: [
+    { value: "7", label: "名大一成员持续跟进" },
+    { value: "2", label: "次内部阶段考核" },
+    { value: "6", label: "个渐进学习阶段" },
+    { value: "1", label: "套培养闭环" },
+  ],
+  outcomes: [
+    "全员完成 C 语言、C++ 基础语法与基础算法学习。",
+    "部分成员开始参与页面开发、接口联调和数据处理等项目辅助工作。",
+    "基础路线结束后再按 Java 后端、Python 智能方向与真实项目进行分流。",
+  ],
+} as const;
 
 export const mentorship = {
   description: "每位新成员配备一名高年级技术骨干定向辅导。阶段课设与大作业必须由师傅一对一逐行审阅代码、纠正规范、查验创新点后方可通过。",
@@ -55,6 +74,7 @@ export const advisorProfile = {
   name: "陈可",
   title: "教授 · 指导教师",
   image: "/images/advisor/陈可.webp",
+  imageSecondary: "/images/advisor/陈可2.webp",
   roles: [
     "创新创业与就业指导中心副主任",
     "大学生程序设计集训队总教练",
@@ -64,3 +84,14 @@ export const advisorProfile = {
   ],
   summary: "主持多项省级、教育部产学合作协同育人项目，指导学生参与程序设计、蓝桥杯、天梯赛、创新创业与挑战杯等赛事，并主持人工智能教育平台研究与企业横向课题。",
 } as const;
+
+export const culturePhotos = [
+  { src: "/images/photos/lab-huisen-zone-01.webp", alt: "云飞扬汇森分工位编码区", caption: "汇森分工位 · 编码区 01", orientation: "portrait" },
+  { src: "/images/photos/lab-huisen-zone-02.webp", alt: "云飞扬汇森分工位日常学习场景", caption: "汇森分工位 · 日常 02", orientation: "portrait" },
+  { src: "/images/photos/lab-huisen-zone-03.webp", alt: "云飞扬汇森分工位工作场景", caption: "汇森分工位 · 工作区 03", orientation: "portrait" },
+  { src: "/images/photos/lab-gathering.webp", alt: "云飞扬成员在实验室交流", caption: "实验室 · 团队交流", orientation: "landscape" },
+  { src: "/images/photos/activity-dinner-latest.webp", alt: "云飞扬成员团队聚餐合影", caption: "团队活动 · 聚餐合影", orientation: "portrait" },
+  { src: "/images/photos/activity-dinner.webp", alt: "云飞扬成员聚餐交流", caption: "团队活动 · 聚餐交流", orientation: "landscape" },
+  { src: "/images/photos/activity-bbq.webp", alt: "云飞扬成员户外烧烤活动", caption: "团队活动 · 户外烧烤", orientation: "portrait" },
+  { src: "/images/photos/activity-tea.webp", alt: "云飞扬成员日常奶茶小聚", caption: "团队日常 · 轻松一刻", orientation: "landscape" },
+] as const;

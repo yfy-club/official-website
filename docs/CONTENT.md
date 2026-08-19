@@ -7,10 +7,10 @@
 | 文件 | 负责内容 |
 | :--- | :--- |
 | `src/content/club.ts` | 社团名称、口号、人数、指导教师、链接和社群信息 |
-| `src/content/about.ts` | 组织机制、培养方式和文化内容 |
+| `src/content/about.ts` | 组织机制、年度培养档案、指导教师和文化实拍 |
 | `src/content/timeline.ts` | 编年史 |
 | `src/content/tracks.ts` | 五个方向、技术栈和三年路线 |
-| `src/content/works.ts` | 项目、工程决策、质量证据和边界 |
+| `src/content/works.ts` | 项目、工程决策、质量证据、截图巡览、演示账号和边界 |
 | `src/content/awards.ts` | 赛事、奖项和证书 |
 | `src/content/join.ts` | 招新条件、流程和成员感言 |
 | `src/content/faq.ts` | 招新问答 |
@@ -36,22 +36,26 @@
 
 - 不编造指标、奖项、人数、合作关系、部署状态或成员感言。
 - 不使用“敬请期待”、示例条目或外部占位图库填补缺口；内容不足时整块不展示。
-- 不把聊天记录、名单、学号、手机号、账号、Token、私钥路径、服务器地址或内网 IP 放进源码、截图或 `public/`。
+- 不把聊天记录、名单、学号、手机号、真实账号、Token、私钥路径、服务器地址或内网 IP 放进源码、截图或 `public/`。
 - 证书公开前必须脱敏，并确认公开授权。
 - 项目描述使用事实陈述，不用无法证明的“行业领先”“效率提升数倍”等宣传措辞。
 - `materials/` 不是保密仓库；敏感凭据不应依赖 `.gitignore` 保存。
 
 智光耀城页面必须保留两项限定：当前设备、遥测、控制结果和告警均为模拟数据，不连接真实灯杆；`195 / 425 / 9` 是 `2026-07-21` 的归档验收基线。`npm run audit:content` 会检查这些语句。
 
+明确设计为公开体验的演示账号可以进入 `works.ts` 的 `demoAccounts`，但必须由负责人确认其公开用途、数据隔离和可撤销性。演示账号不得复用真实生产凭据，页面必须提示访客不要写入个人或敏感信息；账号权限或密码变化后应立即同步内容并重新验证登录。
+
 ## 图片流程
 
 公开素材从 `materials/` 进入 `public/images/` 前必须人工审查：
 
 1. 查看原图完整尺寸，确认没有账号、主机名、Token、IP、个人信息或未授权人物。
-2. 将确认后的 PNG/JPG 原件放到 `public/images/` 对应目录。
-3. 运行 `npm run images:optimize`。脚本生成 AVIF/WebP，并清理公开目录里的旧栅格源文件。
+2. 证书先由负责人完成手动去隐并逐张核对，再覆盖 `materials/certs` 中的本地归档源；不要让发布脚本猜测遮挡区域。
+3. 将允许公开的文件显式加入 `scripts/publish-material-images.mjs`，运行 `npm run images:publish-materials` 生成 WebP。脚本只处理白名单，不扫描并复制整个 `materials/`。
 4. 页面使用 `next/image`，为响应式图片提供准确的 `sizes`；纯装饰图使用空 `alt`。
-5. 运行 `npm run audit:images`，再在浏览器检查裁切、清晰度和替代文本。
+5. 运行 `npm run audit:images`，确认部署树没有旧栅格或未引用资产，再核对裁切、清晰度和替代文本。
+
+`materials/` 被 Git 忽略，发布脚本只适用于持有本地材料的维护环境。`npm run images:optimize` 仍用于清理已经进入 `public/images` 的旧 PNG/JPG，不替代白名单发布流程。
 
 `public/images/` 只保留当前页面确实引用的资产。未引用原件、历史截图和内部材料留在 `materials/`，避免通过静态 URL 意外公开。
 

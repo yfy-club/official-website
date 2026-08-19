@@ -10,6 +10,7 @@ export const publicRoutes = [
   "/works",
   "/works/matrix-calculator",
   "/works/zgyc-smart-light",
+  "/works/intellibuddy",
   "/awards",
   "/join",
 ] as const;

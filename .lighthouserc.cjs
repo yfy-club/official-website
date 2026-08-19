@@ -16,6 +16,7 @@ module.exports = {
         "http://127.0.0.1:3101/works",
         "http://127.0.0.1:3101/works/matrix-calculator",
         "http://127.0.0.1:3101/works/zgyc-smart-light",
+        "http://127.0.0.1:3101/works/intellibuddy",
         "http://127.0.0.1:3101/awards",
         "http://127.0.0.1:3101/join",
       ],

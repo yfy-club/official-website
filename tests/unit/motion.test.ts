@@ -21,9 +21,10 @@ describe("motion contracts", () => {
   it("only enables comparison when a real light and dark pair exists", () => {
     const matrix = works.find((work) => work.slug === "matrix-calculator");
     const smartLight = works.find((work) => work.slug === "zgyc-smart-light");
-    expect(matrix?.detail?.shots?.dark).toBeTruthy();
-    expect(matrix?.detail?.shots?.light).toBeTruthy();
-    expect(smartLight?.detail?.shots?.dark).toBeTruthy();
-    expect(smartLight?.detail?.shots?.light).toBeUndefined();
+    const intellibuddy = works.find((work) => work.slug === "intellibuddy");
+    expect(matrix?.detail?.shots?.type).toBe("comparison");
+    expect(matrix?.detail?.gallery?.[0]?.shot.type).toBe("comparison");
+    expect(smartLight?.detail?.shots?.type).toBe("single");
+    expect(intellibuddy?.detail?.shots?.type).toBe("comparison");
   });
 });

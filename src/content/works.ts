@@ -57,10 +57,23 @@ export const worksRaw = [
         "特征值、QR 与 SVD 没有混入有理数内核，当前版本不把近似数值算法伪装成精确计算。",
       ],
       shots: {
+        type: "comparison",
         dark: "/images/works/matrix-calculator/matrix-dark.webp",
         light: "/images/works/matrix-calculator/matrix-light.webp",
         alt: "矩阵计算器明暗主题主界面，包含矩阵输入区与精确分数计算结果",
       },
+      gallery: [
+        {
+          label: "精确推导过程",
+          description: "明暗主题下都完整保留行变换步骤、精确分数与中间结果。",
+          shot: {
+            type: "comparison",
+            dark: "/images/works/matrix-calculator/matrix-trace-dark.webp",
+            light: "/images/works/matrix-calculator/matrix-trace-light.webp",
+            alt: "矩阵计算器解题推导过程，展示精确分数与逐步行变换",
+          },
+        },
+      ],
     },
   },
   {
@@ -118,10 +131,91 @@ export const worksRaw = [
         "195 / 425 / 9 是 2026-07-21 的归档验收基线，不代表线上版本持续通过的实时统计。",
         "平台用于业务闭环与试点展示，不把模拟环境描述为已接入真实城市物联网设施。",
       ],
+      demoAccounts: [
+        { role: "超级管理员", account: "admin", password: "AdminPass2026!", access: "完整管理端功能演示" },
+      ],
       shots: {
-        dark: "/images/works/zgyc-smart-light/zgyc-light.webp",
+        type: "single",
+        image: "/images/works/zgyc-smart-light/zgyc-light.webp",
         alt: "智光耀城平台概览界面，展示区域、设备与照明运维数据",
       },
+      gallery: [
+        {
+          label: "地图监控",
+          description: "在城市地图上集中查看灯杆分布、区域状态与设备概况。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-feature-map.webp", alt: "智光耀城地图监控界面" },
+        },
+        {
+          label: "告警中心",
+          description: "按等级、来源和处置状态汇总设备告警，保留完整处理上下文。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-alarm-center.webp", alt: "智光耀城告警中心界面" },
+        },
+        {
+          label: "告警规则",
+          description: "集中配置触发条件与告警等级，让遥测异常进入统一处置流程。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-alarm-rules.webp", alt: "智光耀城告警规则配置界面" },
+        },
+        {
+          label: "工单流转",
+          description: "从告警发现、派单到处理完成记录运维闭环。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-work-orders.webp", alt: "智光耀城运维工单界面" },
+        },
+        {
+          label: "智慧灯杆资产",
+          description: "以设备档案承载灯杆位置、状态和关联逻辑设备。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-asset-smart-pole.webp", alt: "智光耀城智慧灯杆资产界面" },
+        },
+        {
+          label: "区域资产",
+          description: "按行政或试点区域组织灯杆资产与运维责任边界。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-asset-regions.webp", alt: "智光耀城区域资产界面" },
+        },
+        {
+          label: "逻辑设备",
+          description: "拆分灯具、传感器等逻辑设备，保持资产关系可追踪。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-asset-logical-devices.webp", alt: "智光耀城逻辑设备资产界面" },
+        },
+        {
+          label: "实时遥测",
+          description: "聚合设备运行数据与状态变化，支持异常定位。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-monitor-realtime.webp", alt: "智光耀城实时遥测监控界面" },
+        },
+        {
+          label: "远程控制记录",
+          description: "记录控制指令、执行状态和操作结果，形成审计依据。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-monitor-controls.webp", alt: "智光耀城远程控制记录界面" },
+        },
+        {
+          label: "照明策略",
+          description: "按时段与业务条件编排照明规则，验证策略化控制流程。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-lighting-policy.webp", alt: "智光耀城照明策略界面" },
+        },
+        {
+          label: "用户管理",
+          description: "维护平台用户状态与基础身份信息。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-sys-users.webp", alt: "智光耀城系统用户管理界面" },
+        },
+        {
+          label: "角色权限",
+          description: "用角色组织平台访问边界，降低权限配置漂移。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-sys-roles.webp", alt: "智光耀城角色权限界面" },
+        },
+        {
+          label: "操作日志",
+          description: "归档关键后台操作，支持问题追溯与责任核验。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-sys-op-log.webp", alt: "智光耀城系统操作日志界面" },
+        },
+        {
+          label: "登录日志",
+          description: "记录登录时间与结果，为访问审计提供基础证据。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-sys-login-log.webp", alt: "智光耀城系统登录日志界面" },
+        },
+        {
+          label: "身份认证",
+          description: "以独立登录入口承接平台身份验证与访问控制。",
+          shot: { type: "single", image: "/images/works/zgyc-smart-light/zgyc-login.webp", alt: "智光耀城登录界面" },
+        },
+      ],
     },
   },
   {
@@ -140,6 +234,81 @@ export const worksRaw = [
       "AntV X6 交互式知识图谱与动态依赖高亮",
       "多模型容灾降级调度与 Monorepo 架构",
     ],
+    detail: {
+      problem: [
+        "低年级学习资料通常分散在文档、课程与问答记录中，知识点之间的先修关系也很难从线性目录里看清。遇到具体问题时，搜索结果往往不能直接对应当前学习阶段。",
+        "智学伴把 AI 问答、知识库、交互式知识图谱和学习路径放进同一套界面，让学生既能追问具体问题，也能回到可浏览、可关联的知识结构中继续学习。",
+      ],
+      stack: {
+        "前端应用": ["Vue 3", "TypeScript", "Vite", "AntV X6"],
+        "服务与数据": ["Express", "MongoDB", "SSE", "大模型 API"],
+        "工程协作": ["Monorepo", "多模型调度", "容灾降级"],
+      },
+      decisions: [
+        {
+          what: "用 AntV X6 表达知识依赖",
+          why: "图结构能直接呈现知识点的先修与后续关系，并支持节点选择和依赖链高亮。",
+        },
+        {
+          what: "AI 对话采用 SSE 流式返回",
+          why: "答案可以逐段抵达界面，降低长回答等待时的停顿感，也便于呈现生成状态。",
+        },
+        {
+          what: "模型调用设置容灾降级",
+          why: "单一供应方不可用时仍可切换备用模型，避免核心问答能力完全中断。",
+        },
+        {
+          what: "前后端按 Monorepo 组织",
+          why: "共享类型、脚本和协作约定集中维护，减少多人开发时的版本漂移。",
+        },
+      ],
+      evidence: [
+        { label: "功能实录", value: "AI 助教 · 知识图谱 · 知识库 · 学习路径 · 登录认证" },
+        { label: "知识关系", value: "AntV X6 交互节点与动态依赖高亮" },
+        { label: "对话链路", value: "SSE 流式响应与多模型容灾降级" },
+        { label: "交付状态", value: "公开部署，可在线访问" },
+      ],
+      limits: [
+        "AI 生成内容可能存在事实或推理错误，重要知识点仍需回到课程资料与权威文档核验。",
+        "学习路径提供结构化建议，不替代教师指导，也不会根据一次对话自动判断个人掌握程度。",
+        "模型响应速度和可用性受外部 API 状态影响；容灾降级只能降低中断概率，不能承诺持续在线。",
+      ],
+      demoAccounts: [
+        { role: "普通学生", account: "student@intellibuddy.com", password: "Demo2025", access: "日常学习、AI 助教、测验系统" },
+        { role: "高级学生", account: "advanced@intellibuddy.com", password: "Demo2025", access: "数据分析、成就系统、学习报告" },
+        { role: "VIP 会员", account: "vip@intellibuddy.com", password: "Demo2025", access: "完整功能体验；会员特权、积分商城为后续方向" },
+        { role: "教师", account: "teacher@intellibuddy.com", password: "Demo2025", access: "教师功能体验；班级管理、作业布置为后续方向" },
+        { role: "新用户", account: "newuser@intellibuddy.com", password: "Demo2025", access: "新手引导、从零开始体验" },
+      ],
+      shots: {
+        type: "comparison",
+        dark: "/images/works/zhixueban/zhixueban-dark.webp",
+        light: "/images/works/zhixueban/zhixueban-light.webp",
+        alt: "智学伴 AI 智能学习平台明暗主题主页",
+      },
+      gallery: [
+        {
+          label: "AI 智能助教",
+          description: "通过流式对话承接学习问题，并保留连续追问的上下文。",
+          shot: { type: "single", image: "/images/works/zhixueban/zhixueban-ai-chat.webp", alt: "智学伴 AI 智能助教对话界面" },
+        },
+        {
+          label: "知识图谱与路线",
+          description: "用交互节点呈现知识点依赖关系和阶段学习路线。",
+          shot: { type: "single", image: "/images/works/zhixueban/zhixueban-roadmap.webp", alt: "智学伴 AntV X6 知识图谱与学习路线界面" },
+        },
+        {
+          label: "知识库阅读",
+          description: "将结构化正文与图谱节点连接，支持从关系视图回到具体内容。",
+          shot: { type: "single", image: "/images/works/zhixueban/zhixueban-knowledge.webp", alt: "智学伴知识库正文阅读界面" },
+        },
+        {
+          label: "登录认证",
+          description: "独立认证入口承接用户身份与个人学习空间。",
+          shot: { type: "single", image: "/images/works/zhixueban/zhixueban-login.webp", alt: "智学伴平台登录认证界面" },
+        },
+      ],
+    },
   },
   {
     slug: "resistor-inspection",

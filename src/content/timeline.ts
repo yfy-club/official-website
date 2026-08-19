@@ -23,8 +23,8 @@ export const timelineRaw = [
   },
   {
     year: "2025",
-    title: "项目投入实践",
-    description: "智光耀城完成试点展示，智学伴 AI 助学平台投入日常使用。",
+    title: "培养闭环与项目实践",
+    description: "7 名大一成员完成六阶段基础路线与两次内部考核；智光耀城推进试点展示，智学伴投入工程实践。",
   },
   {
     year: "2026",
