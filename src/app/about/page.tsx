@@ -7,6 +7,7 @@ import { CultureGallery } from "@/components/sections/culture-gallery";
 import { MemberLadder } from "@/components/sections/member-ladder";
 import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
+import { DitherImage } from "@/components/ui/dither-image";
 import { GithubGraph } from "@/components/ui/github-graph";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { TracingBeam } from "@/components/ui/tracing-beam";
@@ -132,7 +133,24 @@ export default function AboutPage() {
         </div>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title" data-reveal="group">
-        <div className="advisor__portraits"><div className="advisor__portrait"><Image src={advisorProfile.image} alt={`${advisorProfile.name}教授正式肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div><div className="advisor__portrait"><Image src={advisorProfile.imageSecondary} alt={`${advisorProfile.name}教授工作肖像`} fill sizes="(max-width: 768px) 45vw, 19vw" /></div></div>
+        <div className="advisor__portraits">
+          <div className="advisor__portrait">
+            <DitherImage
+              src={advisorProfile.image}
+              alt={`${advisorProfile.name}教授正式肖像`}
+              fill
+              sizes="(max-width: 768px) 45vw, 19vw"
+            />
+          </div>
+          <div className="advisor__portrait">
+            <DitherImage
+              src={advisorProfile.imageSecondary}
+              alt={`${advisorProfile.name}教授工作肖像`}
+              fill
+              sizes="(max-width: 768px) 45vw, 19vw"
+            />
+          </div>
+        </div>
         <div>
           <p className="caps section__index">08 / Advisor</p>
           <h2 id="advisor-title" className="section__title">指导教师：{advisorProfile.name} {advisorProfile.title}</h2>

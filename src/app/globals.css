@@ -909,6 +909,17 @@ button, a, [role='button'] {
 .mechanism-card:hover {
   border-color: var(--border-strong);
 }
+.cutout-card {
+  position: relative;
+  background-color: var(--surface);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.dither-image-frame {
+  position: relative;
+}
+.bg-noise {
+  background-repeat: repeat;
+}
 .mechanism-accordion { border-top: 1px solid var(--border-strong); }
 .mechanism-accordion__item { border-bottom: 1px solid var(--border); }
 .mechanism-accordion__item h3 { margin: 0; }

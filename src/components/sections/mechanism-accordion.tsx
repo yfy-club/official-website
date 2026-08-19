@@ -17,12 +17,11 @@ import { useCallback, useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { BorderBeam } from "@/components/ui/border-beam";
 import {
-  CardFrame,
-  CardFrameAction,
-  CardFrameHeader,
-  CardFrameTitle,
-  CardPanel,
-} from "@/components/ui/card";
+  CutoutCard,
+  CutoutCardContent,
+  CutoutCardHeader,
+  CutoutCardTitle,
+} from "@/components/ui/cutout-card";
 import { Kbd } from "@/components/ui/kbd";
 import type { Mechanism } from "@/content";
 import { cn } from "@/lib/utils";
@@ -292,31 +291,29 @@ export function MechanismAccordion({ items }: { items: readonly Mechanism[] }) {
                 whileHover={shouldReduceMotion ? undefined : { y: -2 }}
                 transition={{ duration: 0.18, ease: "easeOut" }}
               >
-                <CardFrame className="h-full border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all">
-                  <CardFrameHeader className="pb-3 border-b border-[var(--border)]">
+                <CutoutCard className="h-full">
+                  <CutoutCardHeader>
                     <div className="flex items-center gap-2">
                       <IconComponent className="w-4 h-4 text-[var(--accent)]" aria-hidden="true" />
                       <span className="font-mono text-xs font-bold text-[var(--accent)]">
                         {`${indexStr} //`}
                       </span>
-                      <CardFrameTitle className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
+                      <CutoutCardTitle>
                         {item.title}
-                      </CardFrameTitle>
+                      </CutoutCardTitle>
                     </div>
                     {item.tag && (
-                      <CardFrameAction>
-                        <Badge variant="outline" className="font-mono text-[10px] px-2 py-0.5">
-                          {item.tag}
-                        </Badge>
-                      </CardFrameAction>
+                      <Badge variant="outline" className="font-mono text-[10px] px-2 py-0.5">
+                        {item.tag}
+                      </Badge>
                     )}
-                  </CardFrameHeader>
-                  <CardPanel className="p-4 sm:p-5">
-                    <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed m-0">
+                  </CutoutCardHeader>
+                  <CutoutCardContent>
+                    <p className="m-0">
                       {item.detail}
                     </p>
-                  </CardPanel>
-                </CardFrame>
+                  </CutoutCardContent>
+                </CutoutCard>
               </motion.div>
             );
           })}

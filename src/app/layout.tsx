@@ -5,6 +5,7 @@ import { RouteTransitions } from "@/components/layout/route-transitions";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { StructuredData } from "@/components/seo/structured-data";
+import { BackgroundImageTexture } from "@/components/ui/bg-image-texture";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { awards, club } from "@/content";
@@ -85,6 +86,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${display.variable} ${displayCjk.variable} ${sans.variable} ${mono.variable}`}>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <TooltipProvider delayDuration={150}>
+          <BackgroundImageTexture />
           <RouteTransitions />
           <a className="skip-link" href="#main-content">跳到主内容</a>
           <SiteHeader />

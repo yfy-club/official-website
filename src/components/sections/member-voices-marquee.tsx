@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import type { MemberVoice } from "@/content";
+import { EdgeBlur } from "@/components/ui/edge-blur";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
 
@@ -16,33 +17,26 @@ export function MemberVoicesMarquee({ className, voices }: MemberVoicesMarqueePr
 
   return (
     <div className={cn("member-voices-marquee relative flex flex-col gap-4 overflow-hidden py-2", className)}>
-      {/* 左右边缘平滑羽化遮罩 */}
-      <div
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-24 md:w-36 bg-gradient-to-r from-[var(--bg)] to-transparent"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-24 md:w-36 bg-gradient-to-l from-[var(--bg)] to-transparent"
-        aria-hidden="true"
-      />
+      {/* 左右光学级 EdgeBlur 渐进羽化遮罩 */}
+      <EdgeBlur direction="horizontal" intensity="md" />
 
-      {/* 第一行：向左正向无限流动 */}
-      <Marquee pauseOnHover repeat={4} className="[--duration:46s] [--gap:1.25rem]">
+      {/* 第一行：悬停触发平滑向左流动 */}
+      <Marquee playOnHover repeat={4} className="[--duration:40s] [--gap:1.25rem]">
         {firstRow.map((voice, idx) => (
           <VoiceCard key={`${voice.author}-${idx}`} voice={voice} index={idx + 1} />
         ))}
       </Marquee>
 
-      {/* 第二行：向右反向无限流动 */}
-      <Marquee reverse pauseOnHover repeat={4} className="[--duration:52s] [--gap:1.25rem]">
+      {/* 第二行：悬停触发平滑向右流动 */}
+      <Marquee reverse playOnHover repeat={4} className="[--duration:45s] [--gap:1.25rem]">
         {secondRow.map((voice, idx) => (
           <VoiceCard key={`${voice.author}-${idx}`} voice={voice} index={idx + half + 1} />
         ))}
       </Marquee>
 
       {/* 底部交互指引与元数据 */}
-      <p className="mt-2 text-center text-xs font-mono text-[var(--fg-faint)]">
-        悬停卡片可暂停滚动 · 23～25 级成长档案（匿名代称与虚拟角色头像）
+      <p className="mt-2 text-center text-xs font-mono text-[var(--fg-muted)]">
+        光标悬停时触发平滑流动 · 23～25 级成长档案（匿名代称与虚拟角色头像）
       </p>
     </div>
   );
