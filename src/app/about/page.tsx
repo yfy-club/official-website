@@ -3,8 +3,13 @@ import Image from "next/image";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { MechanismAccordion } from "@/components/sections/mechanism-accordion";
 import { StructuredData } from "@/components/seo/structured-data";
-import { Card } from "@/components/ui/card";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { CardBody, CardCorners } from "@/components/ui/card";
+import { MagicCard } from "@/components/ui/magic-card";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { StageIndicator } from "@/components/ui/stage-indicator";
 import { advisorProfile, club, mechanisms, memberLadder, mentorship, timeline } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
@@ -24,7 +29,7 @@ export default function AboutPage() {
       <section id="about-origin" className="section about-origin" aria-labelledby="origin-title">
         <div>
           <p className="caps section__index">02 / Origin</p><h2 id="origin-title" className="section__title">从第一届云计算专业学生开始。</h2>
-          <div className="prose"><p>{club.origin}</p><p>社团依托{club.platform}，坚持以成员为中心、立足技术实战、注重长远发展，并把兴趣与真实工程结合起来。</p></div>
+          <div className="prose"><p>{club.origin}</p></div>
         </div>
         <Image src="/images/photos/lab-main-studio.webp" alt="云飞扬社团主实验室工位全景" width={1400} height={900} sizes="(max-width: 1024px) 100vw, 50vw" />
       </section>
@@ -33,16 +38,48 @@ export default function AboutPage() {
         <ol className="timeline year-scroll clean-list">{timeline.map((item) => <li key={item.year} data-current={item.year === "2026"}><time dateTime={item.year}>{item.year}</time><div><h3>{item.title}</h3><p>{item.description}</p></div></li>)}</ol>
       </section>
       <section id="about-ladder" className="section" aria-labelledby="ladder-title">
-        <div className="section__head"><p className="caps section__index">04 / Ladder</p><h2 id="ladder-title" className="section__title">成长不是直线，大三会分岔。</h2><p className="section__intro">传帮带贯穿全程；阶段主题随年级变化，选择就业与考研两条路径时保持同等支持。</p></div>
-        <div className="ladder-grid">{memberLadder.map((item) => <Card key={item.stage}><p className="caps tabular">{item.stage} / {item.count} 人</p><h3>{item.theme}</h3><p>{item.detail}</p></Card>)}</div>
+        <div className="section__head"><p className="caps section__index">04 / Ladder</p><h2 id="ladder-title" className="section__title">四年成长，大三分岔。</h2></div>
+        <div className="ladder-grid">
+          {memberLadder.map((item, index) => (
+            <MagicCard
+              className="card card--compact card--frame ladder-card"
+              gradientColor="var(--accent-quiet)"
+              gradientFrom="var(--accent)"
+              gradientOpacity={0.8}
+              gradientSize={240}
+              gradientTo="var(--border-strong)"
+              key={item.stage}
+            >
+              <CardCorners />
+              <article className="ladder-card__inner">
+                <header className="ladder-card__head">
+                  <span className="ladder-card__index tabular">0{index + 1}</span>
+                  <span className="caps">{item.stage}</span>
+                  <span className="ladder-card__count tabular">{item.count} 人</span>
+                </header>
+                <CardBody>
+                  <h3>{item.theme}</h3>
+                  <p>{item.detail}</p>
+                </CardBody>
+                <StageIndicator
+                  active={index + 1}
+                  caption="PHASE"
+                  label={`${item.stage}成长阶段`}
+                  tone={index === 2 ? "warning" : index === 3 ? "success" : "accent"}
+                />
+              </article>
+              {index === 2 && <BorderBeam borderWidth={1} colorFrom="var(--warn)" colorTo="var(--accent)" duration={7} size={72} />}
+            </MagicCard>
+          ))}
+        </div>
       </section>
       <section id="about-mechanism" className="section" aria-labelledby="mechanism-title">
-        <div className="section__head"><p className="caps section__index">05 / How it works</p><h2 id="mechanism-title" className="section__title">靠制度运转，也靠彼此负责。</h2></div>
-        <dl className="mechanism-list">{mechanisms.map((item) => <div key={item.title}><dt>{item.title}</dt><dd>{item.detail}</dd></div>)}</dl>
+        <div className="section__head"><p className="caps section__index">05 / How it works</p><h2 id="mechanism-title" className="section__title">制度让协作持续。</h2></div>
+        <MechanismAccordion items={mechanisms} />
       </section>
       <section id="about-mentorship" className="section mentorship" aria-labelledby="mentorship-title">
         <div><p className="caps section__index">06 / Mentorship</p><h2 id="mentorship-title" className="section__title">师徒制从进门第一天开始。</h2><p className="prose">{mentorship.description}</p></div>
-        <dl className="mentorship__stats">{mentorship.training.map((item) => <div key={item.label}><dt className="tabular">{item.value}</dt><dd>{item.label}</dd></div>)}</dl>
+        <dl className="mentorship__stats">{mentorship.training.map((item, index) => <div key={item.label}><dt className="tabular"><NumberTicker aria-label={item.value} delay={index * 0.08} value={Number(item.value)} /></dt><dd>{item.label}</dd></div>)}</dl>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title">
         <div className="advisor__portrait"><Image src={advisorProfile.image} alt={`${advisorProfile.name}教授肖像`} fill sizes="(max-width: 768px) 100vw, 38vw" /></div>

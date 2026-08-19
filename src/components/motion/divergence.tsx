@@ -6,7 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { ArcherContainer, ArcherElement } from "react-archer";
 
 import { Tag } from "@/components/ui/tag";
+import { CardBody, CardCorners, CardFooter, CardMeta, cardVariants } from "@/components/ui/card";
+import { MagicCard } from "@/components/ui/magic-card";
 import type { Track } from "@/content/schema";
+import { cn } from "@/lib/utils";
 
 type TracksMapProps = {
   tracks: Track[];
@@ -113,25 +116,33 @@ export function TracksMap({ tracks }: TracksMapProps) {
           {tracks.map((track) => (
             <li key={track.slug}>
               <ArcherElement id={`track-${track.slug}`}>
-                <Link
-                  href={`/tracks/${track.slug}`}
-                  className="track-panel"
-                  data-track={track.slug}
+                <MagicCard
+                  className={cn(cardVariants({ density: "compact", variant: "frame" }), "track-panel-shell")}
+                  gradientColor="var(--accent-quiet)"
+                  gradientFrom="var(--accent)"
+                  gradientOpacity={0.72}
+                  gradientSize={280}
+                  gradientTo="var(--border-strong)"
                 >
-                  <span className="track-panel__index tabular">{track.index}</span>
-                  <div>
-                    <h2>{track.nameZh}</h2>
-                    <p className="track-panel__en">{track.nameEn}</p>
-                    <p>{track.positioning}</p>
-                    <div className="stack-row">
-                      {[...track.stack.languages, ...track.stack.frameworks].slice(0, 4).map((item) => (
-                        <Tag key={item}>{item}</Tag>
-                      ))}
-                    </div>
-                    <p className="track-panel__goal">→ {track.goal}</p>
-                  </div>
-                  <ArrowRight aria-hidden="true" size={20} />
-                </Link>
+                  <Link href={`/tracks/${track.slug}`} className="track-panel" data-track={track.slug}>
+                    <CardCorners />
+                    <CardMeta code={`TRK-${track.index}`} />
+                    <CardBody className="track-panel__body">
+                      <h2>{track.nameZh}</h2>
+                      <p className="track-panel__en">{track.nameEn}</p>
+                      <p>{track.tagline}</p>
+                      <div className="stack-row">
+                        {[...track.stack.languages, ...track.stack.frameworks].slice(0, 4).map((item) => (
+                          <Tag key={item}>{item}</Tag>
+                        ))}
+                      </div>
+                    </CardBody>
+                    <CardFooter className="track-panel__footer">
+                      <span className="track-panel__goal">{track.goal}</span>
+                      <ArrowRight aria-hidden="true" size={18} />
+                    </CardFooter>
+                  </Link>
+                </MagicCard>
               </ArcherElement>
             </li>
           ))}

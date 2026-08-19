@@ -1,8 +1,8 @@
 export const memberLadder = [
-  { stage: "大一", count: 7, theme: "打基础", detail: "基础语法过关、Git 协作、系统底层与融入实验室" },
-  { stage: "大二", count: 9, theme: "攻技术", detail: "核心技术攻关、竞赛主力与项目实战" },
-  { stage: "大三", count: 14, theme: "分流", detail: "就业方向走出去实习；考研方向备战、竞赛与深度学习科研" },
-  { stage: "大四", count: 12, theme: "传承", detail: "考研复试、企业实习、毕业设计与经验沉淀" },
+  { stage: "大一", count: 7, theme: "打基础", detail: "语法、Git 与系统基础，完成实验室融入。" },
+  { stage: "大二", count: 9, theme: "攻技术", detail: "技术攻坚，进入项目与竞赛主力。" },
+  { stage: "大三", count: 14, theme: "分流", detail: "就业实习 / 考研科研，两条路径等权。" },
+  { stage: "大四", count: 12, theme: "传承", detail: "复试、实习与毕设经验回流。" },
 ] as const;
 
 export const mechanisms = [
