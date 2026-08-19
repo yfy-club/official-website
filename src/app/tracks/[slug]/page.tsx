@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
-import { DrawPath } from "@/components/motion/draw-path";
 import { TrackCurriculumAccordion } from "@/components/sections/track-curriculum-accordion";
 import { TrackDeepFocus } from "@/components/sections/track-deep-focus";
 import { TrackMetricsBar } from "@/components/sections/track-metrics-bar";
@@ -235,7 +234,6 @@ export default async function TrackDetailPage({
             大一扎实打牢底层，大二项目全面攻坚，大三面向就业与升学双通道精准发力。
           </p>
         </div>
-        <DrawPath />
         <div className="roadmap" data-reveal="group">
           {primaryStages.map((stage, index) => (
             <Card className="roadmap__stage" corners key={stage.label} variant="frame">

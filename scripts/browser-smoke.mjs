@@ -311,13 +311,6 @@ for (const viewport of [{ width: 320, height: 900 }, { width: 1440, height: 1000
   await page.locator(".cert-card").first().click();
   if (await page.evaluate(() => window.__viewTransitionCalls) !== 0) throw new Error("Reduced motion used CertDrawer View Transition");
   await page.keyboard.press("Escape");
-  await page.goto(`${baseURL}/tracks/ai`, { waitUntil: "networkidle" });
-  const endState = await page.evaluate(() => ({
-    clip: getComputedStyle(document.querySelector(".draw-path__animated")).clipPath,
-    dash: getComputedStyle(document.querySelector(".draw-path path")).strokeDashoffset,
-  }));
-  if (endState.clip !== "inset(0px)" && endState.clip !== "inset(0% 0% 0% 0%)") throw new Error(`Reduced DrawPath is clipped: ${endState.clip}`);
-  if (Number.parseFloat(endState.dash) !== 0) throw new Error(`Reduced DrawPath is incomplete: ${endState.dash}`);
   await context.close();
 }
 

@@ -1550,20 +1550,6 @@ button, a, [role='button'] {
   .year-scroll li { animation: year-light linear both; animation-timeline: view(); animation-range: entry 20% cover 40%; }
 }
 
-/* ── M2: track detail path ────────────────────────────────────────────── */
-@keyframes draw-path-x { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes draw-path-y { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-.draw-path { margin-bottom: var(--space-8); view-timeline-name: --draw-path; view-timeline-axis: block; }
-.draw-path svg { display: block; width: 100%; overflow: visible; }
-.draw-path__desktop { display: none !important; height: 220px; }
-.draw-path__mobile { max-width: 360px; height: 360px; margin-inline: auto; }
-.draw-path path { fill: none; stroke: var(--fg-muted); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 0; }
-.draw-path__nodes-outline rect { fill: transparent; stroke: var(--fg-muted); stroke-width: 2; }
-.draw-path__nodes-solid { fill: var(--accent); }
-@supports (animation-timeline: view()) {
-  .draw-path__animated { clip-path: inset(0 0 100% 0); animation: draw-path-y linear both; animation-timeline: --draw-path; animation-range: entry 10% cover 70%; }
-}
-
 /* ── M2: works negative spotlight ─────────────────────────────────────── */
 .spotlight-card { --mx: 50%; --my: 50%; }
 .spotlight-card__media { position: relative; overflow: hidden; }
@@ -1694,11 +1680,6 @@ button, a, [role='button'] {
 @media (min-width: 640px) {
   .join-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .join-form__actions .button { width: auto; }
-  .draw-path__mobile { display: none !important; }
-  .draw-path__desktop { display: block !important; }
-  @supports (animation-timeline: view()) {
-    .draw-path__animated { animation-name: draw-path-x; }
-  }
 }
 
 @media (max-width: 639px) {
@@ -1733,8 +1714,6 @@ button, a, [role='button'] {
   .site-header__nav, .home-hero__scroll svg { animation: none !important; }
   .year-scroll li { transform: none !important; }
   .tracks-detail__panel, .ladder-dossier__panel { clip-path: none !important; transform: none !important; }
-  .draw-path path { stroke-dashoffset: 0 !important; }
-  .draw-path__animated { clip-path: inset(0) !important; }
   .spotlight-card__negative { filter: saturate(1) !important; }
   .spotlight-card__color { display: none !important; }
   .advisor::before, .join-channels__finder > i { transform: none !important; }
