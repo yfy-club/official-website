@@ -382,3 +382,72 @@ test("reduced motion disables all reveal animations with immediate full display"
   }
   await context.close();
 });
+
+test("homepage desktop track preview responds to focus and hover with real works and honest empty state", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const tracksSection = page.locator("#home-tracks");
+  await tracksSection.scrollIntoViewIfNeeded();
+
+  const stage = page.locator(".home-track-preview__stage");
+  await expect(stage).toBeVisible();
+
+  // Focus AI track link
+  const aiLink = page.locator('.home-tracks a[href="/tracks/ai"]');
+  await aiLink.focus();
+  await expect(stage.locator(".home-track-preview__caption-work")).toHaveText("智学伴 · AI 智能学习平台");
+  const aiImg = stage.locator(".home-track-preview__img");
+  await expect(aiImg).toBeVisible();
+  await expect(aiImg).toHaveAttribute("src", /zhixueban/);
+
+  // Hover Software track link
+  const softwareLink = page.locator('.home-tracks a[href="/tracks/software"]');
+  await softwareLink.hover();
+  await expect(stage.locator(".home-track-preview__caption-work")).toHaveText("矩阵计算器 · 精确有理数");
+  const swImg = stage.locator(".home-track-preview__img");
+  await expect(swImg).toBeVisible();
+  await expect(swImg).toHaveAttribute("src", /matrix/);
+
+  // Focus Industrial track link
+  const industrialLink = page.locator('.home-tracks a[href="/tracks/industrial"]');
+  await industrialLink.focus();
+  await expect(stage.locator(".home-track-preview__caption-work")).toHaveText("暂无关联实录");
+  await expect(stage.locator(".home-track-preview__empty")).toBeVisible();
+  await expect(stage.locator(".home-track-preview__img")).toHaveCount(0);
+
+  // Click AI link to ensure navigation contract
+  await aiLink.click();
+  await expect(page).toHaveURL(/\/tracks\/ai$/);
+});
+
+test("homepage mobile track preview displays inline thumbnails with empty slot reservation and no overflow", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const tracksSection = page.locator("#home-tracks");
+  await tracksSection.scrollIntoViewIfNeeded();
+
+  // Desktop stage must be hidden on mobile
+  const stage = page.locator(".home-track-preview__stage");
+  await expect(stage).toBeHidden();
+
+  // AI row has thumbnail
+  const aiThumb = page.locator('.home-tracks a[href="/tracks/ai"] .home-track-preview__thumb-img');
+  await expect(aiThumb).toBeVisible();
+  await expect(aiThumb).toHaveAttribute("src", /zhixueban/);
+
+  // Software row has thumbnail
+  const swThumb = page.locator('.home-tracks a[href="/tracks/software"] .home-track-preview__thumb-img');
+  await expect(swThumb).toBeVisible();
+  await expect(swThumb).toHaveAttribute("src", /matrix/);
+
+  // Industrial row has empty placeholder slot
+  const indEmpty = page.locator('.home-tracks a[href="/tracks/industrial"] .home-track-preview__thumb-empty');
+  await expect(indEmpty).toBeVisible();
+  const indImg = page.locator('.home-tracks a[href="/tracks/industrial"] .home-track-preview__thumb-img');
+  await expect(indImg).toHaveCount(0);
+
+  // No horizontal overflow
+  await expectNoHorizontalOverflow(page, "/");
+});
