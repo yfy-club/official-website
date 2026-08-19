@@ -8,8 +8,15 @@ import { useForm, type FieldPath } from "react-hook-form";
 import { Stamp } from "@/components/motion/stamp";
 import { Turnstile } from "@/components/sections/turnstile";
 import { Button } from "@/components/ui/button";
-import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { Field, Input, Textarea } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupText } from "@/components/ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { joinFormSchema, type JoinFormInput } from "@/content/schema";
 
 type TrackOption = {
@@ -124,6 +131,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
   const reasonError = errors.reason?.message;
   const rootError = errors.root?.server?.message;
 
+  const currentTrack = watch("track") || "";
   const reasonText = watch("reason") || "";
 
   return (
@@ -199,15 +207,27 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         </Field>
         <Field id="join-track" label="感兴趣的方向" error={trackError}>
           <Select
-            id="join-track"
-            defaultValue=""
-            aria-describedby={descriptionId("join-track", trackError)}
-            aria-invalid={Boolean(trackError)}
-            required
-            {...register("track")}
+            value={currentTrack || undefined}
+            onValueChange={(val) => {
+              setValue("track", val as JoinFormInput["track"], { shouldValidate: true });
+            }}
+            disabled={isSubmitting || submitted}
           >
-            <option value="" disabled>请选择感兴趣的技术方向</option>
-            {tracks.map((track) => <option key={track.value} value={track.value}>{track.label}</option>)}
+            <SelectTrigger
+              id="join-track"
+              error={Boolean(trackError)}
+              aria-describedby={descriptionId("join-track", trackError)}
+              aria-invalid={Boolean(trackError)}
+            >
+              <SelectValue placeholder="请选择感兴趣的技术方向" />
+            </SelectTrigger>
+            <SelectContent>
+              {tracks.map((track) => (
+                <SelectItem key={track.value} value={track.value}>
+                  {track.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
           </Select>
         </Field>
         <Field

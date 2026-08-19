@@ -353,25 +353,29 @@ button, a, [role='button'] {
 .data-table th { color: var(--fg-faint); font-weight: var(--weight-normal); }
 .data-table [data-align='right'] { text-align: right; }
 .field { display: grid; gap: var(--space-2); }
-.field label { font-size: var(--text-small); font-weight: var(--weight-medium); }
+.field label { font-size: var(--text-small); font-weight: var(--weight-medium); color: var(--fg); }
 .field__control {
   width: 100%;
-  min-height: 44px;
-  padding: var(--space-3);
+  min-height: 40px;
+  height: 40px;
+  padding: 0 var(--space-3);
   border: 1px solid var(--border-control);
   border-radius: var(--radius-xs);
   background: var(--surface);
   color: var(--fg);
-  font: var(--weight-normal) 1rem/1.5 var(--font-sans);
-  transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  font: var(--weight-normal) 0.875rem/1.5 var(--font-sans);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
 }
-.field__control:focus { border-color: var(--accent); }
+.field__control:hover { border-color: var(--border-strong); }
+.field__control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.field__control::placeholder { color: var(--fg-faint); }
 .field__control:disabled { cursor: not-allowed; opacity: .65; }
-.field__textarea { min-height: 8em; resize: vertical; }
-.field__hint, .field__error { margin: 0; font-size: var(--text-small); }
+.field__textarea { min-height: 120px; height: auto; padding: var(--space-3); resize: vertical; }
+.field__hint, .field__error { margin: 0; font-size: var(--text-caption); }
 .field__hint { color: var(--fg-faint); }
-.field__error { color: var(--danger); animation: field-error-in var(--dur-fast) var(--ease-out) both; }
+.field__error { color: var(--danger); font-family: var(--font-mono); animation: field-error-in var(--dur-fast) var(--ease-out) both; }
 .field__control[aria-invalid='true'] { border-color: var(--danger); }
+.field__control[aria-invalid='true']:focus { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
 .dialog__content {
   position: fixed;
   top: 50%;

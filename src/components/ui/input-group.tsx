@@ -15,7 +15,7 @@ export function InputGroup({ className, ...props }: InputGroupProps) {
   return (
     <div
       className={cn(
-        "input-group relative flex w-full items-center rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-0",
+        "input-group relative flex w-full items-center rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors hover:border-[var(--border-strong)] focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-0",
         className
       )}
       {...props}
