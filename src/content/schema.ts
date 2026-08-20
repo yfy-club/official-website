@@ -108,6 +108,18 @@ export const workMetricSchema = z.object({
   progress: z.number().min(0).max(100).optional(),
 });
 
+export const workPrincipleSchema = z.object({
+  code: z.string(),
+  name: z.string(),
+  category: z.string(),
+  summary: z.string(),
+  mechanism: z.string(),
+  codeSnippet: z.string().optional(),
+  formula: z.string().optional(),
+  keyBenefit: z.string().optional(),
+  tags: z.array(z.string()).default([]),
+});
+
 export const workSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   nameZh: z.string().min(2),
@@ -126,6 +138,7 @@ export const workSchema = z.object({
     .object({
       problem: z.array(z.string()).min(2),
       stack: z.record(z.string(), z.array(z.string())),
+      principles: z.array(workPrincipleSchema).optional(),
       architecture: workArchitectureSchema.optional(),
       decisions: z.array(workDecisionSchema).min(3),
       metrics: z.array(workMetricSchema).min(2).optional(),
@@ -255,6 +268,7 @@ export type TrackCurriculumModule = z.infer<typeof trackCurriculumModuleSchema>;
 export type TrackDeepFocusItem = z.infer<typeof trackDeepFocusSchema>;
 export type Track = z.infer<typeof trackSchema>;
 export type Work = z.infer<typeof workSchema>;
+export type WorkPrinciple = z.infer<typeof workPrincipleSchema>;
 export type WorkArchitectureTier = z.infer<typeof workArchitectureTierSchema>;
 export type WorkDataflowStep = z.infer<typeof workDataflowStepSchema>;
 export type WorkArchitecture = z.infer<typeof workArchitectureSchema>;

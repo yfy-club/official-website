@@ -9,8 +9,8 @@ import { WorkBackButton, WorkReturnLink } from "@/components/layout/work-back-bu
 import { CompareSlider } from "@/components/motion/compare-slider";
 import { DecisionsAccordion } from "@/components/sections/decisions-accordion";
 import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
-import { WorkArchitectureStack } from "@/components/sections/work-architecture-stack";
 import { WorkEngineeringSpecs } from "@/components/sections/work-engineering-specs";
+import { WorkPrincipleWorkbench } from "@/components/sections/work-principle-workbench";
 import { WorkSystemTour } from "@/components/sections/work-system-tour";
 import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -187,10 +187,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">04 / Architecture Stack</p>
-          <h2 id="build-title" className="section__title">技术架构与选型全景。</h2>
+          <p className="caps section__index">04 / Core Principles & Runtime Engines</p>
+          <h2 id="build-title" className="section__title">核心原理与底层运行时。</h2>
         </div>
-        <WorkArchitectureStack stack={detail.stack} architecture={detail.architecture} />
+        <WorkPrincipleWorkbench principles={detail.principles} fallbackStack={detail.stack} />
       </section>
 
       {detail.decisions && detail.decisions.length > 0 && (
