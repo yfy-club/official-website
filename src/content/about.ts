@@ -98,11 +98,11 @@ export const annualReport = {
 } as const;
 
 export const mentorship = {
-  description: "每位新成员配备一名高年级技术骨干定向辅导。阶段课设与大作业必须由师傅一对一逐行审阅代码、纠正规范、查验创新点后方可通过。",
+  description: "每位新成员配备一名高年级技术骨干定向辅导。阶段课设与大作业必须由师傅一对一逐行审阅代码、纠正规范、查验创新点后方可通过。下述 C 语言集训与 C++ 进阶统计均为最近一年的内部实测数据。",
   training: [
-    { value: "25", label: "C 语言集训人次" },
+    { value: "25", label: "C 语言集训人次（近一年）" },
     { value: "45", label: "C 语言集训学时" },
-    { value: "14", label: "C++ 进阶人次" },
+    { value: "14", label: "C++ 进阶人次（近一年）" },
     { value: "8", label: "C++ 进阶学时" },
   ],
 } as const;
