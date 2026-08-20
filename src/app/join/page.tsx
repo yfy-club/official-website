@@ -158,9 +158,10 @@ export default function JoinPage() {
         <div className="section__head">
           <p className="caps section__index">05 / MEMBER VOICES</p>
           <h2 id="voices-title" className="section__title">成员心声与成长感悟。</h2>
-          <p className="section__intro text-xs sm:text-sm font-mono text-[var(--accent)] font-medium tracking-wide">
-            注：成员档案采用二次元匿名代称，头像为虚拟角色示意。
-          </p>
+          <div className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-xs)] bg-[var(--accent-quiet)] border border-[var(--accent)]/30 text-xs sm:text-sm font-mono text-[var(--accent)] font-semibold w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" aria-hidden="true" />
+            <span>注：成员档案采用二次元匿名代称，头像为虚拟角色示意。</span>
+          </div>
         </div>
         <MemberVoicesMarquee voices={memberVoices} />
       </section>
