@@ -33,11 +33,6 @@ export function MemberVoicesMarquee({ className, voices }: MemberVoicesMarqueePr
           <VoiceCard key={`${voice.author}-${idx}`} voice={voice} index={idx + half + 1} />
         ))}
       </Marquee>
-
-      {/* 底部交互指引与元数据 */}
-      <p className="mt-2 text-center text-xs font-mono text-[var(--fg-muted)]">
-        悬停卡片可暂停滚动 · 23～25 级成长档案（匿名代称与虚拟角色头像）
-      </p>
     </div>
   );
 }
