@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 type CriteriaDimension = {
   index: string;
-  dimension: string;
+  suitableDimension: string;
+  unsuitableDimension: string;
   suitable: string;
   unsuitable: string;
 };
@@ -17,19 +18,22 @@ type CriteriaDimension = {
 const CRITERIA_DIMENSIONS: readonly CriteriaDimension[] = [
   {
     index: "01",
-    dimension: "研发动机",
+    suitableDimension: "研发动机",
+    unsuitableDimension: "投机挂名",
     suitable: "对计算机技术与编程实践有浓厚兴趣，乐于动手构建实际工程项目",
     unsuitable: "仅寻求挂名履历，缺乏实际投入意愿与时间保障",
   },
   {
     index: "02",
-    dimension: "工位时间",
+    suitableDimension: "工位时间",
+    unsuitableDimension: "投入不足",
     suitable: "能保证每周 16～22 小时在实验室工位专注投入学习与研发",
     unsuitable: "无法保障基本学习打卡时间，抗拒阶段考核与代码审阅",
   },
   {
     index: "03",
-    dimension: "代码追求",
+    suitableDimension: "代码追求",
+    unsuitableDimension: "盲从速成",
     suitable: "注重代码规范与底层原理，愿意接受日常代码审阅与阶段实操考核",
     unsuitable: "过度依赖 AI 工具盲目生成代码，不求甚解底层原理",
   },
@@ -58,7 +62,7 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
               适合加入
             </span>
           </div>
-          <span className="font-mono text-[10px] text-[var(--success)] bg-[var(--success)]/10 px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--success)]/30 shrink-0">
+          <span className="font-mono text-[10px] text-[var(--success)] bg-[var(--success)]/10 px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--success)]/30 shrink-0 font-medium">
             STATUS // FIT
           </span>
         </div>
@@ -66,12 +70,12 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
         {/* 右表头：暂不适合 */}
         <div className="flex items-center justify-between gap-3 px-5 py-3.5 sm:px-6">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-bold text-[var(--fg-muted)]">03.2 //</span>
-            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--fg-muted)]">
+            <span className="font-mono text-xs font-bold text-[var(--danger)]">03.2 //</span>
+            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--fg)]">
               暂不适合
             </span>
           </div>
-          <span className="font-mono text-[10px] text-[var(--fg-muted)] bg-[var(--surface-2)] px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--border)] shrink-0">
+          <span className="font-mono text-[10px] text-[var(--danger)] bg-[var(--danger)]/10 px-2 py-0.5 rounded-[var(--radius-xs)] border border-[var(--danger)]/30 shrink-0 font-medium">
             STATUS // UNFIT
           </span>
         </div>
@@ -98,7 +102,7 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
               <div className="p-5 sm:p-6 flex flex-col justify-between gap-3">
                 <div className="flex items-center justify-between font-mono text-xs text-[var(--success)]">
                   <span className="font-semibold tracking-wider">
-                    {item.index} // {item.dimension}
+                    {item.index} // {item.suitableDimension}
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
@@ -114,14 +118,14 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
 
               {/* 右侧：暂不适合维度 */}
               <div className="p-5 sm:p-6 flex flex-col justify-between gap-3 bg-[var(--surface-2)]/15 md:bg-transparent">
-                <div className="flex items-center justify-between font-mono text-xs text-[var(--fg-faint)]">
-                  <span className="tracking-wider">
-                    {item.index} // 对照
+                <div className="flex items-center justify-between font-mono text-xs text-[var(--danger)]">
+                  <span className="font-semibold tracking-wider">
+                    {item.index} // {item.unsuitableDimension}
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
                   <XCircle
-                    className="w-4 h-4 text-[var(--fg-muted)] shrink-0 mt-0.5 stroke-[2]"
+                    className="w-4 h-4 text-[var(--danger)] shrink-0 mt-0.5 stroke-[2.2]"
                     aria-hidden="true"
                   />
                   <p className="text-sm text-[var(--fg-muted)] leading-relaxed m-0">
