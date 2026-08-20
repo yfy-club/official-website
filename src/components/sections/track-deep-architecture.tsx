@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { AlertTriangle, ArrowRight, ArrowUpRight, Check, Code2, Copy, FileText, Sigma } from "lucide-react";
+import { AlertTriangle, ArrowRight, ArrowUpRight, Check, Code2, Copy, FileText } from "lucide-react";
 
 import { CONCEPT_VISUALS } from "@/components/motion/track-visuals";
 import { Button } from "@/components/ui/button";
@@ -143,88 +143,72 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
           {/* 概念专属拓扑图 */}
           {Visual && <Visual />}
 
-          {/* 机制 · 公式 · 误区 */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-            <div className="space-y-4 lg:col-span-7">
+          {/* 机制提要与技术规格入口底栏 */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+            {/* 左侧：核心机制与避坑指引 */}
+            <div className="lg:col-span-8 p-5 sm:p-6 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)] flex flex-col justify-between gap-4">
               <div className="space-y-2">
-                <span className="font-mono text-[10px] font-bold tracking-[0.12em] text-[var(--fg-faint)]">
-                  MECHANISM {"//"} 核心机制
+                <span className="font-mono text-[10px] font-bold tracking-wider text-[var(--accent)]">
+                  01 // 核心机制速览
                 </span>
-                <p className="text-sm leading-relaxed text-[var(--fg-muted)]">{active.mechanism}</p>
+                <p className="text-xs sm:text-sm leading-relaxed text-[var(--fg-muted)] m-0">
+                  {active.mechanism}
+                </p>
               </div>
 
               {active.misconception && (
-                <div className="space-y-1.5 rounded-[var(--radius-xs)] border border-[var(--warn)]/25 bg-[var(--warn)]/5 p-4">
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-wider text-[var(--warn)]">
-                    <AlertTriangle size={12} aria-hidden="true" />
-                    常见误区
-                  </span>
-                  <p className="text-xs leading-relaxed font-bold text-[var(--fg)]">
-                    {active.misconception.myth}
-                  </p>
-                  <p className="text-xs leading-relaxed text-[var(--fg-muted)]">
-                    {active.misconception.truth}
+                <div className="flex items-start gap-2 pt-3 border-t border-[var(--border)] text-xs text-[var(--fg-muted)]">
+                  <AlertTriangle size={13} className="text-[var(--warn)] shrink-0 mt-0.5" aria-hidden="true" />
+                  <p className="m-0 leading-relaxed">
+                    <span className="font-mono font-bold text-[var(--warn)]">避坑：</span>
+                    <span className="text-[var(--fg)] font-medium">{active.misconception.myth}</span>
+                    <span className="mx-1.5 text-[var(--fg-faint)]">→</span>
+                    <span>{active.misconception.truth}</span>
                   </p>
                 </div>
               )}
-
-              <ul className="flex flex-wrap gap-1.5">
-                {active.tags.map((tag) => (
-                  <li
-                    key={tag}
-                    className="rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)] px-2 py-0.5 font-mono text-[10px] text-[var(--fg-muted)]"
-                  >
-                    {tag}
-                  </li>
-                ))}
-              </ul>
             </div>
 
-            <div className="space-y-4 lg:col-span-5">
-              {active.formula && (
-                <div className="space-y-2 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 p-4">
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-[0.12em] text-[var(--fg-faint)]">
-                    <Sigma size={12} aria-hidden="true" />
-                    MODEL {"//"} 数学形式
-                  </span>
-                  <MathFormula formula={active.formula} displayMode />
-                  {active.formulaDescription && (
-                    <p className="border-t border-[var(--border)] pt-2 font-mono text-[10px] leading-relaxed text-[var(--fg-muted)]">
-                      {active.formulaDescription}
+            {/* 右侧：落地工程与技术抽屉入口 */}
+            <div className="lg:col-span-4 flex flex-col justify-between gap-3">
+              {active.ourWork ? (
+                <div className="p-5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/35 flex-1 flex flex-col justify-between gap-2">
+                  <div className="space-y-1">
+                    <span className="font-mono text-[10px] font-bold text-[var(--accent)]">
+                      IN PRODUCTION {"//"} 落地工程
+                    </span>
+                    <h4 className="text-sm font-bold text-[var(--fg)] tracking-tight m-0">
+                      {active.ourWork.title}
+                    </h4>
+                    <p className="text-xs leading-relaxed text-[var(--fg-muted)] line-clamp-2 m-0">
+                      {active.ourWork.evidence}
                     </p>
-                  )}
-                </div>
-              )}
-
-              {active.ourWork && (
-                <div className="space-y-1.5 rounded-[var(--radius-xs)] border border-[var(--border)] p-4">
-                  <span className="font-mono text-[10px] font-bold tracking-[0.12em] text-[var(--accent)]">
-                    IN PRODUCTION {"//"} 我们的落地
-                  </span>
-                  <h4 className="text-sm font-bold text-[var(--fg)]">{active.ourWork.title}</h4>
-                  <p className="text-xs leading-relaxed text-[var(--fg-muted)]">
-                    {active.ourWork.evidence}
-                  </p>
+                  </div>
                   {active.ourWork.link && (
                     <Link
                       href={active.ourWork.link}
-                      className="inline-flex items-center gap-1 pt-1 font-mono text-[11px] font-bold text-[var(--fg)] underline-offset-4 hover:text-[var(--accent)] hover:underline"
+                      className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-[var(--fg)] hover:text-[var(--accent)] transition-colors mt-1"
                     >
-                      查看工程
-                      <ArrowRight size={12} aria-hidden="true" />
+                      查看项目档案 <ArrowRight size={11} aria-hidden="true" />
                     </Link>
                   )}
+                </div>
+              ) : (
+                <div className="p-5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/20 flex-1 flex flex-col justify-center">
+                  <span className="font-mono text-[10px] text-[var(--fg-faint)]">
+                    SPECIFICATION ARCHIVE {"//"} 0{activeIndex + 1}
+                  </span>
                 </div>
               )}
 
               <Button
                 variant="ghost"
                 onClick={() => setSpecOpen(true)}
-                className="w-full justify-between rounded-[var(--radius-xs)] border border-[var(--border-strong)] font-mono text-xs active:scale-[0.98]"
+                className="w-full h-10 justify-between rounded-[var(--radius-xs)] border border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-2)] font-mono text-xs font-semibold active:scale-[0.98] transition-transform cursor-pointer"
               >
                 <span className="flex items-center gap-2">
-                  <FileText size={13} aria-hidden="true" />
-                  完整技术规格与源码
+                  <FileText size={13} className="text-[var(--accent)]" aria-hidden="true" />
+                  完整公式推导与源码
                 </span>
                 <ArrowRight size={13} aria-hidden="true" />
               </Button>
