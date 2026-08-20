@@ -149,15 +149,15 @@ export default function Home() {
         </section>
       )}
       <section id="home-join" className="cta-band page-shell" aria-label="加入社团" data-reveal="group">
-        <div className="space-y-1.5 text-left">
+        <div className="space-y-2 text-left">
           <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">04 // RECRUITMENT</p>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight text-[var(--fg)] m-0">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--fg)] leading-[1.15] m-0">
             {club.subSlogan}
           </h2>
         </div>
-        <Button asChild size="md" className="px-6 h-11">
+        <Button asChild size="md" className="px-7 h-12 text-xs sm:text-sm shrink-0">
           <Link href="/join">
-            立即投递申请 <ArrowRight aria-hidden="true" size={16} />
+            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </Button>
       </section>
