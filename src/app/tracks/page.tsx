@@ -23,15 +23,15 @@ export default function TracksPage() {
           subtitle="技术方向"
           intro="循序渐进，因材施教。选定专注方向，完成体系化工程训练。"
           scrollToId="tracks-routes"
-          scrollLabel="向下滚动至航道架构与工程培养中枢"
+          scrollLabel="向下滚动至专业技术方向"
         />
       </div>
 
-      {/* 02 / 详细交互路线图与航道详情 */}
+      {/* 02 / 详细交互路线图与方向详情 */}
       <section id="tracks-routes" className="section tracks-routes" aria-labelledby="track-list-title">
         <div className="section__head mb-8">
-          <p className="caps section__index">02 / TOPOLOGY MATRIX</p>
-          <h2 id="track-list-title" className="section__title">航道架构与工程培养中枢。</h2>
+          <p className="caps section__index">02 / TECHNICAL DIRECTIONS</p>
+          <h2 id="track-list-title" className="section__title">专业技术方向与培养方案。</h2>
         </div>
         <TracksMap tracks={tracks} />
       </section>
