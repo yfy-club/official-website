@@ -19,12 +19,9 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
 
   return (
     <div className="w-full space-y-12">
-      {/* 1. 领域全景大段落导引与行业前沿趋势 */}
+      {/* 1. 导引与产业趋势 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-[var(--border)]">
-        <div className="lg:col-span-7 space-y-3">
-          <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider block">
-            FIELD OVERVIEW // 领域全景与工程定位
-          </span>
+        <div className="lg:col-span-7">
           <p className="text-base sm:text-lg text-[var(--fg)] leading-relaxed font-medium">
             {data.leadParagraph}
           </p>
@@ -32,7 +29,7 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
         <div className="lg:col-span-5 p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] space-y-2">
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
             <Sparkles size={14} className="text-[var(--accent)]" />
-            <span>前沿演进与产业趋势</span>
+            <span>产业趋势</span>
           </div>
           <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed">
             {data.industryTrend}
@@ -40,14 +37,14 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
         </div>
       </div>
 
-      {/* 2. 图文并茂核心架构：左侧三大技术支柱 + 右侧全链路工程流水线蓝图 */}
+      {/* 2. 主攻方向与研发链路 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* 左侧：三大技术攻坚支柱（纯粹精工排版，非卡片堆叠） */}
-        <div className="lg:col-span-7 space-y-8">
+        {/* 左侧：主攻方向 */}
+        <div className="lg:col-span-7 space-y-6">
           <div className="flex items-center gap-2">
             <Layers size={16} className="text-[var(--accent)]" />
-            <h3 className="font-mono text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
-              核心攻坚方向与技术支柱
+            <h3 className="font-mono text-xs font-bold text-[var(--fg)]">
+              主攻方向
             </h3>
           </div>
 
@@ -73,7 +70,7 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                             : "bg-[var(--surface-2)] text-[var(--fg-muted)] group-hover:text-[var(--fg)]",
                         )}
                       >
-                        {`PILLAR ${pillar.code}`}
+                        {pillar.code}
                       </span>
                       <h4 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
                         {pillar.title}
@@ -99,22 +96,19 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
           </div>
         </div>
 
-        {/* 右侧：高精度工业工程流水线交互蓝图 (Technical Pipeline Blueprint) */}
+        {/* 右侧：研发技术链路 */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-6">
+          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-5">
             <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
               <div className="flex items-center gap-2">
                 <Workflow size={15} className="text-[var(--accent)]" />
-                <span className="font-mono text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
-                  全链路工程技术流水线
+                <span className="font-mono text-xs font-bold text-[var(--fg)]">
+                  研发技术链路
                 </span>
               </div>
-              <span className="font-mono text-[11px] text-[var(--accent)] font-bold">
-                SYSTEM PIPELINE
-              </span>
             </div>
 
-            {/* 流水线交互步进阶梯 */}
+            {/* 链路步骤 */}
             <div className="space-y-3">
               {data.pipelineSteps.map((step, idx) => {
                 const isActive = activeStep === idx;
@@ -162,13 +156,13 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
               })}
             </div>
 
-            {/* 真实工程指标压舱看板 */}
+            {/* 落地项目 */}
             <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/70 border border-[var(--border)] space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Activity size={14} className="text-emerald-500" />
                   <span className="text-xs font-mono font-bold text-[var(--fg)]">
-                    实战落地：{data.practicalApplication.domain}
+                    {data.practicalApplication.domain}
                   </span>
                 </div>
                 <span className="font-mono text-xs font-bold text-[var(--accent)]">

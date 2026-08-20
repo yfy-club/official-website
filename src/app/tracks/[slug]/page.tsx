@@ -172,10 +172,10 @@ export default async function TrackDetailPage({
       {overview && (
         <section id="track-overview" className="section mb-16" aria-labelledby="overview-title" data-reveal="section">
           <div className="section__head mb-8">
-            <p className="caps section__index">02 / Field Overview & Pillars</p>
-            <h2 id="overview-title" className="section__title">专业领域与技术图谱。</h2>
+            <p className="caps section__index">02 / Overview</p>
+            <h2 id="overview-title" className="section__title">专业介绍与主攻方向。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-              系统掌握该方向的核心攻坚支柱、产业前沿演进与全链路工程技术流水线。
+              涵盖主攻方向、技术栈与研发链路。
             </p>
           </div>
           <TrackFieldOverview data={overview} />
