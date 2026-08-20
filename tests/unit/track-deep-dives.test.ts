@@ -69,4 +69,19 @@ describe("track deep dives content & schema", () => {
       }
     }
   });
+
+  it("provides rich, complete field overviews for all 5 tracks", async () => {
+    const { trackOverviews } = await import("@/content");
+    const requiredSlugs = ["ai", "software", "database", "cloud-iot", "industrial"];
+
+    for (const slug of requiredSlugs) {
+      const overview = trackOverviews[slug];
+      expect(overview).toBeDefined();
+      expect(overview.pillars.length).toBe(3);
+      expect(overview.pipelineSteps.length).toBe(4);
+      expect(overview.leadParagraph.length).toBeGreaterThan(30);
+      expect(overview.industryTrend.length).toBeGreaterThan(20);
+      expect(overview.practicalApplication.metric).toBeDefined();
+    }
+  });
 });

@@ -14,13 +14,14 @@ import {
 } from "./schema";
 import { timelineRaw } from "./timeline";
 import { trackDeepDives } from "./track-deep-dives";
+import { trackOverviews } from "./track-overviews";
 import { tracksRaw } from "./tracks";
 import { workDeepDives } from "./work-deep-dives";
 import { worksRaw } from "./works";
 
 export const club = clubSchema.parse(clubRaw);
 export const tracks = trackSchema.array().parse(tracksRaw);
-export { trackDeepDives };
+export { trackDeepDives, trackOverviews };
 export const works = workSchema.array().parse(
   worksRaw.map((work) => {
     const deepDive = workDeepDives[work.slug];

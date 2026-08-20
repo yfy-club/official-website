@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { TrackDeepArchitecture } from "@/components/sections/track-deep-architecture";
 import { TrackEvidenceInspector } from "@/components/sections/track-evidence-inspector";
+import { TrackFieldOverview } from "@/components/sections/track-field-overview";
 import { TrackStageConsole } from "@/components/sections/track-stage-console";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tag } from "@/components/ui/tag";
 import { TechTag } from "@/components/ui/tech-tag";
-import { awards, trackDeepDives, tracks, works } from "@/content";
+import { awards, trackDeepDives, trackOverviews, tracks, works } from "@/content";
 import { breadcrumbJsonLd, createMetadata, trackJsonLd } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -54,6 +55,7 @@ export default async function TrackDetailPage({
   if (trackIndex < 0) notFound();
 
   const track = tracks[trackIndex];
+  const overview = trackOverviews[track.slug];
   const deepDive = trackDeepDives[track.slug];
   const relatedWorks = works.filter((work) => track.relatedWorkSlugs.includes(work.slug));
   const relatedAwards = awards.filter((award) => track.relatedAwardIds.includes(award.id));
@@ -74,11 +76,12 @@ export default async function TrackDetailPage({
         label={track.nameZh}
         sections={[
           { id: "track-start", index: "01", label: "方向概况" },
-          { id: "track-deep-dive", index: "02", label: "架构原理" },
-          { id: "track-stage", index: "03", label: "培养中枢" },
-          { id: "track-evidence", index: "04", label: "相关成果" },
-          { id: "track-switch", index: "05", label: "方向切换" },
-          { id: "track-join", index: "06", label: "招新报名" },
+          { id: "track-overview", index: "02", label: "专业介绍" },
+          { id: "track-deep-dive", index: "03", label: "架构原理" },
+          { id: "track-stage", index: "04", label: "培养中枢" },
+          { id: "track-evidence", index: "05", label: "相关成果" },
+          { id: "track-switch", index: "06", label: "方向切换" },
+          { id: "track-join", index: "07", label: "招新报名" },
         ]}
       />
 
@@ -165,11 +168,25 @@ export default async function TrackDetailPage({
         </div>
       </header>
 
-      {/* 02 / 交互式架构图解与硬核原理解析台 (TrackDeepArchitecture) */}
+      {/* 02 / 专业领域深度介绍 (TrackFieldOverview) */}
+      {overview && (
+        <section id="track-overview" className="section mb-16" aria-labelledby="overview-title" data-reveal="section">
+          <div className="section__head mb-8">
+            <p className="caps section__index">02 / Field Overview & Pillars</p>
+            <h2 id="overview-title" className="section__title">专业领域与技术图谱。</h2>
+            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
+              系统掌握该方向的核心攻坚支柱、产业前沿演进与全链路工程技术流水线。
+            </p>
+          </div>
+          <TrackFieldOverview data={overview} />
+        </section>
+      )}
+
+      {/* 03 / 交互式架构图解与硬核原理解析台 (TrackDeepArchitecture) */}
       {deepDive && (
         <section id="track-deep-dive" className="section mb-16" aria-labelledby="deep-dive-title" data-reveal="section">
           <div className="section__head mb-8">
-            <p className="caps section__index">02 / Deep Architecture & Theory</p>
+            <p className="caps section__index">03 / Deep Architecture & Theory</p>
             <h2 id="deep-dive-title" className="section__title">攻坚架构与核心原理图解。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
               交互式探索底层拓扑，点击展开硬核机制、数学公式推导、真实代码实现与常见认知误区排雷。
@@ -179,23 +196,23 @@ export default async function TrackDetailPage({
         </section>
       )}
 
-      {/* 03 / 三年培养体系与阶段实训中枢 (TrackStageConsole 统一集成) */}
+      {/* 04 / 三年培养体系与阶段实训中枢 (TrackStageConsole) */}
       <section id="track-stage" className="section mb-16" aria-labelledby="stage-title" data-reveal="section">
         <div className="section__head mb-8">
-          <p className="caps section__index">03 / Engineering Console</p>
+          <p className="caps section__index">04 / Engineering Console</p>
           <h2 id="stage-title" className="section__title">三年培养体系与阶段实训中枢。</h2>
           <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-            大一筑基、大二专项攻坚、大三就业/升学双通道精准赋能，全程导师代码审查与结项答辩闭环。
+            大一筑基、大二专项攻坚、大三就业/升学双通道精准赋能，全程导师指导与实训进阶。
           </p>
         </div>
         <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
       </section>
 
-      {/* 04 / 相关代表项目与赛事成果 (TrackEvidenceInspector) */}
+      {/* 05 / 相关代表项目与赛事成果 (TrackEvidenceInspector) */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
         <section id="track-evidence" className="section mb-16" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head mb-8">
-            <p className="caps section__index">04 / Outcomes & Evidence</p>
+            <p className="caps section__index">05 / Outcomes & Evidence</p>
             <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
               该技术方向沉淀的真实工程系统与权威学科竞赛凭证，点击项目卡片可呼出侧边架构解析。
@@ -205,7 +222,7 @@ export default async function TrackDetailPage({
         </section>
       )}
 
-      {/* 05 / 方向切换导航 */}
+      {/* 06 / 方向切换导航 */}
       <nav id="track-switch" className="pager pager--with-overview mb-14" aria-label="方向切换" data-reveal="group">
         <Link href={`/tracks/${previous.slug}`}>
           <ArrowLeft aria-hidden="true" size={18} />
@@ -229,7 +246,7 @@ export default async function TrackDetailPage({
         </Link>
       </nav>
 
-      {/* 06 / 招新加入 CTA */}
+      {/* 07 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <p>对【{track.nameZh}】方向感兴趣？欢迎加入云飞扬，在真实工程与竞赛中与我们同行。</p>
         <Button asChild>
