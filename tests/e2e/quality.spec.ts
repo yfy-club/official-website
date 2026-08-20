@@ -834,3 +834,24 @@ test("about page renders culture bento photo gallery with focus dimming and ligh
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
 });
+
+test("site footer exposes Code by Dawn easter egg activating 5-second blueprint mode", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const easterEggTrigger = page.getByRole("button", { name: "Code by Dawn 蓝图彩蛋" });
+  await expect(easterEggTrigger).toBeVisible();
+
+  // Rapidly click 5 times to trigger easter egg
+  for (let i = 0; i < 5; i++) {
+    await easterEggTrigger.click();
+  }
+
+  // Verify blueprint mode is active
+  await expect(page.locator("html")).toHaveClass(/mode-blueprint/);
+  await expect(page.getByText("SYS // BLUEPRINT_OVERRIDE", { exact: true })).toBeVisible();
+
+  // Verify Escape key terminates blueprint mode early
+  await page.keyboard.press("Escape");
+  await expect(page.locator("html")).not.toHaveClass(/mode-blueprint/);
+  await expect(page.getByText("SYS // BLUEPRINT_RESTORED", { exact: true })).toBeVisible();
+});

@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { BackToTopButton } from "@/components/layout/back-to-top-button";
+import { BlueprintEasterEgg } from "@/components/layout/blueprint-easter-egg";
 import { club } from "@/content";
 
 const navLinks = [
@@ -68,7 +69,11 @@ export function SiteFooter() {
       </div>
 
       <div className="site-footer__bottom page-shell">
-        <span>© {club.founded}–2026 {club.name} · {club.affiliation}</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span>© {club.founded}–2026 {club.name} · {club.affiliation}</span>
+          <span className="text-[var(--fg-faint)] opacity-30 select-none hidden sm:inline">·</span>
+          <BlueprintEasterEgg />
+        </div>
         <BackToTopButton />
       </div>
     </footer>

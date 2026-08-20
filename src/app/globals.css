@@ -2277,3 +2277,84 @@ button.tag:active {
 .math-formula .katex-html {
   overflow-y: hidden;
 }
+
+/* ==========================================================================
+   Blueprint Mode (Easter Egg // Code by Dawn)
+   ========================================================================== */
+.mode-blueprint {
+  color-scheme: light !important;
+  --bg: #e6f3ff !important;
+  --surface: rgba(216, 236, 250, 0.75) !important;
+  --surface-2: rgba(203, 228, 247, 0.85) !important;
+  --fg: #003366 !important;
+  --fg-muted: #335c80 !important;
+  --fg-faint: #527a9e !important;
+  --border: rgba(0, 51, 102, 0.22) !important;
+  --border-strong: rgba(0, 51, 102, 0.45) !important;
+  --border-control: #416b92 !important;
+  --accent: #1672e6 !important;
+  --accent-fg: #ffffff !important;
+  --accent-quiet: rgba(22, 114, 230, 0.12) !important;
+  --overlay: rgba(230, 243, 255, 0.85) !important;
+}
+
+.mode-blueprint body {
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(rgba(22, 114, 230, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(22, 114, 230, 0.12) 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+  color: var(--fg) !important;
+}
+
+/* Engineering wireframe outlines */
+.mode-blueprint * {
+  outline: 1px solid rgba(0, 51, 102, 0.12) !important;
+  font-family: var(--font-mono), Consolas, 'Cascadia Code', monospace !important;
+}
+
+/* Reveal grid through major structural blocks */
+.mode-blueprint header,
+.mode-blueprint footer,
+.mode-blueprint section,
+.mode-blueprint nav,
+.mode-blueprint main,
+.mode-blueprint .site-header,
+.mode-blueprint .site-footer,
+.mode-blueprint .card,
+.mode-blueprint .card-frame,
+.mode-blueprint .dialog__content {
+  background-color: rgba(230, 243, 255, 0.6) !important;
+  box-shadow: none !important;
+}
+
+/* CAD blueprint print tint on images & media */
+.mode-blueprint img,
+.mode-blueprint video {
+  filter: grayscale(100%) sepia(100%) hue-rotate(180deg) saturate(2.2) contrast(1.15) !important;
+  opacity: 0.88 !important;
+  mix-blend-mode: multiply !important;
+}
+
+/* Geometric engineering buttons and inputs */
+.mode-blueprint input,
+.mode-blueprint textarea,
+.mode-blueprint select,
+.mode-blueprint button {
+  border-radius: 0px !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+  border-color: var(--border-strong) !important;
+}
+
+/* Monochromatic text rendering */
+.mode-blueprint h1,
+.mode-blueprint h2,
+.mode-blueprint h3,
+.mode-blueprint h4,
+.mode-blueprint p,
+.mode-blueprint span,
+.mode-blueprint a,
+.mode-blueprint label,
+.mode-blueprint div {
+  text-shadow: none !important;
+}
