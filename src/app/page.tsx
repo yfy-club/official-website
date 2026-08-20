@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { CardCorners } from "@/components/ui/card";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { Tag } from "@/components/ui/tag";
+import { TechTag } from "@/components/ui/tech-tag";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { Develop } from "@/components/motion/develop";
 import { TrackOverviewMatrix } from "@/components/sections/track-overview-matrix";
@@ -72,16 +73,77 @@ export default function Home() {
       </section>
       {feature?.detail && feature.image && (
         <section id="home-feature" className="section page-shell" aria-labelledby="feature-title" data-reveal="section">
-          <div className="section__head"><p className="caps section__index">03 / Featured Project</p><h2 id="feature-title" className="section__title">代表项目展示。</h2></div>
-          <article className="home-feature" data-reveal="group">
-            <div className="home-feature__media"><Image src={feature.image} alt="矩阵计算器亮色主题主界面" width={1600} height={900} sizes="(max-width: 1024px) 100vw, 58vw" /></div>
-            <div className="home-feature__copy">
-              <p className="caps">{feature.status}</p><h3>{feature.nameZh}</h3><p>{feature.tagline}</p>
-              <ul>{feature.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
-              <div className="stack-row">{feature.stackSummary.map((item) => <Tag key={item}>{item}</Tag>)}</div>
-              <div className="home-feature__links">
-                <Button asChild variant="ghost"><Link href={`/works/${feature.slug}`}>查看项目详情</Link></Button>
-                {feature.liveUrl && <Button asChild variant="link"><a href={feature.liveUrl} target="_blank" rel="noreferrer">在线体验 <ExternalLink aria-hidden="true" size={15} /></a></Button>}
+          <div className="section__head">
+            <p className="caps section__index">03 / Featured Project</p>
+            <h2 id="feature-title" className="section__title">代表项目展示。</h2>
+          </div>
+          <article className="home-feature relative overflow-hidden border border-[var(--border-strong)] bg-[var(--surface)] shadow-xs rounded-[var(--radius-sm)]" data-reveal="group">
+            <CardCorners />
+            <div className="home-feature__media relative group overflow-hidden bg-[var(--surface-2)] border-b lg:border-b-0 lg:border-r border-[var(--border)]">
+              <Image
+                src={feature.image}
+                alt="矩阵计算器亮色主题主界面"
+                width={1600}
+                height={900}
+                sizes="(max-width: 1024px) 100vw, 58vw"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.015]"
+              />
+            </div>
+            <div className="home-feature__copy flex flex-col justify-between p-6 sm:p-8 lg:p-10">
+              <div>
+                <div className="flex items-center justify-between gap-3 text-xs font-mono text-[var(--fg-faint)] pb-3 mb-4 border-b border-[var(--border)]">
+                  <span className="font-bold text-[var(--accent)] tracking-wider">
+                    {"WRK-01 // SOFTWARE ENGINEERING"}
+                  </span>
+                  <span>2026</span>
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--fg)] mb-2.5">
+                  {feature.nameZh}
+                </h3>
+                <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-6 font-sans">
+                  {feature.tagline}
+                </p>
+
+                {/* Swiss Editorial 结构化亮点 */}
+                <div className="space-y-2 mb-6">
+                  {feature.highlights.map((item, idx) => (
+                    <div
+                      key={item}
+                      className="flex items-start gap-2.5 p-2.5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)] transition-all"
+                    >
+                      <span className="font-mono text-[11px] text-[var(--accent)] font-bold shrink-0 mt-0.5">
+                        {`0${idx + 1} //`}
+                      </span>
+                      <span className="text-xs text-[var(--fg-muted)] leading-relaxed">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 技术栈字典化标签 */}
+                <div className="flex flex-wrap gap-1.5 mb-6">
+                  {feature.stackSummary.map((item) => (
+                    <TechTag key={item} name={item} />
+                  ))}
+                </div>
+              </div>
+
+              {/* 动作栏 */}
+              <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-[var(--border)]">
+                <Button asChild variant="primary" className="active:scale-[0.98]">
+                  <Link href={`/works/${feature.slug}`}>
+                    查看项目详情 <ArrowRight aria-hidden="true" size={15} />
+                  </Link>
+                </Button>
+                {feature.liveUrl && (
+                  <Button asChild variant="ghost" className="active:scale-[0.98]">
+                    <a href={feature.liveUrl} target="_blank" rel="noreferrer">
+                      在线体验 <ExternalLink aria-hidden="true" size={14} />
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </article>
