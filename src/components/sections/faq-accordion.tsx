@@ -90,7 +90,7 @@ export function FaqAccordion({ items }: { items: readonly Faq[] }) {
                 aria-selected={isActive}
                 onClick={() => setSelectedCategory(cat.id)}
                 className={cn(
-                  "relative z-10 flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-xs)] font-mono text-xs transition-colors cursor-pointer select-none",
+                  "relative z-10 flex items-center gap-2 px-3 py-1.5 rounded-[var(--radius-xs)] font-mono text-xs transition-transform cursor-pointer select-none active:scale-[0.96]",
                   isActive
                     ? "text-[var(--fg)] font-medium"
                     : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
@@ -119,7 +119,7 @@ export function FaqAccordion({ items }: { items: readonly Faq[] }) {
         <button
           type="button"
           onClick={toggleAll}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-xs)] border border-dashed border-[var(--border-strong)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--fg-muted)] transition-all cursor-pointer select-none"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-xs)] border border-dashed border-[var(--border-strong)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--fg-muted)] active:scale-[0.96] transition-all cursor-pointer select-none"
         >
           <ChevronsUpDown className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
           <span>{isAllExpanded ? "折叠全部解答" : "展开全部解答"}</span>
