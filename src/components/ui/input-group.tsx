@@ -15,7 +15,7 @@ export function InputGroup({ className, ...props }: InputGroupProps) {
   return (
     <div
       className={cn(
-        "input-group group relative flex w-full items-center rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors hover:border-[var(--border-strong)] focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-0",
+        "input-group relative flex w-full items-stretch overflow-hidden rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors hover:border-[var(--border-strong)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-1 [&>.field__control]:focus:ring-inset [&>.field__control]:focus:ring-[var(--accent)] [&>.field__control]:focus:bg-[var(--surface)] [&>.field__control]:transition-all",
         className
       )}
       {...props}
@@ -36,9 +36,9 @@ export function InputGroupAddon({
   return (
     <div
       className={cn(
-        "input-group__addon flex items-center px-2.5 font-mono text-xs text-[var(--fg-faint)] group-focus-within:text-[var(--accent)] group-focus-within:border-[var(--accent)]/40 transition-colors select-none shrink-0",
-        align === "inline-start" && "order-first border-r border-[var(--border)]",
-        align === "inline-end" && "order-last border-l border-[var(--border)]",
+        "input-group__addon flex items-center justify-center px-3 font-mono text-xs font-semibold tracking-wider text-[var(--fg-muted)] bg-[var(--surface-2)] select-none shrink-0",
+        align === "inline-start" && "order-first border-r border-[var(--border-control)]",
+        align === "inline-end" && "order-last border-l border-[var(--border-control)]",
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ export function InputGroupInput({
   return (
     <input
       className={cn(
-        "field__control input-group__input h-10 w-full min-w-0 border-0 bg-transparent px-3 py-2 text-sm text-[var(--fg)] placeholder:text-[var(--fg-faint)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "field__control input-group__input h-10 w-full min-w-0 border-0 bg-transparent px-3 py-2 text-sm text-[var(--fg)] placeholder:text-[var(--fg-faint)] focus:outline-none focus:ring-1 focus:ring-inset focus:ring-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
