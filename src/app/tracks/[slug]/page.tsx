@@ -80,8 +80,7 @@ export default async function TrackDetailPage({
           { id: "track-deep-dive", index: "04", label: "攻坚架构" },
           { id: "track-stage", index: "05", label: "培养中枢" },
           { id: "track-evidence", index: "06", label: "实战成果" },
-          { id: "track-switch", index: "07", label: "方向切换" },
-          { id: "track-join", index: "08", label: "招新报名" },
+          { id: "track-join", index: "07", label: "招新报名" },
         ]}
       />
 
@@ -248,10 +247,10 @@ export default async function TrackDetailPage({
         </CardFrame>
       </nav>
 
-      {/* 08 / 招新加入 CTA */}
+      {/* 07 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <div className="space-y-1">
-          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">08 // RECRUITMENT</p>
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">07 // RECRUITMENT</p>
           <p>加入云飞扬【{track.nameZh}】方向，参与真实项目研发与算法工程攻坚。</p>
         </div>
         <Button asChild className="active:scale-[0.96] transition-transform">

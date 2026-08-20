@@ -57,8 +57,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           { id: "work-specs", index: "06", label: "工程规格" },
           { id: "work-tradeoffs", index: "07", label: "设计权衡" },
           { id: "work-related", index: "08", label: "关联方向" },
-          { id: "work-switch", index: "09", label: "项目切换" },
-          { id: "work-join", index: "10", label: "招新报名" },
+          { id: "work-join", index: "09", label: "招新报名" },
         ]}
       />
       
@@ -266,7 +265,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
         <div className="space-y-1 text-left">
-          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">10 // RECRUITMENT</p>
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">09 // RECRUITMENT</p>
           <p>加入云飞扬工程研发团队，参与真实高可用系统与前沿算法攻坚。</p>
         </div>
         <Button asChild className="active:scale-[0.96] transition-transform">

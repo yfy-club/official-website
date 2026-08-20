@@ -31,10 +31,9 @@ export default function Home() {
     <main id="main-content" className="home-main" tabIndex={-1}>
       <TrajectoryRail label="首页概览" sections={[
         { id: "home-start", index: "01", label: "首页概览" },
-        { id: "home-stats", index: "02", label: "社团数据" },
-        { id: "home-tracks", index: "03", label: "技术方向" },
-        { id: "home-feature", index: "04", label: "代表项目" },
-        { id: "home-join", index: "05", label: "招新报名" },
+        { id: "home-tracks", index: "02", label: "技术方向" },
+        { id: "home-feature", index: "03", label: "代表项目" },
+        { id: "home-join", index: "04", label: "招新报名" },
       ]} />
       <section id="home-start" className="home-hero page-shell" aria-labelledby="home-title">
         <div className="home-hero__content">
