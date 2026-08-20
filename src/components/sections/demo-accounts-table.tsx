@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Check, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 import {
   CardFrame,
@@ -23,7 +23,6 @@ type DemoAccount = {
 type DemoAccountsTableProps = {
   workNameZh: string;
   accounts: DemoAccount[];
-  notice?: string;
 };
 
 function CopyCell({ value, label }: { value: string; label: string }) {
@@ -62,35 +61,15 @@ function CopyCell({ value, label }: { value: string; label: string }) {
   );
 }
 
-export function DemoAccountsTable({ workNameZh, accounts, notice }: DemoAccountsTableProps) {
-  const displayNotice =
-    notice ??
-    "当前系统为 Mock 数据演示版系统（非真实生产服务器），请勿随意删除或修改演示数据，以免影响他人体验系统效果。";
-
+export function DemoAccountsTable({ workNameZh, accounts }: DemoAccountsTableProps) {
   return (
     <CardFrame className="demo-access mb-8 border-[var(--border)] bg-[var(--surface)] shadow-xs">
-      <CardFrameHeader className="py-4 px-5 sm:px-6">
+      <CardFrameHeader className="py-3.5 px-5 sm:px-6">
         <div>
           <CardFrameTitle>02.1 // 演示凭据</CardFrameTitle>
           <CardFrameDescription>系统预置测试账号与访问权限边界</CardFrameDescription>
         </div>
       </CardFrameHeader>
-
-      {/* 醒目工业警示横幅 */}
-      <div className="mx-5 sm:mx-6 mb-4 p-3.5 sm:p-4 rounded-[var(--radius-xs)] border-l-4 border-l-[var(--warn)] border border-[var(--warn)]/35 bg-[var(--warn)]/10 dark:bg-[var(--warn)]/15">
-        <div className="flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--warn)] shrink-0 mt-0.5" aria-hidden="true" />
-          <div className="flex flex-col gap-1">
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--warn)]">
-              MOCK DEMO NOTICE // 演示环境提示
-            </span>
-            <p className="text-xs sm:text-sm text-[var(--fg)] font-medium leading-relaxed m-0">
-              {displayNotice}
-            </p>
-          </div>
-        </div>
-      </div>
-
       <CardPanel className="p-0 overflow-x-auto">
         <table className="data-table w-full">
           <caption className="sr-only">{workNameZh}公开演示账号与体验范围</caption>

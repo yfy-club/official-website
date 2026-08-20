@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, ExternalLink, LayoutGrid } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowRight, ExternalLink, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -152,11 +152,27 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             <p className="caps section__index">02 / SYSTEMS & INTERFACES</p>
             <h2 id="shots-title" className="section__title">系统界面与交互实录。</h2>
           </div>
+
+          {detail.demoNotice && (
+            <div className="mb-6 p-4 rounded-[var(--radius-xs)] border-l-4 border-l-[var(--warn)] border border-[var(--warn)]/35 bg-[var(--warn)]/10 dark:bg-[var(--warn)]/15">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-[var(--warn)] shrink-0 mt-0.5" aria-hidden="true" />
+                <div className="flex flex-col gap-1">
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--warn)]">
+                    MOCK DEMO NOTICE // 演示环境提示
+                  </span>
+                  <p className="text-xs sm:text-sm text-[var(--fg)] font-medium leading-relaxed m-0">
+                    {detail.demoNotice}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {detail.demoAccounts && (
             <DemoAccountsTable
               workNameZh={work.nameZh}
               accounts={detail.demoAccounts}
-              notice={detail.demoNotice}
             />
           )}
           {detail.shots && <WorkShotMedia shot={detail.shots} />}
