@@ -18,7 +18,7 @@ export function Field({ children, className = "", error, hint, id, label }: Fiel
   const descriptionId = error || hint ? `${id}-description` : undefined;
   return (
     <div className={`field ${className}`.trim()}>
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id} id={`${id}-label`}>{label}</label>
       {children}
       {(error || hint) && (
         <p className={error ? "field__error" : "field__hint"} id={descriptionId}>

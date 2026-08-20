@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Copy, ExternalLink, Send, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Copy, ExternalLink, Send, Sparkles } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useState, type KeyboardEvent } from "react";
 import { useForm, type FieldPath } from "react-hook-form";
@@ -27,6 +27,7 @@ type JoinFormProps = {
 };
 
 type JoinResponse = {
+  degraded?: boolean;
   fieldErrors?: Partial<Record<FieldPath<JoinFormInput>, string[]>>;
   message?: string;
   ok?: boolean;
@@ -34,6 +35,9 @@ type JoinResponse = {
 
 type SubmittedRecord = {
   contact: string;
+  /** 服务端所有通知渠道均未送达，需要提示申请人主动确认。 */
+  degraded: boolean;
+  degradedMessage?: string;
   grade: string;
   major: string;
   name: string;
@@ -119,23 +123,45 @@ function ApplicationReceipt({ record }: { record: SubmittedRecord }) {
   return (
     <div className="application-receipt flex flex-col gap-5 py-2 animate-in fade-in zoom-in-98 duration-200" role="status">
       {/* 顶部盖印与状态 */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-[var(--radius-xs)] border border-[var(--success)]/30 bg-[var(--success)]/5">
+      <div
+        className={cn(
+          "flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-[var(--radius-xs)] border",
+          record.degraded
+            ? "border-[var(--warn)]/40 bg-[var(--warn)]/5"
+            : "border-[var(--success)]/30 bg-[var(--success)]/5"
+        )}
+      >
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--success)]/15 text-[var(--success)]">
-            <CheckCircle2 size={22} className="stroke-[2.5]" />
+          <div
+            className={cn(
+              "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
+              record.degraded
+                ? "bg-[var(--warn)]/15 text-[var(--warn)]"
+                : "bg-[var(--success)]/15 text-[var(--success)]"
+            )}
+          >
+            {record.degraded ? (
+              <AlertTriangle size={22} className="stroke-[2.5]" />
+            ) : (
+              <CheckCircle2 size={22} className="stroke-[2.5]" />
+            )}
           </div>
           <div>
             <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-              APPLICATION FILED // 报名已归档
+              {record.degraded ? "APPLICATION FILED // 需人工确认" : "APPLICATION FILED // 报名已归档"}
             </h4>
             <p className="text-xs text-[var(--fg-muted)] mt-0.5">
-              档案流水已记录至社团候选名单，请加入迎新群留意后续通知。
+              {record.degraded
+                ? record.degradedMessage ?? "通知渠道暂时异常，请加入迎新群并私信管理员确认，以免遗漏。"
+                : "档案流水已记录至社团候选名单，请加入迎新群留意后续通知。"}
             </p>
           </div>
         </div>
-        <div className="shrink-0 self-end sm:self-center">
-          <Stamp message="报名申请已成功归档" />
-        </div>
+        {record.degraded ? null : (
+          <div className="shrink-0 self-end sm:self-center">
+            <Stamp message="报名申请已成功归档" />
+          </div>
+        )}
       </div>
 
       {/* 档案核心凭证清单 */}
@@ -286,6 +312,8 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           track: values.track,
           customTrack: values.customTrack,
           trackLabel: resolvedLabel,
+          degraded: result.degraded === true,
+          degradedMessage: result.degraded ? result.message : undefined,
           timestamp: new Date().toLocaleTimeString("zh-CN", { hour12: false }),
         });
         reset();
@@ -441,7 +469,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
             id="join-track"
             tabIndex={0}
             role="radiogroup"
-            aria-label="感兴趣的技术方向"
+            aria-labelledby="join-track-label"
             aria-describedby={descriptionId("join-track", trackError)}
             aria-invalid={Boolean(trackError)}
             onKeyDown={handleTrackKeyDown}

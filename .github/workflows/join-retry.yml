@@ -1,0 +1,46 @@
+name: Retry undelivered join applications
+
+# 补投报名通知。调度放在 GitHub Actions 而不是部署平台，
+# 这样 EdgeOne / Cloudflare 之间切换不影响重试链路。
+#
+# 需要在仓库 Secrets 中配置：
+#   JOIN_RETRY_URL  例如 https://yfy.club/api/join/retry
+#   CRON_SECRET     与部署环境变量 CRON_SECRET 一致
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: join-retry
+  cancel-in-progress: false
+
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger retry endpoint
+        env:
+          JOIN_RETRY_URL: ${{ secrets.JOIN_RETRY_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${JOIN_RETRY_URL}" ] || [ -z "${CRON_SECRET}" ]; then
+            echo "JOIN_RETRY_URL or CRON_SECRET is not configured; skipping."
+            exit 0
+          fi
+          response=$(curl --fail-with-body --silent --show-error \
+            --max-time 60 --retry 2 --retry-delay 10 \
+            -X POST "${JOIN_RETRY_URL}" \
+            -H "Authorization: Bearer ${CRON_SECRET}")
+          echo "${response}"
+          # 仍有积压时让这次运行显示为失败，GitHub 会发送告警邮件。
+          echo "${response}" | grep -q '"stillPending":0' || {
+            echo "::error::Some applications are still undelivered."
+            exit 1
+          }

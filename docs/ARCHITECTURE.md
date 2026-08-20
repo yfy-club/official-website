@@ -9,9 +9,14 @@
   ├─ 读取 14 条公开页面、图片、字体和动态 OG 卡片
   └─ POST /api/join
        ├─ 蜜罐与请求体限制
-       ├─ 单进程内存限流
+       ├─ 两级限流 (join:attempt / join:submit)
        ├─ Cloudflare Turnstile 校验
-       └─ Webhook / Resend 通知
+       ├─ ① Upstash / Memory 持久化落库 (status=pending)
+       └─ ② Webhook / Resend 投递通知 (成功销账 / 失败留存重试)
+
+定时调度 (GitHub Actions 每 2 小时)
+  └─ POST /api/join/retry (Bearer CRON_SECRET)
+       └─ 提取 pending 待投递记录批量补投 (超 10 次转 abandoned 人工队列)
 
 构建期
   ├─ src/content/* + Zod Schema
@@ -19,7 +24,7 @@
   └─ 内容、图片、字体和文档审计
 ```
 
-站点不包含账号体系、后台管理、数据库或内容管理系统。结构化内容跟随 Git 版本化，`POST /api/join` 是唯一的业务写接口。
+站点不包含复杂管理后台或动态内容管理系统。结构化内容跟随 Git 版本化，`POST /api/join` 与 `POST /api/join/retry` 是现有的业务接口。
 
 ## 技术栈
 
@@ -29,6 +34,7 @@
 | 样式 | Tailwind CSS v4、`design/tokens.css`、`src/app/globals.css` |
 | 交互 | Motion、React Archer、Radix UI、Lucide React |
 | 表单 | React Hook Form、Zod、Cloudflare Turnstile |
+| 存储与限流 | Upstash Redis REST（纯 fetch，无 Node 驱动依赖）、内存降级 |
 | 测试 | Vitest、Playwright、axe-core、Lighthouse CI |
 | 图片与字体 | `next/image`、AVIF/WebP、自托管拉丁字体、中文标题子集 |
 
@@ -41,7 +47,8 @@
 | `/`、`/about`、`/tracks`、`/works`、`/awards`、`/join` | 6 | 静态生成 |
 | `/tracks/[slug]` | 5 | `generateStaticParams` 静态生成 |
 | `/works/[slug]` | 3 | 仅为有完整 `detail` 的项目静态生成 |
-| `/api/join` | 1 | `force-dynamic`、Node.js runtime |
+| `/api/join` | 1 | `force-dynamic`、Node.js / 边缘运行时通用 |
+| `/api/join/retry` | 1 | `force-dynamic`、Bearer 鉴权批量补投 |
 | `/og/[...segments]` | 按路由 | `next/og` 动态图像响应 |
 | `/sitemap.xml`、`/robots.txt` | 2 | Next.js metadata routes |
 
@@ -109,19 +116,28 @@ tests/                   单元测试和端到端质量门禁
   - `InputGroup` (`src/components/ui/input-group.tsx`)：等宽前缀（`ID //`, `TEL //`）与字符计数容器。
   - `useCopyToClipboard` (`src/hooks/use-copy-to-clipboard.ts`)：带倒计时反馈状态的安全剪贴板 Hook。
 
-## 报名请求流
+## 报名请求流与可靠性保障
 
 `POST /api/join` 的处理顺序：
 
 1. 拒绝超过 16KiB 或无法解析为 JSON 对象的请求。
 2. 蜜罐字段有值时返回通用成功响应。
-3. 按客户端 IP 执行 10 分钟 3 次的内存限流。
-4. 生产环境必须存在 `TURNSTILE_SECRET_KEY`；缺失时返回 503。
-5. 用共享的 `joinFormSchema` 做服务端复校验。
-6. 并行尝试 Webhook 与 Resend 投递。
-7. 返回 `Cache-Control: no-store` 的 JSON 响应。
+3. 检查第一级限流（`join:attempt`，10 分钟 20 次尝试，防暴破）。
+4. 生产环境必须存在 `TURNSTILE_SECRET_KEY` 并校验通过；缺失时返回 503。
+5. 用共享的 `joinFormSchema` 做服务端严格字段校验。
+6. 扣减第二级限流（`join:submit`，10 分钟 3 次正式提交）。
+7. **先持久化落库**：调用 `store.append(record)` 将报名数据写入 Upstash Redis（默认 180 天过期），并在 `join:pending` 注册待投递索引，状态为 `pending`。
+8. **再触发通知投递**：调用 `deliverApplication(record)` 并行尝试 Resend 邮件与 Webhook 投递：
+   - 投递成功：调用 `store.markDelivered(id)` 从 `join:pending` 销账并置状态为 `delivered`。
+   - 投递失败：调用 `store.markFailed(id, error)` 累加重试计数，数据安全留存于 `join:pending` 等待调度重试。
+9. 仅在持久化失败且投递也失败的极端双故障情况下返回 `{ ok: true, degraded: true }`；只要落库成功即视为数据已安全接收。
+10. 返回 `Cache-Control: no-store` 的 JSON 响应。
 
-当前有两个必须在部署决策中正视的边界：限流状态不跨进程或实例共享；通知未配置或投递失败不会改变成功响应，也没有数据库兜底。不要把“接口返回成功”解释为“报名记录已可靠保存”。
+离线补偿与重试（`POST /api/join/retry`）：
+
+- 由 GitHub Actions 自动化工作流每 2 小时定时触发，携带 `Bearer CRON_SECRET` 鉴权。
+- 批量提取最多 25 条待投递记录尝试重发；连续失败超过 10 次的记录自动转移至 `join:abandoned` 人工核对队列，避免无限空转。
+- 当处理后仍有未投递记录或积压人工队列时，Workflow 会主动失败触发 GitHub 告警邮件。
 
 ## SEO 与资源
 

@@ -19,12 +19,77 @@
 ## 当前运行约束
 
 - 生产环境缺少 `TURNSTILE_SECRET_KEY` 时，报名接口返回 503；本地开发允许关闭验证。
-- Resend 当前发件人是 `onboarding@resend.dev`，正式上线前必须替换为已验证域名。
-- Webhook 与邮件都未完整配置或投递失败时，接口仍可能向用户返回“报名已提交”。系统没有数据库、队列或补偿任务。
-- 限流是进程内 `Map`，规则为同 IP 10 分钟 3 次；无服务器多实例间不共享，进程重启即丢失。
+- Resend 发件人由 `JOIN_MAIL_FROM` 指定，未配置时回退到 `onboarding@resend.dev`。该沙盒发件人只能投递到 Resend 账号本人的邮箱，发往 QQ 等外部邮箱会被拒收，正式上线前必须替换为已验证域名。
+- 报名先落库、再投递通知。只要 `store.append` 成功，通知失败不会造成数据丢失，由 `/api/join/retry` 补投。
+- 三道防线：①Upstash 持久化 ②定时补投 ③两者都失效时，以 `[join] UNDELIVERED APPLICATION` 前缀把完整报名内容写入日志。只有第 ① 和 ② 都不可用时接口才返回 `{ ok: true, degraded: true }`，前端回执改为“需人工确认”。
+- 限流分两级：`join:attempt` 对每次请求计数（10 分钟 20 次），`join:submit` 仅在校验与人机验证通过后扣减（10 分钟 3 次），因此填错字段的重试不会消耗正常报名配额。
+- 未配置 `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` 时，限流与报名存储都退化为进程内实现：限流在多实例间不共享，报名进程重启即丢失。**正式部署必须配置。** 限流在存储不可用时按放行处理（fail-open）。
+- `POST /api/join` 不锁定 runtime，只使用 fetch / URL / TextEncoder 等 Web 标准 API，可在 Node 运行时与边缘运行时（EdgeOne Pages、Cloudflare Workers）上运行。
 - `NEXT_PUBLIC_SITE_URL` 缺失时 SEO 回退到 `https://yfy.club`。若正式域名不同，错误 canonical 会被直接生成进页面。
 
 部署前必须由负责人决定报名数据的可靠性目标。如果“任何报名不得丢失”是要求，应先增加持久化或队列，并让通知失败可追踪和重试。
+
+## 报名邮件通知配置
+
+目标：把表单数据规范化地投递到指定 QQ 邮箱。走 Resend HTTP API，与部署平台无关。
+
+Cloudflare Email Routing 无法用于本用途——它只做“收信转发”，不提供任何对外发信能力。若最终部署在 Cloudflare Workers 上，可改用 `send_email` binding 直发已验证的目的地址；EdgeOne 无此能力，因此默认方案统一走 Resend。
+
+1. 在 Resend 添加发信域名，按其提示在 Cloudflare DNS 中添加 DKIM、SPF 与 bounce MX 记录。DKIM 记录必须关闭代理（灰色云朵）。
+2. 额外添加 DMARC 记录，否则 QQ 邮箱容易判为垃圾邮件或静默丢弃：
+   `_dmarc TXT "v=DMARC1; p=none; rua=mailto:<接收报告的邮箱>"`
+3. 等待 Resend 域名状态变为 Verified 后配置环境变量：
+   - `RESEND_API_KEY`：Resend API Key
+   - `JOIN_MAIL_FROM`：如 `云飞扬社团官网 <noreply@已验证域名>`
+   - `JOIN_NOTIFY_EMAIL`：接收报名的 QQ 邮箱，多个地址用逗号或分号分隔
+4. 发出的邮件主题为 `[官网报名] 姓名 · 方向 · 年级`，便于在收件箱内检索归档；申请人联系方式是邮箱时会写入 `reply_to`，可直接回复。
+5. 上线后用真实表单提交一次，确认 QQ 邮箱收到且不在垃圾箱；若进垃圾箱，先检查 SPF/DKIM/DMARC 是否全部通过。
+
+
+## 报名持久化与补投
+
+### 数据流
+
+```
+POST /api/join
+  校验 / 人机验证 / 限流
+    └─ ① store.append(data)          报名在这一步落地，status=pending
+    └─ ② deliverApplication(data)    Resend + Webhook
+          成功 → markDelivered（销账）
+          失败 → markFailed（留在待投递队列，累加 attempts）
+
+GitHub Actions cron（每 2 小时）
+    └─ POST /api/join/retry  (Authorization: Bearer CRON_SECRET)
+          └─ 取最多 25 条待投递记录重投，成功销账
+```
+
+### 存储
+
+后端藏在 `src/lib/join-store.ts` 的 `JoinStore` 接口之后，默认实现走 Upstash Redis REST（纯 fetch，各平台通用）。未配置 Upstash 时回退到进程内 `MemoryJoinStore`，仅供本地开发与单测使用。
+
+Redis 键位：
+
+| 键 | 类型 | 用途 |
+| :--- | :--- | :--- |
+| `join:record:<id>` | String | 报名 JSON，按 `JOIN_RETENTION_DAYS`（默认 180 天）过期 |
+| `join:pending` | ZSet | 待投递索引，score 为收到时间 |
+| `join:abandoned` | ZSet | 重试超过 10 次、需人工处理的记录 |
+
+选型说明：优先 Upstash 而不是 EdgeOne KV 或 Cloudflare D1，是因为部署平台尚未确定，纯 fetch 实现可以在 EdgeOne、Cloudflare、Vercel 与本地 Node 上一致运行，且限流已经在用同一套连接配置。平台固定后若要换成平台自带存储，只需新增一个 `JoinStore` 实现，路由无需改动。
+
+### 补投调度
+
+调度放在 GitHub Actions（`.github/workflows/join-retry.yml`）而非部署平台的 cron，目的是与平台解耦——EdgeOne 是否支持定时函数不影响这条链路。需要在仓库 Secrets 配置 `JOIN_RETRY_URL` 与 `CRON_SECRET`，后者必须与部署环境变量一致。仍有积压时该 workflow 会失败，由 GitHub 发出告警邮件。
+
+`/api/join/retry` 在未配置 `CRON_SECRET` 时返回 503 而不是放行，避免留下无鉴权的公开端点。
+
+### 上线前必须实测的两项
+
+以下两点是纸面推导，未经实测，不可当作既定事实：
+
+1. **EdgeOne 边缘节点的出站可达性。** 若站点未备案，函数预期运行在境外节点，访问 Resend 与 Upstash 无阻碍；若启用了大陆加速，出站路径改变，必须重新验证 `api.resend.com` 与 `*.upstash.io` 是否可达。
+2. **Upstash 命令配额。** 免费额度按命令数计费，而 `join:attempt` 限流器在每个 POST 请求上都会消耗命令。遭遇脚本刷取时消耗的是请求数而非报名数，需要观察实际用量。
+
 
 ## 平台决策记录
 

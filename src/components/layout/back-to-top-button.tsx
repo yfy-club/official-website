@@ -11,11 +11,11 @@ export function BackToTopButton() {
     <button
       type="button"
       onClick={scrollToTop}
-      className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--fg-faint)] hover:text-[var(--accent)] active:scale-[0.96] transition-all cursor-pointer select-none group"
+      className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm text-[var(--fg-muted)] hover:text-[var(--accent)] active:scale-[0.96] transition-all cursor-pointer select-none group py-1"
       aria-label="回到页面顶部"
     >
       <span>TOP // 回到顶部</span>
-      <ArrowUp size={13} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5" />
+      <ArrowUp size={15} aria-hidden="true" className="transition-transform group-hover:-translate-y-1 text-[var(--accent)]" />
     </button>
   );
 }

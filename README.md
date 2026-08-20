@@ -86,15 +86,20 @@ docs/                    当前维护文档与历史归档
 
 | 变量 | 用途 |
 | :--- | :--- |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST 端点（持久化与两级限流） |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST Token |
+| `CRON_SECRET` | 离线补投端点 `/api/join/retry` Bearer 鉴权密钥 |
+| `JOIN_RETENTION_DAYS` | 报名数据留存天数（默认 180 天） |
 | `TURNSTILE_SECRET_KEY` | Turnstile 服务端校验 |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Turnstile 客户端 Site Key |
 | `JOIN_WEBHOOK_URL` | 飞书、企业微信或通用 Webhook |
 | `RESEND_API_KEY` | Resend 邮件投递 |
-| `JOIN_NOTIFY_EMAIL` | 报名通知收件人 |
+| `JOIN_MAIL_FROM` | Resend 发件人（如 `云飞扬社团官网 <noreply@域名>`） |
+| `JOIN_NOTIFY_EMAIL` | 报名通知收件人，支持逗号/分号分隔 |
 | `NEXT_PUBLIC_SITE_URL` | canonical、sitemap、robots 与 OG 根地址 |
 | `NEXT_PUBLIC_ANALYTICS_ID` | 预留分析配置，当前可留空 |
 
-本地未配置 Turnstile 时允许开发降级，生产环境缺少 Secret 会返回 503。当前报名接口没有数据库兜底，通知失败也可能返回成功；正式上线前必须按 [docs/OPERATIONS.md](docs/OPERATIONS.md) 明确风险与改造方案。
+本地未配置 Turnstile 时允许开发降级，未配置 Upstash 时自动降级为内存持久化与内存限流（多实例/重启不共享）。生产环境必须配置 Upstash 与 Turnstile。正式部署说明详见 [docs/OPERATIONS.md](docs/OPERATIONS.md)。
 
 ## 内容与素材
 
