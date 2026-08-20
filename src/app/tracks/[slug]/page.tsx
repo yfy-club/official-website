@@ -239,7 +239,7 @@ export default async function TrackDetailPage({
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <div className="space-y-1">
           <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">08 // RECRUITMENT</p>
-          <p>加入云飞扬【{track.nameZh}】方向，在生产级工程与国家级赛事中攻坚突破。</p>
+          <p>加入云飞扬【{track.nameZh}】方向，参与真实项目研发与算法工程攻坚。</p>
         </div>
         <Button asChild className="active:scale-[0.96] transition-transform">
           <Link href="/join">
