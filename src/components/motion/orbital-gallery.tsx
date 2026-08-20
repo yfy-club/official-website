@@ -59,16 +59,16 @@ export function OrbitalGallery({
     };
   }, []);
 
-  // Geometry configuration
-  const itemWidth = isMobile ? 190 : 250;
-  const itemHeight = isMobile ? 260 : 340;
-  const wheelViewportHeight = isMobile ? 360 : 460;
-  const paddingTop = isMobile ? 18 : 28;
+  // Geometry configuration (tastefully tuned dimensions)
+  const itemWidth = isMobile ? 205 : 280;
+  const itemHeight = isMobile ? 280 : 380;
+  const wheelViewportHeight = isMobile ? 380 : 500;
+  const paddingTop = isMobile ? 18 : 26;
 
   // True circular radius and angular spacing
   const radius = isMobile
-    ? clamp(containerWidth * 1.3, 480, 680)
-    : clamp(containerWidth * 0.85, 750, 1100);
+    ? clamp(containerWidth * 1.35, 500, 720)
+    : clamp(containerWidth * 0.9, 800, 1150);
 
   const angularSpacingDeg = isMobile ? 24 : 16.5;
   const angularSpacingRad = (angularSpacingDeg * Math.PI) / 180;
@@ -309,7 +309,7 @@ export function OrbitalGallery({
 
             // Visual effects matching official spec
             const currentBlur = clamp(focusIntensity * 4.2, 0, 5);
-            const peakBrightness = 115;
+            const peakBrightness = 110;
             const minBrightness = 45;
             const currentBrightness =
               minBrightness + (1 - focusIntensity) * (peakBrightness - minBrightness);
@@ -354,7 +354,7 @@ export function OrbitalGallery({
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    sizes="(max-width: 768px) 60vw, 300px"
+                    sizes="(max-width: 768px) 60vw, 360px"
                     className="object-cover object-center pointer-events-none"
                     priority={i <= 2}
                   />
