@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, Copy, ExternalLink, Send, Sparkles } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useCallback, useState, type KeyboardEvent } from "react";
 import { useForm, type FieldPath } from "react-hook-form";
 
@@ -40,6 +40,7 @@ type SubmittedRecord = {
   studentId: string;
   timestamp: string;
   track: JoinFormInput["track"];
+  customTrack?: string;
   trackLabel: string;
 };
 
@@ -158,7 +159,11 @@ function ApplicationReceipt({ record }: { record: SubmittedRecord }) {
           </div>
           <div className="flex justify-between gap-2">
             <dt className="text-[var(--fg-faint)]">方向：</dt>
-            <dd className="text-[var(--accent)] font-semibold truncate">{record.trackLabel}</dd>
+            <dd className="text-[var(--accent)] font-semibold truncate">
+              {record.track === "other" && record.customTrack
+                ? `其他（${record.customTrack}）`
+                : record.trackLabel}
+            </dd>
           </div>
         </dl>
       </div>
@@ -221,6 +226,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
     resolver: zodResolver(joinFormSchema),
     defaultValues: {
       contact: "",
+      customTrack: "",
       grade: "",
       major: "",
       name: "",
@@ -267,6 +273,10 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         }
 
         const activeTrack = tracks.find((t) => t.value === values.track);
+        const resolvedLabel = values.track === "other" && values.customTrack
+          ? `其他（${values.customTrack}）`
+          : (activeTrack ? activeTrack.label : values.track);
+
         setSubmittedRecord({
           name: values.name,
           studentId: values.studentId,
@@ -274,7 +284,8 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           grade: values.grade,
           contact: values.contact,
           track: values.track,
-          trackLabel: activeTrack ? activeTrack.label : values.track,
+          customTrack: values.customTrack,
+          trackLabel: resolvedLabel,
           timestamp: new Date().toLocaleTimeString("zh-CN", { hour12: false }),
         });
         reset();
@@ -291,6 +302,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
         ["grade", "join-grade"],
         ["contact", "join-contact"],
         ["track", "join-track"],
+        ["customTrack", "join-custom-track"],
         ["reason", "join-reason"],
       ];
       const firstInvalid = ids.find(([field]) => validationErrors[field]);
@@ -307,6 +319,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
   const gradeError = errors.grade?.message;
   const contactError = errors.contact?.message;
   const trackError = errors.track?.message;
+  const customTrackError = errors.customTrack?.message;
   const reasonError = errors.reason?.message;
   const rootError = errors.root?.server?.message;
 
@@ -468,6 +481,41 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           </div>
           <input type="hidden" {...register("track")} />
         </Field>
+
+        {/* 选中其他方向时，平滑展开自定义方向输入框 */}
+        <AnimatePresence>
+          {currentTrack === "other" && (
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, height: 0, marginTop: 0 }}
+              animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, height: "auto", marginTop: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, height: 0, marginTop: 0 }}
+              transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
+              className="overflow-hidden join-form__wide"
+            >
+              <Field
+                id="join-custom-track"
+                label="自定义专业 / 技术方向"
+                error={customTrackError}
+                className="pt-0.5"
+              >
+                <InputGroup>
+                  <InputGroupAddon align="inline-start">
+                    <InputGroupText>DIR</InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    id="join-custom-track"
+                    autoComplete="off"
+                    placeholder="如：前端全栈、网络安全、嵌入式硬件等"
+                    aria-describedby={descriptionId("join-custom-track", customTrackError)}
+                    aria-invalid={Boolean(customTrackError)}
+                    required
+                    {...register("customTrack")}
+                  />
+                </InputGroup>
+              </Field>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* 自我介绍 / 申请理由（含动态字数刻度尺） */}
         <Field

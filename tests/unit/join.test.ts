@@ -52,6 +52,32 @@ describe("join form", () => {
     }
   });
 
+  it("parses a payload with custom other track successfully", () => {
+    const result = joinFormSchema.safeParse({
+      ...validPayload,
+      track: "other",
+      customTrack: "前端全栈工程",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.track).toBe("other");
+      expect(result.data.customTrack).toBe("前端全栈工程");
+    }
+  });
+
+  it("rejects other track when customTrack is missing or empty", () => {
+    const result = joinFormSchema.safeParse({
+      ...validPayload,
+      track: "other",
+      customTrack: "",
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const fields = result.error.flatten().fieldErrors;
+      expect(fields.customTrack?.[0]).toContain("请填写你感兴趣的具体专业或技术方向");
+    }
+  });
+
   it("rejects field boundaries and malformed student IDs", () => {
     const result = joinFormSchema.safeParse({
       ...validPayload,

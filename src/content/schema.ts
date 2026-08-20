@@ -286,17 +286,30 @@ export const faqSchema = z.object({
   answer: z.string().min(10),
 });
 
-export const joinFormSchema = z.object({
-  name: z.string().trim().min(2, "姓名至少需要 2 个字符").max(20, "姓名不能超过 20 个字符"),
-  studentId: z.string().trim().regex(/^\d{8,20}$/, "请输入 8 至 20 位数字学号"),
-  major: z.string().trim().min(2, "请输入专业班级").max(40, "专业班级不能超过 40 个字符"),
-  grade: z.string().trim().min(2, "请输入年级").max(20, "年级不能超过 20 个字符"),
-  contact: z.string().trim().min(5, "请输入可联系到你的微信、QQ 或手机号").max(40, "联系方式不能超过 40 个字符"),
-  track: z.enum(trackSlugSchema.options, { error: "请选择一个志向方向" }),
-  reason: z.string().trim().min(20, "申请理由至少需要 20 个字符").max(1000, "申请理由不能超过 1000 个字符"),
-  website: z.string().trim().max(0, "请勿填写此字段").optional(),
-  turnstileToken: z.string().trim().max(2048, "人机验证令牌无效").optional(),
-});
+export const joinTrackSchema = z.enum([...trackSlugSchema.options, "other"]);
+
+export const joinFormSchema = z
+  .object({
+    name: z.string().trim().min(2, "姓名至少需要 2 个字符").max(20, "姓名不能超过 20 个字符"),
+    studentId: z.string().trim().regex(/^\d{8,20}$/, "请输入 8 至 20 位数字学号"),
+    major: z.string().trim().min(2, "请输入专业班级").max(40, "专业班级不能超过 40 个字符"),
+    grade: z.string().trim().min(2, "请输入年级").max(20, "年级不能超过 20 个字符"),
+    contact: z.string().trim().min(5, "请输入可联系到你的微信、QQ 或手机号").max(40, "联系方式不能超过 40 个字符"),
+    track: joinTrackSchema,
+    customTrack: z.string().trim().max(40, "自定义方向不能超过 40 个字符").optional(),
+    reason: z.string().trim().min(20, "申请理由至少需要 20 个字符").max(1000, "申请理由不能超过 1000 个字符"),
+    website: z.string().trim().max(0, "请勿填写此字段").optional(),
+    turnstileToken: z.string().trim().max(2048, "人机验证令牌无效").optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.track === "other" && (!data.customTrack || data.customTrack.trim().length < 2)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "请填写你感兴趣的具体专业或技术方向（至少 2 个字符）",
+        path: ["customTrack"],
+      });
+    }
+  });
 
 export const mechanismSchema = z.object({
   index: z.string().optional(),

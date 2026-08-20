@@ -44,7 +44,10 @@ const sections = [
 ];
 
 export default function JoinPage() {
-  const trackOptions = tracks.map((track) => ({ label: track.nameZh, value: track.slug }));
+  const trackOptions = [
+    ...tracks.map((track) => ({ label: track.nameZh, value: track.slug })),
+    { label: "其他方向", value: "other" as const },
+  ];
 
   return (
     <main id="main-content" className="page-main page-shell" tabIndex={-1}>

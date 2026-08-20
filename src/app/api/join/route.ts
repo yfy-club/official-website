@@ -12,6 +12,7 @@ const TRACK_LABELS: Record<JoinFormInput["track"], string> = {
   database: "数据库",
   "cloud-iot": "云计算与物联网",
   industrial: "工业软件",
+  other: "其他方向",
 };
 
 let warnedMissingTurnstileSecret = false;
@@ -113,6 +114,10 @@ async function verifyTurnstile(token: unknown, ip: string) {
 }
 
 function formatApplication(data: JoinFormInput) {
+  const trackName = data.track === "other" && data.customTrack
+    ? `其他方向（${data.customTrack}）`
+    : TRACK_LABELS[data.track];
+
   return [
     "云飞扬官网收到新的加入申请",
     `姓名：${data.name}`,
@@ -120,7 +125,7 @@ function formatApplication(data: JoinFormInput) {
     `专业班级：${data.major}`,
     `年级：${data.grade}`,
     `联系方式：${data.contact}`,
-    `志向方向：${TRACK_LABELS[data.track]}`,
+    `志向方向：${trackName}`,
     `申请理由：${data.reason}`,
   ].join("\n");
 }
@@ -168,13 +173,17 @@ async function sendEmail(data: JoinFormInput, text: string) {
     .filter(Boolean);
   if (!apiKey || !recipients?.length) return false;
 
+  const trackName = data.track === "other" && data.customTrack
+    ? `其他方向（${data.customTrack}）`
+    : TRACK_LABELS[data.track];
+
   const rows = [
     ["姓名", data.name],
     ["学号", data.studentId],
     ["专业班级", data.major],
     ["年级", data.grade],
     ["联系方式", data.contact],
-    ["志向方向", TRACK_LABELS[data.track]],
+    ["志向方向", trackName],
     ["申请理由", data.reason],
   ];
   const html = `<h1>新的加入申请</h1><dl>${rows.map(([label, value]) => `<dt><strong>${escapeHtml(label)}</strong></dt><dd>${escapeHtml(value)}</dd>`).join("")}</dl>`;
