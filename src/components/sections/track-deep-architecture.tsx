@@ -20,6 +20,7 @@ import { MathFormula } from "@/components/ui/math-formula";
 import {
   Sheet,
   SheetBody,
+  SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
@@ -103,7 +104,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
         }}
       >
         {activeConcept && (
-          <SheetBody className="p-0 space-y-0 max-w-2xl bg-[var(--surface)]">
+          <SheetContent side="right" className="w-full sm:max-w-2xl flex flex-col p-0 gap-0">
             <SheetHeader className="p-6 sm:p-8 bg-[var(--surface)] border-b border-[var(--border)]">
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
@@ -116,7 +117,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
               <SheetDescription>{activeConcept.summary}</SheetDescription>
             </SheetHeader>
 
-            <div className="p-6 sm:p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-180px)]">
+            <SheetBody className="p-6 sm:p-8 space-y-8 flex-1 overflow-y-auto">
               {/* 核心机制解析 */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
@@ -222,8 +223,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                   )}
                 </div>
               )}
-            </div>
-          </SheetBody>
+            </SheetBody>
+          </SheetContent>
         )}
       </Sheet>
     </div>
