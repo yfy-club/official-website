@@ -137,12 +137,12 @@ export default async function TrackDetailPage({
             <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
               <div className="flex items-center gap-2">
                 <Terminal size={14} className="text-[var(--accent)]" />
-                <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                  STACK & TOOLCHAIN // 核心技术栈与工具链
+                <span className="font-mono text-xs font-bold text-[var(--fg)]">
+                  核心技术栈与工具链
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-[var(--fg-faint)] hidden sm:inline">
-                Hover 查看技术栈简介与官方文档
+              <span className="text-xs font-mono text-[var(--fg-faint)] hidden sm:inline">
+                悬停查看简介与官方文档
               </span>
             </div>
 

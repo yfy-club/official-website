@@ -10,7 +10,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import type { Stage, TrackCurriculumModule } from "@/content";
 import { cn } from "@/lib/utils";
 
@@ -31,9 +30,9 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
   const [juniorChannel, setJuniorChannel] = useState<"employment" | "postgrad">("employment");
 
   const stageTabs = [
-    { code: "STG-01", year: "FRESHMAN // 大一", label: "底层筑基与工程启蒙", status: "FOUNDATION" },
-    { code: "STG-02", year: "SOPHOMORE // 大二", label: "方向攻坚与项目实战", status: "SPECIALIZATION" },
-    { code: "STG-03", year: "JUNIOR // 大三", label: "就业/考研精准双通道", status: "DUAL TRACK" },
+    { code: "01", year: "大一", label: "底层筑基与工程启蒙" },
+    { code: "02", year: "大二", label: "方向攻坚与项目实战" },
+    { code: "03", year: "大三", label: "就业与考研双通道" },
   ];
 
   const currentModule = modules[activeStage] || {
@@ -74,8 +73,8 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
               )}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-[11px] font-bold text-[var(--accent)]">
-                  {tab.year}
+                <span className="font-mono text-xs font-bold text-[var(--accent)]">
+                  {`0${idx + 1} · ${tab.year}`}
                 </span>
                 <span
                   className={cn(
@@ -86,9 +85,6 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
               </div>
               <div className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
                 {tab.label}
-              </div>
-              <div className="text-xs font-mono text-[var(--fg-muted)] mt-1">
-                {`STAGE 0${idx + 1} // ${tab.status}`}
               </div>
 
               {isActive && (
@@ -104,14 +100,9 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
         {/* 阶段标题与目标 */}
         <div className="flex flex-wrap items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
           <div className="space-y-2 max-w-3xl">
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                {stageTabs[activeStage].code} {"//"} CURRICULUM SYLLABUS
-              </span>
-              <Badge variant="active" className="text-[10px]">
-                {stageTabs[activeStage].status}
-              </Badge>
-            </div>
+            <span className="font-mono text-xs font-bold text-[var(--accent)]">
+              {`STAGE 0${activeStage + 1} // ${stageTabs[activeStage].year}`}
+            </span>
             <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
               {currentModule.title}
             </h3>

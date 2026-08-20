@@ -86,8 +86,8 @@ export function AwardsOverviewMatrix() {
               </h3>
             </div>
             <div className="pt-3 mt-2 border-t border-dashed border-[var(--border)]">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[var(--fg-faint)] mb-1">
-                {"主要成果认证 // RECORD"}
+              <div className="font-mono text-[10px] text-[var(--fg-faint)] mb-1">
+                {"主要成果认证"}
               </div>
               <p className="text-xs sm:text-sm font-semibold text-[var(--fg)] leading-relaxed">
                 {item.result}
