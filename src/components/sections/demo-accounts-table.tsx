@@ -41,26 +41,21 @@ function CopyCell({ value, label }: { value: string; label: string }) {
     <button
       type="button"
       onClick={handleCopy}
+      title={`点击复制${label} ${value}`}
       aria-label={`复制${label} ${value}`}
       className={cn(
-        "group inline-flex items-center justify-between gap-2.5 px-2.5 py-1 rounded-[var(--radius-xs)] font-mono text-xs cursor-pointer transition-all border outline-none select-all text-left active:scale-[0.94]",
+        "group inline-flex items-center justify-between gap-2 px-2.5 py-1 rounded-[var(--radius-xs)] font-mono text-xs cursor-pointer transition-all duration-150 border outline-none select-all text-left active:scale-[0.96]",
         isCopied
-          ? "bg-[var(--success)]/10 border-[var(--success)]/40 text-[var(--success)] font-bold shadow-2xs"
+          ? "bg-[var(--success)]/10 border-[var(--success)]/40 text-[var(--success)] shadow-2xs"
           : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--fg)] hover:bg-[var(--surface-3)] hover:border-[var(--accent)]/50 hover:text-[var(--fg)]"
       )}
     >
-      <span className="tracking-tight">{value}</span>
-      <span className="shrink-0 flex items-center transition-transform duration-150 group-hover:scale-110">
+      <span className="tracking-tight select-all">{value}</span>
+      <span className="shrink-0 flex items-center justify-center w-3.5 h-3.5 text-[var(--fg-faint)] group-hover:text-[var(--accent)] transition-colors">
         {isCopied ? (
-          <span className="flex items-center gap-1 text-[11px] text-[var(--success)] font-bold">
-            <Check size={12} className="stroke-[2.5]" />
-            <span className="text-[10px] hidden sm:inline">已复制</span>
-          </span>
+          <Check size={13} className="text-[var(--success)] stroke-[2.5] animate-in zoom-in-50 duration-150" />
         ) : (
-          <Copy
-            size={12}
-            className="text-[var(--fg-faint)] group-hover:text-[var(--accent)] transition-colors opacity-70 group-hover:opacity-100"
-          />
+          <Copy size={12} className="opacity-70 group-hover:opacity-100 transition-opacity" />
         )}
       </span>
     </button>
@@ -97,14 +92,14 @@ export function DemoAccountsTable({ workNameZh, accounts, notice }: DemoAccounts
       </div>
 
       <CardPanel className="p-0 overflow-x-auto">
-        <table className="data-table">
+        <table className="data-table w-full">
           <caption className="sr-only">{workNameZh}公开演示账号与体验范围</caption>
           <thead>
             <tr>
-              <th scope="col">角色</th>
-              <th scope="col">账号</th>
-              <th scope="col">密码</th>
-              <th scope="col">体验范围</th>
+              <th scope="col" className="w-[18%] min-w-[90px]">角色</th>
+              <th scope="col" className="w-[24%] min-w-[120px]">账号</th>
+              <th scope="col" className="w-[26%] min-w-[140px]">密码</th>
+              <th scope="col" className="w-[32%] min-w-[180px]">体验范围</th>
             </tr>
           </thead>
           <tbody>
