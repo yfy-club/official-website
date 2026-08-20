@@ -15,7 +15,7 @@ export function InputGroup({ className, ...props }: InputGroupProps) {
   return (
     <div
       className={cn(
-        "input-group relative flex w-full items-center rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors hover:border-[var(--border-strong)] focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-0",
+        "input-group group relative flex w-full items-center rounded-[var(--radius-xs)] border border-[var(--border-control)] bg-[var(--surface)] transition-colors hover:border-[var(--border-strong)] focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] [&>.field__control]:border-0 [&>.field__control]:bg-transparent [&>.field__control]:rounded-none [&>.field__control]:focus:outline-none [&>.field__control]:focus:ring-0",
         className
       )}
       {...props}
@@ -36,7 +36,7 @@ export function InputGroupAddon({
   return (
     <div
       className={cn(
-        "input-group__addon flex items-center px-2.5 font-mono text-xs text-[var(--fg-faint)] select-none shrink-0",
+        "input-group__addon flex items-center px-2.5 font-mono text-xs text-[var(--fg-faint)] group-focus-within:text-[var(--accent)] group-focus-within:border-[var(--accent)]/40 transition-colors select-none shrink-0",
         align === "inline-start" && "order-first border-r border-[var(--border)]",
         align === "inline-end" && "order-last border-l border-[var(--border)]",
         className

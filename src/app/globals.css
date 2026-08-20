@@ -260,13 +260,17 @@ button, a, [role='button'] {
   pointer-events: none;
 }
 .card--inset { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border); }
-.card--frame > :not(.card__corners) { position: relative; z-index: 1; }
+.card--frame > :not(.card__corners), .card-frame > :not(.card__corners) { position: relative; z-index: 1; }
 .card__corners { position: absolute; inset: -1px; z-index: 2; color: var(--fg-faint); pointer-events: none; }
 .card__corners > i { position: absolute; width: 12px; height: 12px; transition: transform var(--dur-normal) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .card__corners > i:nth-child(1) { top: -3px; left: -3px; border-top: 1px solid; border-left: 1px solid; }
 .card__corners > i:nth-child(2) { top: -3px; right: -3px; border-top: 1px solid; border-right: 1px solid; }
 .card__corners > i:nth-child(3) { bottom: -3px; left: -3px; border-bottom: 1px solid; border-left: 1px solid; }
 .card__corners > i:nth-child(4) { right: -3px; bottom: -3px; border-right: 1px solid; border-bottom: 1px solid; }
+.join-hero-form__frame {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
 .card__meta {
   display: flex;
   min-width: 0;
@@ -438,11 +442,11 @@ button.tag:active {
 @media (hover: hover) and (pointer: fine) {
   .card:hover, .theme-toggle:hover, .mobile-nav__trigger:hover { border-color: var(--border-strong); }
   .card--frame:hover, a.card--frame:focus-visible { transform: translateY(-2px); }
-  .card--frame:hover .card__corners, a.card--frame:focus-visible .card__corners { color: var(--accent); }
-  .card--frame:hover .card__corners > i:nth-child(1), a.card--frame:focus-visible .card__corners > i:nth-child(1) { transform: translate(2px, 2px); }
-  .card--frame:hover .card__corners > i:nth-child(2), a.card--frame:focus-visible .card__corners > i:nth-child(2) { transform: translate(-2px, 2px); }
-  .card--frame:hover .card__corners > i:nth-child(3), a.card--frame:focus-visible .card__corners > i:nth-child(3) { transform: translate(2px, -2px); }
-  .card--frame:hover .card__corners > i:nth-child(4), a.card--frame:focus-visible .card__corners > i:nth-child(4) { transform: translate(-2px, -2px); }
+  .card--frame:hover .card__corners, .card-frame:hover .card__corners, a.card--frame:focus-visible .card__corners, .card-frame:focus-within .card__corners { color: var(--accent); }
+  .card--frame:hover .card__corners > i:nth-child(1), .card-frame:hover .card__corners > i:nth-child(1), a.card--frame:focus-visible .card__corners > i:nth-child(1), .card-frame:focus-within .card__corners > i:nth-child(1) { transform: translate(2px, 2px); }
+  .card--frame:hover .card__corners > i:nth-child(2), .card-frame:hover .card__corners > i:nth-child(2), a.card--frame:focus-visible .card__corners > i:nth-child(2), .card-frame:focus-within .card__corners > i:nth-child(2) { transform: translate(-2px, 2px); }
+  .card--frame:hover .card__corners > i:nth-child(3), .card-frame:hover .card__corners > i:nth-child(3), a.card--frame:focus-visible .card__corners > i:nth-child(3), .card-frame:focus-within .card__corners > i:nth-child(3) { transform: translate(2px, -2px); }
+  .card--frame:hover .card__corners > i:nth-child(4), .card-frame:hover .card__corners > i:nth-child(4), a.card--frame:focus-visible .card__corners > i:nth-child(4), .card-frame:focus-within .card__corners > i:nth-child(4) { transform: translate(-2px, -2px); }
   a.card--frame:active,
   .track-panel:active,
   .culture-bento__card:active,

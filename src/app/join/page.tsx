@@ -14,6 +14,7 @@ import { StructuredData } from "@/components/seo/structured-data";
 import { CutoutCard, CutoutCardContent, CutoutCardHeader, CutoutCardTitle } from "@/components/ui/cutout-card";
 import { BrandEmblem } from "@/components/ui/brand-emblem";
 import {
+  CardCorners,
   CardFrame,
   CardFrameDescription,
   CardFrameHeader,
@@ -119,7 +120,8 @@ export default function JoinPage() {
 
           {/* 右翼：高质感报名仪表舱 */}
           <div id="join-form" className="join-hero-form lg:col-span-6" data-reveal="item">
-            <CardFrame className="border-[var(--border-strong)] bg-[var(--surface)] shadow-md">
+            <CardFrame className="join-hero-form__frame border-[var(--border-strong)] bg-[var(--surface)] shadow-md">
+              <CardCorners />
               <CardFrameHeader>
                 <div>
                   <CardFrameTitle>02.1 // 招新报名表单</CardFrameTitle>
