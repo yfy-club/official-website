@@ -24,7 +24,6 @@ import {
   CutoutCardHeader,
   CutoutCardTitle,
 } from "@/components/ui/cutout-card";
-import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import type { Mechanism } from "@/content";
 import { cn } from "@/lib/utils";
 
@@ -250,36 +249,25 @@ export function MechanismAccordion({ items }: { items: readonly Mechanism[] }) {
                   <span>/ 0{total}</span>
                 </div>
 
-                {/* 切换按钮与快捷键提示 */}
-                <div className="flex items-center gap-3">
-                  {/* 快捷键元数据指示 */}
-                  <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-[var(--fg-faint)]">
-                    <KbdGroup>
-                      <Kbd>←</Kbd>
-                      <Kbd>→</Kbd>
-                    </KbdGroup>
-                  </div>
+                {/* 切换按钮组 */}
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
+                    aria-label="上一个机制"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
 
-                  {/* 触感步进按钮组 */}
-                  <div className="flex items-center gap-1">
-                    <button
-                      type="button"
-                      onClick={handlePrev}
-                      className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
-                      aria-label="上一个机制"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleNext}
-                      className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
-                      aria-label="下一个机制"
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
+                    aria-label="下一个机制"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             </motion.div>
