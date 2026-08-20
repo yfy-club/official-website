@@ -17,6 +17,7 @@ import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { CardCorners, CardFrame } from "@/components/ui/card";
 import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { TechTag } from "@/components/ui/tech-tag";
 import { tracks, works } from "@/content";
@@ -240,27 +241,68 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <WorkRelatedTracks tracks={relatedTracks} />
       </section>
 
-      <nav id="work-switch" className="pager pager--with-overview" aria-label="项目切换" data-reveal="group">
-        <Link href={`/works/${previous.slug}`} className="active:scale-[0.98] transition-transform">
-          <ArrowLeft aria-hidden="true" size={18} />
-          <span>
-            <small>上一个项目</small>
-            {previous.nameZh}
-          </span>
-        </Link>
-        <WorkReturnLink href="/works" slug={work.slug} className="pager__overview active:scale-[0.98] transition-transform">
-          <LayoutGrid aria-hidden="true" size={16} />
-          <span>
-            <small>总览索引</small>全部项目列表
-          </span>
-        </WorkReturnLink>
-        <Link href={`/works/${next.slug}`} className="active:scale-[0.98] transition-transform">
-          <span>
-            <small>下一个项目</small>
-            {next.nameZh}
-          </span>
-          <ArrowRight aria-hidden="true" size={18} />
-        </Link>
+      {/* 底部项目切换导引 */}
+      <nav id="work-switch" aria-label="工程项目快速切换" className="my-16" data-reveal="group">
+        <CardFrame className="border border-[var(--border-strong)] bg-[var(--surface)] shadow-xs rounded-[var(--radius-sm)] overflow-hidden">
+          <CardCorners />
+          <div className="grid grid-cols-1 sm:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border)] items-stretch">
+            {/* 上一个项目 */}
+            <Link
+              href={`/works/${previous.slug}`}
+              className="sm:col-span-4 p-5 sm:p-6 flex items-center justify-between group bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 transition-colors active:scale-[0.99] select-none"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <ArrowLeft
+                  size={16}
+                  className="text-[var(--fg-faint)] group-hover:text-[var(--accent)] group-hover:-translate-x-1 transition-all shrink-0"
+                  aria-hidden="true"
+                />
+                <div className="min-w-0">
+                  <span className="font-mono text-[10px] font-bold text-[var(--fg-faint)] group-hover:text-[var(--accent)] uppercase tracking-wider block transition-colors">
+                    PREV {"//"} WRK-{String((index - 1 + detailedWorks.length) % detailedWorks.length + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight truncate block group-hover:text-[var(--accent)] transition-colors">
+                    {previous.nameZh}
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            {/* 中间：返回总览 */}
+            <WorkReturnLink
+              href="/works"
+              slug={work.slug}
+              className="sm:col-span-4 p-4 sm:p-5 flex items-center justify-center gap-2 font-mono text-xs font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition-all active:scale-[0.98] group bg-[var(--surface-2)]/25 select-none"
+            >
+              <LayoutGrid
+                size={14}
+                className="text-[var(--accent)] transition-transform group-hover:scale-110"
+                aria-hidden="true"
+              />
+              <span className="tracking-wider uppercase">ALL WORKS {"//"} 项目总览</span>
+            </WorkReturnLink>
+
+            {/* 下一个项目 */}
+            <Link
+              href={`/works/${next.slug}`}
+              className="sm:col-span-4 p-5 sm:p-6 flex items-center justify-between group bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 transition-colors active:scale-[0.99] text-right select-none"
+            >
+              <div className="min-w-0 flex-1">
+                <span className="font-mono text-[10px] font-bold text-[var(--fg-faint)] group-hover:text-[var(--accent)] uppercase tracking-wider block transition-colors">
+                  NEXT {"//"} WRK-{String((index + 1) % detailedWorks.length + 1).padStart(2, "0")}
+                </span>
+                <span className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight truncate block group-hover:text-[var(--accent)] transition-colors">
+                  {next.nameZh}
+                </span>
+              </div>
+              <ArrowRight
+                size={16}
+                className="text-[var(--fg-faint)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all shrink-0 ml-3"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
+        </CardFrame>
       </nav>
 
       <section id="work-join" className="border-t border-[var(--border)] pt-14 pb-16 mt-20" aria-label="加入社团" data-reveal="group">
