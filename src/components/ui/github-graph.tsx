@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { GitCommit, GitPullRequest, ShieldCheck, Sparkles } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ExternalLink, GitCommit, GitPullRequest, ShieldCheck, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ export interface GithubContribution {
   count: number;
   level: 0 | 1 | 2 | 3 | 4;
   detail?: string;
+  repo?: string;
 }
 
 export interface GithubGraphProps {
@@ -21,7 +22,7 @@ export interface GithubGraphProps {
   showStats?: boolean;
 }
 
-// Generate realistic simulated repository review history if no data provided
+// Generate realistic baseline contributions if no data provided
 function generateDefaultContributions(months = 6): GithubContribution[] {
   const contributions: GithubContribution[] = [];
   const today = new Date();
@@ -113,8 +114,51 @@ export function GithubGraph({
   showLegend = true,
   showStats = true,
 }: GithubGraphProps) {
-  const contributions = useMemo(() => data || generateDefaultContributions(months), [data, months]);
+  const [liveState, setLiveState] = useState<{
+    contributions: GithubContribution[];
+    totalCommits: number;
+    activeDays: number;
+    isLive: boolean;
+  } | null>(null);
+
   const [hoveredDay, setHoveredDay] = useState<GithubContribution | null>(null);
+
+  // 尝试自动拉取 GitHub 组织真实活跃提交数据
+  useEffect(() => {
+    if (data) return; // 如果外部已传数据，则不重复抓取
+
+    let isMounted = true;
+    const controller = new AbortController();
+
+    async function fetchLiveContributions() {
+      try {
+        const res = await fetch("/api/github-contributions", {
+          signal: controller.signal,
+        });
+        if (!res.ok) return;
+        const result = await res.json();
+        if (isMounted && result.ok && Array.isArray(result.contributions)) {
+          setLiveState({
+            contributions: result.contributions,
+            totalCommits: result.totalCommits ?? 0,
+            activeDays: result.activeDays ?? 0,
+            isLive: result.source === "live",
+          });
+        }
+      } catch {
+        // 优雅降级，使用本地基准数据
+      }
+    }
+
+    fetchLiveContributions();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [data]);
+
+  const defaultContributions = useMemo(() => generateDefaultContributions(months), [months]);
+  const contributions = data || liveState?.contributions || defaultContributions;
 
   // Group into weeks (columns)
   const weeks = useMemo(() => {
@@ -132,8 +176,12 @@ export function GithubGraph({
   }, [contributions]);
 
   // Aggregate stats
-  const totalCommits = useMemo(() => contributions.reduce((acc, curr) => acc + curr.count, 0), [contributions]);
-  const activeDays = useMemo(() => contributions.filter((c) => c.count > 0).length, [contributions]);
+  const calculatedCommits = useMemo(() => contributions.reduce((acc, curr) => acc + curr.count, 0), [contributions]);
+  const calculatedActiveDays = useMemo(() => contributions.filter((c) => c.count > 0).length, [contributions]);
+
+  const totalCommits = liveState?.totalCommits ?? calculatedCommits;
+  const activeDays = liveState?.activeDays ?? calculatedActiveDays;
+  const isLive = Boolean(liveState?.isLive);
 
   const colors = COLOR_MAPS[variant] || COLOR_MAPS.emerald;
 
@@ -149,6 +197,22 @@ export function GithubGraph({
           <div className="flex items-center gap-2">
             <GitPullRequest className="h-4 w-4 text-[var(--accent)]" />
             <span className="font-bold text-[var(--fg)]">ENGINEERING ACTIVITY // 团队工程活跃热力</span>
+            <a
+              href="https://github.com/yfy-club"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)] text-[10px] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] transition-colors"
+              title="访问云飞扬社团 GitHub 组织"
+            >
+              <span>@yfy-club</span>
+              <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+            {isLive && (
+              <span className="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                LIVE
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-4 text-[var(--fg-muted)]">
