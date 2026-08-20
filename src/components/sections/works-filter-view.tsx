@@ -166,7 +166,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
   const incubating = filteredWorks.filter((w) => w.status === "在研");
 
   return (
-    <Tabs value={activeFilter} onValueChange={setActiveFilter} className="works-explorer">
+    <Tabs id="works-explorer" value={activeFilter} onValueChange={setActiveFilter} className="works-explorer">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <TabsList className="flex-wrap h-auto gap-1">
           <TabsTrigger value="all" className="active:scale-[0.96] transition-transform">

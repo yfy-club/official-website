@@ -36,10 +36,12 @@ export default function WorksPage() {
       />
       <div id="works-start">
         <PageHero
-          eyebrow="01 / Works"
+          eyebrow="01 // WORKS"
           title="Works."
           subtitle="工程项目"
           intro="坚持真实可运行的工程落地，展示完整架构设计、技术选型与质量验收依据。"
+          scrollToId="works-explorer"
+          scrollLabel="向下滚动至工程项目全景"
         />
       </div>
 

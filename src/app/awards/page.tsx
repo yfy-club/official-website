@@ -50,10 +50,12 @@ export default function AwardsPage() {
       />
       <div id="awards-start">
         <PageHero
-          eyebrow="01 / Awards"
+          eyebrow="01 // AWARDS"
           title="Awards."
           subtitle="竞赛荣誉"
           intro={`国家级与省级学科竞赛成果持续沉淀 · 年均获省级及以上奖项 ${club.annualAwards} 项`}
+          scrollToId="awards-overview"
+          scrollLabel="向下滚动至赛事成果总览"
         />
       </div>
 

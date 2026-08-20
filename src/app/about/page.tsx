@@ -37,10 +37,12 @@ export default function AboutPage() {
       ]} />
       <div id="about-start">
         <PageHero
-          eyebrow="01 / About"
+          eyebrow="01 // ABOUT"
           title="About."
           subtitle="社团概况"
           intro="以真实工程项目、学科竞赛与一对一师徒带学为核心的技术成长共同体。"
+          scrollToId="about-origin"
+          scrollLabel="向下滚动至社团发展起源"
         />
       </div>
       <section id="about-origin" className="section about-origin" aria-labelledby="origin-title" data-reveal="group">

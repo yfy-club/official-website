@@ -18,10 +18,12 @@ export default function TracksPage() {
       <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "技术方向", path: "/tracks" }])} />
       <div id="tracks-start">
         <PageHero
-          eyebrow="01 / Tracks"
+          eyebrow="01 // TRACKS"
           title="Tracks."
           subtitle="技术方向"
           intro="循序渐进，因材施教。选定专注方向，完成体系化工程训练。"
+          scrollToId="tracks-routes"
+          scrollLabel="向下滚动至航道架构与工程培养中枢"
         />
       </div>
 
