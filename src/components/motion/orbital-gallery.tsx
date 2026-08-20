@@ -78,12 +78,12 @@ export function OrbitalGallery({
   // Center of the circular orbit
   const orbitCenterY = centerCardY + radius;
 
-  // Continuous progress tracking
+  // Continuous progress tracking with responsive spring
   const targetProgress = useMotionValue(0);
   const smoothProgress = useSpring(targetProgress, {
-    stiffness: 200,
-    damping: 26,
-    mass: 0.65,
+    stiffness: 260,
+    damping: 28,
+    mass: 0.55,
   });
 
   const [renderProgress, setRenderProgress] = useState(0);
@@ -134,50 +134,48 @@ export function OrbitalGallery({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrev, handleNext]);
 
-  // Mouse Wheel Scrubbing with Auto-Snap
-  const wheelTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // Mouse Wheel Navigation (Ultra-responsive Notch & Gesture handling)
+  const wheelAccumulatorRef = useRef(0);
+  const lastWheelTimeRef = useRef(0);
 
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport || count === 0) return;
 
     const handleWheel = (e: WheelEvent) => {
-      // Pick the strongest directional delta (vertical wheel or horizontal trackpad)
       const rawDelta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
       if (Math.abs(rawDelta) < 1.5) return;
 
-      // Prevent page vertical jitter while actively interacting with the wheel
       e.preventDefault();
 
-      const currentP = targetProgress.get();
-      const sensitivity = isMobile ? 0.004 : 0.0028;
-      const nextP = clamp(currentP + rawDelta * sensitivity, -0.4, count - 0.6);
-      targetProgress.set(nextP);
+      const now = performance.now();
+      const timeSinceLast = now - lastWheelTimeRef.current;
 
-      // Realtime intermediate active index update
-      const intermediateIdx = clamp(Math.round(nextP), 0, count - 1);
-      if (intermediateIdx !== activeIndex) {
-        setActiveIndex(intermediateIdx);
+      // Reset accumulator if user paused between scrolls
+      if (timeSinceLast > 220) {
+        wheelAccumulatorRef.current = 0;
       }
+      lastWheelTimeRef.current = now;
 
-      if (wheelTimeoutRef.current) {
-        clearTimeout(wheelTimeoutRef.current);
+      wheelAccumulatorRef.current += rawDelta;
+
+      // Light threshold: a single gentle wheel notch immediately triggers a smooth step
+      const stepThreshold = 25;
+
+      if (wheelAccumulatorRef.current >= stepThreshold) {
+        goToIndex(Math.min(count - 1, activeIndex + 1));
+        wheelAccumulatorRef.current = 0;
+      } else if (wheelAccumulatorRef.current <= -stepThreshold) {
+        goToIndex(Math.max(0, activeIndex - 1));
+        wheelAccumulatorRef.current = 0;
       }
-
-      // Smooth auto-snap after scrolling stops
-      wheelTimeoutRef.current = setTimeout(() => {
-        const finalP = targetProgress.get();
-        const nearest = clamp(Math.round(finalP), 0, count - 1);
-        goToIndex(nearest);
-      }, 150);
     };
 
     viewport.addEventListener("wheel", handleWheel, { passive: false });
     return () => {
       viewport.removeEventListener("wheel", handleWheel);
-      if (wheelTimeoutRef.current) clearTimeout(wheelTimeoutRef.current);
     };
-  }, [count, goToIndex, isMobile, targetProgress, activeIndex]);
+  }, [count, goToIndex, activeIndex]);
 
   // Touch / Mouse Drag handlers with proper click differentiation
   const isPointerDownRef = useRef(false);
@@ -208,7 +206,7 @@ export function OrbitalGallery({
     }
 
     if (hasDraggedRef.current) {
-      const dragSensitivity = isMobile ? 160 : 220;
+      const dragSensitivity = isMobile ? 120 : 160;
       const progressDelta = -deltaX / dragSensitivity;
       targetProgress.set(clamp(startProgressRef.current + progressDelta, -0.5, count - 0.5));
     }
