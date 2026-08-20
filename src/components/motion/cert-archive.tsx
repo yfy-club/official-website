@@ -105,14 +105,14 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
               省级 ({awards.filter((a) => a.level === "省级").length})
             </TabsTrigger>
             <TabsTrigger value="2025" className="active:scale-[0.96] transition-transform">
-              2025 年度 ({awards.filter((a) => a.year === "2025").length})
+              2025 ({awards.filter((a) => a.year === "2025").length})
             </TabsTrigger>
             <TabsTrigger value="2024" className="active:scale-[0.96] transition-transform">
-              2024 年度 ({awards.filter((a) => a.year === "2024").length})
+              2024 ({awards.filter((a) => a.year === "2024").length})
             </TabsTrigger>
           </TabsList>
           <div className="font-mono text-xs text-[var(--fg-muted)]">
-            显示 {filteredAwards.length} / {awards.length} 份脱敏档案
+            TOTAL // {filteredAwards.length} ARCHIVED
           </div>
         </div>
 
@@ -156,14 +156,14 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                       >
                         <Image
                           src={award.image}
-                          alt={`${award.year} 年${award.competition}${award.result}证书`}
+                          alt={`${award.year} 年 ${award.competition} ${award.result} 证书`}
                           fill
                           className="object-cover object-top transition-transform duration-300 group-hover/cert:scale-[1.03]"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/cert:opacity-100 transition-opacity flex items-end justify-between p-3 text-white">
-                          <span className="font-mono text-xs flex items-center gap-1">
-                            <Sparkles size={13} className="text-[var(--accent)]" /> 查看脱敏原件
+                          <span className="font-mono text-xs flex items-center gap-1.5">
+                            <Sparkles size={13} className="text-[var(--accent)]" /> 查看原件
                           </span>
                           <ExternalLink size={14} />
                         </div>
@@ -173,13 +173,13 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                         <div className="flex items-center gap-2 mb-1.5 font-mono text-xs">
                           <span className="text-[var(--accent)] font-bold">{award.result}</span>
                           <span className="text-[var(--fg-faint)]">·</span>
-                          <span className="text-[var(--fg-muted)]">{award.year} 年度</span>
+                          <span className="text-[var(--fg-muted)]">{award.year}</span>
                         </div>
 
                         <h3 className="text-base font-bold text-[var(--fg)] tracking-tight leading-snug mb-2 group-hover/cert:text-[var(--accent)] transition-colors">
                           {award.competition}
                         </h3>
-                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4 font-sans">
+                        <p className="text-xs font-mono text-[var(--fg-muted)] leading-relaxed mb-4">
                           {award.description}
                         </p>
 
@@ -194,8 +194,8 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                     </div>
 
                     <CardFooter className="p-3.5 px-5 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
-                      <span className="truncate">归档 ID: {award.id}</span>
-                      <span className="text-[11px] text-[var(--fg-faint)]">脱敏原件 ↗</span>
+                      <span className="truncate">ID // {award.id}</span>
+                      <span className="text-[11px] text-[var(--fg-faint)]">VIEW // 原件 ↗</span>
                     </CardFooter>
 
                     <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300">
@@ -235,14 +235,14 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                     </span>
                     <span className="text-[var(--fg-faint)]">·</span>
                     <span className="text-[var(--fg-muted)]">
-                      {currentAward.year} 年档案
+                      {currentAward.year}
                     </span>
                   </div>
                   <Dialog.Title className="text-lg sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
                     {currentAward.competition}
                   </Dialog.Title>
-                  <Dialog.Description className="text-xs sm:text-sm text-[var(--fg-muted)] mt-1 font-sans">
-                    {currentAward.description} · 公开脱敏版验证原件
+                  <Dialog.Description className="text-xs sm:text-sm text-[var(--fg-muted)] mt-1 font-mono">
+                    {currentAward.description}
                   </Dialog.Description>
                 </div>
                 <Dialog.Close asChild>
@@ -270,7 +270,7 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                 />
                 <Image
                   src={currentAward.image}
-                  alt={`${currentAward.year} 年${currentAward.competition}${currentAward.result}证书，公开脱敏版`}
+                  alt={`${currentAward.year} 年 ${currentAward.competition} ${currentAward.result} 荣誉证书`}
                   width={1800}
                   height={1300}
                   className="relative z-10 max-h-[64vh] max-w-full w-auto h-auto object-contain rounded-[var(--radius-xs)] shadow-2xl select-none"
@@ -307,23 +307,22 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                     onClick={() => handleCopyArchiveId(currentAward)}
                   >
                     {copied ? <Check size={13} className="text-[var(--accent)] mr-1" /> : <Copy size={13} className="mr-1" />}
-                    <span>复制档案编号</span>
+                    <span>复制编号</span>
                   </Button>
                   <span className="font-mono text-[11px] text-[var(--fg-faint)]">
-                    档案 ID: YFY-CERT-{currentAward.year}-{currentAward.id.toUpperCase()}
+                    ID // YFY-CERT-{currentAward.year}-{currentAward.id.toUpperCase()}
                   </span>
                 </div>
 
                 <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-[var(--fg-faint)]">
-                  <span>快捷键:</span>
                   <KbdGroup>
                     <Kbd>←</Kbd>
                     <Kbd>→</Kbd>
-                    <span>切图</span>
+                    <span>切换</span>
                   </KbdGroup>
                   <KbdGroup className="ml-2">
                     <Kbd>ESC</Kbd>
-                    <span>退出</span>
+                    <span>关闭</span>
                   </KbdGroup>
                 </div>
               </div>

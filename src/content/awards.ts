@@ -18,7 +18,7 @@ export const awardsRaw = [
     result: "全国一等奖",
     year: "2024",
     image: "/images/certs/cert-ican-national-1st.webp",
-    description: "2024 年全国总决赛一等奖。",
+    description: "赛项 // AI 视觉检测设计挑战赛 · 全国总决赛",
     trackSlugs: ["ai", "industrial"],
   },
   {
@@ -28,7 +28,7 @@ export const awardsRaw = [
     result: "全国总决赛模型组二等奖",
     year: "2024",
     image: "/images/certs/cert-smartcar-national-2nd.webp",
-    description: "第十九届全国大学生智能汽车竞赛全国总决赛模型组二等奖。",
+    description: "组别 // 百度完全模型组 · 具身智能循迹",
     trackSlugs: ["cloud-iot", "industrial"],
   },
   {
@@ -38,7 +38,7 @@ export const awardsRaw = [
     result: "银奖",
     year: "2024",
     image: "/images/certs/cert-challengecup-provincial-silver.webp",
-    description: "2024 年挑战杯河南省大学生创业计划竞赛银奖。",
+    description: "项目 // 智慧多功能灯杆与边缘物联网系统",
     trackSlugs: ["cloud-iot", "industrial"],
   },
   {
@@ -48,7 +48,7 @@ export const awardsRaw = [
     result: "河南赛区省级一等奖",
     year: "2024",
     image: "/images/certs/cert-cumcm-provincial-1st.webp",
-    description: "2024 全国大学生数学建模竞赛河南赛区一等奖。",
+    description: "组别 // 本科组数学建模与离散优化",
     trackSlugs: ["ai", "database"],
   },
   {
@@ -58,7 +58,7 @@ export const awardsRaw = [
     result: "河南赛区本科生组一等奖",
     year: "2025",
     image: "/images/certs/cert-stat-provincial-1st.webp",
-    description: "第十一届全国大学生统计建模大赛河南赛区本科生组一等奖。",
+    description: "组别 // 本科生组统计建模与算法推演",
     trackSlugs: ["ai", "database"],
   },
   {
@@ -68,7 +68,7 @@ export const awardsRaw = [
     result: "二等奖",
     year: "2025",
     image: "/images/certs/cert-ican-provincial-2nd.webp",
-    description: "智耀云控项目获 2025 年 iCAN 大学生创新创业大赛河南赛区二等奖。",
+    description: "项目 // 智耀云控智能照明管控平台",
     trackSlugs: ["cloud-iot", "industrial"],
   },
   {
@@ -78,7 +78,7 @@ export const awardsRaw = [
     result: "二等奖",
     year: "2025",
     image: "/images/certs/cert-challengecup-provincial-2nd.webp",
-    description: "云上多功能路灯项目获第十七届挑战杯河南省大学生课外学术科技作品竞赛二等奖。",
+    description: "项目 // 云上多功能智能路灯系统",
     trackSlugs: ["cloud-iot", "industrial"],
   },
   {
@@ -88,7 +88,7 @@ export const awardsRaw = [
     result: "河南赛区一等奖",
     year: "2024",
     image: "/images/certs/cert-lanqiao-c-provincial-1st.webp",
-    description: "第十五届蓝桥杯 C/C++ 程序设计大学 B 组河南赛区一等奖。",
+    description: "组别 // C/C++ 程序设计大学 B 组",
     trackSlugs: ["software"],
   },
   {
@@ -98,7 +98,7 @@ export const awardsRaw = [
     result: "河南赛区一等奖",
     year: "2024",
     image: "/images/certs/cert-lanqiao-java-provincial-1st-01.webp",
-    description: "第十五届蓝桥杯 Java 软件开发大学 B 组河南赛区一等奖。",
+    description: "组别 // Java 软件开发大学 B 组",
     trackSlugs: ["software"],
   },
   {
@@ -108,7 +108,7 @@ export const awardsRaw = [
     result: "河南赛区一等奖",
     year: "2024",
     image: "/images/certs/cert-lanqiao-java-provincial-1st-02.webp",
-    description: "第十五届蓝桥杯 Java 软件开发大学 B 组河南赛区一等奖。",
+    description: "组别 // Java 软件开发大学 B 组",
     trackSlugs: ["software"],
   },
 ] satisfies Award[];

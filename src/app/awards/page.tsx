@@ -71,13 +71,10 @@ export default function AwardsPage() {
             <h2 id="overview-title" className="section__title">
               赛事成果总览。
             </h2>
-            <span className="font-mono text-sm sm:text-base text-[var(--accent)] font-bold">
-              {"// 2024–2025 近两年成果统计（非历届全量）"}
+            <span className="font-mono text-xs sm:text-sm text-[var(--accent)] font-bold">
+              {"// 2024–2025 重点赛事实录"}
             </span>
           </div>
-          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            展示社团近两年在算法编程、AI 视觉、嵌入式智能车、数学与统计建模、创新创业等赛道的核心获奖认证。
-          </p>
         </div>
         <AwardsOverviewMatrix />
       </section>
@@ -93,9 +90,6 @@ export default function AwardsPage() {
           <h2 id="archive-title" className="section__title">
             证书档案库。
           </h2>
-          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            公开展示证书均已做脱敏处理；支持按级别与年份即时筛选，点击可查看原件大图。
-          </p>
         </div>
         <CertArchive awards={certAwards} />
       </section>
