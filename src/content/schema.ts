@@ -86,8 +86,27 @@ export const workSchema = z.object({
       problem: z.array(z.string()).min(2),
       stack: z.record(z.string(), z.array(z.string())),
       decisions: z.array(z.object({ what: z.string(), why: z.string() })).min(3),
-      evidence: z.array(z.object({ label: z.string(), value: z.string() })).min(2),
-      limits: z.array(z.string()).min(2),
+      metrics: z
+        .array(
+          z.object({
+            label: z.string().min(2),
+            value: z.string().min(1),
+            description: z.string().optional(),
+          }),
+        )
+        .min(2)
+        .optional(),
+      tradeoffs: z
+        .array(
+          z.object({
+            title: z.string().min(2),
+            detail: z.string().min(6),
+          }),
+        )
+        .min(2)
+        .optional(),
+      evidence: z.array(z.object({ label: z.string(), value: z.string() })).optional(),
+      limits: z.array(z.string()).optional(),
       demoAccounts: z
         .array(z.object({
           role: z.string().min(2),

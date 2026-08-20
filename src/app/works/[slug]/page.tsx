@@ -9,13 +9,13 @@ import { WorkBackButton, WorkReturnLink } from "@/components/layout/work-back-bu
 import { CompareSlider } from "@/components/motion/compare-slider";
 import { DecisionsAccordion } from "@/components/sections/decisions-accordion";
 import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
+import { WorkEngineeringSpecs } from "@/components/sections/work-engineering-specs";
 import { WorkSystemTour } from "@/components/sections/work-system-tour";
+import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
 import { StructuredData } from "@/components/seo/structured-data";
-import { Badge } from "@/components/ui/badge";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Card, CardFrame, CardFrameAction, CardFrameHeader, CardFrameTitle, CardPanel } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
+import { Card } from "@/components/ui/card";
 import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { TechTag } from "@/components/ui/tech-tag";
 import { tracks, works } from "@/content";
@@ -49,14 +49,15 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         label={work.nameZh}
         sections={[
           { id: "work-start", index: "01", label: "项目概览" },
-          { id: "work-interface", index: "02", label: "系统界面" },
-          { id: "work-problem", index: "03", label: "业务背景" },
-          { id: "work-build", index: "04", label: "架构实现" },
-          { id: "work-evidence", index: "05", label: "质量凭证" },
-          { id: "work-limits", index: "06", label: "系统边界" },
-          { id: "work-related", index: "07", label: "关联方向" },
-          { id: "work-switch", index: "08", label: "项目切换" },
-          { id: "work-join", index: "09", label: "招新报名" },
+          { id: "work-interface", index: "02", label: "系统实录" },
+          { id: "work-problem", index: "03", label: "核心挑战" },
+          { id: "work-build", index: "04", label: "架构全景" },
+          { id: "work-decisions", index: "05", label: "关键决策" },
+          { id: "work-specs", index: "06", label: "工程规格" },
+          { id: "work-tradeoffs", index: "07", label: "设计权衡" },
+          { id: "work-related", index: "08", label: "关联方向" },
+          { id: "work-switch", index: "09", label: "项目切换" },
+          { id: "work-join", index: "10", label: "招新报名" },
         ]}
       />
       
@@ -81,7 +82,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <header id="work-start" className="work-detail__hero">
         <div>
-          <p className="caps">01 / Project Case · {work.status}</p>
+          <p className="caps">01 / Project Dossier · {work.status}</p>
           <h1>{work.nameZh}</h1>
           {work.nameEn && <p className="display-latin">{work.nameEn}</p>}
           <p>{work.tagline}</p>
@@ -140,8 +141,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {(detail.demoAccounts?.length || detail.shots || detail.gallery?.length) && (
         <section id="work-interface" className="section" aria-labelledby="shots-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">02 / Interface</p>
-            <h2 id="shots-title" className="section__title">系统界面与演示。</h2>
+            <p className="caps section__index">02 / Systems & Interfaces</p>
+            <h2 id="shots-title" className="section__title">系统实录与全景巡礼。</h2>
           </div>
           {detail.demoAccounts && (
             <DemoAccountsTable workNameZh={work.nameZh} accounts={detail.demoAccounts} />
@@ -170,74 +171,116 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           )}
         </section>
       )}
+
       <section id="work-problem" className="section" aria-labelledby="problem-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">03 / Problem</p><h2 id="problem-title" className="section__title">业务背景与问题分析。</h2></div>
-        <div className="prose">{detail.problem.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+        <div className="section__head">
+          <p className="caps section__index">03 / Engineering Challenges</p>
+          <h2 id="problem-title" className="section__title">核心工程挑战与解法。</h2>
+        </div>
+        <div className="prose">
+          {detail.problem.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
       </section>
+
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">04 / Architecture</p><h2 id="build-title" className="section__title">技术架构与系统实现。</h2></div>
+        <div className="section__head">
+          <p className="caps section__index">04 / Architecture Stack</p>
+          <h2 id="build-title" className="section__title">技术架构与选型全景。</h2>
+        </div>
         <div className="stack-groups" data-reveal="group">
           {Object.entries(detail.stack).map(([label, items]) => (
             <div key={label}>
               <h3 className="caps">{label}</h3>
-              <div className="stack-row">{items.map((item) => <TechTag key={item} name={item} />)}</div>
+              <div className="stack-row">
+                {items.map((item) => (
+                  <TechTag key={item} name={item} />
+                ))}
+              </div>
             </div>
           ))}
         </div>
-        <DecisionsAccordion decisions={detail.decisions} />
       </section>
-      <section id="work-evidence" className="section" aria-labelledby="evidence-title" data-reveal="section">
-        <div className="section__head">
-          <p className="caps section__index">05 / Quality</p>
-          <h2 id="evidence-title" className="section__title">质量保障与验证凭证。</h2>
-        </div>
-        <CardFrame>
-          <CardFrameHeader>
-            <CardFrameTitle>05 // 质量验收凭证</CardFrameTitle>
-            <CardFrameAction>
-              <Badge variant="success">VERIFIED</Badge>
-            </CardFrameAction>
-          </CardFrameHeader>
-          <CardPanel className="p-0">
-            <DataTable caption={`${work.nameZh}质量证据`} columns={[{ key: "label", label: "检查项" }, { key: "value", label: "归档结果" }]} rows={detail.evidence} />
-          </CardPanel>
-        </CardFrame>
-      </section>
-      <section id="work-limits" className="section work-limits" aria-labelledby="limits-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">06 / Boundaries</p><h2 id="limits-title" className="section__title">系统边界与已知说明。</h2></div>
-        <ul data-reveal="group">{detail.limits.map((limit) => <li key={limit}>{limit}</li>)}</ul>
-      </section>
+
+      {detail.decisions && detail.decisions.length > 0 && (
+        <section id="work-decisions" className="section" aria-labelledby="decisions-title" data-reveal="section">
+          <div className="section__head">
+            <p className="caps section__index">05 / Key Decisions</p>
+            <h2 id="decisions-title" className="section__title">关键架构决策与技术亮点。</h2>
+          </div>
+          <DecisionsAccordion decisions={detail.decisions} />
+        </section>
+      )}
+
+      {detail.metrics && detail.metrics.length > 0 && (
+        <section id="work-specs" className="section" aria-labelledby="specs-title" data-reveal="section">
+          <div className="section__head">
+            <p className="caps section__index">06 / Specs & Capabilities</p>
+            <h2 id="specs-title" className="section__title">关键工程规格与指标。</h2>
+          </div>
+          <WorkEngineeringSpecs metrics={detail.metrics} />
+        </section>
+      )}
+
+      {detail.tradeoffs && detail.tradeoffs.length > 0 && (
+        <section id="work-tradeoffs" className="section" aria-labelledby="tradeoffs-title" data-reveal="section">
+          <div className="section__head">
+            <p className="caps section__index">07 / Trade-offs & Insights</p>
+            <h2 id="tradeoffs-title" className="section__title">工程权衡与演进思考。</h2>
+          </div>
+          <WorkTradeoffsDeck tradeoffs={detail.tradeoffs} />
+        </section>
+      )}
+
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
-        <div className="section__head"><p className="caps section__index">07 / Tracks</p><h2 id="related-track-title" className="section__title">关联技术方向。</h2></div>
+        <div className="section__head">
+          <p className="caps section__index">08 / Related Tracks</p>
+          <h2 id="related-track-title" className="section__title">关联技术方向。</h2>
+        </div>
         <div className="related-grid" data-reveal="group">
           {relatedTracks.map((track) => (
             <Card key={track.slug}>
               <p className="caps tabular">{track.index}</p>
               <h3>{track.nameZh}</h3>
               <p>{track.tagline}</p>
-              <Link className="text-link" href={`/tracks/${track.slug}`}>查看方向详情 →</Link>
+              <Link className="text-link" href={`/tracks/${track.slug}`}>
+                查看方向详情 →
+              </Link>
             </Card>
           ))}
         </div>
       </section>
+
       <nav id="work-switch" className="pager pager--with-overview" aria-label="项目切换" data-reveal="group">
         <Link href={`/works/${previous.slug}`}>
           <ArrowLeft aria-hidden="true" size={18} />
-          <span><small>上一个项目</small>{previous.nameZh}</span>
+          <span>
+            <small>上一个项目</small>
+            {previous.nameZh}
+          </span>
         </Link>
         <WorkReturnLink href="/works" slug={work.slug} className="pager__overview">
           <LayoutGrid aria-hidden="true" size={16} />
-          <span><small>总览索引</small>全部项目列表</span>
+          <span>
+            <small>总览索引</small>全部项目列表
+          </span>
         </WorkReturnLink>
         <Link href={`/works/${next.slug}`}>
-          <span><small>下一个项目</small>{next.nameZh}</span>
+          <span>
+            <small>下一个项目</small>
+            {next.nameZh}
+          </span>
           <ArrowRight aria-hidden="true" size={18} />
         </Link>
       </nav>
+
       <section id="work-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <p>想参与开发更多实际工程项目？</p>
         <Button asChild>
-          <Link href="/join">立即报名 <ArrowRight aria-hidden="true" size={17} /></Link>
+          <Link href="/join">
+            立即报名 <ArrowRight aria-hidden="true" size={17} />
+          </Link>
         </Button>
       </section>
     </main>

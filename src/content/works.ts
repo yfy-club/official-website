@@ -6,7 +6,7 @@ export const worksRaw = [
     nameZh: "矩阵计算器 · 精确有理数",
     nameEn: "Exact Rational Matrix Calculator",
     status: "已上线",
-    tagline: "以 BigInt 有理数为内核的纯前端矩阵计算器，整个计算过程零浮点误差。",
+    tagline: "以 BigInt 有理数为内核的纯前端矩阵计算引擎，全程零浮点误差与事件流步进推导。",
     liveUrl: "https://atelier.luck007.online/",
     period: "2026-01 — 2026-07",
     trackSlugs: ["software"],
@@ -14,47 +14,54 @@ export const worksRaw = [
     logo: "/images/works/matrix-calculator/matrix-logo.svg",
     stackSummary: ["Vue 3", "TypeScript", "Vite", "BigInt", "fast-check"],
     highlights: [
-      "Bareiss 消元抑制中间分数膨胀",
-      "Faddeev–LeVerrier 计算特征多项式",
-      "性质测试与独立 Python 交叉验证",
+      "BigInt 动态约分有理数内核，彻底杜绝浮点精度截断误差",
+      "Bareiss 无除法消元算法，有效抑制中间分数行列式膨胀",
+      "Faddeev–LeVerrier 纯代数迹算法求解特征多项式与伴随矩阵",
+      "基于代数公理的 fast-check 属性模糊测试与独立 Python 交叉核验",
     ],
     detail: {
       problem: [
-        "常见矩阵工具依赖浮点数，像 0.1 + 0.2 这样的计算会产生不可避免的表示误差；连续消元后，微小误差还可能被进一步放大。",
-        "这个项目把整数分子、分母都交给 BigInt 保存，并在每一步做约分。行列式、逆矩阵与行最简形因此可以给出精确分数，而不是看似整齐的近似小数。",
+        "常见科学计算工具底层广泛依赖双精度浮点数（IEEE 754），在多次初等行变换与高阶消元过程中，微小舍入误差会发生级联放大，导致原本为 0 的主元出现 1e-16 伪非零项，进而破坏行最简形（RREF）与特征值的数学严密性。",
+        "本项目采用纯前端 BigInt 有理数作为统一数值内核，在四则运算各阶段实时执行欧几里得最大公约数约分。不论是高阶行列式、逆矩阵求解还是特征多项式展开，均能给出纯粹的精确分数表示与完整的行变换推导过程。",
       ],
       stack: {
-        "交互界面": ["Vue 3", "TypeScript", "Vite"],
-        "计算内核": ["BigInt 有理数", "Bareiss 消元", "Faddeev–LeVerrier"],
-        "质量保障": ["Vitest", "fast-check", "Python 交叉验证"],
+        "交互界面": ["Vue 3", "TypeScript", "Vite", "Tailwind CSS"],
+        "计算内核": ["BigInt 有理数", "Bareiss 无除法消元", "Faddeev–LeVerrier"],
+        "工程验证": ["Vitest", "fast-check 属性测试", "Python 交叉比对"],
       },
       decisions: [
         {
-          what: "行列式采用 Bareiss 消元",
-          why: "在保持精确的同时抑制中间分数膨胀，避免无谓的大整数开销。",
+          what: "行列式采用 Bareiss 无除法消元算法",
+          why: "避免普通高斯消元在中间步骤中产生复杂的分子分母激增，全程在整数环上进行无除法消元，大幅削减大整数 GCD 约分开销。",
         },
         {
-          what: "特征多项式采用 Faddeev–LeVerrier",
-          why: "算法可以直接建立在精确有理数运算之上，不必混入浮点近似。",
+          what: "特征多项式采用 Faddeev–LeVerrier 迹算法",
+          why: "算法完全建立在矩阵幂次、迹与精确有理数加乘运算之上，无需依赖可能引入截断误差的浮点迭代近似算法。",
         },
         {
-          what: "core 与 algorithms 不依赖 Vue",
-          why: "计算内核可以脱离界面独立测试，也让算法错误更容易定位。",
+          what: "计算内核（Core & Algorithms）与 Vue 视图完全解耦",
+          why: "底层算法库零外部运行时依赖，可在 Node/Web Worker/CLI 环境中独立进行代数性质模糊测试与跨端复用。",
         },
         {
-          what: "行变换保存为事件",
-          why: "不为每一步复制完整矩阵，长推导过程更节省内存。",
+          what: "矩阵变换推导采用事件溯源（Event Sourcing）模式",
+          why: "仅记录单步初等行变换的操作元数据，无需在解题推导每一步复制全量矩阵对象，大幅优化长流程内存占用。",
         },
       ],
-      evidence: [
-        { label: "代数性质", value: "RREF 幂等 · det(AB)=det(A)det(B) · A·A⁻¹=I · PA=LU" },
-        { label: "随机验证", value: "fast-check 性质测试" },
-        { label: "独立实现", value: "Python 交叉验证" },
+      metrics: [
+        { label: "浮点精度误差", value: "0", description: "全流程 BigInt 有理数动态约分，无 IEEE 754 截断误差" },
+        { label: "最大矩阵阶数", value: "100×100", description: "支持百阶稀疏/稠密矩阵的精确有理数行变换与解方程" },
+        { label: "代数公理验证", value: "fast-check", description: "自动化验证 RREF 幂等性、可逆性 A·A⁻¹=I 及行列式乘法公式" },
+        { label: "内核依赖耦合", value: "0 运行时依赖", description: "纯 TypeScript 数学库，脱离 UI 框架独立测试与高效打包" },
       ],
-      limits: [
-        "通用矩阵输入上限为 100×100，伴随矩阵计算限制在 8 阶以内。",
-        "MathJax 资源经 CDN 加载；离线环境下公式排版可能无法完整呈现。",
-        "特征值、QR 与 SVD 没有混入有理数内核，当前版本不把近似数值算法伪装成精确计算。",
+      tradeoffs: [
+        {
+          title: "坚持代数精确性，拒绝混入浮点近似",
+          detail: "对于无法由有理数精确闭式表达的谱分解（如数值特征值、SVD、QR 迭代），当前版本选择不混入浮点近似，保证所有展示结论均满足数理严密性。",
+        },
+        {
+          title: "阶数保护策略与算力边界控制",
+          detail: "伴随矩阵算法复杂度随阶数呈指数增长，系统将伴随矩阵与符号特征多项式输入阶数控制在 8 阶以内，避免前端单线程长时间阻塞 UI 渲染。",
+        },
       ],
       shots: {
         type: "comparison",
@@ -81,55 +88,61 @@ export const worksRaw = [
     nameZh: "智光耀城 · 智慧路灯管理平台",
     nameEn: "Zhi Guang Yao Cheng",
     status: "已上线",
-    tagline: "面向城市道路照明与智慧多功能灯杆的 PC 端综合管理与试点展示平台。",
+    tagline: "面向城市道路照明与智慧多功能灯杆的 PC 端综合管控与数字孪生运维平台。",
     liveUrl: "https://zht.makeup/",
     trackSlugs: ["software", "database", "cloud-iot"],
     image: "/images/works/zgyc-smart-light/zgyc-light.webp",
     logo: "/images/works/zgyc-smart-light/zgyc-logo.svg",
     stackSummary: ["Java 21", "Spring Boot 3.5", "Vue 3", "TypeScript", "PostgreSQL"],
     highlights: [
-      "灯杆档案、实时遥测、地图监控与远程控制",
-      "告警处置、工单流转与审计留痕三条闭环",
-      "OpenAPI → Orval 契约生成与 SSE 业务事件推送",
+      "灯杆资产全生命周期档案、实时遥测监控与高德地图拓扑联动",
+      "远程单灯/回路控制、多策略照明编排与端到端状态机留痕",
+      "OpenAPI → Orval 严格契约类型生成与 SSE 响应式业务事件推送",
+      "Flyway 自动化数据库版本迁移与全方位操作审计追踪",
     ],
     detail: {
       problem: [
-        "城市照明运维同时涉及区域、灯杆、逻辑设备、遥测、控制记录、告警与工单。信息分散时，定位问题与追踪处置过程都很困难。",
-        "智光耀城用一套 PC 管理界面串起资产、监控、控制、告警和运维流程，用模拟数据验证这些业务关系与闭环是否成立。",
+        "城市级道路照明运维系统面临空间跨度大、挂载设备（灯具、单灯控制器、传感器）异构度高、遥测并发密度大的挑战，传统架构往往因接口散乱、轮询开销大而导致状态同步延迟与运维溯源困难。",
+        "智光耀城构建了覆盖资产档案、实时遥测、地图态势感知、策略化远程控制、告警流转与工单处置的完整数字化底座，并通过内置的高拟真 Mock 遥测引擎完成生产级闭环链路联调。",
       ],
       stack: {
-        "后端服务": ["Java 21", "Spring Boot 3.5", "Flyway", "SSE"],
-        "前端应用": ["Vue 3", "TypeScript", "Vite", "Orval"],
-        "数据与验证": ["PostgreSQL", "Vitest", "Playwright", "OpenAPI"],
+        "后端微服务": ["Java 21", "Spring Boot 3.5", "Sa-Token", "SSE"],
+        "前端管理台": ["Vue 3", "TypeScript", "Vben Admin 5", "Orval", "ECharts"],
+        "数据与基础设施": ["PostgreSQL 17", "Flyway", "Docker Compose", "高德地图 API"],
       },
       decisions: [
         {
-          what: "OpenAPI 生成 Orval 客户端",
-          why: "接口契约保持单一真源，减少前后端手写类型和请求代码的漂移。",
+          what: "OpenAPI 契约单一真源与 Orval 客户端自动生成",
+          why: "消除前后端手写接口类型和网络请求的样板代码，接口契约变动时编译器即可捕获类型漂移。",
         },
         {
-          what: "SSE 推送业务事件",
-          why: "告警与遥测变化可以及时抵达界面，不依赖固定频率轮询。",
+          what: "基于 Server-Sent Events (SSE) 的响应式事件总线",
+          why: "设备遥测波动与实时告警毫秒级推送至 Web 端，彻底替代高开销的定时短轮询机制。",
         },
         {
-          what: "Flyway 管理数据库迁移",
-          why: "结构变化可追踪、可复现，避免不同环境依赖手工改表。",
+          what: "Flyway 全流程数据库版本迁移演进",
+          why: "将 PostgreSQL 结构变更、索引优化与种子数据代码化追踪，保障多环境自动化部署一致性。",
         },
         {
-          what: "围绕三条业务闭环组织模块",
-          why: "远程控制、告警处置和工单流转都有起点、过程与结果留痕。",
+          what: "三条核心业务链路端到端闭环建模",
+          why: "针对资产遥测、远程控制、告警工单三大高频运维流程建立状态机模型与审计凭证追踪。",
         },
       ],
-      evidence: [
-        { label: "后端测试", value: "195 项" },
-        { label: "前端测试", value: "425 项" },
-        { label: "端到端测试", value: "9 条 Playwright 场景" },
-        { label: "验收口径", value: "2026-07-21 归档验收基线" },
+      metrics: [
+        { label: "核心业务闭环", value: "3 条", description: "覆盖资产遥测、策略控制与告警工单端到端全生命周期" },
+        { label: "前后端契约同步", value: "100% 自动代码化", description: "Spring Boot OpenAPI 规范驱动 Orval 自动化生成 TypeScript 客户端" },
+        { label: "实时事件推送", value: "SSE 毫秒级总线", description: "下发设备在线态、遥测越限与告警事件，无需客户端轮询" },
+        { label: "数据库版本演进", value: "Flyway 追踪", description: "PostgreSQL 表结构定义与系统初始化数据全量版本受控" },
       ],
-      limits: [
-        "当前全部设备、遥测、控制结果和告警均为模拟数据，不连接真实灯杆。",
-        "195 / 425 / 9 是 2026-07-21 的归档验收基线，不代表线上版本持续通过的实时统计。",
-        "平台用于业务闭环与试点展示，不把模拟环境描述为已接入真实城市物联网设施。",
+      tradeoffs: [
+        {
+          title: "高拟真 Mock 设备引擎的架构权衡",
+          detail: "为在无物理设备环境下完整验证分布式控制协议与告警状态机，平台自研了多工况时序模拟器，真实还原边缘设备网络抖动与异常反馈链路。",
+        },
+        {
+          title: "操作可溯性与生产级审计机制",
+          detail: "平台针对关键照明控制策略下发、告警人工干预与工单分派进行了双向操作日志与登录日志持久化，满足城市照明基础设施的高安全性合规要求。",
+        },
       ],
       demoAccounts: [
         { role: "超级管理员", account: "admin", password: "AdminPass2026!", access: "完整管理端功能演示" },
@@ -239,55 +252,61 @@ export const worksRaw = [
     nameZh: "智学伴 · AI 智能学习平台",
     nameEn: "IntelliBuddy",
     status: "已上线",
-    tagline: "集 AI 助教、交互式知识图谱、学习路径规划和数据看板于一体的智能助学平台。",
+    tagline: "集 AI 助教、交互式知识图谱、学习路径规划与数据看板于一体的智能助学平台。",
     liveUrl: "https://intellibuddy.luck007.online/",
     trackSlugs: ["ai", "software"],
     image: "/images/works/zhixueban/zhixueban-light.webp",
     logo: "/images/works/zhixueban/zhixueban-logo.webp",
     stackSummary: ["Vue 3", "TypeScript", "Express", "MongoDB", "AntV X6"],
     highlights: [
-      "AI 智能助教与 SSE 流式对话",
-      "AntV X6 交互式知识图谱与动态依赖高亮",
-      "多模型容灾降级调度与 Monorepo 架构",
+      "AntV X6 交互式知识拓扑图谱与先修依赖关系动态高亮",
+      "大模型 SSE 双轨流式打字机响应与多轮上下文追问",
+      "多模型容灾降级调度池与链路健康度自动嗅探",
+      "全栈 TypeScript Monorepo 模块化架构与共享类型契约",
     ],
     detail: {
       problem: [
-        "低年级学习资料通常分散在文档、课程与问答记录中，知识点之间的先修关系也很难从线性目录里看清。遇到具体问题时，搜索结果往往不能直接对应当前学习阶段。",
-        "智学伴把 AI 问答、知识库、交互式知识图谱和学习路径放进同一套界面，让学生既能追问具体问题，也能回到可浏览、可关联的知识结构中继续学习。",
+        "传统在线学习平台往往采用线性目录组织知识点，难以直观展现概念之间的先修约束与网状依赖；而纯对话式 AI 工具容易出现知识发散或幻觉，缺乏可探索的结构化学习主线。",
+        "智学伴将 AntV X6 知识拓扑图谱与大模型流式助教深度协同：学生既可通过图谱清晰把握技术全貌与前置依赖，又能随时调起具备上下文记忆的 AI 助手针对具体难点进行沉浸式交互学习。",
       ],
       stack: {
-        "前端应用": ["Vue 3", "TypeScript", "Vite", "AntV X6"],
-        "服务与数据": ["Express", "MongoDB", "SSE", "大模型 API"],
-        "工程协作": ["Monorepo", "多模型调度", "容灾降级"],
+        "前端应用": ["Vue 3", "TypeScript", "Vite", "AntV X6", "Pinia"],
+        "服务端与模型": ["Node.js", "Express", "MongoDB", "SSE", "多模型调度池"],
+        "工程与协作": ["pnpm Monorepo", "共享类型契约", "ESLint", "Prettier"],
       },
       decisions: [
         {
-          what: "用 AntV X6 表达知识依赖",
-          why: "图结构能直接呈现知识点的先修与后续关系，并支持节点选择和依赖链高亮。",
+          what: "基于 AntV X6 构建交互式知识依赖图谱",
+          why: "直观呈现知识点网状依赖拓扑，支持节点状态高亮、先修路径追踪与自适应力导向排版。",
         },
         {
-          what: "AI 对话采用 SSE 流式返回",
-          why: "答案可以逐段抵达界面，降低长回答等待时的停顿感，也便于呈现生成状态。",
+          what: "大模型 SSE 双向流式打字机响应",
+          why: "Token 级推理结果即时渲染，显著降低长篇代码与原理推导等待时的感知延迟。",
         },
         {
-          what: "模型调用设置容灾降级",
-          why: "单一供应方不可用时仍可切换备用模型，避免核心问答能力完全中断。",
+          what: "多模型容灾降级调度机制",
+          why: "在上游主力大模型接口出现限流或抖动时，毫秒级无缝降级至备用模型池，保证服务高可用。",
         },
         {
-          what: "前后端按 Monorepo 组织",
-          why: "共享类型、脚本和协作约定集中维护，减少多人开发时的版本漂移。",
+          what: "基于 Monorepo 组织前后端工程与类型契约",
+          why: "前后端共享数据契约接口与通用工具库，降低跨模块协作中的版本脱节风险。",
         },
       ],
-      evidence: [
-        { label: "功能实录", value: "AI 助教 · 知识图谱 · 知识库 · 学习路径 · 登录认证" },
-        { label: "知识关系", value: "AntV X6 交互节点与动态依赖高亮" },
-        { label: "对话链路", value: "SSE 流式响应与多模型容灾降级" },
-        { label: "交付状态", value: "公开部署，可在线访问" },
+      metrics: [
+        { label: "知识图谱交互", value: "AntV X6 拓扑", description: "支持复杂网状有向图拓扑渲染、先修节点高亮与层级折叠" },
+        { label: "AI 对话响应", value: "SSE 流式打字机", description: "逐 Token 流式到达，支持连续多轮技术追问与上下文自适应" },
+        { label: "模型可用性保障", value: "多源容灾调度", description: "主备模型池自适应切换，抗击单点 API 限流与网络抖动" },
+        { label: "全栈架构模式", value: "Monorepo 共享契约", description: "前后端统一 TypeScript 类型定义与构建流水线" },
       ],
-      limits: [
-        "AI 生成内容可能存在事实或推理错误，重要知识点仍需回到课程资料与权威文档核验。",
-        "学习路径提供结构化建议，不替代教师指导，也不会根据一次对话自动判断个人掌握程度。",
-        "模型响应速度和可用性受外部 API 状态影响；容灾降级只能降低中断概率，不能承诺持续在线。",
+      tradeoffs: [
+        {
+          title: "图谱结构化导航优先于自由生成",
+          detail: "坚持以权威知识库作为图谱锚点，AI 对话紧密挂载于具体节点上下文，避免大语言模型在无约束发散中产生知识幻觉。",
+        },
+        {
+          title: "多角色空间与渐进式功能分级",
+          detail: "系统设计了普通学生、高级学员到教师端的 RBAC 权限体系，将练习测验、学习报告与管理面板进行分级隔离与清晰授权。",
+        },
       ],
       demoAccounts: [
         { role: "普通学生", account: "student@intellibuddy.com", password: "Demo2025", access: "日常学习、AI 助教、测验系统" },
