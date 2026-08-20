@@ -82,240 +82,253 @@ export function MechanismAccordion({ items }: { items: readonly Mechanism[] }) {
   }, [handleNext, handlePrev, handleSelect, total, viewMode]);
 
   return (
-    <div className="mechanism-deck space-y-6">
-      {/* 顶部 Cult UI 风格 Expandable Floating Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-1)]/80 backdrop-blur-md">
-        {/* 7 个机制流体微胶囊导航轨 */}
-        <div
-          role="tablist"
-          aria-label="运转机制快速切换"
-          className="flex flex-wrap items-center gap-1"
-        >
-          {items.map((item, idx) => {
-            const IconComponent = ICONS[idx % ICONS.length] ?? Users;
-            const isActive = viewMode === "console" && activeIndex === idx;
-            const indexStr = item.index || String(idx + 1).padStart(2, "0");
+    <div className="mechanism-deck">
+      {viewMode === "console" ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* 左侧：7 个机制纵向导航轨 + 视图模式切换 */}
+          <div className="lg:col-span-4 flex flex-col justify-between p-2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-1)]/80 backdrop-blur-md">
+            <div
+              role="tablist"
+              aria-label="运转机制快速切换"
+              className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible gap-1 pb-1 lg:pb-0"
+            >
+              {items.map((item, idx) => {
+                const IconComponent = ICONS[idx % ICONS.length] ?? Users;
+                const isActive = activeIndex === idx;
+                const indexStr = item.index || String(idx + 1).padStart(2, "0");
 
-            return (
+                return (
+                  <button
+                    key={item.title}
+                    role="tab"
+                    type="button"
+                    aria-selected={isActive}
+                    onClick={() => handleSelect(idx)}
+                    className={cn(
+                      "relative z-10 flex items-center justify-between gap-2 px-3 py-2.5 rounded-[var(--radius-xs)] font-mono text-xs transition-colors cursor-pointer select-none shrink-0 lg:shrink text-left w-full active:scale-[0.98]",
+                      isActive
+                        ? "text-[var(--fg)] font-bold shadow-xs"
+                        : "text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]/50"
+                    )}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <IconComponent className="w-3.5 h-3.5 shrink-0 text-[var(--accent)]" aria-hidden="true" />
+                      <span className="text-[11px] text-[var(--accent)] font-semibold shrink-0">{indexStr}</span>
+                      <span className="truncate">{item.title}</span>
+                    </div>
+
+                    {item.tag && (
+                      <span className="hidden xl:inline-block text-[10px] text-[var(--fg-faint)] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-2)] border border-[var(--border)]">
+                        {item.tag}
+                      </span>
+                    )}
+
+                    {isActive && (
+                      <motion.div
+                        layoutId="mech-active-capsule"
+                        className="absolute inset-0 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border-strong)] -z-10 shadow-xs"
+                        transition={
+                          shouldReduceMotion
+                            ? { duration: 0 }
+                            : { type: "spring", stiffness: 450, damping: 32 }
+                        }
+                      />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 视图模式切换 */}
+            <div className="pt-2 border-t border-[var(--border)] mt-2">
               <button
-                key={item.title}
-                role="tab"
                 type="button"
-                aria-selected={isActive}
-                onClick={() => {
-                  setViewMode("console");
-                  handleSelect(idx);
-                }}
-                className={cn(
-                  "relative z-10 flex items-center gap-1.5 px-3 py-2 rounded-[var(--radius-xs)] font-mono text-xs transition-colors cursor-pointer select-none",
-                  isActive
-                    ? "text-[var(--fg)] font-bold shadow-xs"
-                    : "text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]/50"
-                )}
+                onClick={() => setViewMode("grid")}
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] transition-all cursor-pointer select-none active:scale-[0.98]"
+                title="切换全览矩阵视图"
               >
-                <IconComponent className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                <span className="text-[10px] text-[var(--accent)] font-semibold">{indexStr}</span>
-                <span className="hidden sm:inline-block">{item.title}</span>
-
-                {isActive && (
-                  <motion.div
-                    layoutId="mech-active-capsule"
-                    className="absolute inset-0 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border-strong)] -z-10 shadow-xs"
-                    transition={
-                      shouldReduceMotion
-                        ? { duration: 0 }
-                        : { type: "spring", stiffness: 450, damping: 32 }
-                    }
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 视图模式切换 */}
-        <div className="flex items-center gap-1 border-l border-[var(--border)] pl-3">
-          <button
-            type="button"
-            onClick={() => setViewMode(viewMode === "console" ? "grid" : "console")}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] transition-all cursor-pointer select-none"
-            title="切换精控仪表舱与全览矩阵"
-          >
-            {viewMode === "console" ? (
-              <>
                 <LayoutGrid className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
-                <span className="hidden md:inline">全览矩阵</span>
-              </>
-            ) : (
-              <>
-                <SlidersHorizontal className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
-                <span className="hidden md:inline">精控仪表舱</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* 主展示区：模式 A - 单项高精密电影级仪表舱 (Console) */}
-      {viewMode === "console" && (
-        <div className="relative overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10 shadow-sm">
-          {/* 流光边框 */}
-          <BorderBeam
-            size={120}
-            duration={8}
-            colorFrom="var(--accent)"
-            colorTo="var(--fg-muted)"
-            borderWidth={1.5}
-          />
-
-          {/* 背景大号等宽水印编号 */}
-          <div
-            className="pointer-events-none absolute right-6 top-6 font-mono text-7xl sm:text-9xl font-black text-[var(--fg)] opacity-[0.03] select-none"
-            aria-hidden="true"
-          >
-            {currentItem.index || String(activeIndex + 1).padStart(2, "0")}
+                <span>全览矩阵模式</span>
+              </button>
+            </div>
           </div>
 
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={currentItem.title}
-              custom={direction}
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, x: direction * 24, filter: "blur(4px)" }
-              }
-              animate={
-                shouldReduceMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, x: 0, filter: "blur(0px)" }
-              }
-              exit={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, x: direction * -24, filter: "blur(4px)" }
-              }
-              transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
-              className="relative space-y-6"
+          {/* 右侧：单项高精密电影级仪表舱 (Console) */}
+          <div className="lg:col-span-8 relative overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10 shadow-sm flex flex-col justify-between min-h-[380px]">
+            {/* 流光边框 */}
+            <BorderBeam
+              size={120}
+              duration={8}
+              colorFrom="var(--accent)"
+              colorTo="var(--fg-muted)"
+              borderWidth={1.5}
+            />
+
+            {/* 背景大号等宽水印编号 */}
+            <div
+              className="pointer-events-none absolute right-6 top-6 font-mono text-7xl sm:text-9xl font-black text-[var(--fg)] opacity-[0.03] select-none"
+              aria-hidden="true"
             >
-              {/* 顶部遥测状态栏 */}
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] font-mono text-[11px] text-[var(--accent)] font-bold">
-                    <CurrentIcon className="w-3 h-3 text-[var(--accent)]" />
-                    {`${currentItem.index || String(activeIndex + 1).padStart(2, "0")} // PROTOCOL`}
-                  </span>
-                  {currentItem.tag && (
-                    <Badge variant="outline" className="font-mono text-[10px]">
-                      {currentItem.tag}
-                    </Badge>
-                  )}
-                </div>
+              {currentItem.index || String(activeIndex + 1).padStart(2, "0")}
+            </div>
 
-                <div className="flex items-center gap-2 font-mono text-xs text-[var(--fg-muted)]">
-                  <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
-                  <span>制度常态化运行中</span>
-                </div>
-              </div>
-
-              {/* 标题 */}
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
-                  {currentItem.title}。
-                </h3>
-              </div>
-
-              {/* 核心描述 */}
-              <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)]">
-                <p className="text-sm sm:text-base text-[var(--fg)] leading-relaxed m-0 max-w-prose">
-                  {currentItem.detail}
-                </p>
-              </div>
-
-              {/* 底部控制器与键盘指引 */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[var(--border)] font-mono text-xs text-[var(--fg-muted)]">
-                {/* 进度刻度 */}
-                <div className="flex items-center gap-2">
-                  <span className="text-[var(--fg)] font-bold">
-                    0{activeIndex + 1}
-                  </span>
-                  <div className="w-24 h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden border border-[var(--border)]">
-                    <motion.div
-                      className="h-full bg-[var(--accent)] rounded-full"
-                      animate={{ width: `${((activeIndex + 1) / total) * 100}%` }}
-                      transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                    />
-                  </div>
-                  <span>/ 0{total}</span>
-                </div>
-
-                {/* 切换按钮组 */}
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={handlePrev}
-                    className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
-                    aria-label="上一个机制"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleNext}
-                    className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
-                    aria-label="下一个机制"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      )}
-
-      {/* 主展示区：模式 B - 全览工业卡片矩阵 (Grid) */}
-      {viewMode === "grid" && (
-        <div className="mechanism-grid grid grid-cols-1 md:grid-cols-2 gap-4">
-          {items.map((item, idx) => {
-            const IconComponent = ICONS[idx % ICONS.length] ?? Users;
-            const isLast = idx === items.length - 1;
-            const indexStr = item.index || String(idx + 1).padStart(2, "0");
-
-            return (
+            <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={item.title}
-                className={isLast ? "md:col-span-2" : undefined}
-                whileHover={shouldReduceMotion ? undefined : { y: -2 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
+                key={currentItem.title}
+                custom={direction}
+                initial={
+                  shouldReduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, x: direction * 20, filter: "blur(4px)" }
+                }
+                animate={
+                  shouldReduceMotion
+                    ? { opacity: 1 }
+                    : { opacity: 1, x: 0, filter: "blur(0px)" }
+                }
+                exit={
+                  shouldReduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, x: direction * -20, filter: "blur(4px)" }
+                }
+                transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
+                className="relative flex-1 flex flex-col justify-between space-y-6"
               >
-                <CutoutCard className="h-full">
-                  <CutoutCardHeader>
+                <div className="space-y-6">
+                  {/* 顶部遥测状态栏 */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
                     <div className="flex items-center gap-2">
-                      <IconComponent className="w-4 h-4 text-[var(--accent)]" aria-hidden="true" />
-                      <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                        {`${indexStr} //`}
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] font-mono text-[11px] text-[var(--accent)] font-bold">
+                        <CurrentIcon className="w-3 h-3 text-[var(--accent)]" />
+                        {`${currentItem.index || String(activeIndex + 1).padStart(2, "0")} // PROTOCOL`}
                       </span>
-                      <CutoutCardTitle>
-                        {item.title}
-                      </CutoutCardTitle>
+                      {currentItem.tag && (
+                        <Badge variant="outline" className="font-mono text-[10px]">
+                          {currentItem.tag}
+                        </Badge>
+                      )}
                     </div>
-                    {item.tag && (
-                      <Badge variant="outline" className="font-mono text-[10px] px-2 py-0.5">
-                        {item.tag}
-                      </Badge>
-                    )}
-                  </CutoutCardHeader>
-                  <CutoutCardContent>
-                    <p className="m-0">
-                      {item.detail}
+
+                    <div className="flex items-center gap-2 font-mono text-xs text-[var(--fg-muted)]">
+                      <span className="w-2 h-2 rounded-full bg-[var(--success)] animate-pulse" />
+                      <span>制度常态化运行中</span>
+                    </div>
+                  </div>
+
+                  {/* 标题 */}
+                  <div>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
+                      {currentItem.title}。
+                    </h3>
+                  </div>
+
+                  {/* 核心描述 */}
+                  <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)]">
+                    <p className="text-sm sm:text-base text-[var(--fg)] leading-relaxed m-0 max-w-prose">
+                      {currentItem.detail}
                     </p>
-                  </CutoutCardContent>
-                </CutoutCard>
+                  </div>
+                </div>
+
+                {/* 底部控制器 */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[var(--border)] font-mono text-xs text-[var(--fg-muted)] mt-6">
+                  {/* 进度刻度 */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-[var(--fg)] font-bold">
+                      0{activeIndex + 1}
+                    </span>
+                    <div className="w-24 h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden border border-[var(--border)]">
+                      <motion.div
+                        className="h-full bg-[var(--accent)] rounded-full"
+                        animate={{ width: `${((activeIndex + 1) / total) * 100}%` }}
+                        transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                      />
+                    </div>
+                    <span>/ 0{total}</span>
+                  </div>
+
+                  {/* 切换按钮组 */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={handlePrev}
+                      className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
+                      aria-label="上一个机制"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="inline-flex items-center justify-center w-7 h-7 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] active:scale-95 transition-all cursor-pointer select-none"
+                      aria-label="下一个机制"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               </motion.div>
-            );
-          })}
+            </AnimatePresence>
+          </div>
+        </div>
+      ) : (
+        /* 主展示区：模式 B - 全览工业卡片矩阵 (Grid) */
+        <div className="space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+            <div className="font-mono text-xs text-[var(--fg-muted)]">
+              <span>06 // GOVERNANCE PROTOCOLS (ALL 7)</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setViewMode("console")}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-2)] transition-all cursor-pointer select-none active:scale-[0.98]"
+            >
+              <SlidersHorizontal className="w-3.5 h-3.5 text-[var(--accent)]" aria-hidden="true" />
+              <span>切换精控仪表舱</span>
+            </button>
+          </div>
+
+          <div className="mechanism-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {items.map((item, idx) => {
+              const IconComponent = ICONS[idx % ICONS.length] ?? Users;
+              const isLast = idx === items.length - 1;
+              const indexStr = item.index || String(idx + 1).padStart(2, "0");
+
+              return (
+                <motion.div
+                  key={item.title}
+                  className={isLast ? "md:col-span-2 lg:col-span-3" : undefined}
+                  whileHover={shouldReduceMotion ? undefined : { y: -2 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                >
+                  <CutoutCard className="h-full">
+                    <CutoutCardHeader>
+                      <div className="flex items-center gap-2">
+                        <IconComponent className="w-4 h-4 text-[var(--accent)]" aria-hidden="true" />
+                        <span className="font-mono text-xs font-bold text-[var(--accent)]">
+                          {`${indexStr} //`}
+                        </span>
+                        <CutoutCardTitle>
+                          {item.title}
+                        </CutoutCardTitle>
+                      </div>
+                      {item.tag && (
+                        <Badge variant="outline" className="font-mono text-[10px] px-2 py-0.5">
+                          {item.tag}
+                        </Badge>
+                      )}
+                    </CutoutCardHeader>
+                    <CutoutCardContent>
+                      <p className="m-0 text-sm text-[var(--fg-muted)]">
+                        {item.detail}
+                      </p>
+                    </CutoutCardContent>
+                  </CutoutCard>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
