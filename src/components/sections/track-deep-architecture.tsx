@@ -201,25 +201,51 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                 </div>
               )}
 
-              <Button
-                variant="ghost"
+              <motion.button
+                type="button"
                 onClick={() => setSpecOpen(true)}
-                className="w-full h-10 justify-between rounded-[var(--radius-xs)] border border-[var(--border-strong)] bg-[var(--surface)] hover:bg-[var(--surface-2)] font-mono text-xs font-semibold active:scale-[0.98] transition-transform cursor-pointer"
+                whileHover={reduceMotion ? undefined : { scale: 1.01 }}
+                whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 450, damping: 25 }}
+                className="group relative flex w-full h-10 items-center justify-between overflow-hidden rounded-[var(--radius-xs)] border border-[var(--border-strong)] bg-[var(--surface)] px-4 font-mono text-xs font-semibold text-[var(--fg)] hover:border-[var(--accent)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer shadow-2xs"
               >
-                <span className="flex items-center gap-2">
-                  <FileText size={13} className="text-[var(--accent)]" aria-hidden="true" />
-                  完整公式推导与源码
+                {/* 悬停微光流向背景 */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--accent)]/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none"
+                />
+
+                <span className="relative z-10 flex items-center gap-2">
+                  <FileText
+                    size={14}
+                    className="text-[var(--accent)] transition-transform duration-200 group-hover:rotate-6 group-hover:scale-110"
+                    aria-hidden="true"
+                  />
+                  <span className="tracking-tight">完整公式推导与源码</span>
                 </span>
-                <ArrowRight size={13} aria-hidden="true" />
-              </Button>
+
+                <span className="relative z-10 flex items-center gap-1.5 text-[var(--fg-faint)] group-hover:text-[var(--accent)] transition-colors">
+                  <span className="text-[10px] tracking-wider hidden sm:inline opacity-0 group-hover:opacity-100 transition-opacity">
+                    EXPAND
+                  </span>
+                  <ArrowRight
+                    size={13}
+                    className="transition-transform duration-200 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </motion.button>
             </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* ── 完整规格抽屉（二级动作，不再是唯一入口） ───────────────── */}
+      {/* ── 完整规格抽屉（半屏宽，高清晰度推导舞台） ───────────────── */}
       <Sheet open={specOpen} onOpenChange={setSpecOpen}>
-        <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-2xl">
+        <SheetContent
+          side="right"
+          className="flex w-full flex-col gap-0 p-0 sm:max-w-2xl md:max-w-3xl lg:max-w-[50vw] xl:max-w-[50vw]"
+        >
           <SheetHeader className="border-b border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
             <div className="mb-2 flex items-center gap-2 font-mono text-xs">
               <span className="font-bold tracking-wider text-[var(--accent)]">{active.code}</span>
