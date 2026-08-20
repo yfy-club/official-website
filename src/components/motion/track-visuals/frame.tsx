@@ -173,11 +173,13 @@ export function Bar({
           ? "bg-[var(--border-strong)]"
           : "bg-[var(--accent)]";
 
+  const percent = Number(Math.max(0, Math.min(100, ratio * 100)).toFixed(2));
+
   return (
     <div className={cn("h-1.5 w-full overflow-hidden rounded-full bg-[var(--surface-2)]", className)}>
       <div
         className={cn("h-full rounded-full transition-[width] duration-300 ease-out", fill)}
-        style={{ width: `${Math.max(0, Math.min(100, ratio * 100))}%` }}
+        style={{ width: `${percent}%` }}
       />
     </div>
   );

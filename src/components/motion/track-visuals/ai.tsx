@@ -18,11 +18,13 @@ const LAYER_LABELS = ["INPUT x", "HIDDEN h1", "HIDDEN h2", "LOGITS y"];
 /** 确定性伪随机：同样的下标永远得到同样的权重，避免水合抖动 */
 function seeded(a: number, b: number, c: number) {
   const s = Math.sin(a * 127.1 + b * 311.7 + c * 74.7) * 43758.5453;
-  return (s - Math.floor(s)) * 2 - 1;
+  const raw = (s - Math.floor(s)) * 2 - 1;
+  return Number(raw.toFixed(4));
 }
 
 function gelu(x: number) {
-  return 0.5 * x * (1 + Math.tanh(Math.sqrt(2 / Math.PI) * (x + 0.044715 * x ** 3)));
+  const res = 0.5 * x * (1 + Math.tanh(Math.sqrt(2 / Math.PI) * (x + 0.044715 * x ** 3)));
+  return Number(res.toFixed(4));
 }
 
 const SAMPLES: Record<string, { label: string; input: number[]; caption: string }> = {
@@ -57,7 +59,7 @@ export function AiMlpVisual() {
     let previous: number[] = input;
 
     LAYER_SIZES.forEach((count, layer) => {
-      const x = 64 + layer * ((SVG_W - 128) / (LAYER_SIZES.length - 1));
+      const x = Number((64 + layer * ((SVG_W - 128) / (LAYER_SIZES.length - 1))).toFixed(1));
       const step = SVG_H / (count + 1);
       const current: number[] = [];
 
@@ -86,11 +88,11 @@ export function AiMlpVisual() {
               : layer === LAYER_SIZES.length - 1
                 ? `y${i + 1}`
                 : `h${layer}${i + 1}`,
-          z,
-          a,
-          bias,
+          z: Number(z.toFixed(4)),
+          a: Number(a.toFixed(4)),
+          bias: Number(bias.toFixed(4)),
           cx: x,
-          cy: step * (i + 1),
+          cy: Number((step * (i + 1)).toFixed(1)),
         };
         all.push(unit);
         map.set(unit.id, unit);
@@ -171,6 +173,8 @@ export function AiMlpVisual() {
                       const onPath =
                         selected && (selected.id === target.id || selected.id === source.id);
                       const dimmed = selected && selected.layer !== 0 && !onPath;
+                      const strokeWidth = Number(Math.max(0.5, Math.abs(weight) * 2.2).toFixed(2));
+                      const strokeOpacity = Number((dimmed ? 0.08 : Math.min(0.9, 0.18 + contribution * 0.9)).toFixed(2));
 
                       return (
                         <line
@@ -180,8 +184,8 @@ export function AiMlpVisual() {
                           x2={target.cx}
                           y2={target.cy}
                           stroke={weight > 0 ? "var(--accent)" : "var(--border-strong)"}
-                          strokeWidth={Math.max(0.5, Math.abs(weight) * 2.2)}
-                          strokeOpacity={dimmed ? 0.08 : Math.min(0.9, 0.18 + contribution * 0.9)}
+                          strokeWidth={strokeWidth}
+                          strokeOpacity={strokeOpacity}
                           className="transition-all duration-300"
                         />
                       );
@@ -319,15 +323,17 @@ export function AiMlpVisual() {
                     <path
                       d={Array.from({ length: 61 }, (_, i) => {
                         const zx = -3 + (i / 60) * 6;
-                        return `${i === 0 ? "M" : "L"} ${60 + zx * 20} ${42 - gelu(zx) * 14}`;
+                        const px = Number((60 + zx * 20).toFixed(2));
+                        const py = Number((42 - gelu(zx) * 14).toFixed(2));
+                        return `${i === 0 ? "M" : "L"} ${px} ${py}`;
                       }).join(" ")}
                       fill="none"
                       stroke="var(--accent)"
                       strokeWidth="1.6"
                     />
                     <circle
-                      cx={60 + Math.max(-3, Math.min(3, selected.z)) * 20}
-                      cy={42 - gelu(Math.max(-3, Math.min(3, selected.z))) * 14}
+                      cx={Number((60 + Math.max(-3, Math.min(3, selected.z)) * 20).toFixed(2))}
+                      cy={Number((42 - gelu(Math.max(-3, Math.min(3, selected.z))) * 14).toFixed(2))}
                       r="3.2"
                       fill="var(--accent)"
                       stroke="var(--surface)"

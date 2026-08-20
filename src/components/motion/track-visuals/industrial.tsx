@@ -476,7 +476,7 @@ export function IndVisionVisual() {
             {/* 估计位置标线 */}
             <div
               className="pointer-events-none absolute bottom-8 top-4 w-px bg-[var(--accent)] transition-all duration-300"
-              style={{ left: `calc(1rem + ${((spec.estimate + 0.5) / PROFILE.length) * 100}% - 0.5px)` }}
+              style={{ left: `calc(1rem + ${Number((((spec.estimate + 0.5) / PROFILE.length) * 100).toFixed(2))}% - 0.5px)` }}
             >
               <span className="absolute -top-1 left-1.5 whitespace-nowrap font-mono text-[9px] font-bold text-[var(--accent)]">
                 估计 {spec.estimate}
@@ -485,7 +485,7 @@ export function IndVisionVisual() {
             {/* 真值标线 */}
             <div
               className="pointer-events-none absolute bottom-8 top-4 w-px border-l border-dashed border-[var(--fg-muted)]"
-              style={{ left: `calc(1rem + ${((TRUE_EDGE + 0.5) / PROFILE.length) * 100}% - 0.5px)` }}
+              style={{ left: `calc(1rem + ${Number((((TRUE_EDGE + 0.5) / PROFILE.length) * 100).toFixed(2))}% - 0.5px)` }}
             >
               <span className="absolute -bottom-5 -left-3 whitespace-nowrap font-mono text-[9px] text-[var(--fg-muted)]">
                 真值
