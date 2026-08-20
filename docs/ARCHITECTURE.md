@@ -90,31 +90,26 @@ tests/                   单元测试和端到端质量门禁
 
 连接线颜色、强调色、间距和动效时长继续来自 Design Token 与全局样式。若调整卡片结构、断点或连接锚点，应同时检查 320px 移动重排、宽桌面落点、键盘聚焦和减少动态效果。
 
-## P1 共享交互
+## 核心交互与通用组件
 
-- `NumberTicker` 只在首页、About 与 Awards 的关键数字上使用。数字进入视口后计数一次；服务端同时输出减弱动态效果的静态终值，避免 hydration 前显示起始值。
-- Works 截图数量由 `src/lib/work-media.ts` 对 `detail.shots` 与 `detail.gallery` 纯函数计算；单图计 1、明暗对照计 2，Logo 不参与计数。
-- Works 列表媒体与详情 Hero 通过 `work-image-${slug}` 建立唯一 View Transition 名称。`RouteTransitions` 继续统一接管同源导航，减弱动态效果或 API 不可用时保持普通导航。
-- Works 在研卡片只在局部复用 `BorderBeam`，颜色来自现有 token；组件不接管指针事件，减弱动态效果下不渲染。
-- About 与 Join 共用 `MechanismAccordion` 的 Radix 单项折叠行为，不复制第二套 Accordion 原语。
-
-## P3 新组件与特色交互
-
-- **系统巡览 (`WorkSystemTour`)**：位于 `src/components/sections/work-system-tour.tsx`，将多图作品组织为业务分组与 Sticky 导航。通过 `buildTourGroups(gallery, galleryMode, workSlug)` 作用域化生成唯一 ID，`WorkTourObserver` 基于 `markerRef.closest('.work-tour')` 纯局部查询，实现同页多实例完全隔离。
-- **3D 海报展台 (`PosterTiltCard`)**：位于 `src/components/motion/poster-tilt-card.tsx`，基于 `useSpring` 计算光标相对位置生成 ±6° 3D 阻尼倾斜与径向高光扫光，受控 Radix Dialog 查看大图，严格通过 W3C ARIA 1.2 / Axe 校验。
-- **文化实拍 Bento 展台 (`CultureGallery`)**：位于 `src/components/sections/culture-gallery.tsx`，采用响应式 Bento 网格与 Focus Dimming 聚焦交互展示实拍照。
-- **首页航道即时预览 (`TrackPreviewList`)**：位于 `src/components/motion/track-preview-list.tsx`，桌面端悬停/聚焦即时展示关联作品截图。
-- **荣誉页流线型赛事成果矩阵 (`AwardsOverviewMatrix`)**：位于 `src/components/sections/awards-overview-matrix.tsx`，采用 Swiss Editorial 全宽 1px 细线分隔流线型清单，展示国家级与省级权威认证与赛道归属。
-- **证书档案库控制台与宽幅暗室灯箱 (`CertArchive`)**：位于 `src/components/motion/cert-archive.tsx`，采用 Coss UI Segmented `Tabs` 多维分类筛选、卡片悬停金色/青色流光 `BorderBeam`、受控影院级 Radix Dialog 宽幅灯箱，集成键盘 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导，以及档案编号一键复制 Toast 联动。
-- **全局导航栏 Spring 滑行微胶囊 (`SiteHeader`)**：位于 `src/components/layout/site-header.tsx`，基于 `motion` 的 `layoutId="nav-active-pill"` 实现路由切换时的平滑物理滑行动效。
-- **技术栈元数据字典与标签系统 (`TechTag` & `tech-stack.ts`)**：位于 `src/components/ui/tech-tag.tsx` 与 `src/lib/tech-stack.ts`，全量接入各大官方文档跳转链接与 Tooltip 极简摘要。
-- **在研项目结构化全宽微卡片 (`WorksFilterView`)**：位于 `src/components/sections/works-filter-view.tsx`，废除硬编码进度条，以 `01 //` 磨砂微卡片组充实要点，自适应填满网格空间。
-- **Coss UI 精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：
-  - `CardFrame` (`src/components/ui/card.tsx`)：工业仪表舱框架，用于 Fit 准则、迎新群舱位、作品演示账号与质量证据看板。
-  - `Kbd` (`src/components/ui/kbd.tsx`)：等宽机械立体键帽，用于矩阵计算器滑块微调与快捷键引导。
-  - `Empty` (`src/components/ui/empty.tsx`)：虚线工程占位与状态指示，用于作品空状态提示。
-  - `InputGroup` (`src/components/ui/input-group.tsx`)：等宽前缀（`ID //`, `TEL //`）与字符计数容器。
-  - `useCopyToClipboard` (`src/hooks/use-copy-to-clipboard.ts`)：带倒计时反馈状态的安全剪贴板 Hook。
+- **数字动效**：`src/components/ui/number-ticker.tsx` 用于首页、关于页与荣誉页的关键数据呈现。进入视口触发一次，减弱动态效果模式下直接输出静态终值。
+- **作品过渡动画**：列表媒体与详情页预览通过 `work-image-${slug}` 建立唯一的视图过渡标识，页面切换时平滑连接。
+- **常见问题折叠**：`src/components/sections/mechanism-accordion.tsx` 基于 Radix UI 统一实现招新与关于页的折叠展开，支持单项切换与全键盘操作。
+- **智光耀城系统巡览**：`src/components/sections/work-system-tour.tsx` 将多图作品按业务模块分组展示，支持桌面端粘性导航，且多实例间 ID 作用域完全隔离。
+- **招新海报展台**：`src/components/motion/poster-tilt-card.tsx` 基于弹性物理算法实现光标跟随微倾斜，支持受控弹窗查看高清大图，符合无障碍标准。
+- **文化实拍画廊**：`src/components/sections/culture-gallery.tsx` 响应式网格排布活动与环境实拍照，支持悬停聚焦与弹窗大图预览。
+- **首页航道关联预览**：`src/components/motion/track-preview-list.tsx` 悬停或聚焦技术方向时即时展示对应项目截图与空状态占位。
+- **赛事成果列表**：`src/components/sections/awards-overview-matrix.tsx` 细线分隔流线型清单，展示国家级与省级获奖成果及赛道信息。
+- **证书档案库与弹窗预览**：`src/components/motion/cert-archive.tsx` 提供多维分类筛选、受控大图弹窗、键盘快捷键切换与证书编号一键复制。
+- **全局导航栏指示器**：`src/components/layout/site-header.tsx` 基于平滑动效实现路由切换时的导航滑行指示。
+- **技术栈标签系统**：`src/components/ui/tech-tag.tsx` 与 `src/lib/tech-stack.ts` 支持官方文档链接跳转与工具提示简介。
+- **在研项目结构化展示**：`src/components/sections/works-filter-view.tsx` 以结构化微卡片清晰展示在研项目的研发重点。
+- **通用 UI 组件族**：
+  - 容器卡片（`src/components/ui/card.tsx`）：用于招新匹配、迎新群、作品体验账号与质量看板容器。
+  - 键帽提示（`src/components/ui/kbd.tsx`）：用于键盘操作与快捷键提示。
+  - 空状态占位（`src/components/ui/empty.tsx`）：用于关联作品等场景的工程占位。
+  - 输入组合框（`src/components/ui/input-group.tsx`）：用于表单前缀与字符计数展示。
+  - 剪贴板复制（`src/hooks/use-copy-to-clipboard.ts`）：带反馈状态的安全剪贴板复制工具。
 
 ## 报名请求流与可靠性保障
 

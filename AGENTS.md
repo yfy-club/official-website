@@ -28,38 +28,31 @@ agy --dangerously-skip-permissions --print-timeout 10m --prompt "你的具体任
 - 涉及文件修改时，必须明确授权修改范围；默认让 agy 只研究、不改代码。
 - agy 返回结果后，主代理负责把结论映射到现有架构，不要因为存在现成组件就引入第二套行为原语。
 
-## 🏛️ 核心设计哲学与前端规范 (Design Philosophy & Core Rules)
+## 核心设计与前端规范
 
-### 1. 直觉物理示能（Affordance Over Explanation）——能动效绝不文字
-- **彻底戒除老妈子式提示文字**：严禁出现“鼠标悬停点击复制”、“向左/向右切换查看”、“点击展开代码推导”、“悬停查看说明”等把用户当小白的说教碎碎念。
-- **依靠人机工程本能与确定性触感**：
-  - 所有可交互元素（按钮、卡片、Tab 触发器、读数尺、取舍轨、复制格）必须具备明确物理反馈：悬停微抬/高光聚焦、按压下沉（`:active:scale-[0.94~0.98]`）与 Spring 弹性回弹；
-  - **符号自解释**：箭头与方向名自解释（如 `← 软件工程` 与 `人工智能 →`、`COPY //`、`01 //`），零冗余词缀，让用户在 0.1 秒内下意识产生点击直觉并获得确定性反馈。
+### 1. 直觉物理交互——以交互反馈替代冗余文字
+- **避免冗长说明文字**：不出现“点击复制”、“向左/向右切换”、“点击展开”、“悬停查看”等过度解释性文案。
+- **清晰的操作反馈与自解释符号**：
+  - 可交互元素（按钮、卡片、选项卡触发器等）提供明确的视觉与物理反馈：悬停高光聚焦、按压下沉（`:active:scale-[0.94~0.98]`）与弹性回弹；
+  - 采用自解释的箭头与方向符号（如 `← 软件工程`、`人工智能 →`、`COPY //`、`01 //`），让用户直观理解交互意图。
 
-### 2. 排版与空间美学：Swiss Editorial 瑞士精工与全屏呼吸感
-- **坚决破除“卡片病 (Anti Card-itis)”**：
-  - 严禁无脑堆叠圆角卡片盒子、到处画虚线框或四格散落小卡片；
-  - 崇尚 **Swiss Editorial 瑞士流线排版**：采用 1px 细线分隔、全宽自适应流线表格、`01 //` 等宽序号、行级微光悬停与等宽元数据标签；
-- **全站统一的开屏高留白（High-Whitespace Opening）**：
-  - 所有主页面（`/tracks`、`/works`、`/awards`、`/about`、`/join`）及各子页面开屏必须采用 `PageHero`，保持 `min-h-[calc(100svh-14rem)]` 级别的巨幅呼吸空间与居中排版；
-  - 底部标配极简等宽 `SCROLL` 与呼吸跳动 `ArrowDown` 引导微动，建立节奏分明的进入感；
-- **极具张力的字号阶梯**：
-  - 巨幅英文 Display 大字（`text-5xl ~ text-8xl`）与粗体中文标题构成视觉锚点，搭配 `font-mono text-xs` 等宽元数据，形成工业反差张力。
+### 2. 排版与空间布局
+- **清晰的线条与留白**：
+  - 避免无序堆叠卡片，合理利用 1px 细线分隔、自适应流线表格与等宽序号；
+- **页面首屏节奏**：
+  - 主页面首屏保持适度留白与居中排版，建立节奏清晰的进入感；
+- **层次分明的字号阶梯**：
+  - 英文大字与粗体中文标题构成视觉锚点，搭配等宽元数据标签，保持界面清晰可读。
 
-### 3. 内容纯度：极致反 AI 塑料感与假大空宣传
-- **彻底清除 AI 幻觉与口语化废话**：坚决杜绝“社团生产级技术规范”、“想参与开发更多实际工程项目？”等自嗨文案，统一换成冷峻务实的工业等宽规范（如 `04 // RECRUITMENT`）；
-- **杜绝装饰性伪 Badge 与滥用呼吸灯**：清理到处闪烁的 `Badge pulse`、`PUBLIC DEMO`、`2026 RECRUIT` 等多余点缀，换成干净纯粹的等宽状态文本（`STATUS // 已上线 · 2024-2026`、`STATUS // FIT`）；
-- **铲除自嗨式宣传指标栏（Vanity Metrics）**：坚决禁止在主页放置“6个项目”、“100%代码闭环”、“26+实录截图”等营销式的数字吹嘘卡片栏，页面直接切入硬核内容与真实档案。
+### 3. 内容纯度与真实性
+- **务实严谨的文案**：使用冷峻务实的工程与组织规范文案，避免口语化或自嗨式描述；
+- **状态标签克制**：使用干净清晰的状态文本（如 `STATUS // 已上线 · 2024-2026`、`STATUS // FIT`），避免多余闪烁装饰；
+- **基于真实档案**：所有展示均基于真实系统、实机截图、公式推导、源码切片与脱敏材料。
 
-### 4. 真实硬核的工程工美（Industrial Craft）
-- **真实代码与严谨闭环**：所有展示必须基于真实高可用系统、实机截图、递推公式渲染（LaTeX）、源码切片与脱敏原件；
-- **交互的仪表化与工具感**：善用等宽键帽（`Kbd`）、等宽前缀（`ID //`、`WRK-0X //`）、暗室受控灯箱、物理滑块与矩阵运算器，让网站具备工控仪表舱级的精密手感。
-
-### 5. 前端组件与架构约定
-- 目标风格是 Industrial Craft、Linear/Swiss Precision 和 Awwwards 级高级感：内容克制、1px 分隔线、等宽元数据、明确状态和有目的的微交互。
-- `/tracks` 与 About 梯队使用“选择轨道/阶段 + 单一详情面板”的信息结构。
-- `/tracks` 右侧详情使用现有 MagicCard 聚光交互；除非用户明确要求，不要替换或重构该卡片。
-- Coss UI、Magic UI、Aceternity UI 组件优先通过官方 registry/CLI 核对后引入。Coss Tabs/Button 基于 Base UI，若项目已经使用 Radix，不要无理由让两套 Tabs 行为并存；可复制零行为依赖的结构组件或只吸收其视觉范式。
+### 4. 前端组件与架构约定
+- 保持内容克制、1px 分隔线、等宽元数据与有明确目的的微交互。
+- `/tracks` 与 About 页面采用“选择方向/阶段 + 单一详情面板”的信息结构。
+- 外部 UI 组件库优先参考官方规范后引入，保持组件行为一致，不无故引入重复的行为原语。
 
 ## 开发与验证
 
@@ -75,28 +68,28 @@ git diff --check
 ```
 
 - 改动 UI 交互后，至少运行类型检查、lint、单元测试和 E2E；E2E 使用独立的 `.next-quality` 构建，CSS 或组件变化后先重新运行 `npm run build:quality`，再运行 E2E。
-- **测试与执行效率**：运行耗时任务（如 `npm run test:e2e:run` 或 `npm run build:quality`）时，启动后等待任务自然完成，完成后直接检查退出码与主要日志摘要；**切勿以秒为单位频繁轮询查询状态**，避免产生无意义的中间日志并过度消耗上下文空间。
-- 编辑文件优先使用 `apply_patch` 或精确替换；不要重置、覆盖或删除用户未授权的改动。提交前检查 `git status`、`git diff --check` 和最终 diff。
+- **测试与执行效率**：运行耗时任务（如 `npm run test:e2e:run` 或 `npm run build:quality`）时，启动后等待任务自然完成，完成后直接检查退出码与主要日志摘要；不要以秒为单位频繁轮询查询状态。
+- 编辑文件优先精确替换；不要重置、覆盖或删除未授权的改动。提交前检查 `git status`、`git diff --check` 和最终 diff。
 
-## 核心交互组件资产
+## 核心交互组件说明
 
-- **智光耀城系统巡览 (`WorkSystemTour` & `WorkTourObserver`)**：`src/components/sections/work-system-tour.tsx`。多实例通过 `workSlug` 隔离锚点 ID（`work-tour-${workSlug}-group-${id}`），Observer 纯局部基于 `markerRef.closest('.work-tour')` 查找根节点，避免全局 ID 冲突；桌面端 sticky 挂载于 `.work-tour__nav` 网格项。
-- **招新页 3D 立体海报展台 (`PosterTiltCard`)**：`src/components/motion/poster-tilt-card.tsx`。基于 `motion/react` 的 `useSpring` 计算光标相对位置产生 ±6° 物理倾斜与径向高光，采用受控 Radix Dialog 弹窗查看大图，符合 W3C ARIA 1.2 规范。
-- **关于页文化实拍 Bento 展台 (`CultureGallery`)**：`src/components/sections/culture-gallery.tsx`。盘活 8 张实拍照，采用响应式 Bento 网格、等宽磨砂玻璃角标、Focus Dimming 悬停聚焦与受控 Dialog 灯箱。
-- **首页航道关联预览 (`TrackPreviewList`)**：`src/components/motion/track-preview-list.tsx`。航道悬停/聚焦显示关联真实作品截图。
-- **首页 Hero 工业蓝图网格**：`.home-hero` 背景加入 36px 纯 CSS 双轴网格与 `--hero-mouse-x/y` 低频视差。
-- **加入页双轨跑马灯展台 (`MemberVoicesMarquee` & `Marquee`)**：`src/components/sections/member-voices-marquee.tsx` & `src/components/ui/marquee.tsx`。双轨异步反向无限流动，左右渐变羽化遮罩，支持悬停平滑暂停与 reduced-motion 降级，展示基于真实档案与二次元昵称的 10 位成员心声。
-- **荣誉页赛事成果矩阵 (`AwardsOverviewMatrix`)**：`src/components/sections/awards-overview-matrix.tsx`。Swiss Editorial 全宽 1px 细线分隔流线型清单，展示国家级/省级权威认证与参赛方向。
-- **证书档案库控制台与暗室灯箱 (`CertArchive`)**：`src/components/motion/cert-archive.tsx`。Coss UI Segmented `Tabs` 多维分类筛选、卡片悬停金色流光 `BorderBeam`、影院级受控 Radix Dialog 宽幅灯箱、快捷键 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导、档案编号一键复制 Toast 联动。
-- **全局导航栏物理动效微胶囊 (`SiteHeader`)**：`src/components/layout/site-header.tsx`。基于 `motion` 的 `layoutId="nav-active-pill"` 实现丝滑 Spring 物理滑行动效，彻底替代刺眼的光晕。
-- **技术栈元数据字典与跳转标签 (`TechTag` & `tech-stack.ts`)**：`src/components/ui/tech-tag.tsx` & `src/lib/tech-stack.ts`。所有技术栈标签集成官方文档外链跳转与 hover Tooltip 精炼简介，外链图标平滑展开无默认偏移。
-- **作品页结构化微卡片与全宽排版 (`WorksFilterView`)**：`src/components/sections/works-filter-view.tsx`。废除硬编码进度条，采用 `01 //` 磨砂微卡片组充实要点，全宽自适应拉伸并无缝填满横纵空间。
-- **Coss UI 工业精工组件族 (`CardFrame`, `Kbd`, `Empty`, `InputGroup`, `useCopyToClipboard`)**：
-  - `CardFrame` (`src/components/ui/card.tsx`)：工业仪表舱框架，用于加入页 Fit 准则、迎新群舱位、作品演示账号与质量证据看板。
-  - `Kbd` (`src/components/ui/kbd.tsx`)：等宽机械立体键帽，用于矩阵计算器滑块微调与快捷键引导。
-  - `Empty` (`src/components/ui/empty.tsx`)：虚线工程占位与状态指示，用于首页与航道关联作品占位。
-  - `InputGroup` (`src/components/ui/input-group.tsx`)：等宽前缀（`ID //`, `TEL //`）与字符计数容器。
-  - `useCopyToClipboard` (`src/hooks/use-copy-to-clipboard.ts`)：带倒计时反馈状态的安全剪贴板 Hook。
+- **智光耀城系统巡览**：`src/components/sections/work-system-tour.tsx`。多实例通过作品标识隔离锚点 ID，导航观察器基于局部容器查找根节点，避免全局 ID 冲突；桌面端支持粘性导航索引。
+- **招新海报展台**：`src/components/motion/poster-tilt-card.tsx`。基于物理弹簧计算光标相对位置生成微倾斜与光效，采用受控弹窗查看大图，符合无障碍可访问性规范。
+- **文化实拍画廊**：`src/components/sections/culture-gallery.tsx`。网格排布实验室与活动实拍照，配合悬停聚焦与弹窗大图预览。
+- **首页航道关联预览**：`src/components/motion/track-preview-list.tsx`。方向悬停/聚焦即时展示关联作品截图与空状态占位。
+- **首页背景网格**：`.home-hero` 背景采用双轴细线网格与指针低频视差效果。
+- **成员心声滚动展台**：`src/components/sections/member-voices-marquee.tsx` 与 `src/components/ui/marquee.tsx`。双轨异步反向平滑流动，支持悬停暂停与减弱动态效果降级，展示真实成员成长心声。
+- **赛事成果清单**：`src/components/sections/awards-overview-matrix.tsx`。全宽细线分隔流线型清单，展示国家级与省级获奖成果及对应赛道。
+- **证书档案库与弹窗预览**：`src/components/motion/cert-archive.tsx`。支持多维分类筛选、受控大图弹窗、键盘快捷键切图与档案编号一键复制。
+- **全局导航栏指示器**：`src/components/layout/site-header.tsx`。基于平滑动效实现路由切换时的导航滑行指示。
+- **技术栈标签与文档链接**：`src/components/ui/tech-tag.tsx` 与 `src/lib/tech-stack.ts`。技术栈标签支持官方文档链接跳转与工具提示简介。
+- **在研项目结构化展示**：`src/components/sections/works-filter-view.tsx`。采用结构化微卡片清晰展示项目研发重点与状态。
+- **常用 UI 组件**：
+  - 容器卡片（`src/components/ui/card.tsx`）：用于招新匹配准则、迎新群展示、作品公开体验账号与质量验收看板。
+  - 键帽提示（`src/components/ui/kbd.tsx`）：用于键盘操作与快捷键引导。
+  - 空状态占位（`src/components/ui/empty.tsx`）：用于作品关联等场景的工程占位提示。
+  - 输入框组合容器（`src/components/ui/input-group.tsx`）：用于表单前缀与字符计数展示。
+  - 剪贴板复制工具（`src/hooks/use-copy-to-clipboard.ts`）：带反馈状态的安全剪贴板复制钩子。
 
 ## Git 协作
 

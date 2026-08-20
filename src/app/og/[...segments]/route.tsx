@@ -4,6 +4,7 @@ import path from "node:path";
 import { ImageResponse } from "next/og";
 
 import { club, tracks, works } from "@/content";
+import { siteUrl } from "@/lib/seo";
 
 export const runtime = "nodejs";
 export const dynamic = "force-static";
@@ -64,7 +65,7 @@ export async function GET(
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", color: "#767F8F", fontSize: 22 }}>
           <span>{club.affiliation}</span>
-          <span>yfy.club</span>
+          <span>{siteUrl("/").hostname}</span>
         </div>
       </div>
     ),

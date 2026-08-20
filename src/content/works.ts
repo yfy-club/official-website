@@ -200,7 +200,7 @@ export const worksRaw = [
     detail: {
       problem: [
         "市政照明与物联设备管理平台在工程落地中面临两类典型挑战：一是前后端接口定义脱节导致的运行时类型漂移与联调消耗；二是高频设备状态巡检若依赖定时轮询，会在多管理员并发监控下对数据库连接池与服务端线程造成无谓的查询风暴。",
-        "智光耀城以 SpringDoc OpenAPI 3.1 规范为单一真源，构建工具链自动生成强类型 TypeScript 客户端与 Mock 桩；服务端通过 @TransactionalEventListener 监听事务提交，经由 Server-Sent Events (SSE) 单向广播实时遥测。平台内建离散场景仿真引擎验证告警至工单的业务状态机闭环（当前全部设备与遥测数据均为模拟数据，不连接物理灯杆；195/425/9 为 2026-07 归档测试基线）。",
+        "智光耀城以 SpringDoc OpenAPI 3.1 规范为单一真源，构建工具链自动生成强类型 TypeScript 客户端与 Mock 桩；服务端通过 @TransactionalEventListener 监听事务提交，经由 Server-Sent Events (SSE) 单向广播实时遥测。平台内建离散场景仿真引擎验证告警至工单的业务状态机闭环（当前全部设备、遥测、控制结果和告警均为模拟数据，不连接真实灯杆。195 / 425 / 9 是 2026-07-21 的归档验收基线）。",
       ],
       stack: {
         "管理前端": ["Vue 3", "TypeScript", "Vben Admin 5", "Naive UI", "ECharts", "高德地图 API"],
