@@ -7,7 +7,7 @@ import Link from "next/link";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
-import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
+import { Card, CardBody, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TechTag } from "@/components/ui/tech-tag";
@@ -251,7 +251,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         </p>
 
                         <div className="space-y-2 mb-6">
-                          {work.highlights.map((item, idx) => (
+                          {work.highlights.slice(0, 2).map((item, idx) => (
                             <div
                               key={item}
                               className="flex items-start gap-3 p-3 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)]/80 hover:border-[var(--border-strong)] transition-colors"
@@ -343,7 +343,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
 
                         {work.highlights.length > 0 && (
                           <div className="space-y-2.5 mb-6">
-                            {work.highlights.map((item, idx) => (
+                            {work.highlights.slice(0, 2).map((item, idx) => (
                               <div
                                 key={item}
                                 className="flex items-start gap-3 p-3 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)]/40 hover:bg-[var(--surface-2)]/80 transition-colors text-xs sm:text-sm text-[var(--fg)]"
@@ -371,10 +371,6 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         </div>
                       </CardBody>
                     </div>
-                    <CardFooter className="p-4 px-6 sm:px-7 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs sm:text-sm font-mono text-[var(--fg-muted)] flex items-center justify-between">
-                      <span>{work.trackSlugs.length} 个关联方向</span>
-                      <span>{work.stackSummary.length} 项技术验证</span>
-                    </CardFooter>
                     <BorderBeam
                       borderWidth={1}
                       colorFrom="var(--warn)"
