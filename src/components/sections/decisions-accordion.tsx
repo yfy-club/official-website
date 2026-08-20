@@ -67,35 +67,35 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
               transition={reduceMotion ? { duration: 0.01 } : { duration: 0.2 }}
             >
               <header>
-                <span className="caps">为什么这样选</span>
+                <span className="caps">决策动机</span>
                 <h3>{active.why}</h3>
               </header>
               <div className="choice-lens__path">
                 {active.problem && (
                   <div>
                     <ArrowDownRight size={16} aria-hidden="true" />
-                    <span className="caps">先遇到</span>
+                    <span className="caps">问题背景</span>
                     <p>{active.problem}</p>
                   </div>
                 )}
                 {active.solution && (
                   <div>
                     <Wrench size={16} aria-hidden="true" />
-                    <span className="caps">于是这样做</span>
+                    <span className="caps">技术方案</span>
                     <p>{active.solution}</p>
                   </div>
                 )}
                 {active.impact && (
                   <div>
                     <CheckCircle2 size={16} aria-hidden="true" />
-                    <span className="caps">得到</span>
+                    <span className="caps">架构收益</span>
                     <p>{active.impact}</p>
                   </div>
                 )}
                 {active.tradeoff && (
                   <div>
                     <Scale size={16} aria-hidden="true" />
-                    <span className="caps">同时接受</span>
+                    <span className="caps">接受代价</span>
                     <p>{active.tradeoff}</p>
                   </div>
                 )}
@@ -110,7 +110,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
               animate={{ opacity: 1 }}
             >
               <span className="tabular">{String(decisions.length).padStart(2, "0")}</span>
-              <p>几次关键取舍，共同守住同一套工程约束。</p>
+              <p>选择左侧架构决策，查看问题背景、技术方案、架构收益与设计代价。</p>
             </motion.div>
           )}
         </AnimatePresence>

@@ -71,8 +71,8 @@ export function DemoAccountsTable({ workNameZh, accounts }: DemoAccountsTablePro
     <CardFrame className="demo-access mb-8 border-[var(--border)] bg-[var(--surface)] shadow-xs">
       <CardFrameHeader className="py-3.5 px-5 sm:px-6">
         <div>
-          <CardFrameTitle>02.1 // 演示账号</CardFrameTitle>
-          <CardFrameDescription>免注册直接体验系统功能权限</CardFrameDescription>
+          <CardFrameTitle>02.1 // 演示凭据</CardFrameTitle>
+          <CardFrameDescription>系统预置测试账号与访问权限边界</CardFrameDescription>
         </div>
       </CardFrameHeader>
       <CardPanel className="p-0 overflow-x-auto">

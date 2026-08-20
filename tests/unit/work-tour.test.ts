@@ -9,12 +9,11 @@ describe("buildTourGroups & work tour data contracts", () => {
   const matrix = works.find((w) => w.slug === "matrix-calculator");
   const intellibuddy = works.find((w) => w.slug === "intellibuddy");
 
-  it("builds exactly 5 groups for zgyc-smart-light with correct order, item counts, and slug-scoped IDs", () => {
+  it("builds exactly 5 groups for zgyc-smart-light with correct order, item counts, and slug-scoped IDs when tour mode is enabled", () => {
     expect(zgyc).toBeDefined();
-    expect(zgyc?.detail?.galleryMode).toBe("tour");
     expect(zgyc?.detail?.gallery).toBeDefined();
 
-    const groups = buildTourGroups(zgyc!.detail!.gallery, zgyc!.detail!.galleryMode, zgyc!.slug);
+    const groups = buildTourGroups(zgyc!.detail!.gallery, "tour", zgyc!.slug);
     expect(groups).not.toBeNull();
     expect(groups).toHaveLength(5);
 
@@ -66,7 +65,7 @@ describe("buildTourGroups & work tour data contracts", () => {
   });
 
   it("supports default prefix when workSlug is omitted", () => {
-    const defaultGroups = buildTourGroups(zgyc!.detail!.gallery, zgyc!.detail!.galleryMode);
+    const defaultGroups = buildTourGroups(zgyc!.detail!.gallery, "tour");
     expect(defaultGroups).not.toBeNull();
     expect(defaultGroups![0].id).toBe("tour-group-1");
   });
@@ -89,7 +88,7 @@ describe("buildTourGroups & work tour data contracts", () => {
   });
 
   it("partitions all 15 gallery items uniquely and preserves global itemIndex", () => {
-    const groups = buildTourGroups(zgyc!.detail!.gallery, zgyc!.detail!.galleryMode)!;
+    const groups = buildTourGroups(zgyc!.detail!.gallery, "tour")!;
     const allItems = groups.flatMap((g) => g.items);
 
     expect(allItems).toHaveLength(15);

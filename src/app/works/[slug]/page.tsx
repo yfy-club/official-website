@@ -12,7 +12,6 @@ import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
 import { WorkEngineeringSpecs } from "@/components/sections/work-engineering-specs";
 import { WorkPrincipleWorkbench } from "@/components/sections/work-principle-workbench";
 import { WorkRelatedTracks } from "@/components/sections/work-related-tracks";
-import { WorkSystemTour } from "@/components/sections/work-system-tour";
 import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -24,7 +23,6 @@ import { tracks, works } from "@/content";
 import type { Work } from "@/content/schema";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 import { getWorkImageTransitionName } from "@/lib/work-media";
-import { buildTourGroups } from "@/lib/work-tour";
 
 const detailedWorks = works.filter((work) => work.detail);
 type WorkShot = NonNullable<NonNullable<Work["detail"]>["shots"]>;
@@ -43,7 +41,6 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
   const work = detailedWorks[index]; const detail = work.detail; if (!detail) notFound();
   const previous = detailedWorks[(index - 1 + detailedWorks.length) % detailedWorks.length]; const next = detailedWorks[(index + 1) % detailedWorks.length];
   const relatedTracks = tracks.filter((track) => work.trackSlugs.includes(track.slug));
-  const tourGroups = buildTourGroups(detail.gallery, detail.galleryMode, work.slug);
   return (
     <main id="main-content" className="page-main page-shell work-detail" tabIndex={-1}>
       <StructuredData data={breadcrumbJsonLd([{ name: "首页", path: "/" }, { name: "作品", path: "/works" }, { name: work.nameZh, path: `/works/${work.slug}` }])} />
@@ -52,13 +49,13 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         sections={[
           { id: "work-start", index: "01", label: "项目概览" },
           { id: "work-interface", index: "02", label: "系统实录" },
-          { id: "work-problem", index: "03", label: "核心挑战" },
-          { id: "work-build", index: "04", label: "架构全景" },
-          { id: "work-decisions", index: "05", label: "关键决策" },
-          { id: "work-specs", index: "06", label: "工程规格" },
-          { id: "work-tradeoffs", index: "07", label: "设计权衡" },
-          { id: "work-related", index: "08", label: "关联方向" },
-          { id: "work-join", index: "09", label: "招新报名" },
+          { id: "work-problem", index: "03", label: "核心约束" },
+          { id: "work-build", index: "04", label: "内核机制" },
+          { id: "work-decisions", index: "05", label: "架构抉择" },
+          { id: "work-specs", index: "06", label: "规格读数" },
+          { id: "work-tradeoffs", index: "07", label: "演进边界" },
+          { id: "work-related", index: "08", label: "关联航道" },
+          { id: "work-join", index: "09", label: "加入我们" },
         ]}
       />
       
@@ -159,34 +156,30 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             <DemoAccountsTable workNameZh={work.nameZh} accounts={detail.demoAccounts} />
           )}
           {detail.shots && <WorkShotMedia shot={detail.shots} />}
-          {tourGroups ? (
-            <WorkSystemTour workNameZh={work.nameZh} workSlug={work.slug} groups={tourGroups} />
-          ) : (
-            detail.gallery && (
-              <div className="work-gallery" data-reveal="group">
-                {detail.gallery.map((item, itemIndex) => (
-                  <figure key={item.label} className="work-gallery__item">
-                    <div className="work-gallery__meta">
-                      <span className="caps tabular">{String(itemIndex + 1).padStart(2, "0")}</span>
-                      <div>
-                        <h3>{item.label}</h3>
-                        <p>{item.description}</p>
-                      </div>
+          {detail.gallery && detail.gallery.length > 0 && (
+            <div className="work-gallery" data-reveal="group">
+              {detail.gallery.map((item, itemIndex) => (
+                <figure key={item.label} className="work-gallery__item">
+                  <div className="work-gallery__meta">
+                    <span className="caps tabular">{String(itemIndex + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3>{item.label}</h3>
+                      <p>{item.description}</p>
                     </div>
-                    <WorkShotMedia shot={item.shot} />
-                    <figcaption className="sr-only">{item.shot.alt}</figcaption>
-                  </figure>
-                ))}
-              </div>
-            )
+                  </div>
+                  <WorkShotMedia shot={item.shot} />
+                  <figcaption className="sr-only">{item.shot.alt}</figcaption>
+                </figure>
+              ))}
+            </div>
           )}
         </section>
       )}
 
       <section id="work-problem" className="section" aria-labelledby="problem-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">03 / THE STORY</p>
-          <h2 id="problem-title" className="section__title">为什么做这个项目。</h2>
+          <p className="caps section__index">03 / PROBLEM CONSTRAINTS</p>
+          <h2 id="problem-title" className="section__title">工程背景与核心约束。</h2>
         </div>
         <div className="prose">
           {detail.problem.map((paragraph) => (
@@ -198,7 +191,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">04 / ARCHITECTURE SLICES</p>
-          <h2 id="build-title" className="section__title">拆开看，它怎样真正运转。</h2>
+          <h2 id="build-title" className="section__title">内核切面与实现机制。</h2>
         </div>
         <WorkPrincipleWorkbench principles={detail.principles} fallbackStack={detail.stack} />
       </section>
@@ -207,7 +200,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <section id="work-decisions" className="section" aria-labelledby="decisions-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">05 / ENGINEERING DECISIONS</p>
-            <h2 id="decisions-title" className="section__title">每个选择，都有不选的那一边。</h2>
+            <h2 id="decisions-title" className="section__title">架构抉择与取舍论证。</h2>
           </div>
           <DecisionsAccordion decisions={detail.decisions} />
         </section>
@@ -217,7 +210,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <section id="work-specs" className="section" aria-labelledby="specs-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">06 / SPEC READINGS</p>
-            <h2 id="specs-title" className="section__title">只放能从源码或测试里复核的读数。</h2>
+            <h2 id="specs-title" className="section__title">工程规格与测试读数。</h2>
           </div>
           <WorkEngineeringSpecs metrics={detail.metrics} />
         </section>
@@ -227,7 +220,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <section id="work-tradeoffs" className="section" aria-labelledby="tradeoffs-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">07 / EVOLUTION & BOUNDARIES</p>
-            <h2 id="tradeoffs-title" className="section__title">哪些边界，我们没有藏起来。</h2>
+            <h2 id="tradeoffs-title" className="section__title">演进边界与已知限制。</h2>
           </div>
           <WorkTradeoffsDeck tradeoffs={detail.tradeoffs} />
         </section>
@@ -236,7 +229,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">08 / CAREER PATHWAYS</p>
-          <h2 id="related-track-title" className="section__title">这件作品，通向哪些能力路径。</h2>
+          <h2 id="related-track-title" className="section__title">工程能力与航道映射。</h2>
         </div>
         <WorkRelatedTracks tracks={relatedTracks} />
       </section>

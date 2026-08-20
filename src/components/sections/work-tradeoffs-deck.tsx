@@ -43,7 +43,7 @@ export function WorkTradeoffsDeck({ tradeoffs }: WorkTradeoffsDeckProps) {
             >
               <span className="evolution-note__node tabular">{String(index + 1).padStart(2, "0")}</span>
               <span>
-                <span className="caps">一次回看</span>
+                <span className="caps">设计边界</span>
                 <strong>{item.title}</strong>
               </span>
               <ChevronDown size={17} aria-hidden="true" />
@@ -59,14 +59,14 @@ export function WorkTradeoffsDeck({ tradeoffs }: WorkTradeoffsDeckProps) {
                   transition={{ duration: reduceMotion ? 0.01 : 0.2 }}
                 >
                   <div className="evolution-note__current">
-                    <span className="caps">现在坚持</span>
+                    <span className="caps">当前实现</span>
                     <p>{item.detail}</p>
                   </div>
                   {(item.boundary || item.next) && (
                     <div className="evolution-note__shift">
                       {item.boundary && (
                         <div>
-                          <span className="caps">清楚的边界</span>
+                          <span className="caps">能力边界</span>
                           <p>{item.boundary}</p>
                         </div>
                       )}
@@ -74,7 +74,7 @@ export function WorkTradeoffsDeck({ tradeoffs }: WorkTradeoffsDeckProps) {
                         <>
                           <ArrowRight size={18} aria-hidden="true" />
                           <div>
-                            <span className="caps">下一步</span>
+                            <span className="caps">演进方向</span>
                             <p>{item.next}</p>
                           </div>
                         </>

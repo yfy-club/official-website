@@ -23,8 +23,8 @@ export function WorkRelatedTracks({ tracks }: WorkRelatedTracksProps) {
     <div className="track-switchyard" data-reveal="group">
       <div className="track-switchyard__origin">
         <span className="track-switchyard__pulse" aria-hidden="true" />
-        <span className="caps">本项目</span>
-        <strong>从作品回到能力路径</strong>
+        <span className="caps">能力映射</span>
+        <strong>关联技术航道与研发方向</strong>
       </div>
       <div className="track-switchyard__line" aria-hidden="true" />
       <div className="track-switchyard__routes">
@@ -73,7 +73,7 @@ export function WorkRelatedTracks({ tracks }: WorkRelatedTracksProps) {
                   >
                     <p>{track.positioning}</p>
                     <Link href={`/tracks/${track.slug}`} className="active:scale-[0.96] transition-transform">
-                      进入方向
+                      进入航道
                       <ArrowUpRight size={15} aria-hidden="true" />
                     </Link>
                   </motion.div>

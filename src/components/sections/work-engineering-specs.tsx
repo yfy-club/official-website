@@ -69,7 +69,7 @@ export function WorkEngineeringSpecs({ metrics }: WorkEngineeringSpecsProps) {
                     exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -4 }}
                     transition={{ duration: reduceMotion ? 0.01 : 0.18 }}
                   >
-                    <span className="caps">读数口径</span>
+                    <span className="caps">核验口径</span>
                     <p>{metric.description}</p>
                   </motion.div>
                 )}

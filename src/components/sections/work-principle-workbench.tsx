@@ -100,7 +100,7 @@ export function WorkPrincipleWorkbench({
                       <p>{item.mechanism}</p>
                       {item.keyBenefit && (
                         <div className="kernel-slice__proof">
-                          <span className="caps">能确认的结果</span>
+                          <span className="caps">验证结论</span>
                           <strong>{item.keyBenefit}</strong>
                         </div>
                       )}
