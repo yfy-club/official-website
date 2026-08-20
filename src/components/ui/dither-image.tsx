@@ -23,7 +23,7 @@ export function DitherImage({
   return (
     <div
       className={cn(
-        "dither-image-frame group relative overflow-hidden rounded-[var(--radius-sm)] bg-[var(--surface-2)]",
+        "dither-image-frame group relative h-full w-full overflow-hidden rounded-[var(--radius-sm)] bg-[var(--surface-2)]",
         className
       )}
       onMouseEnter={() => enableHoverReveal && setIsHovered(true)}

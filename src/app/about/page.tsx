@@ -135,23 +135,14 @@ export default function AboutPage() {
         </div>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title" data-reveal="group">
-        <div className="advisor__portraits">
-          <div className="advisor__portrait">
-            <DitherImage
-              src={advisorProfile.image}
-              alt={`${advisorProfile.name}教授正式肖像`}
-              fill
-              sizes="(max-width: 768px) 45vw, 19vw"
-            />
-          </div>
-          <div className="advisor__portrait">
-            <DitherImage
-              src={advisorProfile.imageSecondary}
-              alt={`${advisorProfile.name}教授工作肖像`}
-              fill
-              sizes="(max-width: 768px) 45vw, 19vw"
-            />
-          </div>
+        <div className="advisor__portrait max-w-sm w-full">
+          <DitherImage
+            src={advisorProfile.image}
+            alt={`${advisorProfile.name}教授肖像`}
+            fill
+            sizes="(max-width: 768px) 80vw, 30vw"
+            priority
+          />
         </div>
         <div>
           <p className="caps section__index">08 / Advisor</p>
