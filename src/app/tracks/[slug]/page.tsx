@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -74,16 +74,18 @@ export default async function TrackDetailPage({
         label={track.nameZh}
         sections={[
           { id: "track-start", index: "01", label: "方向概况" },
-          { id: "track-overview", index: "02", label: "领域图谱" },
-          { id: "track-deep-dive", index: "03", label: "攻坚架构" },
-          { id: "track-stage", index: "04", label: "培养中枢" },
-          { id: "track-evidence", index: "05", label: "实战成果" },
-          { id: "track-switch", index: "06", label: "方向切换" },
-          { id: "track-join", index: "07", label: "招新报名" },
+          { id: "track-stack", index: "02", label: "技术基座" },
+          { id: "track-overview", index: "03", label: "领域图谱" },
+          { id: "track-deep-dive", index: "04", label: "攻坚架构" },
+          { id: "track-stage", index: "05", label: "培养中枢" },
+          { id: "track-evidence", index: "06", label: "实战成果" },
+          { id: "track-switch", index: "07", label: "方向切换" },
+          { id: "track-join", index: "08", label: "招新报名" },
         ]}
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-6 border-b border-[var(--border)] mb-12 sm:mb-16">
+      {/* 顶部简明面包屑与快速返回 */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-6 border-b border-[var(--border)]">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -112,85 +114,95 @@ export default async function TrackDetailPage({
         </Button>
       </div>
 
-      {/* 01 / Swiss Editorial 巨幅大字 Hero (无卡片包裹，大气留白) */}
-      <header id="track-start" className="track-detail__hero mb-20 sm:mb-28 space-y-10">
-        <div className="space-y-6">
+      {/* 01 / Swiss Editorial 巨幅大字 Hero (首屏大呼吸感，与主页一致的下沉与留白) */}
+      <header id="track-start" className="track-detail__hero min-h-[75vh] sm:min-h-[82vh] flex flex-col justify-center py-16 sm:py-24 space-y-12">
+        <div className="space-y-8 max-w-5xl">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-widest">
+            <span className="font-mono text-xs sm:text-sm font-bold text-[var(--accent)] tracking-widest">
               TRK-0{track.index} {"//"} TECHNICAL SPEC
             </span>
             <Badge variant="active">ACTIVE TRACK</Badge>
           </div>
 
-          <div className="space-y-3">
-            <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight text-[var(--fg)]">
+          <div className="space-y-4">
+            <h1 className="font-display text-5xl sm:text-7xl lg:text-9xl font-normal leading-[0.92] tracking-tight text-[var(--fg)]">
               {track.nameEn}.
             </h1>
-            <p className="text-2xl sm:text-4xl font-bold text-[var(--fg)] tracking-tight">
+            <p className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[var(--fg)] tracking-tight">
               {track.nameZh}
             </p>
           </div>
 
-          <p className="text-base sm:text-xl text-[var(--fg-muted)] leading-relaxed max-w-4xl font-sans font-normal pt-2">
+          <p className="text-lg sm:text-2xl text-[var(--fg-muted)] leading-relaxed max-w-3xl font-sans font-normal pt-2">
             {track.positioning}
           </p>
 
-          <div className="flex items-center gap-3 pt-2 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
+          <div className="flex items-center gap-3 pt-4 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
             <span className="text-[var(--fg-faint)]">目标领域：</span>
             <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
         </div>
 
-        {/* 旗舰级精工技术栈切角展台 (CutoutCard + Texture + Dither + Expandable) */}
-        <div className="pt-6">
-          <TechStackCutoutConsole stack={track.stack} />
+        {/* 底部极简向下指示 */}
+        <div className="pt-8 flex items-center gap-2 text-xs font-mono text-[var(--fg-faint)]">
+          <span>SCROLL FOR TECH MATRIX & TOPOLOGY</span>
+          <ArrowDown size={14} className="animate-bounce" aria-hidden="true" />
         </div>
       </header>
 
-      {/* 02 / 专业领域与研发图谱 (TrackFieldOverview) */}
+      {/* 02 / 左右分栏精工技术栈展台 (TechStackCutoutConsole) */}
+      <section id="track-stack" className="section mb-24 sm:mb-32" aria-labelledby="stack-title" data-reveal="section">
+        <div className="section__head mb-12">
+          <p className="caps section__index">02 / Toolchain Matrix</p>
+          <h2 id="stack-title" className="section__title">核心技术栈与工程基座。</h2>
+        </div>
+        <TechStackCutoutConsole stack={track.stack} />
+      </section>
+
+      {/* 03 / 专业领域与研发图谱 (TrackFieldOverview) */}
       {overview && (
-        <section id="track-overview" className="section mb-20 sm:mb-28" aria-labelledby="overview-title" data-reveal="section">
+        <section id="track-overview" className="section mb-24 sm:mb-32" aria-labelledby="overview-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">02 / Domains</p>
+            <p className="caps section__index">03 / Domains</p>
             <h2 id="overview-title" className="section__title">主攻方向与研发链路。</h2>
           </div>
           <TrackFieldOverview data={overview} />
         </section>
       )}
 
-      {/* 03 / 攻坚架构与原理拓扑 (TrackDeepArchitecture) */}
+      {/* 04 / 攻坚架构与原理拓扑 (TrackDeepArchitecture) */}
       {deepDive && (
-        <section id="track-deep-dive" className="section mb-20 sm:mb-28" aria-labelledby="deep-dive-title" data-reveal="section">
+        <section id="track-deep-dive" className="section mb-24 sm:mb-32" aria-labelledby="deep-dive-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">03 / Architecture & Theory</p>
+            <p className="caps section__index">04 / Architecture & Theory</p>
             <h2 id="deep-dive-title" className="section__title">核心拓扑与架构原理。</h2>
           </div>
           <TrackDeepArchitecture deepDive={deepDive} />
         </section>
       )}
 
-      {/* 04 / 三年培养中枢 (TrackStageConsole) */}
-      <section id="track-stage" className="section mb-20 sm:mb-28" aria-labelledby="stage-title" data-reveal="section">
+      {/* 05 / 三年培养中枢 (TrackStageConsole) */}
+      <section id="track-stage" className="section mb-24 sm:mb-32" aria-labelledby="stage-title" data-reveal="section">
         <div className="section__head mb-12">
-          <p className="caps section__index">04 / Stage Roadmap</p>
+          <p className="caps section__index">05 / Stage Roadmap</p>
           <h2 id="stage-title" className="section__title">三年培养体系与阶段里程碑。</h2>
         </div>
         <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
       </section>
 
-      {/* 05 / 真实成果与赛事证据 (TrackEvidenceInspector) */}
+      {/* 06 / 真实成果与赛事证据 (TrackEvidenceInspector) */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
-        <section id="track-evidence" className="section mb-20 sm:mb-28" aria-labelledby="related-title" data-reveal="section">
+        <section id="track-evidence" className="section mb-24 sm:mb-32" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">05 / Works & Honors</p>
+            <p className="caps section__index">06 / Works & Honors</p>
             <h2 id="related-title" className="section__title">落地工程与赛事荣誉。</h2>
           </div>
           <TrackEvidenceInspector works={relatedWorks} awards={relatedAwards} />
         </section>
       )}
 
-      {/* 06 / 纯净方向切换导航 (无多余文字) */}
-      <nav id="track-switch" className="grid grid-cols-3 items-center border-y border-[var(--border)] py-6 mb-16" aria-label="方向切换">
+      {/* 07 / 纯净方向切换导航 (无多余文字) */}
+      <nav id="track-switch" className="grid grid-cols-3 items-center border-y border-[var(--border)] py-8 mb-20" aria-label="方向切换">
         <Link
           href={`/tracks/${previous.slug}`}
           className="flex items-center gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors group"
@@ -216,7 +228,7 @@ export default async function TrackDetailPage({
         </Link>
       </nav>
 
-      {/* 07 / 招新加入 CTA */}
+      {/* 08 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
         <p>对【{track.nameZh}】方向感兴趣？欢迎加入云飞扬，在真实工程与竞赛中与我们同行。</p>
         <Button asChild>
