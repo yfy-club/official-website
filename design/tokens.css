@@ -103,11 +103,14 @@
   --ease-out: cubic-bezier(0.2, 0, 0, 1);      /* 默认。M3 standard */
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); /* 双向过渡 */
   --ease-in: cubic-bezier(0.4, 0, 1, 1);       /* 仅退场 */
+  --ease-spring: cubic-bezier(0.23, 1, 0.32, 1); /* Emil Kowalski 精工弹性曲线 */
+  --ease-spring-subtle: cubic-bezier(0.16, 1, 0.3, 1); /* 微弹性曲线 */
 
-  --dur-instant: 80ms;      /* 按钮按下 */
+  --dur-instant: 80ms;      /* 瞬时变化 */
+  --dur-press: 120ms;       /* 物理按压反馈 */
   --dur-fast: 150ms;        /* 默认：状态确认 */
-  --dur-normal: 220ms;      /* 悬浮、下拉 */
-  --dur-slow: 320ms;        /* 模态框入场 */
+  --dur-normal: 200ms;      /* 悬浮、下拉 */
+  --dur-slow: 240ms;        /* 模态框/面板入场 */
   --dur-page: 480ms;        /* 跨路由 */
   --dur-signature: 900ms;   /* 仅记忆点动效 */
 

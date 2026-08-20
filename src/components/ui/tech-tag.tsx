@@ -23,7 +23,7 @@ export function TechTag({
           target="_blank"
           rel="noreferrer"
           className={cn(
-            "tag group/tag inline-flex items-center justify-center cursor-pointer transition-colors hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]",
+            "tag group/tag inline-flex items-center justify-center cursor-pointer transition-[transform,border-color,color,background-color] duration-150 ease-out active:scale-[0.96] hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] select-none",
             className
           )}
         >
