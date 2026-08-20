@@ -96,8 +96,8 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
         {/* 阶段标题与目标 */}
         <div className="flex flex-wrap items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
           <div className="space-y-2 max-w-3xl">
-            <span className="font-mono text-xs font-bold text-[var(--accent)]">
-              {`STAGE 0${activeStage + 1} // ${stageTabs[activeStage].year}`}
+            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+              {`STAGE 0${activeStage + 1}`}
             </span>
             <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
               {currentModule.title}
