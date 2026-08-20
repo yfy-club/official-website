@@ -71,7 +71,7 @@ export default function AwardsPage() {
             <h2 id="overview-title" className="section__title">
               赛事成果总览。
             </h2>
-            <span className="font-mono text-xs text-[var(--accent)] font-semibold">
+            <span className="font-mono text-sm sm:text-base text-[var(--accent)] font-bold">
               {"// 2024–2025 近两年成果统计（非历届全量）"}
             </span>
           </div>
