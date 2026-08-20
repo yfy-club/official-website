@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { animate, motion, useMotionValue, useSpring } from "motion/react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useMotionValue, useSpring } from "motion/react";
 import { ArrowLeft, ArrowRight, Expand, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,17 @@ export interface OrbitalGalleryProps {
   className?: string;
 }
 
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function shortestAngleDistance(a: number, b: number) {
+  const full = Math.PI * 2;
+  const raw = ((a - b + Math.PI) % full) - Math.PI;
+  const normalized = raw < -Math.PI ? raw + full : raw;
+  return Math.abs(normalized);
+}
+
 export function OrbitalGallery({
   photos,
   onSelectPhoto,
@@ -28,50 +39,100 @@ export function OrbitalGallery({
 }: OrbitalGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isDraggingRef = useRef(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const titleViewportRef = useRef<HTMLDivElement>(null);
+  const titleTrackRef = useRef<HTMLDivElement>(null);
 
+  const [containerWidth, setContainerWidth] = useState(1200);
   const [isMobile, setIsMobile] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const checkViewport = () => {
-      setIsMobile(window.innerWidth < 768);
-      setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    };
-    checkViewport();
-    window.addEventListener("resize", checkViewport, { passive: true });
-    return () => window.removeEventListener("resize", checkViewport);
-  }, []);
+  const isDraggingRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const startRotationRef = useRef(0);
 
   const count = photos.length;
-  const activeMotionIndex = useMotionValue(0);
-  const smoothIndex = useSpring(activeMotionIndex, {
-    stiffness: 220,
-    damping: 28,
-    mass: 0.6,
+
+  // Responsive width tracking
+  useEffect(() => {
+    const updateSize = () => {
+      if (viewportRef.current) {
+        const w = viewportRef.current.clientWidth || window.innerWidth;
+        setContainerWidth(w);
+        setIsMobile(w < 768);
+      }
+    };
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    if (viewportRef.current) observer.observe(viewportRef.current);
+    window.addEventListener("resize", updateSize, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
+
+  // Geometry configuration (aligning with official spec)
+  const responsiveWheelSize = isMobile
+    ? clamp(containerWidth * 1.85, 750, 1100)
+    : clamp(containerWidth * 1.55, 1300, 2200);
+  const radius = responsiveWheelSize / 2;
+  const cropRatio = isMobile ? 0.72 : 0.74;
+  const itemWidth = isMobile ? 210 : 270;
+  const itemHeight = isMobile ? 290 : 370;
+  const focusArc = Math.PI * 0.38;
+  const topAnchor = -Math.PI / 2;
+
+  // Continuous rotation angle in radians
+  const targetRotation = useMotionValue(0);
+  const smoothRotation = useSpring(targetRotation, {
+    stiffness: 180,
+    damping: 26,
+    mass: 0.7,
   });
 
-  const setIndex = useCallback(
+  const [renderRotation, setRenderRotation] = useState(0);
+
+  useEffect(() => {
+    return smoothRotation.on("change", (latest) => {
+      setRenderRotation(latest);
+    });
+  }, [smoothRotation]);
+
+  // Rotate to specific photo index
+  const rotateToIndex = useCallback(
     (index: number) => {
-      const clamped = Math.max(0, Math.min(count - 1, index));
-      setActiveIndex(clamped);
-      activeMotionIndex.set(clamped);
+      if (count === 0) return;
+      const targetIdx = clamp(index, 0, count - 1);
+      setActiveIndex(targetIdx);
+
+      // Target angle such that targetIdx is at topAnchor (-PI / 2)
+      // theta = (targetIdx / count) * 2 * PI - PI / 2 + rot = -PI / 2 => rot = - (targetIdx / count) * 2 * PI
+      const baseTarget = -(targetIdx / count) * Math.PI * 2;
+      const currentRot = targetRotation.get();
+      const fullTurn = Math.PI * 2;
+
+      // Find nearest rotational equivalent
+      const diff = ((baseTarget - currentRot + Math.PI) % fullTurn) - Math.PI;
+      const normalizedDiff = diff < -Math.PI ? diff + fullTurn : diff;
+      targetRotation.set(currentRot + normalizedDiff);
     },
-    [count, activeMotionIndex]
+    [count, targetRotation]
   );
 
   const handlePrev = useCallback(() => {
-    setIndex(activeIndex > 0 ? activeIndex - 1 : count - 1);
-  }, [activeIndex, count, setIndex]);
+    rotateToIndex(activeIndex > 0 ? activeIndex - 1 : count - 1);
+  }, [activeIndex, count, rotateToIndex]);
 
   const handleNext = useCallback(() => {
-    setIndex(activeIndex < count - 1 ? activeIndex + 1 : 0);
-  }, [activeIndex, count, setIndex]);
+    rotateToIndex(activeIndex < count - 1 ? activeIndex + 1 : 0);
+  }, [activeIndex, count, rotateToIndex]);
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (document.activeElement?.tagName === "INPUT" || document.activeElement?.tagName === "TEXTAREA") {
+      if (
+        document.activeElement?.tagName === "INPUT" ||
+        document.activeElement?.tagName === "TEXTAREA"
+      ) {
         return;
       }
       if (e.key === "ArrowLeft") {
@@ -82,328 +143,293 @@ export function OrbitalGallery({
         handleNext();
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrev, handleNext]);
 
-  // Drag handling
-  const dragX = useMotionValue(0);
-
-  const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
-    const offset = info.offset.x;
-    const velocity = info.velocity.x;
-
-    let target = activeIndex;
-    if (offset < -40 || velocity < -300) {
-      target = Math.min(count - 1, activeIndex + 1);
-    } else if (offset > 40 || velocity > 300) {
-      target = Math.max(0, activeIndex - 1);
-    }
-
-    setIndex(target);
-    animate(dragX, 0, { duration: 0.2 });
-    setTimeout(() => {
-      isDraggingRef.current = false;
-    }, 50);
+  // Touch / Mouse Drag handlers for rotating the wheel
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDraggingRef.current = true;
+    dragStartXRef.current = e.clientX;
+    startRotationRef.current = targetRotation.get();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const currentPhoto = photos[activeIndex] || photos[0];
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    const deltaX = e.clientX - dragStartXRef.current;
+    // Map horizontal pixel drag to angular rotation
+    const angleDelta = (deltaX / radius) * 1.1;
+    targetRotation.set(startRotationRef.current + angleDelta);
+  };
 
-  // Dynamic geometry parameters
-  const itemWidth = isMobile ? 220 : 280;
-  const itemHeight = isMobile ? 300 : 380;
-  const itemSpacing = isMobile ? 180 : 250;
-  const arcHeight = isMobile ? 22 : 44;
-  const tiltAngle = isMobile ? 5 : 8.5;
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {
+      // ignore
+    }
+
+    // Snap to closest card
+    const currentRot = targetRotation.get();
+    const phaseRaw = (-currentRot / (Math.PI * 2)) * count;
+    const nearestIndex = ((Math.round(phaseRaw) % count) + count) % count;
+    rotateToIndex(nearestIndex);
+  };
+
+  // Center active title pill in title track
+  useEffect(() => {
+    const viewport = titleViewportRef.current;
+    const track = titleTrackRef.current;
+    if (!viewport || !track) return;
+
+    const activePill = track.querySelector<HTMLElement>(
+      `[data-title-index="${activeIndex}"]`
+    );
+    if (!activePill) return;
+
+    const viewportCenter = viewport.clientWidth / 2;
+    const pillCenter = activePill.offsetLeft + activePill.offsetWidth / 2;
+    const targetScrollX = pillCenter - viewportCenter;
+
+    track.scrollTo({
+      left: Math.max(0, targetScrollX),
+      behavior: "smooth",
+    });
+  }, [activeIndex]);
+
+  const currentPhoto = photos[activeIndex] || photos[0];
 
   return (
     <div
       ref={containerRef}
       className={cn(
-        "orbital-gallery relative w-full overflow-hidden pt-4 pb-8 select-none flex flex-col items-center",
+        "orbital-image-wheel relative w-full overflow-hidden select-none flex flex-col items-center",
         className
       )}
       role="region"
-      aria-label="团队文化实拍弧形展台"
+      aria-label="团队文化实拍弧形轮盘"
     >
-      {/* Background Subtle Ambient Arc Blueprint Guide */}
+      {/* Viewport frame holding the massive circular wheel */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 h-[500px] flex items-center justify-center opacity-30"
-        aria-hidden="true"
+        ref={viewportRef}
+        className="relative w-full overflow-hidden flex justify-center"
+        style={{ height: isMobile ? 420 : 520 }}
       >
-        <div className="w-[1200px] h-[600px] rounded-[50%] border border-dashed border-[var(--border-strong)] opacity-40 -translate-y-12" />
-        <div className="w-[800px] h-[400px] rounded-[50%] border border-[var(--border)] opacity-25 -translate-y-12" />
+        {/* Subtle circular background guide ring */}
+        <div
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 rounded-full border border-dashed border-[var(--border-strong)] opacity-30"
+          style={{
+            width: responsiveWheelSize,
+            height: responsiveWheelSize,
+            bottom: `-${responsiveWheelSize * cropRatio}px`,
+          }}
+          aria-hidden="true"
+        />
+
+        {/* The Wheel Center (anchored below the viewport) */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 cursor-grab active:cursor-grabbing touch-pan-y"
+          style={{
+            width: responsiveWheelSize,
+            height: responsiveWheelSize,
+            bottom: `-${responsiveWheelSize * cropRatio}px`,
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
+          <div
+            className="relative h-full w-full"
+            style={{ perspective: "1200px" }}
+          >
+            {photos.map((photo, i) => {
+              // Base angle for this card
+              const baseAngle = (i / count) * Math.PI * 2 - Math.PI / 2;
+              const theta = baseAngle + renderRotation;
+              const x = Math.cos(theta) * radius;
+              const y = Math.sin(theta) * radius;
+
+              const distanceToFocus = shortestAngleDistance(theta, topAnchor);
+              const focusIntensity = clamp(distanceToFocus / focusArc, 0, 1);
+              const darkIntensity = clamp(focusIntensity * 1.05, 0, 1);
+
+              const currentBlur = darkIntensity * 4.5;
+              const peakBrightness = 115;
+              const minBrightness = 40;
+              const currentBrightness =
+                minBrightness +
+                (1 - darkIntensity) * (peakBrightness - minBrightness);
+              const currentSaturation = 55 + (1 - darkIntensity * 0.6) * 45;
+              const currentScale = 1 - darkIntensity * 0.08;
+              const drift = clamp(x / radius, -1, 1);
+              const tilt = drift * 8.5;
+              const depth = clamp((1 - focusIntensity) * 100, 0, 100);
+              const zIndex = Math.round(depth);
+              const isCenterFocus = distanceToFocus < 0.25;
+
+              return (
+                <div
+                  key={photo.src}
+                  className={cn(
+                    "oiw-item absolute left-1/2 top-1/2 overflow-hidden rounded-[var(--radius-sm)] border cursor-pointer select-none",
+                    isCenterFocus
+                      ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/35 shadow-2xl"
+                      : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-xl"
+                  )}
+                  style={{
+                    width: itemWidth,
+                    height: itemHeight,
+                    transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${depth}px) rotate(${tilt}deg) scale(${currentScale})`,
+                    filter: `blur(${currentBlur}px) brightness(${currentBrightness}%) saturate(${currentSaturation}%)`,
+                    zIndex,
+                    willChange: "transform, filter",
+                    transition: isDraggingRef.current
+                      ? "none"
+                      : "border-color 0.3s ease, box-shadow 0.3s ease",
+                  }}
+                  onClick={() => {
+                    if (isCenterFocus) {
+                      onSelectPhoto?.(photo);
+                    } else {
+                      rotateToIndex(i);
+                    }
+                  }}
+                >
+                  <div className="relative w-full h-full bg-[var(--surface-2)]">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="(max-width: 768px) 60vw, 320px"
+                      className="object-cover object-center pointer-events-none"
+                      priority={i <= 2}
+                    />
+
+                    {/* Dark Vignette Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+
+                    {/* Badge in Top Right */}
+                    <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-[var(--radius-xs)] border border-white/20 bg-black/55 backdrop-blur-xs font-mono text-[10px] text-white">
+                      0{i + 1}
+                    </div>
+
+                    {/* Active Click to View Hint */}
+                    {isCenterFocus && (
+                      <div className="absolute inset-x-0 bottom-3 flex items-center justify-center pointer-events-none">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-[var(--accent)]/70 text-[11px] font-mono text-[var(--accent)] shadow-xl animate-in fade-in zoom-in-95 duration-200">
+                          <Expand size={12} />
+                          <span>点击查看大图</span>
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      {/* Main Wheel Carousel Stage */}
-      <motion.div
-        className="relative w-full flex items-center justify-center cursor-grab active:cursor-grabbing touch-pan-y"
-        style={{
-          height: isMobile ? 340 : 430,
-          perspective: 1200,
-        }}
-        drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
-        dragElastic={0.22}
-        onDragStart={() => {
-          isDraggingRef.current = true;
-        }}
-        onDragEnd={handleDragEnd}
-      >
-        {photos.map((photo, i) => {
-          return (
-            <OrbitalCard
-              key={photo.src}
-              index={i}
-              smoothIndex={smoothIndex}
-              itemWidth={itemWidth}
-              itemHeight={itemHeight}
-              itemSpacing={itemSpacing}
-              arcHeight={arcHeight}
-              tiltAngle={tiltAngle}
-              reducedMotion={reducedMotion}
-              photo={photo}
-              isActive={i === activeIndex}
-              onClick={() => {
-                if (isDraggingRef.current) return;
-                if (i === activeIndex) {
-                  onSelectPhoto?.(photo);
-                } else {
-                  setIndex(i);
-                }
-              }}
-            />
-          );
-        })}
-      </motion.div>
-
-      {/* Active Caption & Meta HUD */}
-      <div className="relative z-30 mt-6 flex flex-col items-center text-center max-w-xl px-4">
-        {/* Badge & Index */}
-        <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)]/85 backdrop-blur-md text-xs font-mono text-[var(--fg-muted)] shadow-xs mb-3">
-          <span className="flex items-center gap-1.5 text-[var(--accent)] font-semibold">
-            <Sparkles size={12} />
-            <span>{`0${activeIndex + 1} // 0${count}`}</span>
+      {/* Centered Dynamic Captions & Scrolling Title Pill Track */}
+      <div className="relative z-30 w-full max-w-3xl px-4 flex flex-col items-center text-center -mt-2">
+        {/* Subtitle tag reveal */}
+        <div className="inline-flex items-center gap-2 mb-2">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)]/90 backdrop-blur-md text-[11px] font-mono text-[var(--fg-muted)] shadow-2xs">
+            <Sparkles size={11} className="text-[var(--accent)]" />
+            <span>{`0${activeIndex + 1} // 0${count} · ${currentPhoto.tag ?? "Field Log"}`}</span>
           </span>
-          <span className="h-3 w-px bg-[var(--border)]" />
-          <span>{currentPhoto.tag ?? "Field Log"}</span>
         </div>
 
-        {/* Dynamic Animated Title */}
-        <h3 className="text-xl sm:text-2xl font-bold text-[var(--fg)] tracking-tight mb-1.5 transition-all duration-300">
-          {currentPhoto.caption}
-        </h3>
+        {/* Horizontal Scrolling Centered Title Track (1:1 with official) */}
+        <div
+          ref={titleViewportRef}
+          className="relative w-full overflow-x-auto no-scrollbar py-2"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)",
+          }}
+        >
+          <div
+            ref={titleTrackRef}
+            className="flex items-center gap-2.5 w-max px-[35vw] sm:px-[40vw]"
+          >
+            {photos.map((photo, i) => {
+              const isCur = i === activeIndex;
+              return (
+                <button
+                  type="button"
+                  key={photo.src}
+                  data-title-index={i}
+                  onClick={() => rotateToIndex(i)}
+                  className={cn(
+                    "oiw-title-item shrink-0 inline-flex items-center justify-center whitespace-nowrap rounded-full border px-5 py-2 text-center text-sm sm:text-base font-medium tracking-tight transition-all duration-300 cursor-pointer shadow-xs",
+                    isCur
+                      ? "border-[var(--accent)] bg-[var(--surface)] text-[var(--fg)] shadow-md scale-105"
+                      : "border-[var(--border)] bg-[var(--surface-2)]/60 text-[var(--fg-muted)] opacity-50 hover:opacity-85 hover:border-[var(--border-strong)]"
+                  )}
+                >
+                  {photo.caption}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-        {/* Subtitle / Alt description */}
-        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed max-w-md line-clamp-2">
+        {/* Subtitle description */}
+        <p className="text-xs sm:text-sm text-[var(--fg-muted)] mt-2 max-w-lg line-clamp-2">
           {currentPhoto.alt}
         </p>
 
-        {/* Navigation Controls & Pagination Indicators */}
-        <div className="flex items-center gap-4 mt-6">
-          {/* Prev button */}
+        {/* Navigation buttons */}
+        <div className="flex items-center gap-4 mt-5">
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={handlePrev}
-            className="h-9 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
-            aria-label="查看上一张照片"
+            className="h-8 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
+            aria-label="上一张"
           >
-            <ArrowLeft size={14} className="mr-1.5" />
+            <ArrowLeft size={13} className="mr-1.5" />
             <span>PREV</span>
           </Button>
 
-          {/* Dots Indicator */}
           <div className="flex items-center gap-1.5 px-2" aria-hidden="true">
             {photos.map((_, dotIdx) => (
               <button
                 type="button"
                 key={dotIdx}
-                onClick={() => setIndex(dotIdx)}
+                onClick={() => rotateToIndex(dotIdx)}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
                   dotIdx === activeIndex
-                    ? "w-6 bg-[var(--accent)]"
+                    ? "w-5 bg-[var(--accent)]"
                     : "w-1.5 bg-[var(--border-strong)] hover:bg-[var(--fg-muted)]"
                 )}
-                aria-label={`切换到第 ${dotIdx + 1} 张照片`}
+                aria-label={`切换到第 ${dotIdx + 1} 张`}
               />
             ))}
           </div>
 
-          {/* Next button */}
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={handleNext}
-            className="h-9 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
-            aria-label="查看下一张照片"
+            className="h-8 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
+            aria-label="下一张"
           >
             <span>NEXT</span>
-            <ArrowRight size={14} className="ml-1.5" />
+            <ArrowRight size={13} className="ml-1.5" />
           </Button>
         </div>
       </div>
     </div>
-  );
-}
-
-interface OrbitalCardProps {
-  index: number;
-  smoothIndex: ReturnType<typeof useSpring>;
-  itemWidth: number;
-  itemHeight: number;
-  itemSpacing: number;
-  arcHeight: number;
-  tiltAngle: number;
-  reducedMotion: boolean;
-  photo: OrbitalPhotoItem;
-  isActive: boolean;
-  onClick: () => void;
-}
-
-function OrbitalCard({
-  index,
-  smoothIndex,
-  itemWidth,
-  itemHeight,
-  itemSpacing,
-  arcHeight,
-  tiltAngle,
-  reducedMotion,
-  photo,
-  isActive,
-  onClick,
-}: OrbitalCardProps) {
-  const [styleState, setStyleState] = useState<{
-    x: number;
-    y: number;
-    rotateZ: number;
-    rotateY: number;
-    scale: number;
-    opacity: number;
-    blur: number;
-    brightness: number;
-    zIndex: number;
-  }>({
-    x: (index - 0) * itemSpacing,
-    y: 0,
-    rotateZ: 0,
-    rotateY: 0,
-    scale: 1,
-    opacity: 1,
-    blur: 0,
-    brightness: 1,
-    zIndex: 50,
-  });
-
-  useEffect(() => {
-    return smoothIndex.on("change", (latest) => {
-      const delta = index - latest;
-      const absDelta = Math.abs(delta);
-
-      if (reducedMotion) {
-        setStyleState({
-          x: delta * itemSpacing,
-          y: 0,
-          rotateZ: 0,
-          rotateY: 0,
-          scale: 1 - Math.min(absDelta * 0.1, 0.3),
-          opacity: Math.max(0.3, 1 - absDelta * 0.25),
-          blur: 0,
-          brightness: Math.max(0.6, 1 - absDelta * 0.2),
-          zIndex: 50 - Math.round(absDelta * 5),
-        });
-        return;
-      }
-
-      // Parabolic Arc Geometry
-      const x = delta * itemSpacing;
-      const y = Math.pow(absDelta, 1.55) * arcHeight;
-      const rotateZ = delta * tiltAngle;
-      const rotateY = delta * -7;
-      const scale = 1 - Math.min(absDelta * 0.12, 0.38);
-      const opacity = Math.max(0.2, 1 - absDelta * 0.28);
-      const blur = Math.min(absDelta * 2.5, 6);
-      const brightness = Math.max(0.45, 1 - absDelta * 0.32);
-      const zIndex = 50 - Math.round(absDelta * 5);
-
-      setStyleState({
-        x,
-        y,
-        rotateZ,
-        rotateY,
-        scale,
-        opacity,
-        blur,
-        brightness,
-        zIndex,
-      });
-    });
-  }, [index, smoothIndex, itemSpacing, arcHeight, tiltAngle, reducedMotion]);
-
-  const isVisible = Math.abs(index - smoothIndex.get()) < 3.8;
-  if (!isVisible) return null;
-
-  return (
-    <motion.div
-      className={cn(
-        "orbital-card absolute top-1/2 left-1/2 rounded-[var(--radius-sm)] overflow-hidden cursor-pointer",
-        "border transition-colors duration-300",
-        isActive
-          ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/30 shadow-2xl"
-          : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-md"
-      )}
-      style={{
-        width: itemWidth,
-        height: itemHeight,
-        x: `calc(-50% + ${styleState.x}px)`,
-        y: `calc(-50% + ${styleState.y}px)`,
-        rotateZ: styleState.rotateZ,
-        rotateY: styleState.rotateY,
-        scale: styleState.scale,
-        opacity: styleState.opacity,
-        zIndex: styleState.zIndex,
-        filter: `blur(${styleState.blur}px) brightness(${styleState.brightness})`,
-        willChange: "transform, filter, opacity",
-      }}
-      onClick={onClick}
-      whileHover={{
-        scale: isActive ? 1.025 : styleState.scale * 1.04,
-        transition: { duration: 0.2 },
-      }}
-    >
-      <div className="relative w-full h-full bg-[var(--surface-2)]">
-        <Image
-          src={photo.src}
-          alt={photo.alt}
-          fill
-          sizes="(max-width: 768px) 60vw, 320px"
-          className="object-cover object-center pointer-events-none select-none"
-          priority={index <= 2}
-        />
-
-        {/* Dark Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
-
-        {/* Index Pill in Top Right */}
-        <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-[var(--radius-xs)] border border-white/20 bg-black/50 backdrop-blur-xs font-mono text-[10px] text-white">
-          0{index + 1}
-        </div>
-
-        {/* Active Focus Hint in Bottom Center */}
-        {isActive && (
-          <div className="absolute inset-x-0 bottom-3 flex items-center justify-center pointer-events-none">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-[var(--accent)]/60 text-[11px] font-mono text-[var(--accent)] shadow-lg animate-in fade-in zoom-in-95 duration-200">
-              <Expand size={12} />
-              <span>点击查看大图</span>
-            </span>
-          </div>
-        )}
-      </div>
-    </motion.div>
   );
 }

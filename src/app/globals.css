@@ -1404,12 +1404,20 @@ button, a, [role='button'] {
   box-shadow: var(--inner-highlight);
   overflow: hidden;
 }
-.orbital-gallery {
+.orbital-gallery,
+.orbital-image-wheel {
   position: relative;
   width: 100%;
 }
-.orbital-card {
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border);
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.oiw-item {
+  transform-origin: center center;
   transition: border-color var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) var(--ease-out);
 }
 .culture-bento {
