@@ -40,8 +40,8 @@ export default function WorksPage() {
           title="Works."
           subtitle="工程项目"
           intro="坚持真实可运行的工程落地，展示完整架构设计、技术选型与质量验收依据。"
-          scrollToId="works-explorer"
-          scrollLabel="向下滚动至工程项目全景"
+          scrollToId="works-live"
+          scrollLabel="向下滚动至已上线项目"
         />
       </div>
 
