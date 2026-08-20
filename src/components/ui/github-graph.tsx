@@ -141,12 +141,14 @@ export function GithubGraph({
         if (!res.ok) return;
         const result = await res.json();
         if (isMounted && result.ok && Array.isArray(result.contributions)) {
-          setLiveState({
-            contributions: result.contributions,
-            totalCommits: result.totalCommits ?? 0,
-            activeDays: result.activeDays ?? 0,
-            isLive: result.source === "live",
-          });
+          if ((result.totalCommits ?? 0) > 0 || result.contributions.some((c: GithubContribution) => c.count > 0)) {
+            setLiveState({
+              contributions: result.contributions,
+              totalCommits: result.totalCommits ?? 0,
+              activeDays: result.activeDays ?? 0,
+              isLive: result.source === "live",
+            });
+          }
         }
       } catch {
         // 优雅降级，使用本地基准数据
