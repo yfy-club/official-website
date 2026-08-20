@@ -74,8 +74,8 @@ export const trackCurriculumModuleSchema = z.object({
   title: z.string(),
   objective: z.string(),
   coreTopics: z.array(z.string()),
-  experiment: z.string(),
-  reviewStandard: z.string(),
+  experiment: z.string().optional(),
+  reviewStandard: z.string().optional(),
 });
 
 export const trackSchema = z.object({
