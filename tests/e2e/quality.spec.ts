@@ -88,12 +88,36 @@ test("work cards expose real screenshot counts and unique shared media names", a
     await expect(card.getByText(`${item.count} Screens / 系统实录`)).toBeVisible();
     await expect(source).toHaveCSS("view-transition-name", `work-image-${item.slug}`);
 
-    await card.getByRole("link", { name: /工程/ }).click();
+    await card.getByRole("link", { name: /项目|工程/ }).click();
     await expect(page).toHaveURL(`/works/${item.slug}`);
     const target = page.locator(".work-detail__hero-media");
     await expect(target).toHaveCSS("view-transition-name", `work-image-${item.slug}`);
     await expect(page.locator('[style*="view-transition-name: work-image-"]')).toHaveCount(1);
   }
+});
+
+test("works page preserves and restores scroll position when returning from detail page", async ({ page }) => {
+  await page.goto("/works", { waitUntil: "networkidle" });
+
+  const card = page.locator('[data-work-slug="zgyc-smart-light"]');
+  await card.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(100);
+
+  const initialScrollY = await page.evaluate(() => window.scrollY);
+  expect(initialScrollY).toBeGreaterThan(150);
+
+  await card.getByRole("link", { name: /项目|工程/ }).click();
+  await expect(page).toHaveURL("/works/zgyc-smart-light");
+
+  const backButton = page.getByRole("link", { name: "返回项目列表" });
+  await expect(backButton).toBeVisible();
+  await backButton.click();
+
+  await expect(page).toHaveURL("/works");
+
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.scrollY);
+  }, { timeout: 3000 }).toBeGreaterThan(100);
 });
 
 test("incubating works use the existing token-colored BorderBeam", async ({ page }) => {

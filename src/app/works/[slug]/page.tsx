@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
+import { WorkBackButton, WorkReturnLink } from "@/components/layout/work-back-button";
 import { CompareSlider } from "@/components/motion/compare-slider";
 import { DecisionsAccordion } from "@/components/sections/decisions-accordion";
 import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
@@ -75,12 +76,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Button asChild variant="ghost" size="sm" className="h-8 px-2.5 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]">
-          <Link href="/works">
-            <ArrowLeft size={13} aria-hidden="true" />
-            <span>返回项目列表</span>
-          </Link>
-        </Button>
+        <WorkBackButton slug={work.slug} />
       </div>
 
       <header id="work-start" className="work-detail__hero">
@@ -229,10 +225,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           <ArrowLeft aria-hidden="true" size={18} />
           <span><small>上一个项目</small>{previous.nameZh}</span>
         </Link>
-        <Link href="/works" className="pager__overview">
+        <WorkReturnLink href="/works" slug={work.slug} className="pager__overview">
           <LayoutGrid aria-hidden="true" size={16} />
           <span><small>总览索引</small>全部项目列表</span>
-        </Link>
+        </WorkReturnLink>
         <Link href={`/works/${next.slug}`}>
           <span><small>下一个项目</small>{next.nameZh}</span>
           <ArrowRight aria-hidden="true" size={18} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -21,6 +21,91 @@ type WorksFilterViewProps = {
 
 export function WorksFilterView({ works }: WorksFilterViewProps) {
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const hasRestoredRef = useRef(false);
+
+  // Save current scroll position, filter state and target slug to sessionStorage
+  const saveWorksState = useCallback((slug?: string) => {
+    try {
+      sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+      sessionStorage.setItem("yfy_works_filter", activeFilter);
+      if (slug) {
+        sessionStorage.setItem("yfy_works_last_slug", slug);
+      }
+      sessionStorage.setItem("yfy_works_restore", "true");
+    } catch {
+      // Ignore storage errors
+    }
+  }, [activeFilter]);
+
+  // Restore scroll position and filter state when returning to works page
+  useEffect(() => {
+    if (hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
+
+    try {
+      const shouldRestore = sessionStorage.getItem("yfy_works_restore") === "true";
+      if (!shouldRestore) return;
+
+      const savedFilter = sessionStorage.getItem("yfy_works_filter");
+      const savedScrollY = sessionStorage.getItem("yfy_works_scroll_y");
+      const savedSlug = sessionStorage.getItem("yfy_works_last_slug");
+
+      if (
+        savedFilter &&
+        ["all", "shipped", "incubating", "software", "ai", "iot"].includes(savedFilter) &&
+        savedFilter !== activeFilter
+      ) {
+        setActiveFilter(savedFilter);
+      }
+
+      const targetY = savedScrollY ? parseFloat(savedScrollY) : NaN;
+
+      const performScroll = () => {
+        if (!Number.isNaN(targetY) && targetY > 0) {
+          window.scrollTo({ top: targetY, behavior: "instant" });
+        } else if (savedSlug) {
+          const el =
+            document.getElementById(`work-${savedSlug}`) ||
+            document.querySelector(`[data-work-slug="${savedSlug}"]`);
+          if (el) {
+            el.scrollIntoView({ behavior: "instant", block: "center" });
+          }
+        }
+      };
+
+      // Multi-phase scroll restoration across paint and layout frames
+      const rafId = requestAnimationFrame(performScroll);
+      const t1 = setTimeout(performScroll, 30);
+      const t2 = setTimeout(performScroll, 100);
+      const t3 = setTimeout(() => {
+        performScroll();
+        try {
+          sessionStorage.removeItem("yfy_works_restore");
+        } catch {}
+      }, 300);
+
+      return () => {
+        cancelAnimationFrame(rafId);
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
+    } catch {
+      // Ignore storage errors
+    }
+  }, [activeFilter]);
+
+  // Snapshot scroll position and filter on pagehide
+  useEffect(() => {
+    const handlePageHide = () => {
+      try {
+        sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+        sessionStorage.setItem("yfy_works_filter", activeFilter);
+      } catch {}
+    };
+    window.addEventListener("pagehide", handlePageHide);
+    return () => window.removeEventListener("pagehide", handlePageHide);
+  }, [activeFilter]);
 
   const filteredWorks = useMemo(() => {
     if (activeFilter === "all") return works;
@@ -149,7 +234,10 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                         <div className="flex flex-wrap items-center gap-3">
                           {work.detail && (
                             <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-10 px-5 shadow-xs">
-                              <Link href={`/works/${work.slug}`}>
+                              <Link
+                                href={`/works/${work.slug}`}
+                                onClick={() => saveWorksState(work.slug)}
+                              >
                                 <span>查看项目详情</span>
                                 <ArrowRight aria-hidden="true" size={15} />
                               </Link>
@@ -188,6 +276,8 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                   <Card
                     corners
                     key={work.slug}
+                    id={`work-${work.slug}`}
+                    data-work-slug={work.slug}
                     variant="frame"
                     className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
                   >

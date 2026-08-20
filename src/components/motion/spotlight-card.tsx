@@ -62,7 +62,12 @@ export function SpotlightCard({
   }, []);
 
   return (
-    <article className="work-row spotlight-card border-[var(--border)] bg-[var(--surface)] shadow-xs rounded-[var(--radius-sm)] overflow-hidden" ref={cardRef} data-work-slug={workSlug}>
+    <article
+      id={workSlug ? `work-${workSlug}` : undefined}
+      className="work-row spotlight-card border-[var(--border)] bg-[var(--surface)] shadow-xs rounded-[var(--radius-sm)] overflow-hidden"
+      ref={cardRef}
+      data-work-slug={workSlug}
+    >
       {image && (
         <div
           className="work-row__media spotlight-card__media relative flex flex-col overflow-hidden border-b lg:border-b-0 lg:border-r border-[var(--border)] bg-[var(--surface-2)]"

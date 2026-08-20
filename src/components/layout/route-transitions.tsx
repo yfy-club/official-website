@@ -29,6 +29,23 @@ export function RouteTransitions() {
 
       const documentWithTransition = document as TransitionDocument;
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Automatically capture scroll position and flags between /works and /works/[slug]
+      try {
+        if (window.location.pathname === "/works" && url.pathname.startsWith("/works/")) {
+          sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+          sessionStorage.setItem("yfy_works_restore", "true");
+          const targetSlug = url.pathname.replace("/works/", "").split("/")[0];
+          if (targetSlug) sessionStorage.setItem("yfy_works_last_slug", targetSlug);
+        } else if (window.location.pathname.startsWith("/works/") && url.pathname === "/works") {
+          sessionStorage.setItem("yfy_works_restore", "true");
+          const fromSlug = window.location.pathname.replace("/works/", "").split("/")[0];
+          if (fromSlug) sessionStorage.setItem("yfy_works_last_slug", fromSlug);
+        }
+      } catch {
+        // Ignore storage errors
+      }
+
       if (!documentWithTransition.startViewTransition || reduce) return;
 
       event.preventDefault();
