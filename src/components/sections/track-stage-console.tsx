@@ -76,7 +76,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
                   {`STAGE 0${idx + 1}`}
                 </span>
                 <span className="text-sm sm:text-base font-bold tracking-tight">
-                  {tab.year} · {tab.label}
+                  {tab.year}
                 </span>
               </div>
 
