@@ -157,7 +157,8 @@ export default async function TrackDetailPage({
         <section id="track-deep-dive" className="section mb-24 sm:mb-32" aria-labelledby="deep-dive-title" data-reveal="section">
           <div className="section__head mb-12">
             <p className="caps section__index">04 / ARCHITECTURE & THEORY</p>
-            <h2 id="deep-dive-title" className="section__title">核心拓扑与架构原理。</h2>
+            <h2 id="deep-dive-title" className="section__title">{deepDive.headline}。</h2>
+            <p className="section__intro">{deepDive.description}</p>
           </div>
           <TrackDeepArchitecture deepDive={deepDive} />
         </section>

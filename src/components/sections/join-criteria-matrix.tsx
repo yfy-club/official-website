@@ -102,7 +102,7 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
               <div className="p-5 sm:p-6 flex flex-col justify-between gap-3">
                 <div className="flex items-center justify-between font-mono text-xs text-[var(--success)]">
                   <span className="font-semibold tracking-wider">
-                    {item.index} // {item.suitableDimension}
+                    {item.index} {"//"} {item.suitableDimension}
                   </span>
                 </div>
                 <div className="flex items-start gap-3">
@@ -120,7 +120,7 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
               <div className="p-5 sm:p-6 flex flex-col justify-between gap-3 bg-[var(--surface-2)]/15 md:bg-transparent">
                 <div className="flex items-center justify-between font-mono text-xs text-[var(--danger)]">
                   <span className="font-semibold tracking-wider">
-                    {item.index} // {item.unsuitableDimension}
+                    {item.index} {"//"} {item.unsuitableDimension}
                   </span>
                 </div>
                 <div className="flex items-start gap-3">

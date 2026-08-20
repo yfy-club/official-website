@@ -123,7 +123,7 @@ export function JoinProcessStepper({ className }: { className?: string }) {
                       isHovered ? "text-[var(--accent)]" : "text-[var(--fg-faint)]"
                     )}
                   >
-                    {item.step} //
+                    {item.step} {"//"}
                   </span>
                   <h3 className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight m-0">
                     {item.title}
