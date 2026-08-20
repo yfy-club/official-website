@@ -15,6 +15,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Button } from "@/components/ui/button";
 import { Card, CardFrame, CardFrameAction, CardFrameHeader, CardFrameTitle, CardPanel } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/data-table";
+import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { TechTag } from "@/components/ui/tech-tag";
 import { tracks, works } from "@/content";
 import type { Work } from "@/content/schema";
@@ -105,8 +106,37 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         </div>
         {work.logo && <Image className="work-detail__logo" src={work.logo} alt="" width={220} height={220} />}
         {work.image && (
-          <div className="work-detail__hero-media" style={{ viewTransitionName: getWorkImageTransitionName(work.slug) }}>
-            <Image src={work.image} alt={`${work.nameZh}项目主界面预览`} width={1600} height={900} sizes="(max-width: 1024px) 100vw, 80vw" priority />
+          <div
+            className="work-detail__hero-media relative group/work-hero overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border-strong)] bg-[var(--surface-2)] shadow-xl"
+            style={{ viewTransitionName: getWorkImageTransitionName(work.slug) }}
+          >
+            <ShaderLensBlur
+              className="opacity-35 mix-blend-screen transition-opacity duration-700 group-hover/work-hero:opacity-60"
+              variation={
+                work.trackSlugs[0] === "ai"
+                  ? "triangle"
+                  : work.trackSlugs[0] === "cloud-iot"
+                    ? "ring"
+                    : "square"
+              }
+              color1="#022c22"
+              color2="#0f766e"
+              color3="#0284c7"
+              color4="#011812"
+              speed={0.65}
+              intensity={0.9}
+            />
+            <div className="relative z-10 p-2 sm:p-4 md:p-6 flex items-center justify-center">
+              <Image
+                src={work.image}
+                alt={`${work.nameZh}项目主界面预览`}
+                width={1600}
+                height={900}
+                sizes="(max-width: 1024px) 100vw, 80vw"
+                className="w-full h-auto rounded-[var(--radius-xs)] shadow-2xl border border-[var(--border)]/60 object-contain"
+                priority
+              />
+            </div>
           </div>
         )}
       </header>

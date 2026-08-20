@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Kbd, KbdGroup } from "@/components/ui/kbd";
+import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tag } from "@/components/ui/tag";
 import { useToast } from "@/hooks/use-toast";
@@ -261,13 +262,23 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
               </div>
 
               {/* Certificate Image Frame */}
-              <div className="relative flex-1 flex items-center justify-center rounded-[var(--radius-xs)] border border-[var(--border)] bg-black/60 p-4 sm:p-6 my-4 overflow-hidden min-h-[380px] max-h-[68vh]">
+              <div className="relative flex-1 flex items-center justify-center rounded-[var(--radius-xs)] border border-[var(--border)] bg-black/75 p-4 sm:p-6 my-4 overflow-hidden min-h-[380px] max-h-[68vh]">
+                <ShaderLensBlur
+                  className="opacity-45 mix-blend-screen transition-opacity duration-500"
+                  variation={currentAward.level === "国家级" ? "circle" : "ring"}
+                  color1={currentAward.level === "国家级" ? "#1c1917" : "#022c22"}
+                  color2={currentAward.level === "国家级" ? "#854d0e" : "#065f46"}
+                  color3={currentAward.level === "国家级" ? "#ca8a04" : "#0d9488"}
+                  color4={currentAward.level === "国家级" ? "#0f172a" : "#041e16"}
+                  speed={0.6}
+                  intensity={0.95}
+                />
                 <Image
                   src={currentAward.image}
                   alt={`${currentAward.year} 年${currentAward.competition}${currentAward.result}证书，公开脱敏版`}
                   width={1800}
                   height={1300}
-                  className="max-h-[64vh] max-w-full w-auto h-auto object-contain rounded-[var(--radius-xs)] shadow-2xl select-none"
+                  className="relative z-10 max-h-[64vh] max-w-full w-auto h-auto object-contain rounded-[var(--radius-xs)] shadow-2xl select-none"
                   priority
                 />
 

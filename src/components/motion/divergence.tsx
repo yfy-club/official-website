@@ -9,11 +9,59 @@ import { AnimatedBeam } from "@/components/ui/animated-beam";
 import { Badge } from "@/components/ui/badge";
 import { CardCorners } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
+import { ShaderLensBlur, type ShaderVariation } from "@/components/ui/shader-lens-blur";
 import { Tag } from "@/components/ui/tag";
 import type { Track } from "@/content/schema";
 
 type TracksMapProps = {
   tracks: Track[];
+};
+
+const TRACK_SHADER_THEMES: Record<
+  string,
+  {
+    variation: ShaderVariation;
+    color1: string;
+    color2: string;
+    color3: string;
+    color4: string;
+  }
+> = {
+  ai: {
+    variation: "triangle",
+    color1: "#0c0a20",
+    color2: "#2e1065",
+    color3: "#0d9488",
+    color4: "#022c22",
+  },
+  software: {
+    variation: "square",
+    color1: "#022c22",
+    color2: "#0f766e",
+    color3: "#1e293b",
+    color4: "#041e16",
+  },
+  "cloud-iot": {
+    variation: "ring",
+    color1: "#041e16",
+    color2: "#059669",
+    color3: "#10b981",
+    color4: "#022c22",
+  },
+  database: {
+    variation: "square",
+    color1: "#082f49",
+    color2: "#0369a1",
+    color3: "#064e3b",
+    color4: "#022c22",
+  },
+  industrial: {
+    variation: "circle",
+    color1: "#1c1917",
+    color2: "#78350f",
+    color3: "#047857",
+    color4: "#022c22",
+  },
 };
 
 export function TracksMap({ tracks }: TracksMapProps) {
@@ -32,6 +80,8 @@ export function TracksMap({ tracks }: TracksMapProps) {
   }
 
   if (!activeTrack) return null;
+
+  const currentTheme = TRACK_SHADER_THEMES[activeTrack.slug] ?? TRACK_SHADER_THEMES.ai;
 
   return (
     <Tabs.Root
@@ -113,6 +163,16 @@ export function TracksMap({ tracks }: TracksMapProps) {
           gradientSize={420}
           gradientTo="var(--border-strong)"
         >
+          <ShaderLensBlur
+            className="opacity-35 mix-blend-screen transition-opacity duration-500"
+            variation={currentTheme.variation}
+            color1={currentTheme.color1}
+            color2={currentTheme.color2}
+            color3={currentTheme.color3}
+            color4={currentTheme.color4}
+            speed={0.7}
+            intensity={0.9}
+          />
           <CardCorners />
           {tracks.map((track) => (
             <Tabs.Content className="tracks-detail__panel" key={track.slug} value={track.slug}>
