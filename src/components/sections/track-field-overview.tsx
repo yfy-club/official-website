@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Activity, Sparkles } from "lucide-react";
 
 import type { TrackOverviewData } from "@/content/track-overviews";
 import { TechTag } from "@/components/ui/tech-tag";
@@ -18,18 +17,12 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   return (
-    <div className="w-full space-y-16">
-      {/* 1. 纲领大字导引与产业趋势 */}
-      <div className="space-y-6 pb-12 border-b border-[var(--border)]">
+    <div className="w-full space-y-12">
+      {/* 1. 纲领大字导引 */}
+      <div className="pb-8 border-b border-[var(--border)]">
         <p className="text-xl sm:text-2xl lg:text-3xl text-[var(--fg)] leading-relaxed font-normal tracking-tight max-w-4xl">
           {data.leadParagraph}
         </p>
-
-        <div className="inline-flex items-center gap-2.5 py-1.5 px-3.5 rounded-[var(--radius-full)] bg-[var(--surface-2)] border border-[var(--border-strong)] text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
-          <Sparkles size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
-          <span className="text-[var(--accent)] font-bold">INDUSTRY TREND //</span>
-          <span className="text-[var(--fg)]">{data.industryTrend}</span>
-        </div>
       </div>
 
       {/* 2. 主攻领域无框全宽清单 (Swiss Editorial List) */}
@@ -103,7 +96,7 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                                 setActiveStep(sIdx);
                               }}
                               className={cn(
-                                "p-5 rounded-[var(--radius-xs)] border transition-all duration-150 cursor-pointer",
+                                "p-5 rounded-[var(--radius-xs)] border transition-all duration-150 cursor-pointer active:scale-[0.98]",
                                 isStepActive
                                   ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
                                   : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
@@ -126,22 +119,6 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                             </div>
                           );
                         })}
-                      </div>
-
-                      {/* 落地项目指标 */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 mt-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)]">
-                        <div className="flex items-center gap-2.5">
-                          <Activity size={15} className="text-emerald-500 shrink-0" aria-hidden="true" />
-                          <span className="font-mono text-xs font-bold text-[var(--fg)]">
-                            {data.practicalApplication.domain}
-                          </span>
-                          <span className="text-xs text-[var(--fg-muted)]">
-                            — {data.practicalApplication.summary}
-                          </span>
-                        </div>
-                        <span className="font-mono text-xs font-bold text-[var(--accent)] shrink-0">
-                          {data.practicalApplication.metric}
-                        </span>
                       </div>
                     </motion.div>
                   )}

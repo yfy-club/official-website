@@ -10,7 +10,6 @@ import { TrackFieldOverview } from "@/components/sections/track-field-overview";
 import { TrackStageConsole } from "@/components/sections/track-stage-console";
 import { TechStackCutoutConsole } from "@/components/sections/tech-stack-cutout-console";
 import { StructuredData } from "@/components/seo/structured-data";
-import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -124,7 +123,6 @@ export default async function TrackDetailPage({
             <span className="font-mono text-xs sm:text-sm font-bold text-[var(--accent)] tracking-widest">
               TRK-0{track.index} {"//"} TECHNICAL SPEC
             </span>
-            <Badge variant="active">ACTIVE TRACK</Badge>
           </div>
 
           <div className="space-y-3">
