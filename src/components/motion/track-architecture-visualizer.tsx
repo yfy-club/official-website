@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import {
   Activity,
+  AlertOctagon,
   Cpu,
   Database,
   Layers,
@@ -41,11 +42,12 @@ export function TrackNeuralNetworkVisualizer() {
   const [activeTab, setActiveTab] = useState<"mlp" | "attention">("mlp");
   const [hoveredNeuron, setHoveredNeuron] = useState<Neuron | null>(null);
   const [selectedWord, setSelectedWord] = useState<number>(0);
+  const [hoveredCell, setHoveredCell] = useState<{ r: number; c: number } | null>(null);
   const gradientId = useId();
 
   // MLP Layer Configuration
   const layerCounts = [3, 4, 4, 2];
-  const layerLabels = ["输入层 (X)", "隐藏层 1 (H₁)", "隐藏层 2 (H₂)", "输出层 (Ŷ)"];
+  const layerLabels = ["INPUT (X)", "HIDDEN 1 (H₁)", "HIDDEN 2 (H₂)", "OUTPUT (Ŷ)"];
   const width = 640;
   const height = 300;
 
@@ -108,7 +110,7 @@ export function TrackNeuralNetworkVisualizer() {
             <span>AI NEURAL ENGINE</span>
           </Badge>
           <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// 神经突触前向传导与注意力空间"}
+            {"// TENSOR FORWARD & ATTENTION SPACE"}
           </span>
         </div>
         <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
@@ -116,25 +118,25 @@ export function TrackNeuralNetworkVisualizer() {
             type="button"
             onClick={() => setActiveTab("mlp")}
             className={cn(
-              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer active:scale-[0.96]",
               activeTab === "mlp"
                 ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            全连接网络
+            全连接前传 (MLP)
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("attention")}
             className={cn(
-              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer active:scale-[0.96]",
               activeTab === "attention"
                 ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            自注意力
+            自注意力空间 (Attention)
           </button>
         </div>
       </div>
@@ -215,7 +217,7 @@ export function TrackNeuralNetworkVisualizer() {
                     y={20}
                     textAnchor="middle"
                     fill="var(--fg-muted)"
-                    className="font-mono text-[11px] font-semibold"
+                    className="font-mono text-[10px] font-semibold tracking-wider"
                   >
                     {lbl}
                   </text>
@@ -278,28 +280,28 @@ export function TrackNeuralNetworkVisualizer() {
             </svg>
           </div>
 
-          {/* 实时张量参数监视器 */}
+          {/* 实时张量参数监视器 (去说教，纯工程仪表) */}
           <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between flex-wrap gap-4 text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="text-[var(--fg-faint)]">NEURON INSPECTOR:</span>
+              <span className="text-[var(--accent)] font-bold">TENSOR STREAM //</span>
               {hoveredNeuron ? (
-                <span className="text-[var(--accent)] font-bold">
-                  Node [{hoveredNeuron.label}] // a = {hoveredNeuron.activation}, bias = {hoveredNeuron.bias}
+                <span className="text-[var(--fg)] font-bold">
+                  NODE [{hoveredNeuron.label}] · ACTIVATION: {hoveredNeuron.activation} · BIAS: {hoveredNeuron.bias}
                 </span>
               ) : (
                 <span className="text-[var(--fg-muted)]">
-                  鼠标悬停任意神经元查看权重张量与激活值流向
+                  3 LAYERS · 8 SYNAPSE PULSES · ACTIVATION: GELU · LOSS: 0.042
                 </span>
               )}
             </div>
             <div className="flex items-center gap-3 text-[11px] text-[var(--fg-muted)]">
               <span className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[var(--accent)] inline-block" />
-                正向权重 (w &gt; 0)
+                <span>WEIGHT &gt; 0</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-[var(--border-strong)] inline-block" />
-                负向抑制 (w &lt; 0)
+                <span>INHIBIT &lt; 0</span>
               </span>
             </div>
           </div>
@@ -310,42 +312,60 @@ export function TrackNeuralNetworkVisualizer() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             {/* 左侧注意力热力图 */}
             <div className="md:col-span-7">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-mono text-[var(--fg-muted)]">
-                  Q × Kᵀ / √dₖ 注意力权重矩阵 (Attention Map)
+              <div className="flex items-center justify-between mb-3 font-mono text-xs">
+                <span className="text-[var(--fg-muted)]">
+                  ATTENTION MAP // Q × Kᵀ / √dₖ
                 </span>
-                <span className="text-[11px] font-mono text-[var(--accent)]">
-                  Softmax Normalized
+                <span className="text-[11px] text-[var(--accent)] font-bold">
+                  SOFTMAX NORMALIZED
                 </span>
               </div>
               <div className="overflow-x-auto no-scrollbar">
                 <div className="inline-block min-w-[320px]">
                   {/* 顶端 Key 标签 */}
                   <div className="grid grid-cols-7 gap-1.5 mb-1.5 text-center font-mono text-xs text-[var(--fg-muted)]">
-                    <div />
-                    {tokens.map((tok) => (
-                      <div key={`col-${tok}`} className="font-semibold">{tok}</div>
+                    <div className="text-[10px] text-[var(--fg-faint)]">Q \ K</div>
+                    {tokens.map((tok, cIdx) => (
+                      <div
+                        key={`col-${tok}`}
+                        className={cn(
+                          "font-semibold transition-colors",
+                          hoveredCell?.c === cIdx ? "text-[var(--accent)] font-bold" : ""
+                        )}
+                      >
+                        {tok}
+                      </div>
                     ))}
                   </div>
                   {/* 热力行 */}
                   {tokens.map((rowTok, rIdx) => (
                     <div key={`row-${rowTok}`} className="grid grid-cols-7 gap-1.5 mb-1.5 items-center">
-                      <div className="font-mono text-xs text-right pr-2 font-semibold text-[var(--fg-muted)]">
+                      <div
+                        className={cn(
+                          "font-mono text-xs text-right pr-2 font-semibold transition-colors",
+                          hoveredCell?.r === rIdx || selectedWord === rIdx ? "text-[var(--accent)] font-bold" : "text-[var(--fg-muted)]"
+                        )}
+                      >
                         {rowTok}
                       </div>
                       {attentionMatrix[rIdx].map((val, cIdx) => {
                         const isSelected = selectedWord === rIdx;
+                        const isCrosshair = hoveredCell?.r === rIdx || hoveredCell?.c === cIdx;
                         const opacity = Math.max(0.12, val);
                         return (
                           <button
                             key={`cell-${rIdx}-${cIdx}`}
                             type="button"
+                            onMouseEnter={() => setHoveredCell({ r: rIdx, c: cIdx })}
+                            onMouseLeave={() => setHoveredCell(null)}
                             onClick={() => setSelectedWord(rIdx)}
                             className={cn(
-                              "h-8 sm:h-9 rounded-[var(--radius-xs)] font-mono text-[10px] sm:text-xs flex items-center justify-center transition-all cursor-pointer border",
+                              "h-8 sm:h-9 rounded-[var(--radius-xs)] font-mono text-[10px] sm:text-xs flex items-center justify-center transition-all cursor-pointer border active:scale-[0.94]",
                               isSelected
                                 ? "border-[var(--accent)] text-[var(--fg)] font-bold shadow-xs"
-                                : "border-transparent text-[var(--fg-muted)] hover:border-[var(--border-strong)]",
+                                : isCrosshair
+                                ? "border-[var(--border-strong)] text-[var(--fg)]"
+                                : "border-transparent text-[var(--fg-muted)]",
                             )}
                             style={{
                               backgroundColor: `color-mix(in srgb, var(--accent) ${Math.round(opacity * 100)}%, var(--surface-2))`,
@@ -370,7 +390,7 @@ export function TrackNeuralNetworkVisualizer() {
                 </span>
               </div>
               <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
-                自注意力机制允许模型在编码当前词「{tokens[selectedWord]}」时，跨越固定窗口动态捕获全句上下文的关键语义权重。
+                自注意力机制动态捕获全句关键语义权重，实现全局无损上下文关联。
               </p>
               <div className="space-y-1.5 pt-2 border-t border-[var(--border)]">
                 {tokens.map((tok, i) => (
@@ -402,8 +422,9 @@ export function TrackNeuralNetworkVisualizer() {
 
 export function TrackServiceTraceVisualizer() {
   const [selectedSpan, setSelectedSpan] = useState<number>(0);
+  const [isChaos, setIsChaos] = useState<boolean>(false);
 
-  const spans = [
+  const defaultSpans = [
     { id: "span-gw", name: "API Gateway", latency: 2.1, status: "200 OK", protocol: "HTTP/2", detail: "路由匹配与 JWT 权限鉴权完成" },
     { id: "span-auth", name: "Auth & RateLimiter", latency: 1.4, status: "PASSED", protocol: "gRPC", detail: "令牌桶限流校验通过，用户鉴权成功" },
     { id: "span-core", name: "Core Business Service", latency: 4.8, status: "PROCESSED", protocol: "RPC", detail: "执行核心业务逻辑与数据组装" },
@@ -412,21 +433,53 @@ export function TrackServiceTraceVisualizer() {
     { id: "span-db", name: "Sharded DB (Cluster)", latency: 3.2, status: "COMMITTED", protocol: "MySQL", detail: "一致性哈希路由落盘完成" },
   ];
 
+  const chaosSpans = [
+    { id: "span-gw", name: "API Gateway", latency: 156.7, status: "504 TIMEOUT", protocol: "HTTP/2", detail: "下游依赖严重超时，触发熔断降级策略" },
+    { id: "span-auth", name: "Auth & RateLimiter", latency: 1.4, status: "PASSED", protocol: "gRPC", detail: "令牌桶限流校验通过" },
+    { id: "span-core", name: "Core Business Service", latency: 154.2, status: "DEGRADED", protocol: "RPC", detail: "等待 DB 连接池资源耗尽，线程池阻塞" },
+    { id: "span-cache", name: "Redis L2 Cache", latency: 12.5, status: "MISS / RETRY", protocol: "TCP", detail: "热点 Key 过期引发缓存击穿" },
+    { id: "span-mq", name: "Kafka Event Bus", latency: 1.9, status: "PRODUCED", protocol: "Kafka", detail: "异步领域事件排队中" },
+    { id: "span-db", name: "Sharded DB (Cluster)", latency: 142.0, status: "SLOW QUERY", protocol: "MySQL", detail: "瞬时千万级并发未命中索引，执行全表扫描" },
+  ];
+
+  const spans = isChaos ? chaosSpans : defaultSpans;
+
   return (
     <div className="w-full flex flex-col space-y-4">
-      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+      <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant="active" className="font-mono text-[11px] gap-1">
-            <Network size={12} className="text-[var(--accent)]" />
+          <Badge variant={isChaos ? "warning" : "active"} className="font-mono text-[11px] gap-1">
+            <Network size={12} className={isChaos ? "text-[var(--warn)]" : "text-[var(--accent)]"} />
             <span>DISTRIBUTED TRACE INSPECTOR</span>
           </Badge>
           <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// OpenTelemetry 端到端微服务全链路追踪"}
+            {"// OPENTELEMETRY TRACE CONTEXT"}
           </span>
         </div>
-        <span className="font-mono text-xs text-[var(--accent)] font-bold">
-          Total p99: 14.2ms
-        </span>
+
+        <div className="flex items-center gap-3">
+          {/* 混沌工程故障注入开关 */}
+          <button
+            type="button"
+            onClick={() => setIsChaos(!isChaos)}
+            className={cn(
+              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] border transition-all cursor-pointer active:scale-[0.96] flex items-center gap-1.5",
+              isChaos
+                ? "bg-[var(--warn)]/20 border-[var(--warn)] text-[var(--warn)] font-bold"
+                : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)]"
+            )}
+          >
+            <AlertOctagon size={13} className={isChaos ? "animate-pulse" : ""} />
+            <span>{isChaos ? "CHAOS: LATENCY_SPIKE (ON)" : "CHAOS: OFF"}</span>
+          </button>
+
+          <span className={cn(
+            "font-mono text-xs font-bold",
+            isChaos ? "text-[var(--warn)]" : "text-[var(--accent)]"
+          )}>
+            p99: {isChaos ? "156.7ms" : "14.2ms"}
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
@@ -439,15 +492,18 @@ export function TrackServiceTraceVisualizer() {
 
           {spans.map((span, idx) => {
             const isSelected = selectedSpan === idx;
+            const maxLatency = isChaos ? 160 : 6.0;
             return (
               <button
                 key={span.id}
                 type="button"
                 onClick={() => setSelectedSpan(idx)}
                 className={cn(
-                  "w-full flex items-center justify-between p-3 rounded-[var(--radius-xs)] border transition-all text-left cursor-pointer",
+                  "w-full flex items-center justify-between p-3 rounded-[var(--radius-xs)] border transition-all text-left cursor-pointer active:scale-[0.98]",
                   isSelected
-                    ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
+                    ? isChaos
+                      ? "border-[var(--warn)] bg-[var(--warn)]/10 shadow-xs"
+                      : "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
                     : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]",
                 )}
               >
@@ -466,11 +522,14 @@ export function TrackServiceTraceVisualizer() {
                 <div className="flex items-center gap-3">
                   <div className="w-24 sm:w-36 h-2 rounded-full bg-[var(--surface-2)] overflow-hidden border border-[var(--border)]">
                     <div
-                      className="h-full bg-[var(--accent)] rounded-full transition-all duration-300"
-                      style={{ width: `${(span.latency / 6.0) * 100}%` }}
+                      className={cn(
+                        "h-full rounded-full transition-all duration-300",
+                        span.latency > 50 ? "bg-red-500" : span.latency > 10 ? "bg-amber-500" : "bg-[var(--accent)]"
+                      )}
+                      style={{ width: `${Math.min(100, (span.latency / maxLatency) * 100)}%` }}
                     />
                   </div>
-                  <span className="font-mono text-xs font-bold text-[var(--fg)] w-12 text-right tabular">
+                  <span className="font-mono text-xs font-bold text-[var(--fg)] w-14 text-right tabular">
                     {span.latency}ms
                   </span>
                 </div>
@@ -485,7 +544,7 @@ export function TrackServiceTraceVisualizer() {
             <span className="font-mono text-xs font-bold text-[var(--fg)]">
               SPAN // {spans[selectedSpan].name}
             </span>
-            <Badge variant="active" className="text-[10px]">
+            <Badge variant={spans[selectedSpan].status.includes("504") || spans[selectedSpan].status.includes("SLOW") ? "warning" : "active"} className="text-[10px]">
               {spans[selectedSpan].status}
             </Badge>
           </div>
@@ -497,20 +556,20 @@ export function TrackServiceTraceVisualizer() {
             </div>
             <div className="flex justify-between py-1 border-b border-[var(--border)]/50">
               <span className="text-[var(--fg-muted)]">Span Duration:</span>
-              <span className="font-bold text-[var(--accent)]">{spans[selectedSpan].latency} ms</span>
+              <span className={cn("font-bold", spans[selectedSpan].latency > 50 ? "text-red-400" : "text-[var(--accent)]")}>
+                {spans[selectedSpan].latency} ms
+              </span>
             </div>
             <div className="flex justify-between py-1 border-b border-[var(--border)]/50">
-              <span className="text-[var(--fg-muted)]">Trace ID:</span>
-              <span className="text-[var(--fg)]">4bf92f3577b34da6</span>
-            </div>
-            <div className="flex justify-between py-1 border-b border-[var(--border)]/50">
-              <span className="text-[var(--fg-muted)]">Span ID:</span>
-              <span className="text-[var(--fg)]">00f067aa0ba902b7</span>
+              <span className="text-[var(--fg-muted)]">W3C Header:</span>
+              <span className="text-[var(--fg)] font-mono text-[10px] truncate max-w-[170px]">
+                00-4bf92f3577b3-00f067-01
+              </span>
             </div>
           </div>
 
           <div className="p-3 rounded bg-[var(--surface)] border border-[var(--border)] text-xs text-[var(--fg-muted)] leading-relaxed">
-            <p className="font-semibold text-[var(--fg)] mb-1">执行说明：</p>
+            <p className="font-semibold text-[var(--fg)] mb-1">执行状态：</p>
             {spans[selectedSpan].detail}
           </div>
         </div>
@@ -532,11 +591,11 @@ export function TrackBTreeVisualizer() {
   // B+ Tree Search Path Resolver
   const getBTreePath = (k: number) => {
     if (k < 50) {
-      if (k < 30) return { root: "50", internal: "20 | 30", leaf: "[15, 20, 28]" };
-      return { root: "50", internal: "20 | 30", leaf: "[35, 42, 48]" };
+      if (k < 30) return { root: "50", internal: "20 | 30", leaf: "[15, 20, 28]", searchSteps: "Root(50) → Page#102 [20, 30] → Leaf#201 [15, 20*, 28]" };
+      return { root: "50", internal: "20 | 30", leaf: "[35, 42, 48]", searchSteps: "Root(50) → Page#102 [20, 30] → Leaf#202 [35, 42*, 48]" };
     }
-    if (k < 80) return { root: "50", internal: "70 | 85", leaf: "[60, 68, 70]" };
-    return { root: "50", internal: "70 | 85", leaf: "[85, 92, 99]" };
+    if (k < 80) return { root: "50", internal: "70 | 85", leaf: "[60, 68, 70]", searchSteps: "Root(50) → Page#103 [70, 85] → Leaf#203 [60, 68*, 70]" };
+    return { root: "50", internal: "70 | 85", leaf: "[85, 92, 99]", searchSteps: "Root(50) → Page#103 [70, 85] → Leaf#204 [85*, 92, 99]" };
   };
 
   const currentPath = getBTreePath(selectedKey);
@@ -550,7 +609,7 @@ export function TrackBTreeVisualizer() {
             <span>STORAGE KERNEL EXPLORER</span>
           </Badge>
           <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// B+ 树页索引与 MVCC 快照读"}
+            {"// B+ TREE PAGE INDEX & MVCC READVIEW"}
           </span>
         </div>
         <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
@@ -558,7 +617,7 @@ export function TrackBTreeVisualizer() {
             type="button"
             onClick={() => setViewMode("btree")}
             className={cn(
-              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer active:scale-[0.96]",
               viewMode === "btree"
                 ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
@@ -570,7 +629,7 @@ export function TrackBTreeVisualizer() {
             type="button"
             onClick={() => setViewMode("mvcc")}
             className={cn(
-              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+              "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer active:scale-[0.96]",
               viewMode === "mvcc"
                 ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
@@ -585,7 +644,7 @@ export function TrackBTreeVisualizer() {
         <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6 space-y-6">
           {/* 查找键选择栏 */}
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-xs font-mono text-[var(--fg-muted)]">选择检索键 (SELECT Key):</span>
+            <span className="text-xs font-mono text-[var(--accent)] font-bold">KEY // TARGET_SELECT</span>
             <div className="flex items-center gap-2">
               {searchKeys.map((k) => (
                 <button
@@ -593,7 +652,7 @@ export function TrackBTreeVisualizer() {
                   type="button"
                   onClick={() => setSelectedKey(k)}
                   className={cn(
-                    "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer border",
+                    "px-3 py-1 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer border active:scale-[0.94]",
                     selectedKey === k
                       ? "bg-[var(--accent)] text-[var(--surface)] font-bold border-[var(--accent)] shadow-xs"
                       : "bg-[var(--surface-2)] text-[var(--fg)] border-[var(--border)] hover:border-[var(--border-strong)]",
@@ -664,7 +723,7 @@ export function TrackBTreeVisualizer() {
                   >
                     <div className="flex items-center justify-between text-[10px] text-[var(--fg-faint)] mb-1">
                       <span>{leaf.name}</span>
-                      <span className="text-[var(--accent)]">{isTarget ? "HIT" : ""}</span>
+                      <span className="text-[var(--accent)] font-bold">{isTarget ? "HIT" : ""}</span>
                     </div>
                     <div className="font-bold text-[var(--fg)]">{leaf.keys}</div>
                   </div>
@@ -675,25 +734,26 @@ export function TrackBTreeVisualizer() {
 
           <div className="p-3 rounded bg-[var(--surface-2)] border border-[var(--border)] text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between flex-wrap gap-2">
             <span>
-              寻址路径：Root (50) → Page #102/103 → {currentPath.leaf}
+              BINARY SEARCH // {currentPath.searchSteps}
             </span>
             <span className="text-[var(--accent)] font-bold">
-              精确磁盘 I/O 次数：3 次 (无需全表扫描)
+              DISK I/O COUNTER: 3 (ZERO FULL-SCAN)
             </span>
           </div>
         </div>
       ) : (
         /* MVCC Version Chain View */
         <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6 space-y-4">
-          <div className="text-xs font-mono text-[var(--fg-muted)] mb-2">
-            {"ROW ID #10086 // CLUSTERED INDEX RECORD & UNDO LOG VERSION CHAIN"}
+          <div className="flex items-center justify-between text-xs font-mono pb-2 border-b border-[var(--border)]">
+            <span className="text-[var(--accent)] font-bold">READ_VIEW // [m_ids: 1032, 1045 · min_trx: 1032 · max_trx: 1046]</span>
+            <span className="text-[var(--fg-muted)]">SNAPSHOT ISOLATION</span>
           </div>
 
           <div className="space-y-3">
             {[
-              { trxId: 1045, rollPtr: "0x7f88a", status: "当前最新版本 (已提交)", balance: "¥ 8,500.00", visible: "对当前事务可见" },
-              { trxId: 1032, rollPtr: "0x7f880", status: "历史版本 1 (Undo Log)", balance: "¥ 6,200.00", visible: "历史快照" },
-              { trxId: 1010, rollPtr: "NULL", status: "初始创建版本", balance: "¥ 3,000.00", visible: "基线版本" },
+              { trxId: 1045, rollPtr: "0x7f88a", status: "当前版本 (已提交)", balance: "¥ 8,500.00", visible: "当前事务可见" },
+              { trxId: 1032, rollPtr: "0x7f880", status: "Undo Log 历史版本 1", balance: "¥ 6,200.00", visible: "历史快照读" },
+              { trxId: 1010, rollPtr: "NULL", status: "基线版本", balance: "¥ 3,000.00", visible: "基线可见" },
             ].map((ver, i) => (
               <div
                 key={ver.trxId}
@@ -738,18 +798,18 @@ export function TrackIotPipelineVisualizer() {
             <span>MQTT EDGE-CLOUD BUS</span>
           </Badge>
           <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// 端边云协同与毫秒级时序遥测"}
+            {"// 100Hz TELEMETRY OSCILLOSCOPE"}
           </span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-mono text-[var(--fg-muted)]">QoS 协议:</span>
+          <span className="text-xs font-mono text-[var(--fg-muted)]">QoS:</span>
           {([0, 1, 2] as const).map((q) => (
             <button
               key={q}
               type="button"
               onClick={() => setQosLevel(q)}
               className={cn(
-                "px-2.5 py-0.5 text-xs font-mono rounded-[var(--radius-xs)] border cursor-pointer",
+                "px-2.5 py-0.5 text-xs font-mono rounded-[var(--radius-xs)] border cursor-pointer active:scale-[0.94]",
                 qosLevel === q
                   ? "bg-[var(--accent)] text-[var(--surface)] font-bold border-[var(--accent)]"
                   : "bg-[var(--surface-2)] text-[var(--fg-muted)] border-[var(--border)]",
@@ -769,11 +829,21 @@ export function TrackIotPipelineVisualizer() {
             <Activity size={14} className="text-[var(--accent)]" />
           </div>
           <p className="text-xs text-[var(--fg-muted)]">
-            STM32 / ESP32 裸机或 FreeRTOS 实时采集温湿度、电压与光照度。
+            STM32 / ESP32 FreeRTOS 实时采集温湿度、电压与光照度。
           </p>
-          <div className="p-2 rounded bg-[var(--surface)] font-mono text-[11px] text-[var(--accent)] space-y-1">
-            <div>采样频率: 100 Hz</div>
-            <div>协议: Modbus-RTU / I2C</div>
+
+          {/* 模拟 100Hz 实时遥测波形 */}
+          <div className="p-2 rounded bg-[var(--surface)] border border-[var(--border)] space-y-1.5">
+            <div className="flex items-center justify-between text-[10px] font-mono text-[var(--fg-faint)]">
+              <span>RAW WAVEFORM (100Hz)</span>
+              <span className="text-emerald-400 animate-pulse">● LIVE</span>
+            </div>
+            <svg viewBox="0 0 100 20" className="w-full h-6 stroke-[var(--accent)] fill-none stroke-[1.5]">
+              <path d="M 0 10 Q 12 0, 25 10 T 50 10 T 75 10 T 100 10" />
+            </svg>
+            <div className="text-[10px] font-mono text-[var(--fg-muted)]">
+              MODBUS-RTU / I2C SAMPLING
+            </div>
           </div>
         </div>
 
@@ -784,11 +854,11 @@ export function TrackIotPipelineVisualizer() {
             <Zap size={14} className="text-[var(--accent)]" />
           </div>
           <p className="text-xs text-[var(--fg-muted)]">
-            EdgeX 规则引擎执行滑动窗口均值滤波与 Protobuf 二进制紧凑压缩。
+            EdgeX 规则引擎执行滑动窗口均值滤波与 Protobuf 紧凑压缩。
           </p>
           <div className="p-2 rounded bg-[var(--surface)] font-mono text-[11px] text-[var(--fg)] space-y-1">
-            <div>数据压缩比: 72%</div>
-            <div>上行下发时延: &lt; 5ms</div>
+            <div className="text-[var(--accent)] font-bold">压缩比: 72% (PROTOBUF)</div>
+            <div>上行时延: &lt; 5ms (EDGE)</div>
           </div>
         </div>
 
@@ -818,6 +888,11 @@ export function TrackIotPipelineVisualizer() {
 export function TrackIndustrialTwinVisualizer() {
   const [calibAngle, setCalibAngle] = useState<number>(35);
 
+  const rad = (calibAngle * Math.PI) / 180;
+  const cosVal = Math.cos(rad).toFixed(4);
+  const sinVal = Math.sin(rad).toFixed(4);
+  const negSinVal = (-Math.sin(rad)).toFixed(4);
+
   return (
     <div className="w-full flex flex-col space-y-4">
       <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
@@ -827,11 +902,11 @@ export function TrackIndustrialTwinVisualizer() {
             <span>HAND-EYE CALIBRATION & TWIN</span>
           </Badge>
           <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// AX = XB 刚体空间齐次变换与亚像素缺陷检测"}
+            {"// AX = XB RIGID BODY MATRIX & DEFECT INSPECTION"}
           </span>
         </div>
         <span className="font-mono text-xs text-[var(--accent)] font-bold">
-          标定精度: ±0.03mm
+          CALIB PRECISION: ±0.03mm
         </span>
       </div>
 
@@ -839,7 +914,7 @@ export function TrackIndustrialTwinVisualizer() {
         {/* 左侧 3D 刚体旋转变换仪表 */}
         <div className="md:col-span-6 space-y-4">
           <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-[var(--fg-muted)]">机械臂末端旋转偏角 θ:</span>
+            <span className="text-[var(--accent)] font-bold">AXIS // JOINT_ROTATION_θ:</span>
             <span className="font-bold text-[var(--fg)]">{calibAngle}°</span>
           </div>
           <input
@@ -853,10 +928,10 @@ export function TrackIndustrialTwinVisualizer() {
           />
 
           <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] font-mono text-xs space-y-2">
-            <div className="text-[10px] text-[var(--fg-faint)]">HOMOGENEOUS MATRIX T_cam2gripper:</div>
+            <div className="text-[10px] text-[var(--accent)] font-bold">HOMOGENEOUS MATRIX T_cam2gripper:</div>
             <div className="text-[var(--fg)] leading-relaxed">
-              [ cos({calibAngle}°)  -sin({calibAngle}°)   0   142.5 ]<br />
-              [ sin({calibAngle}°)   cos({calibAngle}°)   0   -56.2 ]<br />
+              [ <span className="text-[var(--accent)] font-bold">{cosVal}</span>  <span className="text-[var(--accent)] font-bold">{negSinVal}</span>   0   142.5 ]<br />
+              [ <span className="text-[var(--accent)] font-bold">{sinVal}</span>   <span className="text-[var(--accent)] font-bold">{cosVal}</span>   0   -56.2 ]<br />
               [      0              0          1   310.8 ]<br />
               [      0              0          0     1   ]
             </div>
@@ -875,9 +950,16 @@ export function TrackIndustrialTwinVisualizer() {
           </div>
           <div className="relative aspect-video rounded bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(var(--border-strong)_1px,transparent_1px)] [background-size:12px_12px] opacity-40" />
+
+            {/* 相机瞄准十字线 */}
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-30">
+              <div className="w-full h-[1px] bg-[var(--accent)]" />
+              <div className="h-full w-[1px] bg-[var(--accent)] absolute" />
+            </div>
+
             {/* 模拟瑕疵定位框 */}
             <div
-              className="relative p-3 border-2 border-red-500 rounded font-mono text-[10px] text-red-400 bg-red-500/10"
+              className="relative p-3 border-2 border-red-500 rounded font-mono text-[10px] text-red-400 bg-red-500/10 transition-transform duration-100"
               style={{ transform: `rotate(${calibAngle * 0.3}deg)` }}
             >
               <div>DEFECT #01: 表面微裂纹</div>
@@ -886,7 +968,7 @@ export function TrackIndustrialTwinVisualizer() {
           </div>
           <div className="flex items-center justify-between text-[11px] font-mono text-[var(--fg-muted)] pt-1">
             <span>产线节拍: 120 PPM</span>
-            <span className="text-[var(--accent)]">PLC 信号已同步</span>
+            <span className="text-[var(--accent)] font-bold">PLC SYNCED</span>
           </div>
         </div>
       </div>

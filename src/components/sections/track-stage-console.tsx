@@ -64,7 +64,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
               type="button"
               onClick={() => setActiveStage(idx as 0 | 1 | 2)}
               className={cn(
-                "relative flex-1 py-4 px-2 text-left sm:text-center transition-colors cursor-pointer select-none group",
+                "relative flex-1 py-4 px-2 text-left sm:text-center transition-all cursor-pointer select-none group active:scale-[0.98]",
                 isActive ? "text-[var(--fg)]" : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
               )}
             >

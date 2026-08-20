@@ -55,7 +55,7 @@ export function TracksMap({ tracks }: TracksMapProps) {
             <Tabs.List className="tracks-selector" aria-label="选择一个技术方向">
               {tracks.map((track, index) => (
                 <Tabs.Trigger
-                  className="track-selector"
+                  className="track-selector transition-all duration-150 active:scale-[0.98]"
                   data-track={track.slug}
                   key={track.slug}
                   onFocus={() => selectTrack(track.slug)}
@@ -146,9 +146,10 @@ export function TracksMap({ tracks }: TracksMapProps) {
               </div>
 
               <footer className="tracks-detail__footer">
-                <span><small>目标岗位</small>{track.goal}</span>
-                <Link className="tracks-detail__route track-panel" href={`/tracks/${track.slug}`}>
-                  查看方向详情 <ArrowRight aria-hidden="true" size={17} />
+                <span><small>目标领域</small>{track.goal}</span>
+                <Link className="tracks-detail__route track-panel font-mono text-xs font-bold transition-all active:scale-[0.96]" href={`/tracks/${track.slug}`}>
+                  <span>TRK-0{track.index} {"//"} DOSSIER</span>
+                  <ArrowRight aria-hidden="true" size={15} />
                 </Link>
               </footer>
             </Tabs.Content>

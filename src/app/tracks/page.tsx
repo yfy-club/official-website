@@ -27,12 +27,9 @@ export default function TracksPage() {
 
       {/* 02 / 详细交互路线图与航道详情 */}
       <section id="tracks-routes" className="section tracks-routes" aria-labelledby="track-list-title">
-        <div className="section__head mb-6">
-          <p className="caps section__index">02 / Tracks Detail</p>
-          <h2 id="track-list-title" className="section__title">交互式航道详情与培养指标。</h2>
-          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            选择左侧技术方向，查看详细定位、技术栈体系、三年阶梯培养路径与核心指标。
-          </p>
+        <div className="section__head mb-8">
+          <p className="caps section__index">02 / TOPOLOGY MATRIX</p>
+          <h2 id="track-list-title" className="section__title">航道架构与工程培养中枢。</h2>
         </div>
         <TracksMap tracks={tracks} />
       </section>

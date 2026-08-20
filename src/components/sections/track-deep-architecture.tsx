@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { CutoutCorner } from "@/components/ui/cutout-card";
 import { TrackArchitectureVisualizer } from "@/components/motion/track-architecture-visualizer";
 import { Button } from "@/components/ui/button";
 import { MathFormula } from "@/components/ui/math-formula";
@@ -44,7 +45,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
         <TrackArchitectureVisualizer slug={deepDive.slug} />
       </div>
 
-      {/* 2. 核心攻坚概念矩阵 (Swiss 无卡片松散排版，点击呼出 Sheet 抽屉) */}
+      {/* 2. 核心攻坚概念矩阵 (Cutout 机械切角工牌排版，点击呼出 Sheet 抽屉) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-[var(--border)]">
         {concepts.map((concept, idx) => {
           const displayTitle = concept.shortTitle || concept.title.split("：")[0]?.trim() || concept.title;
@@ -53,10 +54,15 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
             <div
               key={concept.code}
               onClick={() => setSelectedConceptIndex(idx)}
-              className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)]/40 hover:bg-[var(--surface-2)]/70 hover:border-[var(--border-strong)] transition-all duration-200 cursor-pointer group flex flex-col justify-between space-y-4"
+              className="relative p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)]/40 hover:bg-[var(--surface-2)]/70 hover:border-[var(--border-strong)] transition-all duration-200 cursor-pointer group flex flex-col justify-between space-y-4 overflow-hidden active:scale-[0.98]"
             >
+              {/* Cutout 45° 机械裁切角 */}
+              <div className="absolute top-0 right-0 z-10 pointer-events-none">
+                <CutoutCorner className="text-[var(--bg)]" size={26} />
+              </div>
+
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pr-4">
                   <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
                     {`0${idx + 1} // ${concept.code}`}
                   </span>

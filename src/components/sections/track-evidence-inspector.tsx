@@ -36,7 +36,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
             corners
             key={work.slug}
             variant="frame"
-            className="group cursor-pointer hover:border-[var(--border-strong)] transition-all duration-200"
+            className="group cursor-pointer hover:border-[var(--border-strong)] transition-all duration-200 active:scale-[0.98]"
             onClick={() => setSelectedWork(work)}
           >
             <CardMeta
@@ -83,7 +83,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
 
         {/* 荣誉证书卡片 */}
         {awards.map((award, index) => (
-          <Link href="/awards" key={award.id} className="block group">
+          <Link href="/awards" key={award.id} className="block group active:scale-[0.98] transition-transform">
             <Card corners variant="frame" className="h-full transition-all duration-200 group-hover:border-[var(--border-strong)]">
               <CardMeta
                 code={`AWD-${String(index + 1).padStart(2, "0")}`}

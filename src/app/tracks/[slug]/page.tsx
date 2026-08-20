@@ -141,7 +141,7 @@ export default async function TrackDetailPage({
           </p>
 
           <div className="flex items-center gap-3 pt-2 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
-            <span className="text-[var(--fg-faint)]">目标领域：</span>
+            <span className="text-[var(--fg-faint)]">TARGET DOMAIN //</span>
             <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default async function TrackDetailPage({
       {/* 02 / 左右分栏精工技术栈展台 (TechStackCutoutConsole) */}
       <section id="track-stack" className="section mb-24 sm:mb-32" aria-labelledby="stack-title" data-reveal="section">
         <div className="section__head mb-12">
-          <p className="caps section__index">02 / Toolchain Matrix</p>
+          <p className="caps section__index">02 / TOOLCHAIN MATRIX</p>
           <h2 id="stack-title" className="section__title">核心技术栈与工程基座。</h2>
         </div>
         <TechStackCutoutConsole stack={track.stack} />
@@ -172,7 +172,7 @@ export default async function TrackDetailPage({
       {overview && (
         <section id="track-overview" className="section mb-24 sm:mb-32" aria-labelledby="overview-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">03 / Domains</p>
+            <p className="caps section__index">03 / RESEARCH DOMAINS</p>
             <h2 id="overview-title" className="section__title">主攻方向与研发链路。</h2>
           </div>
           <TrackFieldOverview data={overview} />
@@ -183,7 +183,7 @@ export default async function TrackDetailPage({
       {deepDive && (
         <section id="track-deep-dive" className="section mb-24 sm:mb-32" aria-labelledby="deep-dive-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">04 / Architecture & Theory</p>
+            <p className="caps section__index">04 / ARCHITECTURE & THEORY</p>
             <h2 id="deep-dive-title" className="section__title">核心拓扑与架构原理。</h2>
           </div>
           <TrackDeepArchitecture deepDive={deepDive} />
@@ -193,7 +193,7 @@ export default async function TrackDetailPage({
       {/* 05 / 三年培养中枢 (TrackStageConsole) */}
       <section id="track-stage" className="section mb-24 sm:mb-32" aria-labelledby="stage-title" data-reveal="section">
         <div className="section__head mb-12">
-          <p className="caps section__index">05 / Stage Roadmap</p>
+          <p className="caps section__index">05 / STAGE ROADMAP</p>
           <h2 id="stage-title" className="section__title">三年培养体系与阶段里程碑。</h2>
         </div>
         <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
@@ -203,7 +203,7 @@ export default async function TrackDetailPage({
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
         <section id="track-evidence" className="section mb-24 sm:mb-32" aria-labelledby="related-title" data-reveal="section">
           <div className="section__head mb-12">
-            <p className="caps section__index">06 / Works & Honors</p>
+            <p className="caps section__index">06 / WORKS & HONORS</p>
             <h2 id="related-title" className="section__title">落地工程与赛事荣誉。</h2>
           </div>
           <TrackEvidenceInspector works={relatedWorks} awards={relatedAwards} />
@@ -214,7 +214,7 @@ export default async function TrackDetailPage({
       <nav id="track-switch" className="grid grid-cols-3 items-center border-y border-[var(--border)] py-8 mb-20" aria-label="方向切换">
         <Link
           href={`/tracks/${previous.slug}`}
-          className="flex items-center gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors group"
+          className="flex items-center gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors active:scale-[0.98] group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
           <span>{previous.nameZh}</span>
@@ -222,7 +222,7 @@ export default async function TrackDetailPage({
 
         <Link
           href="/tracks"
-          className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors"
+          className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors active:scale-[0.98]"
         >
           <LayoutGrid size={15} aria-hidden="true" />
           <span className="hidden sm:inline">方向总览</span>
@@ -230,7 +230,7 @@ export default async function TrackDetailPage({
 
         <Link
           href={`/tracks/${next.slug}`}
-          className="flex items-center justify-end gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors group"
+          className="flex items-center justify-end gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors active:scale-[0.98] group"
         >
           <span>{next.nameZh}</span>
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
@@ -239,8 +239,11 @@ export default async function TrackDetailPage({
 
       {/* 08 / 招新加入 CTA */}
       <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <p>对【{track.nameZh}】方向感兴趣？欢迎加入云飞扬，在真实工程与竞赛中与我们同行。</p>
-        <Button asChild>
+        <div className="space-y-1">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">08 // RECRUITMENT</p>
+          <p>加入云飞扬【{track.nameZh}】方向，在生产级工程与国家级赛事中攻坚突破。</p>
+        </div>
+        <Button asChild className="active:scale-[0.96] transition-transform">
           <Link href="/join">
             立即报名 <ArrowRight aria-hidden="true" size={17} />
           </Link>

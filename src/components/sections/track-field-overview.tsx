@@ -25,11 +25,10 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
           {data.leadParagraph}
         </p>
 
-        <div className="inline-flex items-center gap-3 py-1.5 px-3.5 rounded-[var(--radius-full)] bg-[var(--surface-2)] border border-[var(--border-strong)] text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
+        <div className="inline-flex items-center gap-2.5 py-1.5 px-3.5 rounded-[var(--radius-full)] bg-[var(--surface-2)] border border-[var(--border-strong)] text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
           <Sparkles size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
-          <span className="text-[var(--fg)] font-medium">产业趋势</span>
-          <span className="text-[var(--border-control)]">/</span>
-          <span>{data.industryTrend}</span>
+          <span className="text-[var(--accent)] font-bold">INDUSTRY TREND //</span>
+          <span className="text-[var(--fg)]">{data.industryTrend}</span>
         </div>
       </div>
 
