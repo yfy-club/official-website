@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { RouteTransitions } from "@/components/layout/route-transitions";
+import { ScrollToTopHUD } from "@/components/layout/scroll-to-top-hud";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -93,6 +94,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           {children}
           <SiteFooter />
+          <ScrollToTopHUD />
           <Toaster />
         </TooltipProvider>
         <StructuredData data={organization} />

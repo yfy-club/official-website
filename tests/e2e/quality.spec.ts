@@ -876,3 +876,21 @@ test("site header YFY brand triggers 5-second blueprint mode on 5 rapid clicks",
   await expect(page.locator("html")).not.toHaveClass(/mode-blueprint/);
   await expect(page.getByText("SYS // BLUEPRINT_RESTORED", { exact: true })).toBeVisible();
 });
+
+test("global ScrollToTopHUD appears upon scrolling and smoothly scrolls to top", async ({ page }) => {
+  await page.goto("/works", { waitUntil: "networkidle" });
+
+  const topButton = page.getByRole("button", { name: /回到页面顶部/ });
+  await expect(topButton).not.toBeVisible();
+
+  // Scroll down
+  await page.evaluate(() => window.scrollTo(0, 800));
+  await page.waitForTimeout(200);
+
+  await expect(topButton).toBeVisible();
+  await topButton.click();
+
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.scrollY);
+  }, { timeout: 3000 }).toBeLessThan(100);
+});
