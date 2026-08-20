@@ -54,7 +54,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           { id: "work-decisions", index: "05", label: "架构抉择" },
           { id: "work-specs", index: "06", label: "规格读数" },
           { id: "work-tradeoffs", index: "07", label: "演进边界" },
-          { id: "work-related", index: "08", label: "关联航道" },
+          { id: "work-related", index: "08", label: "关联方向" },
           { id: "work-join", index: "09", label: "加入我们" },
         ]}
       />
@@ -159,7 +159,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
                 <AlertTriangle className="w-5 h-5 text-[var(--warn)] shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="flex flex-col gap-1">
                   <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--warn)]">
-                    MOCK DEMO NOTICE // 演示环境提示
+                    NOTICE // 演示环境说明
                   </span>
                   <p className="text-xs sm:text-sm text-[var(--fg)] font-medium leading-relaxed m-0">
                     {detail.demoNotice}
@@ -249,7 +249,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
         <div className="section__head">
           <p className="caps section__index">08 / CAREER PATHWAYS</p>
-          <h2 id="related-track-title" className="section__title">工程能力与航道映射。</h2>
+          <h2 id="related-track-title" className="section__title">工程能力与方向映射。</h2>
         </div>
         <WorkRelatedTracks tracks={relatedTracks} />
       </section>

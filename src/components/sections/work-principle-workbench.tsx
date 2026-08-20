@@ -53,14 +53,9 @@ export function WorkPrincipleWorkbench({
     <div className="kernel-slices" data-reveal="group">
       {/* 顶部元数据栏 */}
       <div className="kernel-slices__intro">
-        <div className="flex items-center gap-2">
-          <span className="caps font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-            04 // ARCHITECTURE SLICES
-          </span>
-          <span className="text-[var(--fg-faint)] text-xs font-mono hidden sm:inline">
-            · 架构切面与实现机制
-          </span>
-        </div>
+        <span className="caps font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+          04 // ARCHITECTURE SLICES
+        </span>
         <span className="kernel-slices__count tabular font-mono text-xs text-[var(--fg-muted)]">
           {String(items.length).padStart(2, "0")} {"//"} SLICES
         </span>
@@ -222,7 +217,7 @@ export function WorkPrincipleWorkbench({
                       ) : (
                         <Terminal size={14} className="text-[var(--accent)]" />
                       )}
-                      {currentItem.formula ? "递推关系 (LaTeX Formula)" : "源码切片 (Source Excerpt)"}
+                      {currentItem.formula ? "递推关系" : "源码切片"}
                     </span>
                     {currentItem.codeSnippet && (
                       <button

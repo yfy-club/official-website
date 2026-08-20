@@ -147,7 +147,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       {live.length > 0 && (
         <section id="works-live" className="section mb-14" aria-labelledby="live-title">
           <div className="section__head">
-            <p className="caps section__index">02 / Shipped</p>
+            <p className="caps section__index">02 // SHIPPED</p>
             <h2 id="live-title" className="section__title">已上线项目。</h2>
           </div>
           <div className="works-list">
@@ -173,7 +173,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                       </div>
                       {work.detail && (
                         <span className="caps tabular text-xs font-mono text-[var(--fg-muted)]">
-                          {countWorkScreenshots(work)} SCREENS / 系统实录
+                          {countWorkScreenshots(work)} SCREENS
                         </span>
                       )}
                     </div>
@@ -251,7 +251,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       {incubating.length > 0 && (
         <section id="works-incubating" className="section" aria-labelledby="incubating-title">
           <div className="section__head">
-            <p className="caps section__index">03 / Incubating</p>
+            <p className="caps section__index">03 // INCUBATING</p>
             <h2 id="incubating-title" className="section__title">在研与孵化项目。</h2>
           </div>
           <div className="incubating-grid">
