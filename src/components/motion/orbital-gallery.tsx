@@ -5,7 +5,6 @@ import { useMotionValue, useSpring } from "motion/react";
 import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
 import Image from "next/image";
 import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export interface OrbitalPhotoItem {
@@ -434,19 +433,16 @@ export function OrbitalGallery({
           {currentPhoto.alt}
         </p>
 
-        {/* Navigation buttons */}
+        {/* Navigation buttons (Coss UI icon button style) */}
         <div className="flex items-center gap-4 mt-5">
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
             onClick={handlePrev}
-            className="h-8 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
+            className="size-8.5 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)] active:scale-95 active:bg-[var(--surface-2)] shadow-xs transition-all duration-150 inline-flex items-center justify-center cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             aria-label="上一张"
           >
-            <ArrowLeft size={13} className="mr-1.5" />
-            <span>PREV</span>
-          </Button>
+            <ArrowLeft size={16} />
+          </button>
 
           <div className="flex items-center gap-1.5 px-2" aria-hidden="true">
             {photos.map((_, dotIdx) => (
@@ -465,17 +461,14 @@ export function OrbitalGallery({
             ))}
           </div>
 
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
             onClick={handleNext}
-            className="h-8 px-3.5 border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)] rounded-[var(--radius-xs)] font-mono text-xs text-[var(--fg-muted)] hover:text-[var(--fg)] cursor-pointer shadow-2xs"
+            className="size-8.5 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)] active:scale-95 active:bg-[var(--surface-2)] shadow-xs transition-all duration-150 inline-flex items-center justify-center cursor-pointer focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             aria-label="下一张"
           >
-            <span>NEXT</span>
-            <ArrowRight size={13} className="ml-1.5" />
-          </Button>
+            <ArrowRight size={16} />
+          </button>
         </div>
       </div>
     </div>
