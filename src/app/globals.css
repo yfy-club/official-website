@@ -1393,6 +1393,25 @@ button, a, [role='button'] {
 .about-culture {
   margin-top: var(--space-10);
 }
+.culture-orbit-stage {
+  position: relative;
+  width: 100%;
+  margin-top: var(--space-6);
+  padding: var(--space-6) 0 var(--space-8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--surface-2), transparent 30%), var(--surface) 85%);
+  box-shadow: var(--inner-highlight);
+  overflow: hidden;
+}
+.orbital-gallery {
+  position: relative;
+  width: 100%;
+}
+.orbital-card {
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--border);
+  transition: border-color var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) var(--ease-out);
+}
 .culture-bento {
   display: grid;
   grid-template-columns: 1fr;
