@@ -8,6 +8,7 @@ import { TrackDeepArchitecture } from "@/components/sections/track-deep-architec
 import { TrackEvidenceInspector } from "@/components/sections/track-evidence-inspector";
 import { TrackFieldOverview } from "@/components/sections/track-field-overview";
 import { TrackStageConsole } from "@/components/sections/track-stage-console";
+import { TechStackCutoutConsole } from "@/components/sections/tech-stack-cutout-console";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,9 +20,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Kbd } from "@/components/ui/kbd";
-import { Tag } from "@/components/ui/tag";
-import { TechTag } from "@/components/ui/tech-tag";
 import { awards, trackDeepDives, trackOverviews, tracks, works } from "@/content";
 import { breadcrumbJsonLd, createMetadata, trackJsonLd } from "@/lib/seo";
 
@@ -143,21 +141,9 @@ export default async function TrackDetailPage({
           </div>
         </div>
 
-        {/* 悬浮技术栈行 (自然融入背景，无生硬外盒) */}
-        <div className="pt-6 border-t border-[var(--border)] flex flex-wrap items-center gap-2.5">
-          {track.stack.languages.concat(track.stack.frameworks).map((tech) => (
-            <TechTag key={tech} name={tech} className="py-1.5 px-3.5 text-xs sm:text-sm" />
-          ))}
-          {track.stack.engineering.slice(0, 3).map((item) => (
-            <Tag key={item} className="py-1.5 px-3.5 text-xs sm:text-sm bg-[var(--surface-2)] border border-[var(--border)]">
-              {item}
-            </Tag>
-          ))}
-          {(track.stack.toolchain ?? ["Git", "Docker", "Linux"]).slice(0, 4).map((tool) => (
-            <Kbd key={tool} className="py-1 px-2.5 text-xs sm:text-sm">
-              {tool}
-            </Kbd>
-          ))}
+        {/* 旗舰级精工技术栈切角展台 (CutoutCard + Texture + Dither + Expandable) */}
+        <div className="pt-6">
+          <TechStackCutoutConsole stack={track.stack} />
         </div>
       </header>
 
