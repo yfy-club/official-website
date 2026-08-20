@@ -20,6 +20,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { CardCorners, CardFrame } from "@/components/ui/card";
 import { awards, trackDeepDives, trackOverviews, tracks, works } from "@/content";
 import { breadcrumbJsonLd, createMetadata, trackJsonLd } from "@/lib/seo";
 
@@ -184,31 +185,67 @@ export default async function TrackDetailPage({
         </section>
       )}
 
-      {/* 07 / 纯净方向切换导航 (无多余文字) */}
-      <nav id="track-switch" className="grid grid-cols-3 items-center border-y border-[var(--border)] py-8 mb-20" aria-label="方向切换">
-        <Link
-          href={`/tracks/${previous.slug}`}
-          className="flex items-center gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors active:scale-[0.98] group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
-          <span>{previous.nameZh}</span>
-        </Link>
+      {/* 07 / 瑞士工精方向切换与总览终端 (Swiss Precision Terminal) */}
+      <nav id="track-switch" aria-label="方向切换" className="mb-20">
+        <CardFrame className="border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+          <CardCorners />
+          <div className="grid grid-cols-1 sm:grid-cols-12 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border)] items-stretch">
+            {/* 上一个方向 */}
+            <Link
+              href={`/tracks/${previous.slug}`}
+              className="sm:col-span-4 p-5 sm:p-6 flex items-center justify-between group bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 transition-colors active:scale-[0.99] select-none"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <ArrowLeft
+                  size={16}
+                  className="text-[var(--fg-faint)] group-hover:text-[var(--accent)] group-hover:-translate-x-1 transition-all shrink-0"
+                  aria-hidden="true"
+                />
+                <div className="min-w-0">
+                  <span className="font-mono text-[10px] font-bold text-[var(--fg-faint)] group-hover:text-[var(--accent)] uppercase tracking-wider block transition-colors">
+                    PREV {"//"} {previous.slug}
+                  </span>
+                  <span className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight truncate block group-hover:text-[var(--accent)] transition-colors">
+                    {previous.nameZh}
+                  </span>
+                </div>
+              </div>
+            </Link>
 
-        <Link
-          href="/tracks"
-          className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors active:scale-[0.98]"
-        >
-          <LayoutGrid size={15} aria-hidden="true" />
-          <span className="hidden sm:inline">方向总览</span>
-        </Link>
+            {/* 中间：返回总览 */}
+            <Link
+              href="/tracks"
+              className="sm:col-span-4 p-4 sm:p-5 flex items-center justify-center gap-2 font-mono text-xs font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] transition-all active:scale-[0.98] group bg-[var(--surface-2)]/25 select-none"
+            >
+              <LayoutGrid
+                size={14}
+                className="text-[var(--accent)] transition-transform group-hover:scale-110"
+                aria-hidden="true"
+              />
+              <span className="tracking-wider uppercase">ALL TRACKS {"//"} 方向总览</span>
+            </Link>
 
-        <Link
-          href={`/tracks/${next.slug}`}
-          className="flex items-center justify-end gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors active:scale-[0.98] group"
-        >
-          <span>{next.nameZh}</span>
-          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-        </Link>
+            {/* 下一个方向 */}
+            <Link
+              href={`/tracks/${next.slug}`}
+              className="sm:col-span-4 p-5 sm:p-6 flex items-center justify-between group bg-[var(--surface)] hover:bg-[var(--surface-2)]/60 transition-colors active:scale-[0.99] text-right select-none"
+            >
+              <div className="min-w-0 flex-1">
+                <span className="font-mono text-[10px] font-bold text-[var(--fg-faint)] group-hover:text-[var(--accent)] uppercase tracking-wider block transition-colors">
+                  NEXT {"//"} {next.slug}
+                </span>
+                <span className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight truncate block group-hover:text-[var(--accent)] transition-colors">
+                  {next.nameZh}
+                </span>
+              </div>
+              <ArrowRight
+                size={16}
+                className="text-[var(--fg-faint)] group-hover:text-[var(--accent)] group-hover:translate-x-1 transition-all shrink-0 ml-3"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
+        </CardFrame>
       </nav>
 
       {/* 08 / 招新加入 CTA */}
