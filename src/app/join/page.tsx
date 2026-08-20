@@ -36,7 +36,7 @@ const posters = [
 
 const sections = [
   { id: "join-start", index: "01", label: "招新概览" },
-  { id: "join-application", index: "02", label: "报名申请" },
+  { id: "join-application", index: "02", label: "申请与迎新群" },
   { id: "join-fit", index: "03", label: "招新要求" },
   { id: "join-process", index: "04", label: "选拔流程" },
   { id: "join-voices", index: "05", label: "成员心声" },
@@ -60,15 +60,15 @@ export default function JoinPage() {
           subtitle="加入我们"
           intro="面向全校热爱技术、追求工程实践与算法攻坚的同学开放招新。选定专注方向，完成体系化工程培养与梯队入驻。"
           scrollToId="join-application"
-          scrollLabel="向下滚动至招新申请与迎新中枢"
+          scrollLabel="向下滚动至招新申请与迎新群"
         />
       </div>
 
-      {/* 02 / 双翼展台：左侧招新宣言、承诺清单与迎新群舱，右侧报名仪表舱 */}
+      {/* 02 / 招新申请与迎新群 */}
       <section id="join-application" className="section join-hero-stage mb-14" aria-labelledby="application-title" data-reveal="section">
         <div className="section__head mb-8">
           <p className="caps section__index">02 / APPLICATION</p>
-          <h2 id="application-title" className="section__title">招新申请与迎新中枢。</h2>
+          <h2 id="application-title" className="section__title">招新申请与迎新群。</h2>
         </div>
         <div className="join-hero-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start pt-2">
           {/* 左翼：宣言、承诺清单与迎新群 CardFrame */}
