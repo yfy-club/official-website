@@ -23,6 +23,7 @@ type DemoAccount = {
 type DemoAccountsTableProps = {
   workNameZh: string;
   accounts: DemoAccount[];
+  notice?: string;
 };
 
 function CopyCell({ value, label }: { value: string; label: string }) {
@@ -66,7 +67,11 @@ function CopyCell({ value, label }: { value: string; label: string }) {
   );
 }
 
-export function DemoAccountsTable({ workNameZh, accounts }: DemoAccountsTableProps) {
+export function DemoAccountsTable({ workNameZh, accounts, notice }: DemoAccountsTableProps) {
+  const displayNotice =
+    notice ??
+    "当前系统为 Mock 数据演示版系统（非真实生产服务器），请勿随意删除或修改演示数据，以免影响他人体验系统效果。";
+
   return (
     <CardFrame className="demo-access mb-8 border-[var(--border)] bg-[var(--surface)] shadow-xs">
       <CardFrameHeader className="py-3.5 px-5 sm:px-6">
@@ -102,6 +107,10 @@ export function DemoAccountsTable({ workNameZh, accounts }: DemoAccountsTablePro
           </tbody>
         </table>
       </CardPanel>
+      <div className="px-5 sm:px-6 py-2.5 border-t border-[var(--border)] bg-[var(--surface-2)]/60 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-mono text-[var(--fg-muted)]">
+        <span className="text-[var(--accent)] font-semibold tracking-wide shrink-0">NOTICE //</span>
+        <span>{displayNotice}</span>
+      </div>
     </CardFrame>
   );
 }

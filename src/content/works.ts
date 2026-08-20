@@ -339,6 +339,7 @@ export const worksRaw = [
       demoAccounts: [
         { role: "超级管理员", account: "admin", password: "AdminPass2026!", access: "完整管理端功能演示" },
       ],
+      demoNotice: "当前系统为 Mock 数据演示版系统（非真实生产服务器），请勿随意删除或修改演示数据，以免影响他人体验系统效果。",
       shots: {
         type: "single",
         image: "/images/works/zgyc-smart-light/zgyc-light.webp",

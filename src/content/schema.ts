@@ -204,6 +204,7 @@ export const workSchema = z.object({
         }))
         .min(1)
         .optional(),
+      demoNotice: z.string().min(4).optional(),
       shots: z
         .discriminatedUnion("type", [
           z.object({

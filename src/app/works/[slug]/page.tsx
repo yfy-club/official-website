@@ -153,7 +153,11 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             <h2 id="shots-title" className="section__title">系统界面与交互实录。</h2>
           </div>
           {detail.demoAccounts && (
-            <DemoAccountsTable workNameZh={work.nameZh} accounts={detail.demoAccounts} />
+            <DemoAccountsTable
+              workNameZh={work.nameZh}
+              accounts={detail.demoAccounts}
+              notice={detail.demoNotice}
+            />
           )}
           {detail.shots && <WorkShotMedia shot={detail.shots} />}
           {detail.gallery && detail.gallery.length > 0 && (
