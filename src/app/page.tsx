@@ -149,12 +149,12 @@ export default function Home() {
         </section>
       )}
       <section id="home-join" className="page-shell border-t border-[var(--border)] pt-14 pb-16 mt-20" aria-label="加入社团" data-reveal="group">
-        <div className="space-y-4">
-          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase m-0">
+        <div className="flex flex-col gap-4 sm:gap-5">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase mb-1">
             04 // RECRUITMENT
           </p>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-12">
-            <h2 className="text-2xl sm:text-4xl lg:text-[2.5rem] font-bold tracking-tight text-[var(--fg)] leading-[1.18] m-0 max-w-4xl">
+            <h2 className="text-2xl sm:text-4xl lg:text-[2.5rem] font-bold tracking-tight text-[var(--fg)] leading-[1.22] m-0 max-w-4xl">
               {club.subSlogan}
             </h2>
             <Button asChild size="md" className="px-7 h-12 text-xs sm:text-sm font-bold shrink-0 self-start lg:self-center">
