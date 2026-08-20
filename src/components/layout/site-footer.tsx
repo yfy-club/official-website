@@ -14,10 +14,10 @@ const navLinks = [
 
 const trackLinks = [
   { label: "人工智能", href: "/tracks/ai" },
-  { label: "软件工程", href: "/tracks/software" },
-  { label: "云计算与物联", href: "/tracks/cloud-iot" },
-  { label: "空间数据库", href: "/tracks/database" },
-  { label: "工业视觉与硬件", href: "/tracks/industrial" },
+  { label: "软工智能", href: "/tracks/software" },
+  { label: "数据库", href: "/tracks/database" },
+  { label: "智能云物联", href: "/tracks/cloud-iot" },
+  { label: "工业数智化", href: "/tracks/industrial" },
 ] as const;
 
 export function SiteFooter() {
@@ -25,9 +25,8 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="site-footer__grid page-shell">
         <div className="site-footer__brand">
-          <p className="display-latin site-footer__wordmark">YFY.</p>
-          <p className="site-footer__affiliation">{club.affiliation}</p>
-          <p className="site-footer__muted">{club.slogan}</p>
+          <p className="display-latin site-footer__wordmark">YFY</p>
+          <p className="site-footer__slogan">{club.slogan}</p>
         </div>
 
         <nav aria-label="页面导航" className="site-footer__col">
