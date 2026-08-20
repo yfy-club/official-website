@@ -21,7 +21,7 @@ type LadderItem = {
 };
 
 export function MemberLadder({ items }: { items: readonly LadderItem[] }) {
-  const defaultValue = items[2] ? "phase-3" : "phase-1";
+  const defaultValue = "phase-1";
   const [activeValue, setActiveValue] = useState(defaultValue);
   const activeIndex = Math.max(0, Number(activeValue.split("-")[1]) - 1);
 
