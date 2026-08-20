@@ -138,6 +138,51 @@ export function OrbitalGallery({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrev, handleNext]);
 
+  // Mouse Wheel Scrubbing with Auto-Snap
+  const wheelTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport || count === 0) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Pick the strongest directional delta (vertical wheel or horizontal trackpad)
+      const rawDelta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(rawDelta) < 1.5) return;
+
+      // Prevent page vertical jitter while actively interacting with the wheel
+      e.preventDefault();
+
+      const currentP = targetProgress.get();
+      const sensitivity = isMobile ? 0.004 : 0.0028;
+      const nextP = clamp(currentP + rawDelta * sensitivity, -0.4, count - 0.6);
+      targetProgress.set(nextP);
+
+      // Realtime intermediate active index update
+      const intermediateIdx = clamp(Math.round(nextP), 0, count - 1);
+      if (intermediateIdx !== activeIndex) {
+        setActiveIndex(intermediateIdx);
+      }
+
+      if (wheelTimeoutRef.current) {
+        clearTimeout(wheelTimeoutRef.current);
+      }
+
+      // Smooth auto-snap after scrolling stops
+      wheelTimeoutRef.current = setTimeout(() => {
+        const finalP = targetProgress.get();
+        const nearest = clamp(Math.round(finalP), 0, count - 1);
+        goToIndex(nearest);
+      }, 150);
+    };
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      viewport.removeEventListener("wheel", handleWheel);
+      if (wheelTimeoutRef.current) clearTimeout(wheelTimeoutRef.current);
+    };
+  }, [count, goToIndex, isMobile, targetProgress, activeIndex]);
+
   // Touch / Mouse Drag handlers
   const handlePointerDown = (e: React.PointerEvent) => {
     isDraggingRef.current = true;
