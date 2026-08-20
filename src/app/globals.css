@@ -213,8 +213,8 @@ button, a, [role='button'] {
   justify-content: center;
   gap: var(--space-2);
   border: 1px solid transparent;
-  border-radius: var(--radius-full);
-  font: var(--weight-medium) var(--text-small)/var(--leading-snug) var(--font-sans);
+  border-radius: var(--radius-xs);
+  font: var(--weight-medium) var(--text-small)/var(--leading-snug) var(--font-mono);
   letter-spacing: var(--tracking-small);
   cursor: pointer;
   transition: transform var(--dur-press) var(--ease-spring), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
@@ -436,8 +436,7 @@ button.tag:active {
 .prose p { margin: 0 0 var(--space-5); }
 .stack-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .clean-list { margin: 0; padding: 0; list-style: none; }
-.cta-band { display: grid; gap: var(--space-6); align-items: end; padding-block: var(--space-10); }
-.cta-band p { margin: 0; font-size: var(--text-h1); line-height: var(--leading-cjk-heading); }
+.cta-band { display: grid; gap: var(--space-6); align-items: center; padding-block: var(--space-10); border-top: 1px solid var(--border); }
 
 @media (hover: hover) and (pointer: fine) {
   .card:hover, .theme-toggle:hover, .mobile-nav__trigger:hover { border-color: var(--border-strong); }

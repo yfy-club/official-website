@@ -101,13 +101,15 @@ export default function AwardsPage() {
       </section>
 
       <section id="awards-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
-        <div className="space-y-1 text-left">
+        <div className="space-y-1.5 text-left">
           <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">04 // RECRUITMENT</p>
-          <p>加入云飞扬技术战队，在国家级与省级学科竞赛中攻坚立项、斩获奖项。</p>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--fg)] m-0">
+            加入云飞扬技术战队，在国家级与省级学科竞赛中攻坚立项、斩获奖项。
+          </h2>
         </div>
-        <Button asChild className="active:scale-[0.96] transition-transform">
+        <Button asChild size="md" className="px-6 h-11">
           <Link href="/join">
-            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
+            立即投递申请 <ArrowRight aria-hidden="true" size={16} />
           </Link>
         </Button>
       </section>

@@ -248,14 +248,16 @@ export default async function TrackDetailPage({
       </nav>
 
       {/* 07 / 招新加入 CTA */}
-      <section id="track-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <div className="space-y-1">
+      <section id="track-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
+        <div className="space-y-1.5 text-left">
           <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">07 // RECRUITMENT</p>
-          <p>加入云飞扬【{track.nameZh}】方向，参与真实项目研发与算法工程攻坚。</p>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--fg)] m-0">
+            加入云飞扬【{track.nameZh}】方向，参与真实项目研发与算法工程攻坚。
+          </h2>
         </div>
-        <Button asChild className="active:scale-[0.96] transition-transform">
+        <Button asChild size="md" className="px-6 h-11">
           <Link href="/join">
-            立即报名 <ArrowRight aria-hidden="true" size={17} />
+            立即投递申请 <ArrowRight aria-hidden="true" size={16} />
           </Link>
         </Button>
       </section>
