@@ -142,7 +142,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         <section id="work-interface" className="section" aria-labelledby="shots-title" data-reveal="section">
           <div className="section__head">
             <p className="caps section__index">02 / Systems & Interfaces</p>
-            <h2 id="shots-title" className="section__title">系统实录与全景巡礼。</h2>
+            <h2 id="shots-title" className="section__title">系统界面与交互实录。</h2>
           </div>
           {detail.demoAccounts && (
             <DemoAccountsTable workNameZh={work.nameZh} accounts={detail.demoAccounts} />
