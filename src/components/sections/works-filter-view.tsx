@@ -301,11 +301,6 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                             </Button>
                           )}
                         </div>
-                        {work.detail?.evidence?.[0] && (
-                          <div className="hidden xl:block font-mono text-[11px] text-[var(--fg-faint)]">
-                            验收凭证: {work.detail.evidence[0].label} · {work.detail.evidence[0].value}
-                          </div>
-                        )}
                       </div>
                     </div>
                   </SpotlightCard>
