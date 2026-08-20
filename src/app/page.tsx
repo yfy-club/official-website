@@ -148,7 +148,7 @@ export default function Home() {
           </article>
         </section>
       )}
-      <section id="home-join" className="page-shell border-t border-[var(--border)] pt-14 pb-16 mt-20" aria-label="加入社团" data-reveal="group">
+      <section id="home-join" className="page-shell py-16 sm:py-20" aria-label="加入社团" data-reveal="group">
         <div className="flex flex-col gap-4 sm:gap-5">
           <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase mb-1">
             04 // RECRUITMENT
