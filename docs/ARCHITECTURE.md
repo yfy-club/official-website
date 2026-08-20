@@ -97,8 +97,7 @@ tests/                   单元测试和端到端质量门禁
 - **3D 海报展台 (`PosterTiltCard`)**：位于 `src/components/motion/poster-tilt-card.tsx`，基于 `useSpring` 计算光标相对位置生成 ±6° 3D 阻尼倾斜与径向高光扫光，受控 Radix Dialog 查看大图，严格通过 W3C ARIA 1.2 / Axe 校验。
 - **文化实拍 Bento 展台 (`CultureGallery`)**：位于 `src/components/sections/culture-gallery.tsx`，采用响应式 Bento 网格与 Focus Dimming 聚焦交互展示实拍照。
 - **首页航道即时预览 (`TrackPreviewList`)**：位于 `src/components/motion/track-preview-list.tsx`，桌面端悬停/聚焦即时展示关联作品截图。
-- **双轨流光跑马灯 (`MemberVoicesMarquee` & `Marquee`)**：位于 `src/components/sections/member-voices-marquee.tsx` 与 `src/components/ui/marquee.tsx`，双轨异步错向流动，展示 10 条真实成员心声，支持悬停暂停与 reduced-motion 静态呈现。
-- **荣誉页核心指标与赛事矩阵 (`AwardsMetricsBar` & `AwardsOverviewMatrix`)**：位于 `src/components/sections/awards-metrics-bar.tsx` 与 `src/components/sections/awards-overview-matrix.tsx`，将静态荣誉数据转化为 4 格高精度指标仪表舱（搭载 `NumberTicker`）与高密度赛事成果矩阵。
+- **荣誉页流线型赛事成果矩阵 (`AwardsOverviewMatrix`)**：位于 `src/components/sections/awards-overview-matrix.tsx`，采用 Swiss Editorial 全宽 1px 细线分隔流线型清单，展示国家级与省级权威认证与赛道归属。
 - **证书档案库控制台与宽幅暗室灯箱 (`CertArchive`)**：位于 `src/components/motion/cert-archive.tsx`，采用 Coss UI Segmented `Tabs` 多维分类筛选、卡片悬停金色/青色流光 `BorderBeam`、受控影院级 Radix Dialog 宽幅灯箱，集成键盘 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导，以及档案编号一键复制 Toast 联动。
 - **全局导航栏 Spring 滑行微胶囊 (`SiteHeader`)**：位于 `src/components/layout/site-header.tsx`，基于 `motion` 的 `layoutId="nav-active-pill"` 实现路由切换时的平滑物理滑行动效。
 - **技术栈元数据字典与标签系统 (`TechTag` & `tech-stack.ts`)**：位于 `src/components/ui/tech-tag.tsx` 与 `src/lib/tech-stack.ts`，全量接入各大官方文档跳转链接与 Tooltip 极简摘要。
