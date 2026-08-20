@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Code2, FlaskConical, GraduationCap, ShieldCheck } from "lucide-react";
+import {
+  Briefcase,
+  CheckCircle2,
+  Compass,
+  FlaskConical,
+  GraduationCap,
+  ShieldCheck,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { StageIndicator } from "@/components/ui/stage-indicator";
 import type { Stage, TrackCurriculumModule } from "@/content";
 import { cn } from "@/lib/utils";
 
@@ -21,37 +26,16 @@ export interface TrackStageConsoleProps {
   };
 }
 
-const slideVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 24 : -24,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction < 0 ? 24 : -24,
-    opacity: 0,
-  }),
-};
-
 export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsoleProps) {
-  const [[activeStage, direction], setStage] = useState<[0 | 1 | 2, number]>([0, 0]);
+  const [activeStage, setActiveStage] = useState<0 | 1 | 2>(0);
   const [juniorChannel, setJuniorChannel] = useState<"employment" | "postgrad">("employment");
 
   const stageTabs = [
-    { code: "STG-01", label: "大一 · 打基础", status: "FOUNDATION" },
-    { code: "STG-02", label: "大二 · 攻技术", status: "SPECIALIZATION" },
-    { code: "STG-03", label: "大三 · 双通道", status: "DUAL TRACK" },
+    { code: "STG-01", year: "FRESHMAN // 大一", label: "底层筑基与工程启蒙", status: "FOUNDATION" },
+    { code: "STG-02", year: "SOPHOMORE // 大二", label: "方向攻坚与项目实战", status: "SPECIALIZATION" },
+    { code: "STG-03", year: "JUNIOR // 大三", label: "就业/考研精准双通道", status: "DUAL TRACK" },
   ];
 
-  const handleStageChange = (newStage: 0 | 1 | 2) => {
-    if (newStage === activeStage) return;
-    setStage([newStage, newStage > activeStage ? 1 : -1]);
-  };
-
-  // Map module to stage index
   const currentModule = modules[activeStage] || {
     stage: stageTabs[activeStage].code,
     title: stageTabs[activeStage].label,
@@ -71,191 +55,178 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
       : roadmap.junior.postgrad;
 
   return (
-    <div className="w-full space-y-6">
-      {/* 顶部三阶段控制台选项卡 */}
-      <div className="flex items-center gap-1.5 p-1 rounded-[var(--radius-sm)] bg-[var(--surface-2)] border border-[var(--border)] overflow-x-auto no-scrollbar">
+    <div className="w-full space-y-8">
+      {/* 1. 三年里程碑水平推进导航条 (Horizontal Milestone Bar) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {stageTabs.map((tab, idx) => {
           const isActive = activeStage === idx;
 
           return (
             <button
               key={tab.code}
-              onClick={() => handleStageChange(idx as 0 | 1 | 2)}
               type="button"
+              onClick={() => setActiveStage(idx as 0 | 1 | 2)}
               className={cn(
-                "relative z-10 flex-1 min-w-[140px] flex items-center justify-center gap-2 py-3 px-4 rounded-[var(--radius-xs)] text-xs font-mono transition-colors whitespace-nowrap cursor-pointer",
+                "relative text-left p-5 rounded-[var(--radius-sm)] border transition-all cursor-pointer",
                 isActive
-                  ? "text-[var(--fg)] font-bold shadow-xs"
-                  : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
+                  ? "border-[var(--accent)] bg-[var(--surface)] shadow-xs"
+                  : "border-[var(--border)] bg-[var(--surface-2)]/60 hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)]",
               )}
             >
-              <span className="text-[10px] text-[var(--accent)]">{`${tab.code} //`}</span>
-              <span>{tab.label}</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-mono text-[11px] font-bold text-[var(--accent)]">
+                  {tab.year}
+                </span>
+                <span
+                  className={cn(
+                    "h-2 w-2 rounded-full",
+                    isActive ? "bg-[var(--accent)] ring-4 ring-[var(--accent)]/20" : "bg-[var(--border-strong)]",
+                  )}
+                />
+              </div>
+              <div className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
+                {tab.label}
+              </div>
+              <div className="text-xs font-mono text-[var(--fg-muted)] mt-1">
+                {`STAGE 0${idx + 1} // ${tab.status}`}
+              </div>
 
               {isActive && (
-                <motion.div
-                  layoutId="stage-console-active-pill"
-                  className="absolute inset-0 bg-[var(--surface)] border border-[var(--border-strong)] rounded-[var(--radius-xs)] -z-10 shadow-xs"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
+                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[var(--accent)] rounded-b-[var(--radius-sm)]" />
               )}
             </button>
           );
         })}
       </div>
 
-      {/* 阶段工作台主面板（方向感知滑动） */}
-      <div className="overflow-hidden">
-        <AnimatePresence custom={direction} mode="wait">
-          <motion.div
-            key={activeStage}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 shadow-xs"
-          >
-          {/* 面板头部 */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-[var(--border)]">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="font-mono text-xs font-semibold text-[var(--accent)] tracking-wider">
-                  {`${stageTabs[activeStage].code} //`}
-                </span>
-                <Badge variant={activeStage === 2 ? "active" : "success"} className="text-[10px]">
-                  {stageTabs[activeStage].status}
-                </Badge>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
-                {currentModule.title}
-              </h3>
+      {/* 2. 阶段工作台主舱体 (Stage Workspace) */}
+      <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 shadow-xs space-y-8">
+        {/* 阶段标题与目标 */}
+        <div className="flex flex-wrap items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
+          <div className="space-y-2 max-w-3xl">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs font-bold text-[var(--accent)]">
+                {stageTabs[activeStage].code} {"//"} CURRICULUM SYLLABUS
+              </span>
+              <Badge variant="active" className="text-[10px]">
+                {stageTabs[activeStage].status}
+              </Badge>
             </div>
-
-            <div className="flex items-center gap-3">
-              <StageIndicator active={activeStage + 1} total={3} label={stageTabs[activeStage].label} />
-            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
+              {currentModule.title}
+            </h3>
+            <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed pt-1">
+              {currentModule.objective}
+            </p>
           </div>
 
-          {/* 阶段核心目标 */}
-          <div className="mb-6 p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] text-sm leading-relaxed">
-            <span className="font-mono text-xs font-bold text-[var(--accent)] block mb-1">
-              STAGE OBJECTIVE // 阶段核心目标
-            </span>
-            <p className="text-[var(--fg)]">{currentModule.objective}</p>
-          </div>
-
-          {/* 双列布局：左侧实训交付与审查标准，右侧知识考点与路线要点 */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* 左列：必做实验交付与代码审查标准 */}
-            <div className="lg:col-span-6 space-y-4">
-              <div className="p-5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)] space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
-                  <FlaskConical className="h-4 w-4 text-[var(--accent)]" />
-                  <span>阶段综合实验与交付物</span>
-                </div>
-                <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed pl-6 border-l-2 border-[var(--accent)]">
-                  {currentModule.experiment}
-                </p>
-              </div>
-
-              <div className="p-5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)] space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
-                  <ShieldCheck className="h-4 w-4 text-[var(--success)]" />
-                  <span>代码审查与结项答辩标准</span>
-                </div>
-                <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed pl-6 border-l-2 border-[var(--success)]">
-                  {currentModule.reviewStandard}
-                </p>
-              </div>
+          {/* 大三阶段：就业与考研双通道切换器 */}
+          {activeStage === 2 && (
+            <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
+              <button
+                type="button"
+                onClick={() => setJuniorChannel("employment")}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+                  juniorChannel === "employment"
+                    ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
+                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+                )}
+              >
+                <Briefcase size={13} className={juniorChannel === "employment" ? "text-[var(--accent)]" : ""} />
+                <span>一线就业实习</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setJuniorChannel("postgrad")}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+                  juniorChannel === "postgrad"
+                    ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
+                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+                )}
+              >
+                <GraduationCap size={13} className={juniorChannel === "postgrad" ? "text-[var(--accent)]" : ""} />
+                <span>408 考研深造</span>
+              </button>
             </div>
+          )}
+        </div>
 
-            {/* 右列：阶梯知识模块与成长要点 */}
-            <div className="lg:col-span-6 space-y-4">
-              {/* 大三阶段增加就业/考研双通道切换 */}
-              {activeStage === 2 && (
-                <div className="flex items-center gap-2 p-1 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)]">
-                  <button
-                    type="button"
-                    onClick={() => setJuniorChannel("employment")}
-                    className={cn(
-                      "flex-1 py-1.5 px-3 rounded text-xs font-mono flex items-center justify-center gap-1.5 transition-colors",
-                      juniorChannel === "employment"
-                        ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border)]"
-                        : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
-                    )}
+        {/* 培养要点与课题矩阵 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* 左列：核心学习与实训课题 */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Compass size={16} className="text-[var(--accent)]" />
+                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                  核心学习内容与实战攻坚 // CORE SYLLABUS
+                </h4>
+              </div>
+              <div className="space-y-2.5">
+                {currentModule.coreTopics.map((topic, i) => (
+                  <div
+                    key={topic}
+                    className="flex items-start gap-3 p-3 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] text-xs sm:text-sm text-[var(--fg)] font-medium"
                   >
-                    <BriefcaseIcon className="h-3.5 w-3.5 text-[var(--accent)]" />
-                    <span>就业通道 · 实习交付</span>
-                  </button>
+                    <span className="font-mono text-[11px] text-[var(--accent)] font-bold pt-0.5">
+                      {`0${i + 1}.`}
+                    </span>
+                    <span className="leading-relaxed">{topic}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setJuniorChannel("postgrad")}
-                    className={cn(
-                      "flex-1 py-1.5 px-3 rounded text-xs font-mono flex items-center justify-center gap-1.5 transition-colors",
-                      juniorChannel === "postgrad"
-                        ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border)]"
-                        : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
-                    )}
-                  >
-                    <GraduationCap className="h-3.5 w-3.5 text-[var(--accent)]" />
-                    <span>升学通道 · 408考研科研</span>
-                  </button>
-                </div>
-              )}
-
-              <div className="p-5 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)] space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
-                  <Code2 className="h-4 w-4 text-[var(--accent)]" />
-                  <span>核心实训知识模块与执行要点</span>
-                </div>
-
-                <ul className="space-y-2.5 pt-1">
-                  {(currentModule.coreTopics.length > 0
-                    ? currentModule.coreTopics
-                    : currentRoadmap.items
-                  ).map((topic: string, i: number) => (
-                    <li
-                      key={topic}
-                      className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed group"
-                    >
-                      <span className="font-mono text-[11px] font-bold text-[var(--accent)] shrink-0 mt-0.5">
-                        {`0${i + 1} //`}
-                      </span>
-                      <span className="group-hover:text-[var(--fg)] transition-colors">
-                        {topic}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+            {/* 阶梯路径 Checklist */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-500" />
+                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                  阶段阶段性达标清单 // MILESTONES CHECKLIST
+                </h4>
+              </div>
+              <div className="space-y-2">
+                {currentRoadmap.items.map((item) => (
+                  <div key={item} className="flex items-start gap-2.5 text-xs text-[var(--fg-muted)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] mt-1.5 shrink-0" />
+                    <span className="leading-relaxed">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </motion.div>
-      </AnimatePresence>
+
+          {/* 右列：阶段结项实训 & Code Review 准则 */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* 阶段实训项目 */}
+            <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
+                <FlaskConical size={15} className="text-[var(--accent)]" />
+                <span>STAGE DELIVERABLE // 阶段结项实训项目</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[var(--fg)] leading-relaxed">
+                {currentModule.experiment}
+              </p>
+            </div>
+
+            {/* 导师 Code Review 考核标准 */}
+            <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border-strong)] space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--accent)]">
+                <ShieldCheck size={15} />
+                <span>CODE REVIEW CRITERIA // 导师代码审查标准</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed">
+                {currentModule.reviewStandard}
+              </p>
+              <div className="pt-2 border-t border-[var(--border)] text-[11px] font-mono text-[var(--fg-faint)]">
+                * 需提交标准 Git 提交历史，通过 ESLint/PEP8/Google Style 门禁与导师组现场答辩。
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  );
-}
-
-function BriefcaseIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="20" height="14" x="2" y="7" rx="2" ry="2" />
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-    </svg>
   );
 }

@@ -13,12 +13,14 @@ import {
   workSchema,
 } from "./schema";
 import { timelineRaw } from "./timeline";
+import { trackDeepDives } from "./track-deep-dives";
 import { tracksRaw } from "./tracks";
 import { workDeepDives } from "./work-deep-dives";
 import { worksRaw } from "./works";
 
 export const club = clubSchema.parse(clubRaw);
 export const tracks = trackSchema.array().parse(tracksRaw);
+export { trackDeepDives };
 export const works = workSchema.array().parse(
   worksRaw.map((work) => {
     const deepDive = workDeepDives[work.slug];
@@ -45,7 +47,9 @@ export type {
   Stage,
   TimelineItem,
   Track,
+  TrackConcept,
   TrackCurriculumModule,
+  TrackDeepDive,
   TrackDeepFocusItem,
   Work,
 } from "./schema";

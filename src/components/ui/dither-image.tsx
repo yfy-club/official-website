@@ -31,6 +31,7 @@ export function DitherImage({
     >
       <Image
         alt={alt}
+        sizes={props.sizes ?? "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         className={cn(
           "h-full w-full object-cover transition-all duration-300",
           !isHovered && "grayscale contrast-125 brightness-95",

@@ -13,6 +13,45 @@ const stageSchema = z.object({
   items: z.array(z.string().min(2)).min(3).max(5),
 });
 
+export const trackConceptSchema = z.object({
+  code: z.string(),
+  title: z.string().min(2),
+  question: z.string().min(5),
+  summary: z.string().min(10),
+  mechanism: z.string().min(20),
+  formula: z.string().optional(),
+  formulaDescription: z.string().optional(),
+  codeSnippet: z
+    .object({
+      language: z.string(),
+      code: z.string(),
+      description: z.string(),
+    })
+    .optional(),
+  misconception: z
+    .object({
+      myth: z.string(),
+      truth: z.string(),
+    })
+    .optional(),
+  ourWork: z
+    .object({
+      title: z.string(),
+      link: z.string(),
+      evidence: z.string(),
+    })
+    .optional(),
+  tags: z.array(z.string()).default([]),
+});
+
+export const trackDeepDiveSchema = z.object({
+  slug: trackSlugSchema,
+  trackName: z.string(),
+  headline: z.string(),
+  description: z.string(),
+  concepts: z.array(trackConceptSchema).min(1),
+});
+
 export const trackMetricSchema = z.object({
   code: z.string(),
   label: z.string(),
@@ -266,6 +305,8 @@ export const mechanismSchema = z.object({
 });
 
 export type Stage = z.infer<typeof stageSchema>;
+export type TrackConcept = z.infer<typeof trackConceptSchema>;
+export type TrackDeepDive = z.infer<typeof trackDeepDiveSchema>;
 export type TrackCurriculumModule = z.infer<typeof trackCurriculumModuleSchema>;
 export type TrackDeepFocusItem = z.infer<typeof trackDeepFocusSchema>;
 export type Track = z.infer<typeof trackSchema>;

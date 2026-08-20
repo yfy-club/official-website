@@ -428,7 +428,7 @@ export function OrbitalGallery({
             <ArrowLeft size={16} />
           </button>
 
-          <div className="flex items-center gap-1.5 px-2" aria-hidden="true">
+          <div className="flex items-center gap-1.5 px-2">
             {photos.map((_, dotIdx) => (
               <button
                 type="button"

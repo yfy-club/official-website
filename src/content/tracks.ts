@@ -8,12 +8,6 @@ export const tracksRaw = [
     nameEn: "Artificial Intelligence",
     tagline: "探索大模型智能体与计算机视觉前沿",
     positioning: "探索大模型、计算机视觉与智能体前沿，运用 AI 原理与算法解决实际工程问题，打通端云协同与算法工程化落地全流程。",
-    metrics: [
-      { code: "METRIC 01", label: "阶梯进阶体系", value: 3, suffix: " 阶段", detail: "基础启蒙 → 模型攻坚 → 工程落地" },
-      { code: "METRIC 02", label: "核心算法库覆盖", value: 6, suffix: "+ 类", detail: "CV 视觉 / 智能体 / RAG / 机器人" },
-      { code: "METRIC 03", label: "国家级/省级竞赛", value: 5, suffix: "+ 项", detail: "iCAN 国一 / 机器人 / 数模 / 智能车" },
-      { code: "METRIC 04", label: "工程项目驱动率", value: 100, suffix: "%", detail: "逐行审码与真实业务端到端交付" },
-    ],
     stack: {
       languages: ["Python", "C/C++", "SQL"],
       frameworks: ["PyTorch", "OpenCV", "NumPy", "Pandas", "LangChain", "vLLM"],
@@ -118,12 +112,6 @@ export const tracksRaw = [
     nameEn: "Intelligent Software Engineering",
     tagline: "融合现代软件工程与 AI 智能体",
     positioning: "融合现代微服务架构、全栈工程化与 AI 智能体开发范式，打造高并发、高可用、可部署的现代化企业级软件系统。",
-    metrics: [
-      { code: "METRIC 01", label: "全栈技术栈层级", value: 4, suffix: " 层", detail: "前端 → 后端 → 数据库 → 云原生" },
-      { code: "METRIC 02", label: "企业级技术集", value: 8, suffix: "+ 项", detail: "Spring Cloud / Redis / MQ / Docker" },
-      { code: "METRIC 03", label: "蓝桥杯/软件赛", value: 10, suffix: "+ 项", detail: "省级一等奖及全国团队二等奖" },
-      { code: "METRIC 04", label: "项目上线交付率", value: 100, suffix: "%", detail: "全流程 CI/CD 与容器化生产部署" },
-    ],
     stack: {
       languages: ["Java", "TypeScript", "C/C++", "SQL"],
       frameworks: ["Spring Boot", "Spring Cloud", "Vue 3", "Next.js", "MyBatis-Plus", "Express"],
@@ -228,12 +216,6 @@ export const tracksRaw = [
     nameEn: "Database Technology",
     tagline: "深耕分布式存储与国产信创数据库",
     positioning: "面向国家信创与关键基础设施需求，深耕关系型、分布式与国产数据库底层架构，精通存储引擎、查询调优与高可用数据治理。",
-    metrics: [
-      { code: "METRIC 01", label: "核心引擎覆盖", value: 4, suffix: " 套", detail: "openGauss / MySQL / OceanBase / Redis" },
-      { code: "METRIC 02", label: "存储底层机制", value: 6, suffix: "+ 项", detail: "B+Tree / LSM / MVCC / WAL / Raft" },
-      { code: "METRIC 03", label: "信创生态兼容", value: 100, suffix: "%", detail: "深度适配国产 Linux 与信创数据库" },
-      { code: "METRIC 04", label: "容灾高可用率", value: 99.99, suffix: "%", detail: "主从复制 / 读写分离 / 自动故障转移" },
-    ],
     stack: {
       languages: ["SQL", "C/C++", "Shell", "Python"],
       frameworks: ["openGauss", "OceanBase", "MySQL", "PostgreSQL", "Redis", "TiDB"],
@@ -337,12 +319,6 @@ export const tracksRaw = [
     nameEn: "Intelligent Cloud & IoT",
     tagline: "打通端、边、云一体化全链路协同",
     positioning: "聚焦端、边、云一体化架构，打通微控制器裸机驱动、FreeRTOS 嵌入式实时系统、物联网通信网关与云端时序遥测大数据平台。",
-    metrics: [
-      { code: "METRIC 01", label: "端边云链路跨度", value: 3, suffix: " 层", detail: "MCU 终端 → 边缘网关 → 云端平台" },
-      { code: "METRIC 02", label: "核心通信协议", value: 5, suffix: " 种", detail: "MQTT / Modbus / I2C / SPI / UART" },
-      { code: "METRIC 03", label: "国家级/省级竞赛", value: 6, suffix: "+ 项", detail: "智能汽车竞赛 / 电子设计 / 嵌入式" },
-      { code: "METRIC 04", label: "实体试点落地", value: 1, suffix: " 处", detail: "南阳试点智慧路灯项目实体化运行" },
-    ],
     stack: {
       languages: ["C/C++", "Shell", "TypeScript", "Python"],
       frameworks: ["FreeRTOS", "STM32 HAL", "ESP-IDF", "MQTT", "Modbus", "ThingsBoard", "EMQX"],
@@ -446,12 +422,6 @@ export const tracksRaw = [
     nameEn: "Industrial Digital Intelligence",
     tagline: "软硬结合深度赋能工业 4.0 智能制造",
     positioning: "软硬件结合赋能工业 4.0，深耕工业软件架构、智能控制、工业机器视觉、PLC 工控互联与设备数字孪生实时监测。",
-    metrics: [
-      { code: "METRIC 01", label: "工业技术闭环", value: 4, suffix: " 环", detail: "PLC 控制 → 现场总线 → 视觉引导 → 数字孪生" },
-      { code: "METRIC 02", label: "工业协议栈", value: 5, suffix: " 种", detail: "Modbus TCP / OPC UA / S7 / EtherCAT / MQTT" },
-      { code: "METRIC 03", label: "权威竞赛殊荣", value: 4, suffix: "+ 项", detail: "睿抗机器人 / 创新大赛 / 机器视觉" },
-      { code: "METRIC 04", label: "产学研结合度", value: 100, suffix: "%", detail: "结合工厂真实产线工况与校企课题" },
-    ],
     stack: {
       languages: ["C/C++", "Python", "C#", "PLC 梯形图", "TypeScript"],
       frameworks: ["OPC UA", "Modbus TCP", "Three.js", "OpenCV", "Node-RED", "Siemens S7"],
