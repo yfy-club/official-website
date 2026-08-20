@@ -151,10 +151,10 @@ export default function AboutPage() {
             <p className="section__intro">{advisorProfile.summary}</p>
           </div>
 
-          {/* 兼任职务与社会任职分层 Markdown 列表 */}
+          {/* 主要兼任与学术职务列表 */}
           <div className="pt-5 border-t border-[var(--border)] space-y-3">
-            <h3 className="font-mono text-xs text-[var(--accent)] font-semibold uppercase tracking-wider flex items-center gap-2">
-              <span>{"### 主要兼任与学术职务 // ROLES & APPOINTMENTS"}</span>
+            <h3 className="text-xs font-semibold text-[var(--fg)] tracking-wide">
+              主要兼任与学术职务
             </h3>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 clean-list m-0 p-0">
               {advisorProfile.roles.map((role, idx) => (
