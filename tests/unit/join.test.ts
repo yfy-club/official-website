@@ -86,6 +86,18 @@ describe("join form", () => {
     }
   });
 
+  it("rejects invalid or missing track with Chinese error message", () => {
+    const result = joinFormSchema.safeParse({
+      ...validPayload,
+      track: "invalid-track",
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const fields = result.error.flatten().fieldErrors;
+      expect(fields.track?.[0]).toBe("请选择你感兴趣的技术方向");
+    }
+  });
+
   it("rejects field boundaries and malformed student IDs", () => {
     const result = joinFormSchema.safeParse({
       ...validPayload,

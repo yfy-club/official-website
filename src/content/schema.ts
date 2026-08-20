@@ -287,7 +287,9 @@ export const faqSchema = z.object({
   answer: z.string().min(10),
 });
 
-export const joinTrackSchema = z.enum([...trackSlugSchema.options, "other"]);
+export const joinTrackSchema = z.enum([...trackSlugSchema.options, "other"], {
+  message: "请选择你感兴趣的技术方向",
+});
 
 export const joinFormSchema = z
   .object({
