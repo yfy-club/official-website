@@ -2,255 +2,224 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUpRight,
   Check,
-  ChevronDown,
-  ChevronUp,
   Code2,
   Copy,
   Layers,
+  Sparkles,
 } from "lucide-react";
 
 import { TrackArchitectureVisualizer } from "@/components/motion/track-architecture-visualizer";
 import { Button } from "@/components/ui/button";
 import { MathFormula } from "@/components/ui/math-formula";
+import {
+  Sheet,
+  SheetBody,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import type { TrackDeepDive } from "@/content";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { cn } from "@/lib/utils";
 
 interface TrackDeepArchitectureProps {
   deepDive: TrackDeepDive;
 }
 
 export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) {
-  const [activeConceptIndex, setActiveConceptIndex] = useState<number>(0);
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [selectedConceptIndex, setSelectedConceptIndex] = useState<number | null>(null);
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
   const concepts = deepDive.concepts;
-  const currentConcept = concepts[activeConceptIndex] || concepts[0];
-
-  const handleConceptChange = (index: number) => {
-    setActiveConceptIndex(index);
-  };
-
-  const handleCopyCode = (code: string) => {
-    copyToClipboard(code);
-  };
+  const activeConcept = selectedConceptIndex !== null ? concepts[selectedConceptIndex] : null;
 
   return (
     <div className="w-full space-y-10">
-      {/* 1. 交互式架构可视化总览台 */}
-      <div className="space-y-4">
+      {/* 1. 交互式架构拓扑控制台 (默认空灵纯净展示) */}
+      <div className="w-full">
         <TrackArchitectureVisualizer slug={deepDive.slug} />
       </div>
 
-      {/* 2. 核心原理渐进式探索中枢 (Progressive Disclosure Dossier) */}
-      <div className="space-y-6">
-        {/* 概念切换选项卡 */}
-        <div className="flex items-center gap-2 p-1.5 rounded-[var(--radius-sm)] bg-[var(--surface-2)] border border-[var(--border)] overflow-x-auto no-scrollbar">
-          {concepts.map((concept, idx) => {
-            const isActive = activeConceptIndex === idx;
-            const displayTitle = concept.shortTitle || concept.title.split("：")[0]?.trim() || concept.title;
+      {/* 2. 核心攻坚概念矩阵 (Swiss 无卡片松散排版，点击呼出 Sheet 抽屉) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-[var(--border)]">
+        {concepts.map((concept, idx) => {
+          const displayTitle = concept.shortTitle || concept.title.split("：")[0]?.trim() || concept.title;
 
-            return (
-              <button
-                key={concept.code}
-                type="button"
-                onClick={() => handleConceptChange(idx)}
-                className={cn(
-                  "relative z-10 flex-1 min-w-[120px] flex items-center justify-center gap-2 py-2.5 px-3.5 rounded-[var(--radius-xs)] text-xs sm:text-sm font-mono transition-all whitespace-nowrap cursor-pointer",
-                  isActive
-                    ? "text-[var(--fg)] font-bold shadow-xs"
-                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
-                )}
-              >
-                <span className="text-[11px] text-[var(--accent)] font-semibold">{`0${idx + 1}`}</span>
-                <span>{displayTitle}</span>
-
-                {isActive && (
-                  <motion.div
-                    layoutId="deep-concept-active-pill"
-                    className="absolute inset-0 bg-[var(--surface)] border border-[var(--border-strong)] rounded-[var(--radius-xs)] -z-10 shadow-xs"
-                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                  />
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 概念主卡片（默认低密度、大气松散、大字排版；点击可展开高密度讲义与源码） */}
-        <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 shadow-xs space-y-8 transition-all">
-          {/* 顶栏元数据 */}
-          <div className="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-[var(--border)]">
-            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-              DOSSIER 0{activeConceptIndex + 1} {"//"} {currentConcept.code}
-            </span>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {currentConcept.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] text-[10px] font-mono text-[var(--fg-muted)] border border-[var(--border)]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* 核心问题与摘要（大字号、强冲击力、呼吸感排版） */}
-          <div className="space-y-4">
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--fg)] tracking-tight leading-snug">
-              {currentConcept.question}
-            </h3>
-            <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-4xl pt-1">
-              {currentConcept.summary}
-            </p>
-          </div>
-
-          {/* 核心公式紧凑预览栏 (Formula Preview) */}
-          {currentConcept.formula && (
-            <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1.5 min-w-0 flex-1">
-                <span className="text-xs font-mono text-[var(--fg-faint)] block">
-                  数学原理
-                </span>
-                <div className="text-sm sm:text-base text-[var(--fg)] overflow-x-auto overflow-y-hidden no-scrollbar py-2 min-h-[2.75rem] flex items-center">
-                  <MathFormula formula={currentConcept.formula} displayMode={false} />
-                </div>
-              </div>
-              {currentConcept.formulaDescription && (
-                <span className="text-xs text-[var(--fg-muted)] font-mono md:text-right max-w-xs shrink-0">
-                  {currentConcept.formulaDescription}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* 展开/收起 深度工程讲义与源码交互按钮 */}
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full h-12 rounded-[var(--radius-xs)] flex items-center justify-center gap-2 font-mono text-xs sm:text-sm border border-[var(--border-strong)] bg-[var(--surface)] hover:border-[var(--accent)] hover:bg-[var(--surface-2)] text-[var(--fg)] cursor-pointer transition-all shadow-xs"
+          return (
+            <div
+              key={concept.code}
+              onClick={() => setSelectedConceptIndex(idx)}
+              className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)]/40 hover:bg-[var(--surface-2)]/70 hover:border-[var(--border-strong)] transition-all duration-200 cursor-pointer group flex flex-col justify-between space-y-4"
             >
-              {isExpanded ? (
-                <>
-                  <ChevronUp size={16} className="text-[var(--accent)]" />
-                  <span>收起详细讲义与源码</span>
-                </>
-              ) : (
-                <>
-                  <ChevronDown size={16} className="text-[var(--accent)]" />
-                  <span>展开详细讲义与源码</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* 展开后呈现的高密度硬核内容 (Collapsible High-Density Dossier) */}
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                key={`expanded-${currentConcept.code}`}
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                className="overflow-hidden space-y-8 pt-4 border-t border-[var(--border)]"
-              >
-                {/* 1. 底层机制解析 */}
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Layers size={16} className="text-[var(--accent)]" />
-                    <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
-                      底层机制
-                    </h4>
-                  </div>
-                  <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed">
-                    {currentConcept.mechanism}
-                  </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+                    {`0${idx + 1} // ${concept.code}`}
+                  </span>
+                  <ArrowUpRight
+                    size={16}
+                    className="text-[var(--fg-faint)] group-hover:text-[var(--fg)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                    aria-hidden="true"
+                  />
                 </div>
+                <h3 className="text-lg sm:text-xl font-bold text-[var(--fg)] tracking-tight group-hover:text-[var(--accent)] transition-colors">
+                  {displayTitle}
+                </h3>
+                <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed line-clamp-2">
+                  {concept.summary}
+                </p>
+              </div>
 
-                {/* 2. 真实生产/教学源码实现 */}
-                {currentConcept.codeSnippet && (
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex items-center gap-2">
-                        <Code2 size={16} className="text-[var(--accent)]" />
-                        <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
-                          源码实现 ({currentConcept.codeSnippet.language})
-                        </h4>
-                      </div>
-                      <span className="text-xs font-mono text-[var(--fg-faint)]">
-                        {currentConcept.codeSnippet.description}
-                      </span>
-                    </div>
+              <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-[var(--border)]/60">
+                {concept.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] text-[10px] font-mono text-[var(--fg-muted)]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-                    <div className="relative rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border-strong)] p-4 font-mono text-xs sm:text-sm overflow-x-auto">
-                      <button
-                        type="button"
-                        onClick={() => handleCopyCode(currentConcept.codeSnippet?.code || "")}
-                        className="absolute top-3 right-3 p-2 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] transition-all cursor-pointer"
-                        aria-label="复制代码"
-                      >
-                        {isCopied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
-                      </button>
-                      <pre className="text-[var(--fg)] leading-relaxed pr-10">
-                        <code>{currentConcept.codeSnippet.code}</code>
-                      </pre>
-                    </div>
+      {/* 3. Coss Sheet 深度技术白皮书抽屉 (高密度承载公式、代码、排雷与权衡) */}
+      <Sheet
+        open={selectedConceptIndex !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedConceptIndex(null);
+        }}
+      >
+        {activeConcept && (
+          <SheetBody className="p-0 space-y-0 max-w-2xl bg-[var(--surface)]">
+            <SheetHeader className="p-6 sm:p-8 bg-[var(--surface)] border-b border-[var(--border)]">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+                  {activeConcept.code}
+                </span>
+                <span className="text-[var(--fg-faint)]">/</span>
+                <span className="font-mono text-xs text-[var(--fg-muted)]">ENGINEERING SPEC</span>
+              </div>
+              <SheetTitle>{activeConcept.title}</SheetTitle>
+              <SheetDescription>{activeConcept.summary}</SheetDescription>
+            </SheetHeader>
+
+            <div className="p-6 sm:p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-180px)]">
+              {/* 核心机制解析 */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
+                  <Layers size={14} className="text-[var(--accent)]" aria-hidden="true" />
+                  <span>核心机制原理</span>
+                </div>
+                <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed font-sans">
+                  {activeConcept.mechanism}
+                </p>
+              </div>
+
+              {/* 严谨数学公式推导 */}
+              {activeConcept.formula && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
+                    <Sparkles size={14} className="text-[var(--accent)]" aria-hidden="true" />
+                    <span>数学模型与公式推导</span>
                   </div>
-                )}
-
-                {/* 3. 常见认知误区排雷 */}
-                {currentConcept.misconception && (
-                  <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-amber-500/30 space-y-3">
-                    <div className="flex items-center gap-2 text-amber-500 font-mono text-xs font-bold">
-                      <AlertTriangle size={15} />
-                      <span>认知误区排雷</span>
-                    </div>
-                    <div className="space-y-2 text-xs sm:text-sm">
-                      <p className="text-[var(--fg-muted)]">
-                        <strong className="text-amber-400/90 font-mono">误区直觉：</strong>{" "}
-                        {currentConcept.misconception.myth}
+                  <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] space-y-2">
+                    <MathFormula formula={activeConcept.formula} displayMode />
+                    {activeConcept.formulaDescription && (
+                      <p className="text-[11px] font-mono text-[var(--fg-muted)] pt-1 border-t border-[var(--border)]">
+                        {activeConcept.formulaDescription}
                       </p>
-                      <p className="text-[var(--fg)]">
-                        <strong className="text-[var(--accent)] font-mono">工程真相：</strong>{" "}
-                        {currentConcept.misconception.truth}
-                      </p>
-                    </div>
+                    )}
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* 4. 社团实战成果与作品联动 */}
-                {currentConcept.ourWork && (
-                  <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-between flex-wrap gap-3">
-                    <div className="space-y-1">
-                      <span className="text-xs font-mono text-[var(--accent)] font-bold">
-                        社团落地成果
-                      </span>
-                      <div className="text-xs sm:text-sm text-[var(--fg)] font-semibold">
-                        {currentConcept.ourWork.title}：{currentConcept.ourWork.evidence}
-                      </div>
+              {/* 生产级核心源码 */}
+              {activeConcept.codeSnippet && (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
+                      <Code2 size={14} className="text-[var(--accent)]" aria-hidden="true" />
+                      <span>{activeConcept.codeSnippet.description}</span>
                     </div>
-                    <Button asChild size="sm" variant="ghost" className="font-mono text-xs gap-1.5 h-8 border border-[var(--border)]">
-                      <Link href={currentConcept.ourWork.link}>
-                        <span>查看关联项目</span>
-                        <ArrowRight size={13} />
-                      </Link>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => copyToClipboard(activeConcept.codeSnippet?.code ?? "")}
+                      className="h-7 px-2 text-xs font-mono text-[var(--fg-muted)] hover:text-[var(--fg)]"
+                    >
+                      {isCopied ? (
+                        <>
+                          <Check size={12} className="text-emerald-500" aria-hidden="true" />
+                          <span>已复制</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={12} aria-hidden="true" />
+                          <span>复制代码</span>
+                        </>
+                      )}
                     </Button>
                   </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
+                  <div className="rounded-[var(--radius-xs)] border border-[var(--border)] bg-[#0B0D10] p-4 font-mono text-xs overflow-x-auto text-[var(--fg)] leading-relaxed">
+                    <pre>
+                      <code>{activeConcept.codeSnippet.code}</code>
+                    </pre>
+                  </div>
+                </div>
+              )}
+
+              {/* 认知误区与排雷指南 */}
+              {activeConcept.misconception && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--warn)]">
+                    <AlertTriangle size={14} aria-hidden="true" />
+                    <span>工程误区排雷</span>
+                  </div>
+                  <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--warn)]/5 border border-[var(--warn)]/20 space-y-1.5">
+                    <p className="text-xs font-bold text-[var(--warn)] font-mono">
+                      ❌ 误区：{activeConcept.misconception.myth}
+                    </p>
+                    <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
+                      💡 实际：{activeConcept.misconception.truth}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 落地项目案例联动 */}
+              {activeConcept.ourWork && (
+                <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/50 border border-[var(--border)] flex items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <span className="font-mono text-[10px] text-[var(--accent)] font-bold">
+                      关联落地项目
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-bold text-[var(--fg)]">
+                      {activeConcept.ourWork.title}
+                    </h4>
+                    <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
+                      {activeConcept.ourWork.evidence}
+                    </p>
+                  </div>
+                  {activeConcept.ourWork.link && (
+                    <Button asChild variant="ghost" size="sm" className="shrink-0 text-xs font-mono">
+                      <Link href={activeConcept.ourWork.link}>
+                        查看工程 <ArrowRight size={13} className="ml-1" aria-hidden="true" />
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          </SheetBody>
+        )}
+      </Sheet>
     </div>
   );
 }

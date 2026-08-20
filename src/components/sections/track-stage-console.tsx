@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   Briefcase,
   CheckCircle2,
@@ -24,6 +25,7 @@ export interface TrackStageConsoleProps {
 }
 
 export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsoleProps) {
+  const reduceMotion = useReducedMotion();
   const [activeStage, setActiveStage] = useState<0 | 1 | 2>(0);
   const [juniorChannel, setJuniorChannel] = useState<"employment" | "postgrad">("employment");
 
@@ -50,9 +52,9 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
       : roadmap.junior.postgrad;
 
   return (
-    <div className="w-full space-y-8">
-      {/* 1. 三年里程碑水平推进导航条 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="w-full space-y-12">
+      {/* 1. 横向全宽阶梯跃迁轴 (Swiss Precision Leap) */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between border-b border-[var(--border)] gap-2 pb-1">
         {stageTabs.map((tab, idx) => {
           const isActive = activeStage === idx;
 
@@ -62,133 +64,129 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
               type="button"
               onClick={() => setActiveStage(idx as 0 | 1 | 2)}
               className={cn(
-                "relative text-left p-5 rounded-[var(--radius-sm)] border transition-all cursor-pointer",
-                isActive
-                  ? "border-[var(--accent)] bg-[var(--surface)] shadow-xs"
-                  : "border-[var(--border)] bg-[var(--surface-2)]/60 hover:bg-[var(--surface-2)] hover:border-[var(--border-strong)]",
+                "relative flex-1 py-4 px-2 text-left sm:text-center transition-colors cursor-pointer select-none group",
+                isActive ? "text-[var(--fg)]" : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
               )}
             >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                  {`0${idx + 1} · ${tab.year}`}
+              <div className="flex sm:flex-col items-baseline sm:items-center justify-between sm:justify-center gap-2">
+                <span className={cn(
+                  "font-mono text-xs font-bold transition-colors",
+                  isActive ? "text-[var(--accent)]" : "text-[var(--fg-faint)]"
+                )}>
+                  {`STAGE 0${idx + 1}`}
                 </span>
-                <span
-                  className={cn(
-                    "h-2 w-2 rounded-full",
-                    isActive ? "bg-[var(--accent)] ring-4 ring-[var(--accent)]/20" : "bg-[var(--border-strong)]",
-                  )}
-                />
-              </div>
-              <div className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
-                {tab.label}
+                <span className="text-sm sm:text-base font-bold tracking-tight">
+                  {tab.year} · {tab.label}
+                </span>
               </div>
 
               {isActive && (
-                <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[var(--accent)] rounded-b-[var(--radius-sm)]" />
+                <motion.div
+                  layoutId="stage-active-line"
+                  className="absolute inset-x-0 -bottom-[1px] h-0.5 bg-[var(--accent)]"
+                  transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 450, damping: 35 }}
+                />
               )}
             </button>
           );
         })}
       </div>
 
-      {/* 2. 阶段工作台主舱体 */}
-      <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 shadow-xs space-y-8">
-        {/* 阶段标题与目标 */}
-        <div className="flex flex-wrap items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
+      {/* 2. 阶段工作台详情 (无重叠卡片，松散大字排版) */}
+      <div className="space-y-8">
+        {/* 阶段标题与双通道切换 */}
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
           <div className="space-y-2 max-w-3xl">
-            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-              {`STAGE 0${activeStage + 1}`}
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[var(--fg)] tracking-tight">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--fg)] tracking-tight">
               {currentModule.title}
             </h3>
-            <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed pt-1">
+            <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed font-sans pt-1">
               {currentModule.objective}
             </p>
           </div>
 
-          {/* 大三阶段：就业与考研双通道切换器 */}
+          {/* 大三双通道切换 */}
           {activeStage === 2 && (
-            <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
+            <div className="inline-flex items-center gap-1.5 p-1 rounded-[var(--radius-full)] bg-[var(--surface-2)] border border-[var(--border)] shrink-0 self-start">
               <button
                 type="button"
                 onClick={() => setJuniorChannel("employment")}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-full)] transition-all cursor-pointer",
                   juniorChannel === "employment"
                     ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
-                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
                 )}
               >
                 <Briefcase size={13} className={juniorChannel === "employment" ? "text-[var(--accent)]" : ""} />
-                <span>一线就业实习</span>
+                <span>一线就业</span>
               </button>
               <button
                 type="button"
                 onClick={() => setJuniorChannel("postgrad")}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-xs)] transition-all cursor-pointer",
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-[var(--radius-full)] transition-all cursor-pointer",
                   juniorChannel === "postgrad"
                     ? "bg-[var(--surface)] text-[var(--fg)] font-bold shadow-xs border border-[var(--border-strong)]"
-                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
+                    : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
                 )}
               >
                 <GraduationCap size={13} className={juniorChannel === "postgrad" ? "text-[var(--accent)]" : ""} />
-                <span>408 考研深造</span>
+                <span>考研深造</span>
               </button>
             </div>
           )}
         </div>
 
-        {/* 培养要点与课题双栏等宽网格 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        {/* 双栏里程碑 (左栏：课题攻坚，右栏：交付达标) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           {/* 左栏：核心实训课题 */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <Compass size={16} className="text-[var(--accent)]" />
-              <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
-                核心实训课题
-              </h4>
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
+              <Compass size={15} className="text-[var(--accent)]" aria-hidden="true" />
+              <span>专项实训课题</span>
             </div>
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {currentModule.coreTopics && currentModule.coreTopics.length > 0 ? (
                 currentModule.coreTopics.map((topic, i) => (
                   <div
                     key={topic}
-                    className="flex items-start gap-3 p-3.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] text-xs sm:text-sm text-[var(--fg)] font-medium"
+                    className="flex items-start gap-4 p-4 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)]/50 hover:bg-[var(--surface-2)]/50 transition-colors"
                   >
-                    <span className="font-mono text-[11px] text-[var(--accent)] font-bold pt-0.5">
-                      {`0${i + 1}.`}
+                    <span className="font-mono text-xs text-[var(--accent)] font-bold pt-0.5">
+                      {`0${i + 1}`}
                     </span>
-                    <span className="leading-relaxed">{topic}</span>
+                    <span className="text-sm font-medium text-[var(--fg)] leading-relaxed">
+                      {topic}
+                    </span>
                   </div>
                 ))
               ) : (
-                <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/40 border border-[var(--border)] text-xs text-[var(--fg-muted)] font-mono">
-                  暂无专项实训课题
+                <div className="p-4 text-xs text-[var(--fg-muted)] font-mono">
+                  专项课题持续迭代中
                 </div>
               )}
             </div>
           </div>
 
-          {/* 右栏：阶段达标清单 */}
+          {/* 右栏：阶段交付达标 */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-500" />
-              <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
-                {currentRoadmap.label || "阶段达标清单"}
-              </h4>
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--fg)]">
+              <CheckCircle2 size={15} className="text-emerald-500" aria-hidden="true" />
+              <span>阶段达标标准</span>
             </div>
-            <div className="space-y-2.5">
-              {currentRoadmap.items.map((item, idx) => (
+            <div className="space-y-3">
+              {currentRoadmap.items.map((item) => (
                 <div
                   key={item}
-                  className="flex items-start gap-3 p-3.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/40 border border-[var(--border)] text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed"
+                  className="flex items-start gap-4 p-4 rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface)]/30 hover:bg-[var(--surface-2)]/50 transition-colors"
                 >
-                  <span className="font-mono text-[11px] text-emerald-500 font-bold pt-0.5">
-                    {`✓ 0${idx + 1}`}
+                  <span className="font-mono text-xs text-emerald-500 font-bold pt-0.5">
+                    ✓
                   </span>
-                  <span className="text-[var(--fg)] font-medium">{item}</span>
+                  <span className="text-sm font-medium text-[var(--fg)] leading-relaxed">
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>

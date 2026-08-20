@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { Activity, Layers, Sparkles, Workflow } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Activity, Sparkles } from "lucide-react";
 
 import type { TrackOverviewData } from "@/content/track-overviews";
 import { TechTag } from "@/components/ui/tech-tag";
@@ -14,166 +14,142 @@ interface TrackFieldOverviewProps {
 
 export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
   const reduceMotion = useReducedMotion();
-  const [activeStep, setActiveStep] = useState<number>(0);
   const [activePillar, setActivePillar] = useState<number>(0);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   return (
-    <div className="w-full space-y-12">
-      {/* 1. 导引与产业趋势 */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start pb-8 border-b border-[var(--border)]">
-        <div className="lg:col-span-7">
-          <p className="text-base sm:text-lg text-[var(--fg)] leading-relaxed font-medium">
-            {data.leadParagraph}
-          </p>
-        </div>
-        <div className="lg:col-span-5 p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] space-y-2">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
-            <Sparkles size={14} className="text-[var(--accent)]" />
-            <span>产业趋势</span>
-          </div>
-          <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed">
-            {data.industryTrend}
-          </p>
+    <div className="w-full space-y-16">
+      {/* 1. 纲领大字导引与产业趋势 */}
+      <div className="space-y-6 pb-12 border-b border-[var(--border)]">
+        <p className="text-xl sm:text-2xl lg:text-3xl text-[var(--fg)] leading-relaxed font-normal tracking-tight max-w-4xl">
+          {data.leadParagraph}
+        </p>
+
+        <div className="inline-flex items-center gap-3 py-1.5 px-3.5 rounded-[var(--radius-full)] bg-[var(--surface-2)] border border-[var(--border-strong)] text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
+          <Sparkles size={14} className="text-[var(--accent)] shrink-0" aria-hidden="true" />
+          <span className="text-[var(--fg)] font-medium">产业趋势</span>
+          <span className="text-[var(--border-control)]">/</span>
+          <span>{data.industryTrend}</span>
         </div>
       </div>
 
-      {/* 2. 主攻方向与研发链路 */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* 左侧：主攻方向 */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="flex items-center gap-2">
-            <Layers size={16} className="text-[var(--accent)]" />
-            <h3 className="font-mono text-xs font-bold text-[var(--fg)]">
-              主攻方向
-            </h3>
-          </div>
-
-          <div className="space-y-6 divide-y divide-[var(--border)]">
-            {data.pillars.map((pillar, idx) => {
-              const isSelected = activePillar === idx;
-              return (
-                <div
-                  key={pillar.code}
-                  onClick={() => setActivePillar(idx)}
-                  className={cn(
-                    "pt-6 first:pt-0 space-y-3 cursor-pointer transition-colors group",
-                    isSelected ? "opacity-100" : "opacity-75 hover:opacity-100",
-                  )}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={cn(
-                          "font-mono text-xs font-bold px-2 py-0.5 rounded-[var(--radius-2xs)] transition-colors",
-                          isSelected
-                            ? "bg-[var(--accent)] text-[var(--accent-fg,white)]"
-                            : "bg-[var(--surface-2)] text-[var(--fg-muted)] group-hover:text-[var(--fg)]",
-                        )}
-                      >
-                        {pillar.code}
-                      </span>
-                      <h4 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
-                        {pillar.title}
-                      </h4>
-                    </div>
-                    <span className="font-mono text-xs text-[var(--fg-faint)] hidden sm:inline">
-                      {pillar.subtitle}
+      {/* 2. 主攻领域无框全宽清单 (Swiss Editorial List) */}
+      <div className="space-y-4">
+        <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
+          {data.pillars.map((pillar, idx) => {
+            const isSelected = activePillar === idx;
+            return (
+              <div
+                key={pillar.code}
+                onClick={() => setActivePillar(idx)}
+                className={cn(
+                  "py-8 sm:py-10 transition-[background-color,padding,opacity] duration-200 cursor-pointer select-none group",
+                  isSelected
+                    ? "opacity-100"
+                    : "opacity-60 hover:opacity-100 hover:pl-2"
+                )}
+              >
+                <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                  {/* 左侧：序号与标题 */}
+                  <div className="flex items-baseline gap-4 sm:gap-6 min-w-0">
+                    <span
+                      className={cn(
+                        "font-mono text-xl sm:text-2xl font-bold tracking-tight shrink-0 transition-colors",
+                        isSelected ? "text-[var(--accent)]" : "text-[var(--fg-faint)] group-hover:text-[var(--fg)]"
+                      )}
+                    >
+                      {`0${idx + 1}`}
                     </span>
+                    <div className="space-y-2 min-w-0">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--fg)] tracking-tight">
+                          {pillar.title}
+                        </h3>
+                        <span className="font-mono text-xs text-[var(--fg-faint)]">
+                          {pillar.code} · {pillar.subtitle}
+                        </span>
+                      </div>
+                      <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed max-w-3xl font-sans">
+                        {pillar.description}
+                      </p>
+                    </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed pl-1">
-                    {pillar.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1 pl-1">
+                  {/* 右侧：技术标签 */}
+                  <div className="flex flex-wrap items-center gap-2 shrink-0 pl-10 lg:pl-0">
                     {pillar.tags.map((tag) => (
-                      <TechTag key={tag} name={tag} className="text-xs py-0.5 px-2" />
+                      <TechTag key={tag} name={tag} className="py-1 px-3 text-xs" />
                     ))}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* 右侧：研发技术链路 */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="p-6 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-5">
-            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
-              <div className="flex items-center gap-2">
-                <Workflow size={15} className="text-[var(--accent)]" />
-                <span className="font-mono text-xs font-bold text-[var(--fg)]">
-                  研发技术链路
-                </span>
-              </div>
-            </div>
-
-            {/* 链路步骤 */}
-            <div className="space-y-3">
-              {data.pipelineSteps.map((step, idx) => {
-                const isActive = activeStep === idx;
-                return (
-                  <button
-                    key={step.step}
-                    type="button"
-                    onClick={() => setActiveStep(idx)}
-                    className={cn(
-                      "w-full text-left p-3.5 rounded-[var(--radius-xs)] border transition-all cursor-pointer flex items-start gap-3",
-                      isActive
-                        ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
-                        : "border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-2)]/50",
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "font-mono text-xs font-bold px-1.5 py-0.5 rounded-[var(--radius-2xs)] shrink-0 mt-0.5",
-                        isActive
-                          ? "bg-[var(--accent)] text-[var(--accent-fg,white)]"
-                          : "bg-[var(--surface-2)] text-[var(--fg-muted)]",
-                      )}
+                {/* 展开的研发工程链路 (Progressive Detail) */}
+                <AnimatePresence>
+                  {isSelected && (
+                    <motion.div
+                      initial={reduceMotion ? {} : { opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={reduceMotion ? {} : { opacity: 0, height: 0 }}
+                      transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+                      className="overflow-hidden pt-8 mt-6 border-t border-[var(--border)]"
                     >
-                      {step.step}
-                    </span>
-                    <div className="space-y-1 min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs sm:text-sm font-bold text-[var(--fg)]">
-                          {step.label}
-                        </span>
-                        {isActive && (
-                          <motion.span
-                            initial={reduceMotion ? {} : { scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"
-                          />
-                        )}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {data.pipelineSteps.map((step, sIdx) => {
+                          const isStepActive = activeStep === sIdx;
+                          return (
+                            <div
+                              key={step.step}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveStep(sIdx);
+                              }}
+                              className={cn(
+                                "p-5 rounded-[var(--radius-xs)] border transition-all duration-150 cursor-pointer",
+                                isStepActive
+                                  ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
+                                  : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
+                              )}
+                            >
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="font-mono text-xs font-bold text-[var(--accent)]">
+                                  {step.step}
+                                </span>
+                                <span className="text-xs font-mono text-[var(--fg-faint)]">
+                                  PHASE 0{sIdx + 1}
+                                </span>
+                              </div>
+                              <h4 className="text-sm sm:text-base font-bold text-[var(--fg)] mb-1">
+                                {step.label}
+                              </h4>
+                              <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
+                                {step.description}
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
 
-            {/* 落地项目 */}
-            <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/70 border border-[var(--border)] space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Activity size={14} className="text-emerald-500" />
-                  <span className="text-xs font-mono font-bold text-[var(--fg)]">
-                    {data.practicalApplication.domain}
-                  </span>
-                </div>
-                <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                  {data.practicalApplication.metric}
-                </span>
+                      {/* 落地项目指标 */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 mt-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)]">
+                        <div className="flex items-center gap-2.5">
+                          <Activity size={15} className="text-emerald-500 shrink-0" aria-hidden="true" />
+                          <span className="font-mono text-xs font-bold text-[var(--fg)]">
+                            {data.practicalApplication.domain}
+                          </span>
+                          <span className="text-xs text-[var(--fg-muted)]">
+                            — {data.practicalApplication.summary}
+                          </span>
+                        </div>
+                        <span className="font-mono text-xs font-bold text-[var(--accent)] shrink-0">
+                          {data.practicalApplication.metric}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <p className="text-xs text-[var(--fg-muted)] leading-relaxed">
-                {data.practicalApplication.summary}
-              </p>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

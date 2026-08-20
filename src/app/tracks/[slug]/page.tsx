@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, LayoutGrid, Terminal } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -76,16 +76,16 @@ export default async function TrackDetailPage({
         label={track.nameZh}
         sections={[
           { id: "track-start", index: "01", label: "方向概况" },
-          { id: "track-overview", index: "02", label: "专业介绍" },
-          { id: "track-deep-dive", index: "03", label: "架构原理" },
+          { id: "track-overview", index: "02", label: "领域图谱" },
+          { id: "track-deep-dive", index: "03", label: "攻坚架构" },
           { id: "track-stage", index: "04", label: "培养中枢" },
-          { id: "track-evidence", index: "05", label: "相关成果" },
+          { id: "track-evidence", index: "05", label: "实战成果" },
           { id: "track-switch", index: "06", label: "方向切换" },
           { id: "track-join", index: "07", label: "招新报名" },
         ]}
       />
 
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-6 border-b border-[var(--border)] mb-12 sm:mb-16">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -105,144 +105,128 @@ export default async function TrackDetailPage({
           asChild
           variant="ghost"
           size="sm"
-          className="h-8 px-2.5 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]"
+          className="h-8 px-3 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]"
         >
           <Link href="/tracks">
             <ArrowLeft size={13} aria-hidden="true" />
-            <span>返回技术拓扑中枢</span>
+            <span>技术方向总览</span>
           </Link>
         </Button>
       </div>
 
-      {/* 01 / 方向概况 Header + 紧凑技术栈轨道 */}
-      <header id="track-start" className="track-detail__hero mb-12">
+      {/* 01 / Swiss Editorial 巨幅大字 Hero (无卡片包裹，大气留白) */}
+      <header id="track-start" className="track-detail__hero mb-20 sm:mb-28 space-y-10">
         <div className="space-y-6">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="font-mono text-xs font-semibold text-[var(--accent)]">
-                TRK-{track.index} {"//"} TECHNICAL DOSSIER
-              </span>
-              <Badge variant="active">ACTIVE TRACK</Badge>
-            </div>
-            <h1>{track.nameZh}</h1>
-            <p className="display-latin">{track.nameEn}</p>
-            <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-3 mb-4">
-              {track.positioning}
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-widest">
+              TRK-0{track.index} {"//"} TECHNICAL SPEC
+            </span>
+            <Badge variant="active">ACTIVE TRACK</Badge>
+          </div>
+
+          <div className="space-y-3">
+            <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight text-[var(--fg)]">
+              {track.nameEn}.
+            </h1>
+            <p className="text-2xl sm:text-4xl font-bold text-[var(--fg)] tracking-tight">
+              {track.nameZh}
             </p>
-            <div className="flex items-center gap-2 text-xs font-mono text-[var(--fg-muted)]">
-              <span className="text-[var(--fg-faint)]">目标岗位方向：</span>
-              <span className="font-bold text-[var(--fg)]">{track.goal}</span>
-            </div>
           </div>
 
-          {/* 紧凑单行技术栈全景 Rail */}
-          <div className="p-4 sm:p-5 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] shadow-xs space-y-4">
-            <div className="flex items-center justify-between border-b border-[var(--border)] pb-2.5">
-              <div className="flex items-center gap-2">
-                <Terminal size={14} className="text-[var(--accent)]" />
-                <span className="font-mono text-xs font-bold text-[var(--fg)]">
-                  核心技术栈与工具链
-                </span>
-              </div>
-              <span className="text-xs font-mono text-[var(--fg-faint)] hidden sm:inline">
-                悬停查看简介与官方文档
-              </span>
-            </div>
+          <p className="text-base sm:text-xl text-[var(--fg-muted)] leading-relaxed max-w-4xl font-sans font-normal pt-2">
+            {track.positioning}
+          </p>
 
-            <div className="flex flex-wrap items-center gap-2">
-              {track.stack.languages.concat(track.stack.frameworks).map((tech) => (
-                <TechTag key={tech} name={tech} className="py-1 px-2.5 text-xs" />
-              ))}
-              {track.stack.engineering.slice(0, 3).map((item) => (
-                <Tag key={item} className="py-1 px-2.5 text-xs bg-[var(--surface-2)] border border-[var(--border)]">
-                  {item}
-                </Tag>
-              ))}
-              {(track.stack.toolchain ?? ["Git", "Docker", "Linux"]).slice(0, 4).map((tool) => (
-                <Kbd key={tool} className="py-0.5 px-2 text-xs">
-                  {tool}
-                </Kbd>
-              ))}
-            </div>
+          <div className="flex items-center gap-3 pt-2 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
+            <span className="text-[var(--fg-faint)]">目标领域：</span>
+            <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
+        </div>
+
+        {/* 悬浮技术栈行 (自然融入背景，无生硬外盒) */}
+        <div className="pt-6 border-t border-[var(--border)] flex flex-wrap items-center gap-2.5">
+          {track.stack.languages.concat(track.stack.frameworks).map((tech) => (
+            <TechTag key={tech} name={tech} className="py-1.5 px-3.5 text-xs sm:text-sm" />
+          ))}
+          {track.stack.engineering.slice(0, 3).map((item) => (
+            <Tag key={item} className="py-1.5 px-3.5 text-xs sm:text-sm bg-[var(--surface-2)] border border-[var(--border)]">
+              {item}
+            </Tag>
+          ))}
+          {(track.stack.toolchain ?? ["Git", "Docker", "Linux"]).slice(0, 4).map((tool) => (
+            <Kbd key={tool} className="py-1 px-2.5 text-xs sm:text-sm">
+              {tool}
+            </Kbd>
+          ))}
         </div>
       </header>
 
-      {/* 02 / 专业领域深度介绍 (TrackFieldOverview) */}
+      {/* 02 / 专业领域与研发图谱 (TrackFieldOverview) */}
       {overview && (
-        <section id="track-overview" className="section mb-16" aria-labelledby="overview-title" data-reveal="section">
-          <div className="section__head mb-8">
-            <p className="caps section__index">02 / Overview</p>
-            <h2 id="overview-title" className="section__title">专业介绍与主攻方向。</h2>
-            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-              涵盖主攻方向、技术栈与研发链路。
-            </p>
+        <section id="track-overview" className="section mb-20 sm:mb-28" aria-labelledby="overview-title" data-reveal="section">
+          <div className="section__head mb-12">
+            <p className="caps section__index">02 / Domains</p>
+            <h2 id="overview-title" className="section__title">主攻方向与研发链路。</h2>
           </div>
           <TrackFieldOverview data={overview} />
         </section>
       )}
 
-      {/* 03 / 交互式架构图解与硬核原理解析台 (TrackDeepArchitecture) */}
+      {/* 03 / 攻坚架构与原理拓扑 (TrackDeepArchitecture) */}
       {deepDive && (
-        <section id="track-deep-dive" className="section mb-16" aria-labelledby="deep-dive-title" data-reveal="section">
-          <div className="section__head mb-8">
-            <p className="caps section__index">03 / Deep Architecture & Theory</p>
-            <h2 id="deep-dive-title" className="section__title">攻坚架构与核心原理图解。</h2>
-            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-              交互式探索底层拓扑，点击展开硬核机制、数学公式推导、真实代码实现与常见认知误区排雷。
-            </p>
+        <section id="track-deep-dive" className="section mb-20 sm:mb-28" aria-labelledby="deep-dive-title" data-reveal="section">
+          <div className="section__head mb-12">
+            <p className="caps section__index">03 / Architecture & Theory</p>
+            <h2 id="deep-dive-title" className="section__title">核心拓扑与架构原理。</h2>
           </div>
           <TrackDeepArchitecture deepDive={deepDive} />
         </section>
       )}
 
-      {/* 04 / 三年培养体系与阶段实训中枢 (TrackStageConsole) */}
-      <section id="track-stage" className="section mb-16" aria-labelledby="stage-title" data-reveal="section">
-        <div className="section__head mb-8">
-          <p className="caps section__index">04 / Engineering Console</p>
-          <h2 id="stage-title" className="section__title">三年培养体系与阶段实训中枢。</h2>
-          <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-            大一筑基、大二专项攻坚、大三就业/升学双通道精准赋能，全程导师指导与实训进阶。
-          </p>
+      {/* 04 / 三年培养中枢 (TrackStageConsole) */}
+      <section id="track-stage" className="section mb-20 sm:mb-28" aria-labelledby="stage-title" data-reveal="section">
+        <div className="section__head mb-12">
+          <p className="caps section__index">04 / Stage Roadmap</p>
+          <h2 id="stage-title" className="section__title">三年培养体系与阶段里程碑。</h2>
         </div>
         <TrackStageConsole modules={track.curriculumModules} roadmap={track.roadmap} />
       </section>
 
-      {/* 05 / 相关代表项目与赛事成果 (TrackEvidenceInspector) */}
+      {/* 05 / 真实成果与赛事证据 (TrackEvidenceInspector) */}
       {(relatedWorks.length > 0 || relatedAwards.length > 0) && (
-        <section id="track-evidence" className="section mb-16" aria-labelledby="related-title" data-reveal="section">
-          <div className="section__head mb-8">
-            <p className="caps section__index">05 / Outcomes & Evidence</p>
-            <h2 id="related-title" className="section__title">代表项目与赛事荣誉。</h2>
-            <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-3xl mt-1">
-              该技术方向沉淀的真实工程系统与权威学科竞赛凭证，点击项目卡片可呼出侧边架构解析。
-            </p>
+        <section id="track-evidence" className="section mb-20 sm:mb-28" aria-labelledby="related-title" data-reveal="section">
+          <div className="section__head mb-12">
+            <p className="caps section__index">05 / Works & Honors</p>
+            <h2 id="related-title" className="section__title">落地工程与赛事荣誉。</h2>
           </div>
           <TrackEvidenceInspector works={relatedWorks} awards={relatedAwards} />
         </section>
       )}
 
-      {/* 06 / 方向切换导航 */}
-      <nav id="track-switch" className="pager pager--with-overview mb-14" aria-label="方向切换" data-reveal="group">
-        <Link href={`/tracks/${previous.slug}`}>
-          <ArrowLeft aria-hidden="true" size={18} />
-          <span>
-            <small>上一个方向</small>
-            {previous.nameZh}
-          </span>
+      {/* 06 / 纯净方向切换导航 (无多余文字) */}
+      <nav id="track-switch" className="grid grid-cols-3 items-center border-y border-[var(--border)] py-6 mb-16" aria-label="方向切换">
+        <Link
+          href={`/tracks/${previous.slug}`}
+          className="flex items-center gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors group"
+        >
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
+          <span>{previous.nameZh}</span>
         </Link>
-        <Link href="/tracks" className="pager__overview">
-          <LayoutGrid aria-hidden="true" size={16} />
-          <span>
-            <small>拓扑索引</small>技术方向总览
-          </span>
+
+        <Link
+          href="/tracks"
+          className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors"
+        >
+          <LayoutGrid size={15} aria-hidden="true" />
+          <span className="hidden sm:inline">方向总览</span>
         </Link>
-        <Link href={`/tracks/${next.slug}`}>
-          <span>
-            <small>下一个方向</small>
-            {next.nameZh}
-          </span>
-          <ArrowRight aria-hidden="true" size={18} />
+
+        <Link
+          href={`/tracks/${next.slug}`}
+          className="flex items-center justify-end gap-2 font-mono text-sm sm:text-base font-bold text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors group"
+        >
+          <span>{next.nameZh}</span>
+          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
         </Link>
       </nav>
 
