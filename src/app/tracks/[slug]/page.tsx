@@ -1,8 +1,9 @@
-import { ArrowDown, ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { TrackDeepArchitecture } from "@/components/sections/track-deep-architecture";
 import { TrackEvidenceInspector } from "@/components/sections/track-evidence-inspector";
@@ -113,49 +114,23 @@ export default async function TrackDetailPage({
         </Button>
       </div>
 
-      {/* 01 / Swiss Editorial 巨幅大字 Hero (核心内容绝对垂直居中、左侧顶满、底部绝对定位 SCROLL 指引) */}
-      <header
-        id="track-start"
-        className="relative w-full text-left min-h-[calc(100svh-140px)] flex items-center py-16 border-b border-[var(--border)] mb-24 sm:mb-32"
-      >
-        <div className="space-y-6 max-w-5xl">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-xs sm:text-sm font-bold text-[var(--accent)] tracking-widest">
-              TRK-0{track.index} {"//"} TECHNICAL SPEC
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight text-[var(--fg)]">
-              {track.nameEn}.
-            </h1>
-            <p className="text-2xl sm:text-4xl font-bold text-[var(--fg)] tracking-tight">
-              {track.nameZh}
-            </p>
-          </div>
-
-          <p className="text-base sm:text-xl text-[var(--fg-muted)] leading-relaxed max-w-4xl font-sans font-normal pt-2">
-            {track.positioning}
-          </p>
-
+      {/* 01 / Swiss Editorial PageHero 开屏全站统一高留白 */}
+      <div id="track-start">
+        <PageHero
+          id="track-start-hero"
+          eyebrow={`TRK-0${track.index} // TECHNICAL SPEC`}
+          title={`${track.nameEn}.`}
+          subtitle={track.nameZh}
+          intro={track.positioning}
+          scrollToId="track-stack"
+          scrollLabel="向下滚动至核心技术栈与工程基座"
+        >
           <div className="flex items-center gap-3 pt-2 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
             <span className="text-[var(--fg-faint)]">TARGET DOMAIN //</span>
             <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
-        </div>
-
-        {/* 底部绝对定位极简 SCROLL 引导 */}
-        <div className="absolute bottom-6 left-0">
-          <a
-            href="#track-stack"
-            className="inline-flex items-center gap-2 font-mono text-xs text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors select-none group cursor-pointer"
-            aria-label="向下滚动至核心技术栈与工程基座"
-          >
-            <span className="tracking-widest">SCROLL</span>
-            <ArrowDown size={13} className="text-[var(--accent)] group-hover:translate-y-0.5 transition-transform animate-bounce" aria-hidden="true" />
-          </a>
-        </div>
-      </header>
+        </PageHero>
+      </div>
 
       {/* 02 / 左右分栏精工技术栈展台 (TechStackCutoutConsole) */}
       <section id="track-stack" className="section mb-24 sm:mb-32" aria-labelledby="stack-title" data-reveal="section">

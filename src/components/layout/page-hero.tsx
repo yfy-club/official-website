@@ -2,6 +2,7 @@ import { ArrowDown } from "lucide-react";
 import type { ReactNode } from "react";
 
 export function PageHero({
+  id,
   eyebrow,
   title,
   subtitle,
@@ -11,6 +12,7 @@ export function PageHero({
   children,
   className,
 }: {
+  id?: string;
   eyebrow: string;
   title: string;
   subtitle: string;
@@ -22,6 +24,7 @@ export function PageHero({
 }) {
   return (
     <header
+      id={id}
       className={`relative w-full text-left min-h-[calc(100svh-14rem)] flex flex-col justify-between py-12 sm:py-16 border-b border-[var(--border)] mb-16 sm:mb-24 ${
         className ?? ""
       }`}
