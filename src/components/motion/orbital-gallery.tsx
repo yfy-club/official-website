@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMotionValue, useSpring } from "motion/react";
-import { ArrowLeft, ArrowRight, Expand, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
 import Image from "next/image";
 import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { Button } from "@/components/ui/button";
@@ -392,14 +392,6 @@ export function OrbitalGallery({
 
       {/* Centered Dynamic Captions & Scrolling Title Pill Track */}
       <div className="relative z-30 w-full max-w-3xl px-4 flex flex-col items-center text-center mt-2">
-        {/* Subtitle tag reveal */}
-        <div className="inline-flex items-center gap-2 mb-2">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)]/90 backdrop-blur-md text-[11px] font-mono text-[var(--fg-muted)] shadow-2xs">
-            <Sparkles size={11} className="text-[var(--accent)]" />
-            <span>{`0${activeIndex + 1} // 0${count} · ${currentPhoto.tag ?? "Field Log"}`}</span>
-          </span>
-        </div>
-
         {/* Horizontal Scrolling Centered Title Track */}
         <div
           ref={titleViewportRef}
