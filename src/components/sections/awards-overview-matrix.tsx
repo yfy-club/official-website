@@ -62,7 +62,11 @@ const COMPETITIONS_DATA: CompetitionItem[] = [
 
 export function AwardsOverviewMatrix() {
   return (
-    <div className="w-full">
+    <div className="w-full space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 font-mono text-xs text-[var(--fg-muted)] pb-1">
+        <span className="text-[var(--accent)] font-bold">TIMEFRAME // 2024–2025 近两年核心战绩</span>
+        <span>7 大赛道归档 · 历届档案整理中</span>
+      </div>
       <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
         {COMPETITIONS_DATA.map((item, idx) => {
           const isNational = item.level.includes("国家级");

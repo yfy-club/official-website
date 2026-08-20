@@ -67,11 +67,16 @@ export default function AwardsPage() {
       >
         <div className="section__head">
           <p className="caps section__index">02 / COMPETITION MATRIX</p>
-          <h2 id="overview-title" className="section__title">
-            赛事成果总览。
-          </h2>
+          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
+            <h2 id="overview-title" className="section__title">
+              赛事成果总览。
+            </h2>
+            <span className="font-mono text-xs text-[var(--accent)] font-semibold">
+              {"// 2024–2025 近两年成果统计（非历届全量）"}
+            </span>
+          </div>
           <p className="text-sm text-[var(--fg-muted)] leading-relaxed max-w-2xl mt-1">
-            涵盖算法编程、AI 视觉、嵌入式智能车、数学与统计建模、创新创业等多个赛道。
+            展示社团近两年在算法编程、AI 视觉、嵌入式智能车、数学与统计建模、创新创业等赛道的核心获奖认证。
           </p>
         </div>
         <AwardsOverviewMatrix />
