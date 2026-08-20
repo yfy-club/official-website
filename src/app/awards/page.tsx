@@ -5,7 +5,6 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { CertArchive } from "@/components/motion/cert-archive";
-import { AwardsMetricsBar } from "@/components/sections/awards-metrics-bar";
 import { AwardsOverviewMatrix } from "@/components/sections/awards-overview-matrix";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Button } from "@/components/ui/button";
@@ -43,7 +42,7 @@ export default function AwardsPage() {
       <TrajectoryRail
         label="竞赛荣誉"
         sections={[
-          { id: "awards-start", index: "01", label: "荣誉概况" },
+          { id: "awards-start", index: "01", label: "竞赛荣誉" },
           { id: "awards-overview", index: "02", label: "赛事总览" },
           { id: "awards-archive", index: "03", label: "证书档案" },
           { id: "awards-join", index: "04", label: "招新报名" },
@@ -57,8 +56,6 @@ export default function AwardsPage() {
           intro={`国家级与省级学科竞赛成果持续沉淀 · 年均获省级及以上奖项 ${club.annualAwards} 项`}
         />
       </div>
-
-      <AwardsMetricsBar certCount={certAwards.length} />
 
       <section
         id="awards-overview"

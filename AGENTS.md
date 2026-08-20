@@ -62,7 +62,7 @@ git diff --check
 - **首页航道关联预览 (`TrackPreviewList`)**：`src/components/motion/track-preview-list.tsx`。航道悬停/聚焦显示关联真实作品截图。
 - **首页 Hero 工业蓝图网格**：`.home-hero` 背景加入 36px 纯 CSS 双轴网格与 `--hero-mouse-x/y` 低频视差。
 - **加入页双轨跑马灯展台 (`MemberVoicesMarquee` & `Marquee`)**：`src/components/sections/member-voices-marquee.tsx` & `src/components/ui/marquee.tsx`。双轨异步反向无限流动，左右渐变羽化遮罩，支持悬停平滑暂停与 reduced-motion 降级，展示基于真实档案与二次元昵称的 10 位成员心声。
-- **荣誉页指标看板与成果矩阵 (`AwardsMetricsBar` & `AwardsOverviewMatrix`)**：`src/components/sections/awards-metrics-bar.tsx` & `src/components/sections/awards-overview-matrix.tsx`。4 格工业指标仪表舱搭载 `NumberTicker` 数字跳动；高密度赛事成果矩阵展示国家级/省级权威认证与参赛方向。
+- **荣誉页赛事成果矩阵 (`AwardsOverviewMatrix`)**：`src/components/sections/awards-overview-matrix.tsx`。Swiss Editorial 全宽 1px 细线分隔流线型清单，展示国家级/省级权威认证与参赛方向。
 - **证书档案库控制台与暗室灯箱 (`CertArchive`)**：`src/components/motion/cert-archive.tsx`。Coss UI Segmented `Tabs` 多维分类筛选、卡片悬停金色流光 `BorderBeam`、影院级受控 Radix Dialog 宽幅灯箱、快捷键 `[ ← ]` / `[ → ]` / `[ ESC ]` 切图与 `Kbd` 键帽引导、档案编号一键复制 Toast 联动。
 - **全局导航栏物理动效微胶囊 (`SiteHeader`)**：`src/components/layout/site-header.tsx`。基于 `motion` 的 `layoutId="nav-active-pill"` 实现丝滑 Spring 物理滑行动效，彻底替代刺眼的光晕。
 - **技术栈元数据字典与跳转标签 (`TechTag` & `tech-stack.ts`)**：`src/components/ui/tech-tag.tsx` & `src/lib/tech-stack.ts`。所有技术栈标签集成官方文档外链跳转与 hover Tooltip 精炼简介，外链图标平滑展开无默认偏移。

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
 import { WorksFilterView } from "@/components/sections/works-filter-view";
-import { WorksMetricsBar } from "@/components/sections/works-metrics-bar";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Button } from "@/components/ui/button";
 import { works } from "@/content";
@@ -43,8 +42,6 @@ export default function WorksPage() {
           intro="坚持真实可运行的工程落地，展示完整架构设计、技术选型与质量验收依据。"
         />
       </div>
-
-      <WorksMetricsBar />
 
       <WorksFilterView works={works} />
 
