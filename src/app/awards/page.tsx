@@ -1,4 +1,6 @@
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PageHero } from "@/components/layout/page-hero";
 import { TrajectoryRail } from "@/components/layout/trajectory-rail";
@@ -6,6 +8,7 @@ import { CertArchive } from "@/components/motion/cert-archive";
 import { AwardsMetricsBar } from "@/components/sections/awards-metrics-bar";
 import { AwardsOverviewMatrix } from "@/components/sections/awards-overview-matrix";
 import { StructuredData } from "@/components/seo/structured-data";
+import { Button } from "@/components/ui/button";
 import { awards, club } from "@/content";
 import { breadcrumbJsonLd, createMetadata } from "@/lib/seo";
 
@@ -43,6 +46,7 @@ export default function AwardsPage() {
           { id: "awards-start", index: "01", label: "荣誉概况" },
           { id: "awards-overview", index: "02", label: "赛事总览" },
           { id: "awards-archive", index: "03", label: "证书档案" },
+          { id: "awards-join", index: "04", label: "招新报名" },
         ]}
       />
       <div id="awards-start">
@@ -63,7 +67,7 @@ export default function AwardsPage() {
         data-reveal="section"
       >
         <div className="section__head">
-          <p className="caps section__index">02 / Overview</p>
+          <p className="caps section__index">02 / COMPETITION MATRIX</p>
           <h2 id="overview-title" className="section__title">
             赛事成果总览。
           </h2>
@@ -81,7 +85,7 @@ export default function AwardsPage() {
         data-reveal="section"
       >
         <div className="section__head">
-          <p className="caps section__index">03 / Archive</p>
+          <p className="caps section__index">03 / CERTIFICATE ARCHIVE</p>
           <h2 id="archive-title" className="section__title">
             证书档案库。
           </h2>
@@ -90,6 +94,18 @@ export default function AwardsPage() {
           </p>
         </div>
         <CertArchive awards={certAwards} />
+      </section>
+
+      <section id="awards-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
+        <div className="space-y-1 text-left">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">04 // RECRUITMENT</p>
+          <p>加入云飞扬技术战队，在国家级与省级学科竞赛中攻坚立项、斩获奖项。</p>
+        </div>
+        <Button asChild className="active:scale-[0.96] transition-transform">
+          <Link href="/join">
+            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
+          </Link>
+        </Button>
       </section>
     </main>
   );

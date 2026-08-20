@@ -5,7 +5,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowLeft, ArrowRight, Check, Copy, ExternalLink, Sparkles, X } from "lucide-react";
 import Image from "next/image";
 
-import { Badge } from "@/components/ui/badge";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
@@ -96,19 +95,19 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <TabsList className="flex-wrap h-auto gap-1">
-            <TabsTrigger value="all">
+            <TabsTrigger value="all" className="active:scale-[0.96] transition-transform">
               全部 ({awards.length})
             </TabsTrigger>
-            <TabsTrigger value="national">
+            <TabsTrigger value="national" className="active:scale-[0.96] transition-transform">
               国家级 ({awards.filter((a) => a.level === "国家级").length})
             </TabsTrigger>
-            <TabsTrigger value="provincial">
+            <TabsTrigger value="provincial" className="active:scale-[0.96] transition-transform">
               省级 ({awards.filter((a) => a.level === "省级").length})
             </TabsTrigger>
-            <TabsTrigger value="2025">
+            <TabsTrigger value="2025" className="active:scale-[0.96] transition-transform">
               2025 年度 ({awards.filter((a) => a.year === "2025").length})
             </TabsTrigger>
-            <TabsTrigger value="2024">
+            <TabsTrigger value="2024" className="active:scale-[0.96] transition-transform">
               2024 年度 ({awards.filter((a) => a.year === "2024").length})
             </TabsTrigger>
           </TabsList>
@@ -136,7 +135,8 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                     corners
                     key={award.id}
                     variant="frame"
-                    className="group/cert relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
+                    className="group/cert relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all active:scale-[0.98] shadow-xs cursor-pointer"
+                    onClick={() => setOpenId(award.id)}
                   >
                     <div className="flex flex-col flex-1">
                       <CardMeta
@@ -147,15 +147,12 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                           variant: isNational ? "active" : "neutral",
                         }}
                       />
-                      <button
-                        type="button"
-                        className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity cursor-pointer"
+                      <div
+                        className="relative block w-full aspect-16/11 overflow-hidden bg-[var(--surface-2)] border-b border-[var(--border)] text-left group-hover/cert:opacity-95 transition-opacity"
                         ref={(node) => {
-                          if (node) triggers.current.set(award.id, node);
+                          if (node) triggers.current.set(award.id, node as unknown as HTMLButtonElement);
                           else triggers.current.delete(award.id);
                         }}
-                        onClick={() => setOpenId(award.id)}
-                        aria-label={`查看 ${award.competition} ${award.result} 证书大图`}
                       >
                         <Image
                           src={award.image}
@@ -170,22 +167,19 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
                           </span>
                           <ExternalLink size={14} />
                         </div>
-                      </button>
+                      </div>
 
                       <CardBody className="flex flex-col flex-1 p-5 pb-5">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <Badge variant={isNational ? "active" : "warning"} className="text-[11px]">
-                            {award.result}
-                          </Badge>
-                          <span className="font-mono text-xs text-[var(--fg-faint)]">
-                            {award.year} 年度
-                          </span>
+                        <div className="flex items-center gap-2 mb-1.5 font-mono text-xs">
+                          <span className="text-[var(--accent)] font-bold">{award.result}</span>
+                          <span className="text-[var(--fg-faint)]">·</span>
+                          <span className="text-[var(--fg-muted)]">{award.year} 年度</span>
                         </div>
 
-                        <h3 className="text-base font-bold text-[var(--fg)] tracking-tight leading-snug mb-2">
+                        <h3 className="text-base font-bold text-[var(--fg)] tracking-tight leading-snug mb-2 group-hover/cert:text-[var(--accent)] transition-colors">
                           {award.competition}
                         </h3>
-                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4">
+                        <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed mb-4 font-sans">
                           {award.description}
                         </p>
 
@@ -201,7 +195,7 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
 
                     <CardFooter className="p-3.5 px-5 border-t border-[var(--border)] bg-[var(--surface-2)]/30 text-xs font-mono text-[var(--fg-muted)] flex items-center justify-between">
                       <span className="truncate">归档 ID: {award.id}</span>
-                      <span className="text-[11px] text-[var(--fg-faint)]">已脱敏原件</span>
+                      <span className="text-[11px] text-[var(--fg-faint)]">脱敏原件 ↗</span>
                     </CardFooter>
 
                     <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover/cert:opacity-100 transition-opacity duration-300">
@@ -235,25 +229,26 @@ export function CertArchive({ awards }: { awards: CertAward[] }) {
             >
               <div className="flex items-start justify-between gap-4 pb-4 border-b border-[var(--border)] shrink-0">
                 <div>
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <Badge variant={currentAward.level === "国家级" ? "active" : "warning"}>
-                      {currentAward.level} · {currentAward.result}
-                    </Badge>
-                    <span className="font-mono text-xs text-[var(--fg-faint)]">
+                  <div className="flex items-center gap-2 mb-1.5 font-mono text-xs">
+                    <span className="text-[var(--accent)] font-bold">
+                      CERT // {currentAward.level} · {currentAward.result}
+                    </span>
+                    <span className="text-[var(--fg-faint)]">·</span>
+                    <span className="text-[var(--fg-muted)]">
                       {currentAward.year} 年档案
                     </span>
                   </div>
                   <Dialog.Title className="text-lg sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
                     {currentAward.competition}
                   </Dialog.Title>
-                  <Dialog.Description className="text-xs sm:text-sm text-[var(--fg-muted)] mt-1">
+                  <Dialog.Description className="text-xs sm:text-sm text-[var(--fg-muted)] mt-1 font-sans">
                     {currentAward.description} · 公开脱敏版验证原件
                   </Dialog.Description>
                 </div>
                 <Dialog.Close asChild>
                   <button
                     type="button"
-                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--fg)] hover:bg-[var(--surface)] hover:text-[var(--accent)] hover:rotate-90 transition-all duration-200 cursor-pointer shadow-xs focus:outline-hidden"
+                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] text-[var(--fg)] hover:bg-[var(--surface)] hover:text-[var(--accent)] hover:rotate-90 active:scale-[0.92] transition-all duration-200 cursor-pointer shadow-xs focus:outline-hidden"
                     aria-label="关闭灯箱"
                   >
                     <X size={18} className="stroke-[2.5]" />

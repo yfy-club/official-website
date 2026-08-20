@@ -1,7 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-
 type CompetitionItem = {
   category: string;
   code: string;
@@ -27,7 +25,7 @@ const COMPETITIONS_DATA: CompetitionItem[] = [
   },
   {
     code: "COMP-03",
-    competition: "团体程序设计天梯赛",
+    competition: "团体程序设计天梯赛 (GPLT)",
     level: "国家级",
     category: "算法与编程",
     result: "全国团队二等奖",
@@ -37,11 +35,11 @@ const COMPETITIONS_DATA: CompetitionItem[] = [
     competition: "蓝桥杯全国软件和信息技术专业人才大赛",
     level: "省级 / 国家级",
     category: "软件开发与算法",
-    result: "省级一、二、三等奖累计十余项 · 晋级国赛",
+    result: "省级一、二、三等奖累计十余项 · 晋级全国总决赛",
   },
   {
     code: "COMP-05",
-    competition: "全国大学生数学建模竞赛",
+    competition: "全国大学生数学建模竞赛 (CUMCM)",
     level: "省级",
     category: "数学建模与推演",
     result: "河南省一等奖 2 项",
@@ -55,47 +53,68 @@ const COMPETITIONS_DATA: CompetitionItem[] = [
   },
   {
     code: "COMP-07",
-    competition: "挑战杯 / 中国国际大学生创新大赛",
+    competition: "中国国际大学生创新大赛 / 挑战杯",
     level: "省级",
     category: "工程创新创业",
-    result: "河南省银奖 · 多项目入围省赛答辩",
+    result: "河南省银奖 · 多项目入围省赛金银奖答辩",
   },
 ];
 
 export function AwardsOverviewMatrix() {
   return (
-    <div className="awards-matrix grid grid-cols-1 md:grid-cols-2 gap-4">
-      {COMPETITIONS_DATA.map((item) => {
-        const isNational = item.level.includes("国家级");
-        return (
-          <div
-            key={item.code}
-            className="flex flex-col justify-between p-5 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-colors shadow-xs"
-          >
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-3 pb-2.5 border-b border-[var(--border)]">
-                <span className="font-mono text-xs font-semibold text-[var(--fg-faint)]">
-                  {item.code} {"//"} {item.category}
+    <div className="w-full">
+      <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
+        {COMPETITIONS_DATA.map((item, idx) => {
+          const isNational = item.level.includes("国家级");
+
+          return (
+            <div
+              key={item.code}
+              className="py-6 sm:py-7 flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6 transition-[background-color,padding] duration-200 hover:bg-[var(--surface-2)]/40 hover:pl-2 group"
+            >
+              {/* 左侧：等宽编号与赛道类别 */}
+              <div className="flex items-baseline gap-4 sm:gap-6 min-w-0 lg:w-1/2">
+                <span className="font-mono text-sm sm:text-base font-bold text-[var(--accent)] shrink-0">
+                  {`0${idx + 1} //`}
                 </span>
-                <Badge variant={isNational ? "active" : "neutral"} className="text-[11px]">
-                  {item.level}
-                </Badge>
+                <div className="space-y-1 min-w-0">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <h3 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight group-hover:text-[var(--accent)] transition-colors">
+                      {item.competition}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs font-mono text-[var(--fg-faint)]">
+                    <span>{item.code}</span>
+                    <span>·</span>
+                    <span>{item.category}</span>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-base font-bold text-[var(--fg)] tracking-tight mb-2 leading-snug">
-                {item.competition}
-              </h3>
-            </div>
-            <div className="pt-3 mt-2 border-t border-dashed border-[var(--border)]">
-              <div className="font-mono text-[10px] text-[var(--fg-faint)] mb-1">
-                {"主要成果认证"}
+
+              {/* 右侧：级别标签与成果认证 */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between lg:justify-end gap-3 sm:gap-6 lg:w-1/2 pl-8 lg:pl-0">
+                <div className="text-xs sm:text-sm text-[var(--fg-muted)] font-sans leading-relaxed">
+                  {item.result}
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="font-mono text-xs text-[var(--fg-faint)]">
+                    LEVEL //
+                  </span>
+                  <span
+                    className={`font-mono text-xs font-bold px-2 py-0.5 rounded-[var(--radius-xs)] border ${
+                      isNational
+                        ? "bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/30"
+                        : "bg-[var(--surface-2)] text-[var(--fg-muted)] border-[var(--border)]"
+                    }`}
+                  >
+                    {item.level}
+                  </span>
+                </div>
               </div>
-              <p className="text-xs sm:text-sm font-semibold text-[var(--fg)] leading-relaxed">
-                {item.result}
-              </p>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
