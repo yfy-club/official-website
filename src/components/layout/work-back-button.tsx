@@ -28,7 +28,7 @@ export function WorkBackButton({ slug }: WorkBackButtonProps) {
       size="sm"
       className="h-8 px-2.5 font-mono text-xs border border-[var(--border)] rounded-[var(--radius-xs)] hover:bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)]"
     >
-      <Link href="/works" onClick={handleClick}>
+      <Link href="/works" scroll={false} onClick={handleClick}>
         <ArrowLeft size={13} aria-hidden="true" />
         <span>返回项目列表</span>
       </Link>
@@ -39,11 +39,13 @@ export function WorkBackButton({ slug }: WorkBackButtonProps) {
 export function WorkReturnLink({
   slug,
   onClick,
+  scroll = false,
   ...props
 }: ComponentProps<typeof Link> & { slug?: string }) {
   return (
     <Link
       {...props}
+      scroll={scroll}
       onClick={(e) => {
         try {
           sessionStorage.setItem("yfy_works_restore", "true");

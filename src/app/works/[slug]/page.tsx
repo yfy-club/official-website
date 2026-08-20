@@ -68,7 +68,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/works">工程项目</BreadcrumbLink>
+              <BreadcrumbLink href="/works" scroll={false}>工程项目</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

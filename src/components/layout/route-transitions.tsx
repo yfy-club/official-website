@@ -33,7 +33,9 @@ export function RouteTransitions() {
       // Automatically capture scroll position and flags between /works and /works/[slug]
       try {
         if (window.location.pathname === "/works" && url.pathname.startsWith("/works/")) {
-          sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+          if (window.scrollY > 0) {
+            sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+          }
           sessionStorage.setItem("yfy_works_restore", "true");
           const targetSlug = url.pathname.replace("/works/", "").split("/")[0];
           if (targetSlug) sessionStorage.setItem("yfy_works_last_slug", targetSlug);
@@ -52,7 +54,7 @@ export function RouteTransitions() {
       documentWithTransition.startViewTransition(
         () => new Promise<void>((resolve) => {
           finishNavigation.current = resolve;
-          router.push(`${url.pathname}${url.search}${url.hash}`);
+          router.push(`${url.pathname}${url.search}${url.hash}`, { scroll: false });
         }),
       );
     }

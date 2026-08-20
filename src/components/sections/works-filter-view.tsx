@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -21,12 +21,13 @@ type WorksFilterViewProps = {
 
 export function WorksFilterView({ works }: WorksFilterViewProps) {
   const [activeFilter, setActiveFilter] = useState<string>("all");
-  const hasRestoredRef = useRef(false);
 
   // Save current scroll position, filter state and target slug to sessionStorage
   const saveWorksState = useCallback((slug?: string) => {
     try {
-      sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+      if (window.scrollY > 0) {
+        sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+      }
       sessionStorage.setItem("yfy_works_filter", activeFilter);
       if (slug) {
         sessionStorage.setItem("yfy_works_last_slug", slug);
@@ -37,10 +38,31 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
     }
   }, [activeFilter]);
 
-  // Restore scroll position and filter state when returning to works page
+  // Continuously record scroll position and filter state on /works
   useEffect(() => {
-    if (hasRestoredRef.current) return;
-    hasRestoredRef.current = true;
+    let timer: number;
+    const onScroll = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        if (window.scrollY > 0) {
+          try {
+            sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
+            sessionStorage.setItem("yfy_works_filter", activeFilter);
+          } catch {}
+        }
+      }, 50);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [activeFilter]);
+
+  // Robust multi-phase scroll restoration when returning from a work detail page
+  useEffect(() => {
+    let isCancelled = false;
+    let intervalId: number | undefined;
 
     try {
       const shouldRestore = sessionStorage.getItem("yfy_works_restore") === "true";
@@ -59,53 +81,80 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
       }
 
       const targetY = savedScrollY ? parseFloat(savedScrollY) : NaN;
+      if (Number.isNaN(targetY) && !savedSlug) {
+        sessionStorage.removeItem("yfy_works_restore");
+        return;
+      }
+
+      let userInteracted = false;
+      const markInteracted = (e: Event) => {
+        if (e.isTrusted) {
+          userInteracted = true;
+          if (intervalId) window.clearInterval(intervalId);
+          try {
+            sessionStorage.removeItem("yfy_works_restore");
+          } catch {}
+        }
+      };
+
+      window.addEventListener("wheel", markInteracted, { passive: true, once: true });
+      window.addEventListener("touchstart", markInteracted, { passive: true, once: true });
+      window.addEventListener("touchmove", markInteracted, { passive: true, once: true });
+      window.addEventListener("keydown", markInteracted, { passive: true, once: true });
 
       const performScroll = () => {
-        if (!Number.isNaN(targetY) && targetY > 0) {
-          window.scrollTo({ top: targetY, behavior: "instant" });
-        } else if (savedSlug) {
+        if (isCancelled || userInteracted) return;
+
+        let targetTop = !Number.isNaN(targetY) && targetY > 0 ? targetY : 0;
+
+        if (savedSlug) {
           const el =
             document.getElementById(`work-${savedSlug}`) ||
             document.querySelector(`[data-work-slug="${savedSlug}"]`);
           if (el) {
-            el.scrollIntoView({ behavior: "instant", block: "center" });
+            const rect = el.getBoundingClientRect();
+            const elementAbsoluteTop = rect.top + window.scrollY;
+            if (Number.isNaN(targetY) || targetY <= 0) {
+              targetTop = Math.max(0, elementAbsoluteTop - 120);
+            }
           }
+        }
+
+        if (targetTop > 0) {
+          window.scrollTo({ top: targetTop, behavior: "instant" });
         }
       };
 
-      // Multi-phase scroll restoration across paint and layout frames
-      const rafId = requestAnimationFrame(performScroll);
-      const t1 = setTimeout(performScroll, 30);
-      const t2 = setTimeout(performScroll, 100);
-      const t3 = setTimeout(() => {
+      // Perform initial restorations
+      performScroll();
+      requestAnimationFrame(performScroll);
+
+      // Keep ensuring scroll position across layout and hydration frames
+      let elapsed = 0;
+      intervalId = window.setInterval(() => {
+        elapsed += 30;
         performScroll();
-        try {
-          sessionStorage.removeItem("yfy_works_restore");
-        } catch {}
-      }, 300);
+        if (elapsed >= 600) {
+          if (intervalId) window.clearInterval(intervalId);
+          try {
+            sessionStorage.removeItem("yfy_works_restore");
+          } catch {}
+        }
+      }, 30);
 
       return () => {
-        cancelAnimationFrame(rafId);
-        clearTimeout(t1);
-        clearTimeout(t2);
-        clearTimeout(t3);
+        isCancelled = true;
+        if (intervalId) window.clearInterval(intervalId);
+        window.removeEventListener("wheel", markInteracted);
+        window.removeEventListener("touchstart", markInteracted);
+        window.removeEventListener("touchmove", markInteracted);
+        window.removeEventListener("keydown", markInteracted);
       };
     } catch {
       // Ignore storage errors
     }
-  }, [activeFilter]);
-
-  // Snapshot scroll position and filter on pagehide
-  useEffect(() => {
-    const handlePageHide = () => {
-      try {
-        sessionStorage.setItem("yfy_works_scroll_y", String(window.scrollY));
-        sessionStorage.setItem("yfy_works_filter", activeFilter);
-      } catch {}
-    };
-    window.addEventListener("pagehide", handlePageHide);
-    return () => window.removeEventListener("pagehide", handlePageHide);
-  }, [activeFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredWorks = useMemo(() => {
     if (activeFilter === "all") return works;
