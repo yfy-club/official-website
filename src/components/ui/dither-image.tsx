@@ -14,7 +14,6 @@ export interface DitherImageProps extends Omit<ImageProps, "className"> {
 export function DitherImage({
   className,
   imageClassName,
-  enableHoverReveal = true,
   alt,
   ...props
 }: DitherImageProps) {
@@ -23,35 +22,21 @@ export function DitherImage({
   return (
     <div
       className={cn(
-        "dither-image-frame group relative h-full w-full overflow-hidden rounded-[var(--radius-sm)] bg-[var(--surface-2)]",
+        "dither-image-frame group relative h-full w-full overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-2)] shadow-xs",
         className
       )}
-      onMouseEnter={() => enableHoverReveal && setIsHovered(true)}
-      onMouseLeave={() => enableHoverReveal && setIsHovered(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Image
         alt={alt}
         sizes={props.sizes ?? "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
         className={cn(
-          "h-full w-full object-cover transition-all duration-300",
-          !isHovered && "grayscale contrast-125 brightness-95",
-          isHovered && "grayscale-0 contrast-100 brightness-100 scale-[1.02]",
+          "h-full w-full object-cover transition-transform duration-300",
+          isHovered ? "scale-[1.02]" : "scale-100",
           imageClassName
         )}
         {...props}
-      />
-
-      {/* 半色调/点阵遮罩层 */}
-      <div
-        aria-hidden="true"
-        className={cn(
-          "pointer-events-none absolute inset-0 mix-blend-overlay transition-opacity duration-300",
-          isHovered ? "opacity-0" : "opacity-30"
-        )}
-        style={{
-          backgroundImage: `radial-gradient(circle, var(--fg) 1px, transparent 1px)`,
-          backgroundSize: "4px 4px",
-        }}
       />
     </div>
   );

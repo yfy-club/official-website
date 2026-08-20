@@ -130,19 +130,21 @@ export default function AboutPage() {
           <p className="prose">{mentorship.description}</p>
         </div>
         <dl className="mentorship__stats">{mentorship.training.map((item, index) => <div key={item.label}><dt className="tabular"><NumberTicker value={Number(item.value)} delay={index * 0.06} /></dt><dd>{item.label}</dd></div>)}</dl>
-        <div className="mt-6 w-full col-span-full">
+        <div className="mt-6 w-full min-w-0 max-w-full col-span-full overflow-hidden">
           <GithubGraph variant="emerald" />
         </div>
       </section>
       <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title" data-reveal="group">
-        <div className="advisor__portrait max-w-sm w-full">
-          <DitherImage
-            src={advisorProfile.image}
-            alt={`${advisorProfile.name}教授肖像`}
-            fill
-            sizes="(max-width: 768px) 80vw, 30vw"
-            priority
-          />
+        <div className="flex justify-center md:justify-end w-full">
+          <div className="advisor__portrait w-full max-w-[280px] sm:max-w-[320px]">
+            <DitherImage
+              src={advisorProfile.image}
+              alt={`${advisorProfile.name}教授肖像`}
+              fill
+              sizes="(max-width: 768px) 80vw, 320px"
+              priority
+            />
+          </div>
         </div>
         <div>
           <p className="caps section__index">08 / Advisor</p>

@@ -191,7 +191,7 @@ export function GithubGraph({
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-5 overflow-hidden shadow-xs select-none",
+        "w-full min-w-0 max-w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5 overflow-hidden shadow-xs select-none",
         className
       )}
     >
@@ -233,11 +233,11 @@ export function GithubGraph({
         </div>
       )}
 
-      {/* Grid view - 全宽自适应拉伸 */}
-      <div className="overflow-x-auto no-scrollbar pb-2">
-        <div className="flex gap-[3px] sm:gap-1 w-full min-w-[700px]">
+      {/* Grid view - 全宽自适应拉伸且移动端安全滚动 */}
+      <div className="w-full min-w-0 max-w-full overflow-x-auto no-scrollbar pb-2">
+        <div className="flex gap-[2px] sm:gap-1 w-full min-w-[620px] sm:min-w-[680px] md:min-w-0">
           {weeks.map((week, weekIdx) => (
-            <div key={weekIdx} className="flex-1 flex flex-col gap-[3px] sm:gap-1">
+            <div key={weekIdx} className="flex-1 flex flex-col gap-[2px] sm:gap-1">
               {week.map((day) => (
                 <div
                   key={day.date}
