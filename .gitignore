@@ -2,6 +2,7 @@
 materials/
 
 # 本地参考组件库与原型
+libraries/
 cult-ui/
 
 

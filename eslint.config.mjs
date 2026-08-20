@@ -14,6 +14,8 @@ const eslintConfig = [
   {
     ignores: [
       "node_modules/**",
+      "libraries/**",
+      "cult-ui/**",
       ".next/**",
       ".next-*/**",
       "out/**",
