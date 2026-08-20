@@ -2,6 +2,7 @@
 
 import { ExternalLink } from "lucide-react";
 
+import { TechIcon } from "@/components/ui/tech-icon";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { getTechMeta } from "@/lib/tech-stack";
 import { cn } from "@/lib/utils";
@@ -23,19 +24,23 @@ export function TechTag({
           target="_blank"
           rel="noreferrer"
           className={cn(
-            "tag group/tag inline-flex items-center justify-center cursor-pointer transition-[transform,border-color,color,background-color] duration-150 ease-out active:scale-[0.96] hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] select-none",
+            "tag group/tag inline-flex items-center justify-center gap-1.5 cursor-pointer transition-[transform,border-color,color,background-color] duration-150 ease-out active:scale-[0.96] hover:border-[var(--border-strong)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] select-none",
             className
           )}
         >
+          <TechIcon name={name} size={13} className="text-[var(--accent)] shrink-0 opacity-80 group-hover/tag:opacity-100" />
           <span>{name}</span>
-          <span className="inline-flex w-0 max-w-0 opacity-0 overflow-hidden shrink-0 transition-all duration-200 ease-out group-hover/tag:w-2.5 group-hover/tag:max-w-[12px] group-hover/tag:opacity-100 group-hover/tag:ml-1">
+          <span className="inline-flex w-0 max-w-0 opacity-0 overflow-hidden shrink-0 transition-all duration-200 ease-out group-hover/tag:w-2.5 group-hover/tag:max-w-[12px] group-hover/tag:opacity-100 group-hover/tag:ml-0.5">
             <ExternalLink size={10} className="text-[var(--fg-faint)]" />
           </span>
         </a>
       </TooltipTrigger>
       <TooltipContent side="top" className="max-w-xs space-y-1 p-2.5 text-left">
         <div className="font-semibold text-[var(--fg)] flex items-center justify-between gap-2">
-          <span>{meta.name}</span>
+          <span className="flex items-center gap-1.5">
+            <TechIcon name={name} size={14} className="text-[var(--accent)]" />
+            <span>{meta.name}</span>
+          </span>
           <span className="text-[10px] text-[var(--accent)] font-normal flex items-center gap-0.5 font-mono">
             官方文档 ↗
           </span>

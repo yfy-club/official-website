@@ -13,6 +13,7 @@ import {
 
 import { BackgroundImageTexture } from "@/components/ui/bg-image-texture";
 import { CutoutCorner } from "@/components/ui/cutout-card";
+import { TechIcon } from "@/components/ui/tech-icon";
 import type { Track } from "@/content/schema";
 import { TECH_STACK_MAP } from "@/lib/tech-stack";
 import { cn } from "@/lib/utils";
@@ -61,7 +62,6 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
             <div className="flex flex-wrap gap-2">
               {coreGroup.map((item) => {
                 const isSelected = selectedTech === item.name;
-                const Icon = item.icon;
 
                 return (
                   <button
@@ -75,10 +75,10 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                         : "bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]/90 border border-[var(--border)] hover:border-[var(--border-strong)]"
                     )}
                   >
-                    <Icon
-                      size={13}
-                      className={isSelected ? "text-black" : "text-[var(--fg-faint)]"}
-                      aria-hidden="true"
+                    <TechIcon
+                      name={item.name}
+                      size={14}
+                      className={isSelected ? "text-black" : "text-[var(--accent)]"}
                     />
                     <span>{item.name}</span>
                     {isSelected && (
@@ -100,7 +100,6 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
               <div className="flex flex-wrap gap-2">
                 {engineeringGroup.map((item) => {
                   const isSelected = selectedTech === item.name;
-                  const Icon = item.icon;
 
                   return (
                     <button
@@ -114,10 +113,10 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                           : "bg-[var(--surface-2)] text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)]/90 border border-[var(--border)] hover:border-[var(--border-strong)]"
                       )}
                     >
-                      <Icon
-                        size={13}
-                        className={isSelected ? "text-black" : "text-[var(--fg-faint)]"}
-                        aria-hidden="true"
+                      <TechIcon
+                        name={item.name}
+                        size={14}
+                        className={isSelected ? "text-black" : "text-[var(--accent)]"}
                       />
                       <span>{item.name}</span>
                       {isSelected && (
@@ -165,8 +164,8 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                   </div>
 
                   <div className="flex items-start gap-4 sm:gap-6">
-                    {/* Dither 半色调工业点阵工牌 */}
-                    <div className="relative shrink-0 flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-[var(--radius-xs)] bg-[#0B0D10] border border-[var(--border-strong)] overflow-hidden shadow-inner">
+                    {/* Dither 半色调工业点阵工牌 + SVG 图标 */}
+                    <div className="relative shrink-0 flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-[var(--radius-xs)] bg-[#0B0D10] border border-[var(--border-strong)] overflow-hidden shadow-inner group">
                       <div
                         aria-hidden="true"
                         className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none"
@@ -175,9 +174,11 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                           backgroundSize: "4px 4px",
                         }}
                       />
-                      <span className="font-display text-base sm:text-xl font-bold text-[var(--accent)] tracking-tight">
-                        {selectedTech.slice(0, 4).toUpperCase()}
-                      </span>
+                      <TechIcon
+                        name={selectedTech}
+                        size={32}
+                        className="relative z-10 text-[var(--accent)] transition-transform duration-200 group-hover:scale-110"
+                      />
                     </div>
 
                     {/* 标题与定位 */}
