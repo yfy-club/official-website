@@ -76,18 +76,11 @@ export default function JoinPage() {
           {/* 左翼：宣言、承诺清单与迎新群 CardFrame */}
           <div className="join-pitch lg:col-span-6 flex flex-col gap-6" data-reveal="item">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-              <div className="flex flex-col gap-4">
-                <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)]/60 text-xs font-mono text-[var(--fg-muted)] w-fit shadow-2xs">
-                  <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-                  <span>Yunfeiyang Club // 2026 招新</span>
-                </div>
-
-                <div className="join-pitch__heading">
-                  <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.08] tracking-tight text-[var(--fg)] break-words">
-                    Join <br />
-                    <span className="text-[var(--accent)] font-medium">Yunfeiyang.</span>
-                  </h3>
-                </div>
+              <div className="join-pitch__heading">
+                <h3 className="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-normal leading-[1.04] tracking-tight text-[var(--fg)] break-words">
+                  Join <br />
+                  <span className="text-[var(--accent)] font-medium">Yunfeiyang.</span>
+                </h3>
               </div>
 
               {/* 官方 Logo 徽标 */}
