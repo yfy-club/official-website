@@ -175,8 +175,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-problem" className="section" aria-labelledby="problem-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">03 / Engineering Challenges</p>
-          <h2 id="problem-title" className="section__title">核心工程挑战与解法。</h2>
+          <p className="caps section__index">03 / The Story</p>
+          <h2 id="problem-title" className="section__title">为什么做这个项目。</h2>
         </div>
         <div className="prose">
           {detail.problem.map((paragraph) => (
@@ -187,8 +187,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">04 / Core Principles & Runtime Engines</p>
-          <h2 id="build-title" className="section__title">核心原理与底层运行时。</h2>
+          <p className="caps section__index">04 / Under The Hood</p>
+          <h2 id="build-title" className="section__title">内核是怎么跑起来的。</h2>
         </div>
         <WorkPrincipleWorkbench principles={detail.principles} fallbackStack={detail.stack} />
       </section>
@@ -196,8 +196,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.decisions && detail.decisions.length > 0 && (
         <section id="work-decisions" className="section" aria-labelledby="decisions-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">05 / Key Decisions</p>
-            <h2 id="decisions-title" className="section__title">关键架构决策与技术亮点。</h2>
+            <p className="caps section__index">05 / Key Choices</p>
+            <h2 id="decisions-title" className="section__title">几个关键的技术取舍。</h2>
           </div>
           <DecisionsAccordion decisions={detail.decisions} />
         </section>
@@ -206,8 +206,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.metrics && detail.metrics.length > 0 && (
         <section id="work-specs" className="section" aria-labelledby="specs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">06 / Specs & Capabilities</p>
-            <h2 id="specs-title" className="section__title">关键工程规格与指标。</h2>
+            <p className="caps section__index">06 / Hardcore Specs</p>
+            <h2 id="specs-title" className="section__title">实测数据与工程指标。</h2>
           </div>
           <WorkEngineeringSpecs metrics={detail.metrics} />
         </section>
@@ -216,8 +216,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.tradeoffs && detail.tradeoffs.length > 0 && (
         <section id="work-tradeoffs" className="section" aria-labelledby="tradeoffs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">07 / Trade-offs & Insights</p>
-            <h2 id="tradeoffs-title" className="section__title">工程权衡与演进思考。</h2>
+            <p className="caps section__index">07 / Retrospective</p>
+            <h2 id="tradeoffs-title" className="section__title">复盘与后续演进。</h2>
           </div>
           <WorkTradeoffsDeck tradeoffs={detail.tradeoffs} />
         </section>

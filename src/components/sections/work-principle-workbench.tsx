@@ -66,11 +66,11 @@ export function WorkPrincipleWorkbench({
           <div className="px-3 py-2 border-b border-[var(--border)]/60 flex items-center justify-between font-mono text-[10px] text-[var(--fg-muted)]">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[var(--accent)] animate-pulse" />
-              <span className="font-bold text-[var(--fg)] tracking-wider uppercase">
-                CORE PRINCIPLES
+              <span className="font-bold text-[var(--fg)] tracking-wider">
+                底层核心原理
               </span>
             </div>
-            <span>0{items.length} PILLARS</span>
+            <span>0{items.length} 项实现</span>
           </div>
 
           <div className="flex flex-col gap-1.5 flex-1">
@@ -164,7 +164,7 @@ export function WorkPrincipleWorkbench({
 
                 <div className="flex items-center gap-1.5 font-mono text-[10px] px-2.5 py-1 rounded-full bg-[var(--surface-2)] border border-[var(--border)] text-[var(--success)] font-semibold">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)] animate-pulse" />
-                  <span>ENGINE VERIFIED</span>
+                  <span>实测就绪</span>
                 </div>
               </div>
 
@@ -182,8 +182,8 @@ export function WorkPrincipleWorkbench({
               {activeItem.formula && (
                 <div className="p-3 sm:p-3.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] space-y-1">
                   <div className="flex items-center justify-between font-mono text-[10px] text-[var(--fg-faint)]">
-                    <span className="text-[var(--accent)] font-bold">MATHEMATICAL FORMULATION</span>
-                    <span>RECURRENCE RELATION</span>
+                    <span className="text-[var(--accent)] font-bold">算法递推关系式</span>
+                    <span>MATHEMATICAL SPEC</span>
                   </div>
                   <div className="font-mono text-xs sm:text-sm text-[var(--fg)] overflow-x-auto py-1 font-semibold">
                     <code>{activeItem.formula}</code>
@@ -197,7 +197,7 @@ export function WorkPrincipleWorkbench({
                   <div className="flex items-center justify-between px-3 py-1.5 bg-[var(--surface-2)] border-b border-[var(--border)] font-mono text-[10px] text-[var(--fg-muted)]">
                     <div className="flex items-center gap-1.5">
                       <Terminal className="h-3 w-3 text-[var(--accent)]" />
-                      <span>RUNTIME SPECIFICATION</span>
+                      <span>核心实现代码</span>
                     </div>
 
                     <button
@@ -222,7 +222,7 @@ export function WorkPrincipleWorkbench({
                 {activeItem.keyBenefit ? (
                   <div className="flex items-center gap-2 font-mono text-xs text-[var(--fg)]">
                     <CheckCircle2 className="h-4 w-4 text-[var(--success)] shrink-0" />
-                    <span className="text-[var(--fg-muted)]">收益：</span>
+                    <span className="text-[var(--fg-muted)]">实测收益：</span>
                     <span className="font-semibold text-[var(--fg)]">{activeItem.keyBenefit}</span>
                   </div>
                 ) : (

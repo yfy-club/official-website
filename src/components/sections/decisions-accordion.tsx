@@ -39,7 +39,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
                 <AlertCircle className="h-4 w-4 text-[var(--warn)] shrink-0 mt-0.5" />
                 <div className="space-y-0.5">
                   <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--warn)] font-semibold">
-                    CONTEXT & CHALLENGE // 架构痛点
+                    遇到什么问题
                   </p>
                   <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
                     {decision.problem}
@@ -54,7 +54,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
                 <Zap className="h-4 w-4 text-[var(--accent)] shrink-0 mt-0.5" />
                 <div className="space-y-0.5">
                   <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--accent)] font-semibold">
-                    ARCHITECTURAL SOLUTION // 核心解法
+                    怎么解决的
                   </p>
                   <p className="font-sans text-xs text-[var(--fg)] leading-relaxed">
                     {decision.solution}
@@ -70,7 +70,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
                   <CheckCircle2 className="h-3.5 w-3.5 text-[var(--success)] shrink-0 mt-0.5" />
                   <div className="space-y-0.5">
                     <span className="font-mono text-[10px] uppercase text-[var(--success)] font-semibold">
-                      QUANTIFIABLE IMPACT // 工程收益
+                      换来了什么
                     </span>
                     <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
                       {decision.impact}
@@ -84,7 +84,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
                   <Scale className="h-3.5 w-3.5 text-[var(--fg-faint)] shrink-0 mt-0.5" />
                   <div className="space-y-0.5">
                     <span className="font-mono text-[10px] uppercase text-[var(--fg-faint)] font-semibold">
-                      TRADE-OFF & CONSTRAINT // 权衡边界
+                      有什么代价
                     </span>
                     <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
                       {decision.tradeoff}
@@ -98,7 +98,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
             {decision.highlight && (
               <div className="flex items-center gap-2 p-2 px-3 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)] font-mono text-[11px] text-[var(--fg)]">
                 <Code2 className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
-                <span className="text-[var(--fg-faint)]">SPEC :: </span>
+                <span className="text-[var(--fg-faint)]">KEY CODE :: </span>
                 <code className="text-[var(--fg)] font-bold">{decision.highlight}</code>
               </div>
             )}
@@ -112,7 +112,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
     <div className="decisions-toolbar-section my-4" data-reveal="group">
       <ToolbarExpandable
         steps={steps}
-        badgeText={`${decisions.length} ARCHITECTURAL DECISIONS`}
+        badgeText={`${decisions.length} KEY CHOICES`}
         defaultActiveStep="decision-0"
       />
     </div>
