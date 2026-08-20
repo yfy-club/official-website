@@ -505,7 +505,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
                   <Input
                     id="join-custom-track"
                     autoComplete="off"
-                    placeholder="如：前端全栈、网络安全、嵌入式硬件等"
+                    placeholder="如：软件安全与管理方向"
                     aria-describedby={descriptionId("join-custom-track", customTrackError)}
                     aria-invalid={Boolean(customTrackError)}
                     required
@@ -559,11 +559,11 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           <Button
             id="join-submit"
             type="submit"
-            className="w-full h-11 text-sm font-mono font-semibold uppercase tracking-wider rounded-[var(--radius-xs)] transition-transform active:scale-[0.98] cursor-pointer"
+            className="w-full h-11 text-sm font-medium rounded-[var(--radius-xs)] transition-transform active:scale-[0.98] cursor-pointer"
             disabled={isSubmitting}
           >
             <Send size={15} aria-hidden="true" />
-            <span>{isSubmitting ? "TRANSMITTING // 正在加密提交…" : "SUBMIT APPLICATION // 立即提交申请"}</span>
+            <span>{isSubmitting ? "正在提交…" : "提交申请"}</span>
           </Button>
 
           {rootError ? (

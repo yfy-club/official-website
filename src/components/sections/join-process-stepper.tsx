@@ -39,17 +39,17 @@ const PROCESS_STEPS = [
   },
   {
     step: "04",
-    title: "导师配对",
-    icon: GraduationCap,
-    desc: "通过考核正式入社，一对一配对高年级骨干师傅，制定专属阶段带学路线。",
-    tag: "MENTORSHIP",
-  },
-  {
-    step: "05",
     title: "课设实操验收",
     icon: CheckCircle2,
     desc: "完成阶段大作业与基础工程实操任务，由师傅逐行 Code Review 纠偏指导。",
     tag: "PRACTICE",
+  },
+  {
+    step: "05",
+    title: "导师配对",
+    icon: GraduationCap,
+    desc: "通过考核正式入社，一对一配对高年级骨干师傅，制定专属阶段带学路线。",
+    tag: "MENTORSHIP",
   },
   {
     step: "06",
