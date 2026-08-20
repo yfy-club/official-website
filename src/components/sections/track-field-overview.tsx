@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
+import { ArrowRight } from "lucide-react";
 
 import type { TrackOverviewData } from "@/content/track-overviews";
+import { CardCorners, CardFrame } from "@/components/ui/card";
 import { TechTag } from "@/components/ui/tech-tag";
 import { cn } from "@/lib/utils";
 
@@ -13,145 +15,139 @@ interface TrackFieldOverviewProps {
 
 export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
   const reduceMotion = useReducedMotion();
-  const [activePillar, setActivePillar] = useState<number>(0);
-  const [activeStep, setActiveStep] = useState<number>(0);
-
-  const selectedPillar = data.pillars[activePillar] || data.pillars[0];
+  const [hoveredPillar, setHoveredPillar] = useState<number | null>(null);
 
   return (
-    <div className="w-full space-y-8">
-      {/* 1. 纲领导引 */}
-      <div className="pb-6 border-b border-[var(--border)]">
-        <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed font-sans max-w-4xl">
-          {data.leadParagraph}
-        </p>
-      </div>
+    <div className="w-full space-y-6">
+      {/* 1. 三大主攻领域（全宽纵向 Swiss Editorial 流线清单） */}
+      <CardFrame className="border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+        <CardCorners />
 
-      {/* 2. 左右排版工控研发图谱控制台 (Left: Pillars / Right: Pipeline Console) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-        {/* 左侧 (lg:col-span-6): 主攻领域清单 (Swiss Editorial List) */}
-        <div className="lg:col-span-6 flex flex-col justify-between space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
-            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-              01 // RESEARCH PILLARS
-            </span>
-            <span className="font-mono text-xs text-[var(--fg-faint)]">
-              {data.pillars.length} DOMAINS
+        {/* 领域表头 */}
+        <div className="flex items-center justify-between gap-3 px-5 py-3.5 sm:px-6 border-b border-[var(--border)] bg-[var(--surface-2)]/35 font-mono text-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[var(--accent)]">03.1 //</span>
+            <span className="font-semibold uppercase tracking-wider text-[var(--fg)]">
+              主攻研究领域
             </span>
           </div>
+          <span className="text-[10px] text-[var(--fg-faint)] tabular">
+            {data.pillars.length} DOMAINS
+          </span>
+        </div>
 
-          <div className="divide-y divide-[var(--border)] flex-1 flex flex-col justify-between">
-            {data.pillars.map((pillar, idx) => {
-              const isSelected = activePillar === idx;
-              return (
-                <div
-                  key={pillar.code}
-                  onClick={() => setActivePillar(idx)}
-                  className={cn(
-                    "py-5 transition-[background-color,padding,opacity,border-color] duration-200 cursor-pointer select-none group",
-                    isSelected
-                      ? "opacity-100 pl-3 border-l-2 border-[var(--accent)] bg-[var(--surface-2)]/50 rounded-r-[var(--radius-xs)]"
-                      : "opacity-65 hover:opacity-100 hover:pl-2"
-                  )}
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span
-                          className={cn(
-                            "font-mono text-sm sm:text-base font-bold tracking-tight shrink-0 transition-colors",
-                            isSelected ? "text-[var(--accent)]" : "text-[var(--fg-faint)] group-hover:text-[var(--fg)]"
-                          )}
-                        >
-                          {`0${idx + 1}`}
-                        </span>
-                        <h3 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
-                          {pillar.title}
-                        </h3>
-                      </div>
-                      <span className="font-mono text-xs text-[var(--fg-faint)] shrink-0">
-                        {pillar.code}
-                      </span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed font-sans line-clamp-2">
-                      {pillar.description}
+        {/* 纵向流线行清单 */}
+        <div className="divide-y divide-[var(--border)]">
+          {data.pillars.map((pillar, idx) => {
+            const isHovered = hoveredPillar === idx;
+            const isDimmed = !reduceMotion && hoveredPillar !== null && !isHovered;
+
+            return (
+              <div
+                key={pillar.code}
+                onMouseEnter={() => setHoveredPillar(idx)}
+                onMouseLeave={() => setHoveredPillar(null)}
+                className={cn(
+                  "group/row relative p-5 sm:p-6 transition-all duration-200 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center",
+                  isHovered && "bg-[var(--surface-2)]/40",
+                  isDimmed && "opacity-60"
+                )}
+              >
+                {/* 标号与主攻领域名称 */}
+                <div className="lg:col-span-4 flex items-center gap-3">
+                  <span
+                    className={cn(
+                      "font-mono text-xs sm:text-sm font-bold tracking-wider shrink-0 transition-colors",
+                      isHovered ? "text-[var(--accent)]" : "text-[var(--fg-faint)]"
+                    )}
+                  >
+                    0{idx + 1} {"//"}
+                  </span>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight m-0">
+                      {pillar.title}
+                    </h3>
+                    <p className="font-mono text-[11px] text-[var(--fg-faint)] uppercase tracking-wider mt-0.5 m-0">
+                      {pillar.subtitle}
                     </p>
-                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      {pillar.tags.map((tag) => (
-                        <TechTag key={tag} name={tag} className="py-0.5 px-2 text-[11px]" />
-                      ))}
-                    </div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* 右侧 (lg:col-span-6): 研发工程链路控制台 (Pipeline & Milestones) */}
-        <div className="lg:col-span-6">
-          <div className="relative h-full min-h-[380px] rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs hover:border-[var(--border-strong)] transition-all">
-            <div className="flex items-center justify-between pb-4 border-b border-[var(--border)]">
-              <div className="space-y-1">
-                <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-                  02 // ENGINEERING PIPELINE
-                </span>
-                <h4 className="text-sm sm:text-base font-bold text-[var(--fg)] tracking-tight">
-                  {selectedPillar?.title} · 研发全链路
-                </h4>
+                {/* 核心攻坚原理与指标 */}
+                <div className="lg:col-span-5">
+                  <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed m-0 font-sans">
+                    {pillar.description}
+                  </p>
+                </div>
+
+                {/* 关键技术栈标签 */}
+                <div className="lg:col-span-3 flex flex-wrap items-center gap-1.5 lg:justify-end">
+                  {pillar.tags.map((tag) => (
+                    <TechTag key={tag} name={tag} className="py-0.5 px-2 text-[11px]" />
+                  ))}
+                </div>
               </div>
-              <span className="font-mono text-xs text-[var(--fg-muted)] px-2.5 py-1 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)]">
-                {data.pipelineSteps.length} PHASES
-              </span>
-            </div>
-
-            {/* 4 步研发工程链路卡片网格 (2x2 Grid) */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePillar}
-                initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
-                transition={{ duration: 0.2 }}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 flex-1"
-              >
-                {data.pipelineSteps.map((step, sIdx) => {
-                  const isStepActive = activeStep === sIdx;
-                  return (
-                    <div
-                      key={step.step}
-                      onClick={() => setActiveStep(sIdx)}
-                      className={cn(
-                        "p-4 rounded-[var(--radius-xs)] border transition-all duration-150 cursor-pointer active:scale-[0.98] flex flex-col justify-between space-y-2 select-none",
-                        isStepActive
-                          ? "border-[var(--accent)] bg-[var(--surface-2)] shadow-xs"
-                          : "border-[var(--border)] bg-[var(--surface-2)]/30 hover:border-[var(--border-strong)]"
-                      )}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                          {step.step}
-                        </span>
-                        <span className="text-[10px] font-mono text-[var(--fg-faint)]">
-                          PHASE 0{sIdx + 1}
-                        </span>
-                      </div>
-                      <div>
-                        <h5 className="text-xs sm:text-sm font-bold text-[var(--fg)] mb-1">
-                          {step.label}
-                        </h5>
-                        <p className="text-[11px] text-[var(--fg-muted)] leading-relaxed font-sans line-clamp-3">
-                          {step.description}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </motion.div>
-            </AnimatePresence>
-          </div>
+            );
+          })}
         </div>
-      </div>
+      </CardFrame>
+
+      {/* 2. 研发工程全链路（全宽横向贯通流水线） */}
+      <CardFrame className="border-[var(--border)] bg-[var(--surface)] shadow-xs overflow-hidden">
+        <CardCorners />
+
+        {/* 链路表头 */}
+        <div className="flex items-center justify-between gap-3 px-5 py-3.5 sm:px-6 border-b border-[var(--border)] bg-[var(--surface-2)]/35 font-mono text-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[var(--accent)]">03.2 //</span>
+            <span className="font-semibold uppercase tracking-wider text-[var(--fg)]">
+              研发工程全链路
+            </span>
+          </div>
+          <span className="text-[10px] text-[var(--fg-faint)] tabular">
+            {data.pipelineSteps.length} PHASES
+          </span>
+        </div>
+
+        {/* 4 阶段全宽平铺流水线网格 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border)]">
+          {data.pipelineSteps.map((step, sIdx) => {
+            return (
+              <div
+                key={step.step}
+                className="p-5 sm:p-6 flex flex-col justify-between space-y-3 bg-[var(--surface)] hover:bg-[var(--surface-2)]/40 transition-colors group/step"
+              >
+                <div className="flex items-center justify-between font-mono text-xs">
+                  <span className="font-bold text-[var(--accent)]">
+                    {step.step} {"//"}
+                  </span>
+                  <span className="text-[10px] text-[var(--fg-faint)]">
+                    PHASE 0{sIdx + 1}
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h4 className="text-sm font-bold text-[var(--fg)] tracking-tight">
+                    {step.label}
+                  </h4>
+                  <p className="text-xs text-[var(--fg-muted)] leading-relaxed m-0">
+                    {step.description}
+                  </p>
+                </div>
+
+                <div className="pt-2 flex items-center justify-between font-mono text-[10px] text-[var(--fg-faint)] border-t border-[var(--border)]/60">
+                  <span>STEP 0{sIdx + 1}</span>
+                  {sIdx < data.pipelineSteps.length - 1 ? (
+                    <ArrowRight size={11} className="text-[var(--accent)]/70 group-hover/step:translate-x-0.5 transition-transform" />
+                  ) : (
+                    <span className="text-[var(--success)] font-semibold">DELIVERY</span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </CardFrame>
     </div>
   );
 }
