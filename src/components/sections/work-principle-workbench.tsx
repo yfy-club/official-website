@@ -67,12 +67,12 @@ export function WorkPrincipleWorkbench({
       </div>
 
       {/* 左右分栏架构工作台 */}
-      <div className="kernel-slices__layout grid grid-cols-1 lg:grid-cols-12 border-t border-[var(--border-strong)] bg-[var(--surface)]">
+      <div className="kernel-slices__workbench">
         {/* 左栏：切面清单导航 */}
         <div
           role="tablist"
           aria-label="实现切面列表"
-          className="kernel-slices__nav lg:col-span-5 border-b lg:border-b-0 lg:border-r border-[var(--border-strong)] flex flex-col divide-y divide-[var(--border)]"
+          className="kernel-slices__nav divide-y divide-[var(--border)]"
         >
           {items.map((item, index) => {
             const isActive = activeIndex === index;
@@ -149,7 +149,7 @@ export function WorkPrincipleWorkbench({
         </div>
 
         {/* 右栏：当前切面详情与源码/递推公式工作台 */}
-        <div className="kernel-slices__stage lg:col-span-7 flex flex-col p-5 sm:p-7 lg:p-8 bg-[var(--surface)]">
+        <div className="kernel-slices__stage p-5 sm:p-7 lg:p-8 bg-[var(--surface)]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentItem.code}
