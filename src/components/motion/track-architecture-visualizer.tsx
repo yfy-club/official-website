@@ -13,7 +13,6 @@ import {
   Zap,
 } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 // ==========================================
@@ -105,12 +104,9 @@ export function TrackNeuralNetworkVisualizer() {
       {/* 顶部模式切换开关 */}
       <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant="active" className="font-mono text-[11px] gap-1">
-            <Cpu size={12} className="text-[var(--accent)]" />
-            <span>AI NEURAL ENGINE</span>
-          </Badge>
-          <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// TENSOR FORWARD & ATTENTION SPACE"}
+          <Cpu size={14} className="text-[var(--accent)]" aria-hidden="true" />
+          <span className="font-mono text-xs font-bold text-[var(--fg-muted)] tracking-wider">
+            NEURAL FORWARD & ATTENTION SPACE
           </span>
         </div>
         <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
@@ -280,7 +276,7 @@ export function TrackNeuralNetworkVisualizer() {
             </svg>
           </div>
 
-          {/* 实时张量参数监视器 (去说教，纯工程仪表) */}
+          {/* 实时张量参数监视器 */}
           <div className="mt-4 pt-3 border-t border-[var(--border)] flex items-center justify-between flex-wrap gap-4 text-xs font-mono">
             <div className="flex items-center gap-2">
               <span className="text-[var(--accent)] font-bold">TENSOR STREAM //</span>
@@ -448,12 +444,9 @@ export function TrackServiceTraceVisualizer() {
     <div className="w-full flex flex-col space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant={isChaos ? "warning" : "active"} className="font-mono text-[11px] gap-1">
-            <Network size={12} className={isChaos ? "text-[var(--warn)]" : "text-[var(--accent)]"} />
-            <span>DISTRIBUTED TRACE INSPECTOR</span>
-          </Badge>
-          <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// OPENTELEMETRY TRACE CONTEXT"}
+          <Network size={14} className={isChaos ? "text-[var(--warn)]" : "text-[var(--accent)]"} aria-hidden="true" />
+          <span className="font-mono text-xs font-bold text-[var(--fg-muted)] tracking-wider">
+            OPENTELEMETRY TRACE WATERFALL
           </span>
         </div>
 
@@ -544,9 +537,14 @@ export function TrackServiceTraceVisualizer() {
             <span className="font-mono text-xs font-bold text-[var(--fg)]">
               SPAN // {spans[selectedSpan].name}
             </span>
-            <Badge variant={spans[selectedSpan].status.includes("504") || spans[selectedSpan].status.includes("SLOW") ? "warning" : "active"} className="text-[10px]">
+            <span className={cn(
+              "font-mono text-[10px] font-bold px-2 py-0.5 rounded-[var(--radius-xs)] border",
+              spans[selectedSpan].status.includes("504") || spans[selectedSpan].status.includes("SLOW")
+                ? "bg-[var(--warn)]/10 text-[var(--warn)] border-[var(--warn)]/30"
+                : "bg-[var(--surface)] text-[var(--fg)] border-[var(--border)]"
+            )}>
               {spans[selectedSpan].status}
-            </Badge>
+            </span>
           </div>
 
           <div className="space-y-2 text-xs font-mono">
@@ -604,12 +602,9 @@ export function TrackBTreeVisualizer() {
     <div className="w-full flex flex-col space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant="active" className="font-mono text-[11px] gap-1">
-            <Database size={12} className="text-[var(--accent)]" />
-            <span>STORAGE KERNEL EXPLORER</span>
-          </Badge>
-          <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// B+ TREE PAGE INDEX & MVCC READVIEW"}
+          <Database size={14} className="text-[var(--accent)]" aria-hidden="true" />
+          <span className="font-mono text-xs font-bold text-[var(--fg-muted)] tracking-wider">
+            B+ TREE & MVCC STORAGE KERNEL
           </span>
         </div>
         <div className="flex items-center gap-1 bg-[var(--surface-2)] p-1 rounded-[var(--radius-xs)] border border-[var(--border)]">
@@ -770,9 +765,14 @@ export function TrackBTreeVisualizer() {
                     {`ROLL_PTR: ${ver.rollPtr} // 数据字段: ${ver.balance}`}
                   </div>
                 </div>
-                <Badge variant={i === 0 ? "active" : "outline"} className="text-[10px]">
+                <span className={cn(
+                  "font-mono text-[10px] px-2 py-0.5 rounded-[var(--radius-xs)] border",
+                  i === 0
+                    ? "bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/30 font-bold"
+                    : "bg-[var(--surface)] text-[var(--fg-muted)] border-[var(--border)]"
+                )}>
                   {ver.visible}
-                </Badge>
+                </span>
               </div>
             ))}
           </div>
@@ -793,12 +793,9 @@ export function TrackIotPipelineVisualizer() {
     <div className="w-full flex flex-col space-y-4">
       <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant="active" className="font-mono text-[11px] gap-1">
-            <Radio size={12} className="text-[var(--accent)]" />
-            <span>MQTT EDGE-CLOUD BUS</span>
-          </Badge>
-          <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// 100Hz TELEMETRY OSCILLOSCOPE"}
+          <Radio size={14} className="text-[var(--accent)]" aria-hidden="true" />
+          <span className="font-mono text-xs font-bold text-[var(--fg-muted)] tracking-wider">
+            MQTT EDGE-CLOUD BUS
           </span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -897,12 +894,9 @@ export function TrackIndustrialTwinVisualizer() {
     <div className="w-full flex flex-col space-y-4">
       <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
         <div className="flex items-center gap-2">
-          <Badge variant="active" className="font-mono text-[11px] gap-1">
-            <Layers size={12} className="text-[var(--accent)]" />
-            <span>HAND-EYE CALIBRATION & TWIN</span>
-          </Badge>
-          <span className="text-xs text-[var(--fg-muted)] font-mono hidden sm:inline">
-            {"// AX = XB RIGID BODY MATRIX & DEFECT INSPECTION"}
+          <Layers size={14} className="text-[var(--accent)]" aria-hidden="true" />
+          <span className="font-mono text-xs font-bold text-[var(--fg-muted)] tracking-wider">
+            HAND-EYE CALIBRATION & DEFECT INSPECTION
           </span>
         </div>
         <span className="font-mono text-xs text-[var(--accent)] font-bold">
@@ -944,9 +938,9 @@ export function TrackIndustrialTwinVisualizer() {
             <span className="font-mono text-xs font-bold text-[var(--fg)]">
               SUB-PIXEL DEFECT DETECTION
             </span>
-            <Badge variant="active" className="text-[10px]">
-              OPC-UA LIVE
-            </Badge>
+            <span className="font-mono text-[10px] text-emerald-400 font-bold">
+              ● OPC-UA LIVE
+            </span>
           </div>
           <div className="relative aspect-video rounded bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(var(--border-strong)_1px,transparent_1px)] [background-size:12px_12px] opacity-40" />

@@ -162,10 +162,6 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                     <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
                       SPEC // {activeItem?.category}
                     </span>
-                    <span className="text-[var(--border-control)]">/</span>
-                    <span className="font-mono text-xs text-[var(--fg-faint)]">
-                      ACTIVE SELECTION
-                    </span>
                   </div>
 
                   <div className="flex items-start gap-4 sm:gap-6">
@@ -197,11 +193,7 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                 </div>
 
                 {/* 底部操作与规格参数 */}
-                <div className="pt-6 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[var(--fg-faint)]">
-                    <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>社团生产级技术规范</span>
-                  </div>
+                <div className="pt-6 border-t border-[var(--border)] flex items-center justify-end">
 
                   <a
                     href={activeMeta.url}

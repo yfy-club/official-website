@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CheckCircle2, ExternalLink, Layers, ShieldCheck, Sparkles } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
 import {
@@ -125,9 +124,9 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
                   PROJECT SPEC
                 </span>
                 <span className="text-[var(--fg-faint)]">/</span>
-                <Badge variant={selectedWork.status === "已上线" ? "active" : "warning"} className="text-[10px]">
+                <span className="font-mono text-xs text-[var(--fg-muted)]">
                   {selectedWork.status}
-                </Badge>
+                </span>
               </div>
               <SheetTitle>{selectedWork.nameZh}</SheetTitle>
               <SheetDescription>{selectedWork.tagline}</SheetDescription>

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { createRef, useRef, useState } from "react";
 
 import { AnimatedBeam } from "@/components/ui/animated-beam";
-import { Badge } from "@/components/ui/badge";
 import { CardCorners } from "@/components/ui/card";
 import { MagicCard } from "@/components/ui/magic-card";
 import { Tag } from "@/components/ui/tag";
@@ -118,7 +117,6 @@ export function TracksMap({ tracks }: TracksMapProps) {
             <Tabs.Content className="tracks-detail__panel" key={track.slug} value={track.slug}>
               <header className="tracks-detail__meta">
                 <span className="caps tabular">TRK-{track.index} / DOSSIER</span>
-                <Badge pulse variant="active">ACTIVE</Badge>
               </header>
 
               <div className="tracks-detail__body">
