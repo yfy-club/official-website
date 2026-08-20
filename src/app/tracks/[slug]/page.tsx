@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -114,9 +114,12 @@ export default async function TrackDetailPage({
         </Button>
       </div>
 
-      {/* 01 / Swiss Editorial 巨幅大字 Hero (严格左侧顶满对齐，大气留白) */}
-      <header id="track-start" className="w-full text-left pt-6 pb-20 sm:pb-28 space-y-8">
-        <div className="space-y-6">
+      {/* 01 / Swiss Editorial 巨幅大字 Hero (核心内容绝对垂直居中、左侧顶满、底部绝对定位 SCROLL 指引) */}
+      <header
+        id="track-start"
+        className="relative w-full text-left min-h-[calc(100svh-140px)] flex items-center py-16 border-b border-[var(--border)] mb-24 sm:mb-32"
+      >
+        <div className="space-y-6 max-w-5xl">
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs sm:text-sm font-bold text-[var(--accent)] tracking-widest">
               TRK-0{track.index} {"//"} TECHNICAL SPEC
@@ -141,6 +144,18 @@ export default async function TrackDetailPage({
             <span className="text-[var(--fg-faint)]">目标领域：</span>
             <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
+        </div>
+
+        {/* 底部绝对定位极简 SCROLL 引导 */}
+        <div className="absolute bottom-6 left-0">
+          <a
+            href="#track-stack"
+            className="inline-flex items-center gap-2 font-mono text-xs text-[var(--fg-faint)] hover:text-[var(--fg)] transition-colors select-none group cursor-pointer"
+            aria-label="向下滚动至核心技术栈与工程基座"
+          >
+            <span className="tracking-widest">SCROLL</span>
+            <ArrowDown size={13} className="text-[var(--accent)] group-hover:translate-y-0.5 transition-transform animate-bounce" aria-hidden="true" />
+          </a>
         </div>
       </header>
 
