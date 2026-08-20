@@ -602,6 +602,7 @@ export const worksRaw = [
         { role: "教师", account: "teacher@intellibuddy.com", password: "Demo2025", access: "教师功能体验；班级管理、作业布置为后续方向" },
         { role: "新用户", account: "newuser@intellibuddy.com", password: "Demo2025", access: "新手引导、从零开始体验" },
       ],
+      demoNotice: "当前系统为 Mock 数据演示版系统（非真实生产服务器），请勿随意删除或修改演示数据，以免影响他人体验系统效果。",
       shots: {
         type: "comparison",
         dark: "/images/works/zhixueban/zhixueban-dark.webp",
