@@ -16,6 +16,7 @@ export interface OrbitalPhotoItem {
 
 export interface OrbitalGalleryProps {
   photos: readonly OrbitalPhotoItem[];
+  initialIndex?: number;
   onSelectPhoto?: (photo: OrbitalPhotoItem) => void;
   className?: string;
 }
@@ -26,10 +27,14 @@ function clamp(value: number, min: number, max: number) {
 
 export function OrbitalGallery({
   photos,
+  initialIndex = 4,
   onSelectPhoto,
   className,
 }: OrbitalGalleryProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const count = photos.length;
+  const initial = clamp(initialIndex, 0, Math.max(0, count - 1));
+
+  const [activeIndex, setActiveIndex] = useState(initial);
   const containerRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const titleViewportRef = useRef<HTMLDivElement>(null);
@@ -37,8 +42,6 @@ export function OrbitalGallery({
 
   const [containerWidth, setContainerWidth] = useState(1200);
   const [isMobile, setIsMobile] = useState(false);
-
-  const count = photos.length;
 
   // Responsive width tracking
   useEffect(() => {
@@ -79,14 +82,14 @@ export function OrbitalGallery({
   const orbitCenterY = centerCardY + radius;
 
   // Continuous progress tracking with responsive spring
-  const targetProgress = useMotionValue(0);
+  const targetProgress = useMotionValue(initial);
   const smoothProgress = useSpring(targetProgress, {
     stiffness: 260,
     damping: 28,
     mass: 0.55,
   });
 
-  const [renderProgress, setRenderProgress] = useState(0);
+  const [renderProgress, setRenderProgress] = useState(initial);
 
   useEffect(() => {
     return smoothProgress.on("change", (latest) => {
