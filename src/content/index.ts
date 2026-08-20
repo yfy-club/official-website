@@ -14,11 +14,24 @@ import {
 } from "./schema";
 import { timelineRaw } from "./timeline";
 import { tracksRaw } from "./tracks";
+import { workDeepDives } from "./work-deep-dives";
 import { worksRaw } from "./works";
 
 export const club = clubSchema.parse(clubRaw);
 export const tracks = trackSchema.array().parse(tracksRaw);
-export const works = workSchema.array().parse(worksRaw);
+export const works = workSchema.array().parse(
+  worksRaw.map((work) => {
+    const deepDive = workDeepDives[work.slug];
+    if (!deepDive || !work.detail) return work;
+    return {
+      ...work,
+      detail: {
+        ...work.detail,
+        ...deepDive,
+      },
+    };
+  }),
+);
 export const awards = awardSchema.array().parse(awardsRaw);
 export const timeline = timelineItemSchema.array().parse(timelineRaw);
 export const faq = faqSchema.array().parse(faqRaw);

@@ -11,12 +11,12 @@ import { DecisionsAccordion } from "@/components/sections/decisions-accordion";
 import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
 import { WorkEngineeringSpecs } from "@/components/sections/work-engineering-specs";
 import { WorkPrincipleWorkbench } from "@/components/sections/work-principle-workbench";
+import { WorkRelatedTracks } from "@/components/sections/work-related-tracks";
 import { WorkSystemTour } from "@/components/sections/work-system-tour";
 import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
 import { StructuredData } from "@/components/seo/structured-data";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { TechTag } from "@/components/ui/tech-tag";
 import { tracks, works } from "@/content";
@@ -187,8 +187,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">04 / Under The Hood</p>
-          <h2 id="build-title" className="section__title">内核是怎么跑起来的。</h2>
+          <p className="caps section__index">04 / 核心剖面</p>
+          <h2 id="build-title" className="section__title">拆开看，它怎样真正运转。</h2>
         </div>
         <WorkPrincipleWorkbench principles={detail.principles} fallbackStack={detail.stack} />
       </section>
@@ -196,8 +196,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.decisions && detail.decisions.length > 0 && (
         <section id="work-decisions" className="section" aria-labelledby="decisions-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">05 / Key Choices</p>
-            <h2 id="decisions-title" className="section__title">几个关键的技术取舍。</h2>
+            <p className="caps section__index">05 / 技术取舍</p>
+            <h2 id="decisions-title" className="section__title">每个选择，都有不选的那一边。</h2>
           </div>
           <DecisionsAccordion decisions={detail.decisions} />
         </section>
@@ -206,8 +206,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.metrics && detail.metrics.length > 0 && (
         <section id="work-specs" className="section" aria-labelledby="specs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">06 / Hardcore Specs</p>
-            <h2 id="specs-title" className="section__title">实测数据与工程指标。</h2>
+            <p className="caps section__index">06 / 可复核读数</p>
+            <h2 id="specs-title" className="section__title">只放能从源码或测试里复核的读数。</h2>
           </div>
           <WorkEngineeringSpecs metrics={detail.metrics} />
         </section>
@@ -216,8 +216,8 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.tradeoffs && detail.tradeoffs.length > 0 && (
         <section id="work-tradeoffs" className="section" aria-labelledby="tradeoffs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">07 / Retrospective</p>
-            <h2 id="tradeoffs-title" className="section__title">复盘与后续演进。</h2>
+            <p className="caps section__index">07 / 回看与演进</p>
+            <h2 id="tradeoffs-title" className="section__title">哪些边界，我们没有藏起来。</h2>
           </div>
           <WorkTradeoffsDeck tradeoffs={detail.tradeoffs} />
         </section>
@@ -225,21 +225,10 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">08 / Related Tracks</p>
-          <h2 id="related-track-title" className="section__title">关联技术方向。</h2>
+          <p className="caps section__index">08 / 能力去向</p>
+          <h2 id="related-track-title" className="section__title">这件作品，通向哪些能力路径。</h2>
         </div>
-        <div className="related-grid" data-reveal="group">
-          {relatedTracks.map((track) => (
-            <Card key={track.slug}>
-              <p className="caps tabular">{track.index}</p>
-              <h3>{track.nameZh}</h3>
-              <p>{track.tagline}</p>
-              <Link className="text-link" href={`/tracks/${track.slug}`}>
-                查看方向详情 →
-              </Link>
-            </Card>
-          ))}
-        </div>
+        <WorkRelatedTracks tracks={relatedTracks} />
       </section>
 
       <nav id="work-switch" className="pager pager--with-overview" aria-label="项目切换" data-reveal="group">

@@ -1,120 +1,120 @@
 "use client";
 
-import { AlertCircle, CheckCircle2, Code2, Scale, Zap } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { ArrowDownRight, CheckCircle2, ChevronRight, Scale, Wrench } from "lucide-react";
+import { useState } from "react";
 
-import { ToolbarExpandable, type ToolbarStep } from "@/components/ui/toolbar-expandable";
 import type { WorkDecision } from "@/content/schema";
 
 interface DecisionsAccordionProps {
   decisions: WorkDecision[];
 }
 
+const SPRING = { type: "spring" as const, stiffness: 360, damping: 34, mass: 0.8 };
+
 export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
-  if (!decisions || decisions.length === 0) return null;
+  const reduceMotion = useReducedMotion();
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const steps: ToolbarStep[] = decisions.map((decision, index) => ({
-    id: `decision-${index}`,
-    title: decision.what,
-    tag: decision.tag,
-    content: (
-      <div className="space-y-4">
-        {/* Title & Core Reason */}
-        <div className="space-y-1">
-          <h4 className="text-base sm:text-lg font-bold tracking-tight text-[var(--fg)]">
-            {decision.what}
-          </h4>
-          {decision.why && (
-            <p className="text-xs sm:text-sm text-[var(--fg-muted)] font-sans leading-relaxed">
-              {decision.why}
-            </p>
-          )}
-        </div>
+  if (decisions.length === 0) return null;
 
-        {/* Problem-Solution-Tradeoff Blocks */}
-        {decision.problem || decision.solution || decision.impact ? (
-          <div className="space-y-3 pt-1">
-            {/* Problem / Context */}
-            {decision.problem && (
-              <div className="flex items-start gap-2.5 p-3 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)]">
-                <AlertCircle className="h-4 w-4 text-[var(--warn)] shrink-0 mt-0.5" />
-                <div className="space-y-0.5">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--warn)] font-semibold">
-                    遇到什么问题
-                  </p>
-                  <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
-                    {decision.problem}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Solution */}
-            {decision.solution && (
-              <div className="flex items-start gap-2.5 p-3 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)]">
-                <Zap className="h-4 w-4 text-[var(--accent)] shrink-0 mt-0.5" />
-                <div className="space-y-0.5">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--accent)] font-semibold">
-                    怎么解决的
-                  </p>
-                  <p className="font-sans text-xs text-[var(--fg)] leading-relaxed">
-                    {decision.solution}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Impact & Trade-off */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-              {decision.impact && (
-                <div className="flex items-start gap-2 p-2.5 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)]">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[var(--success)] shrink-0 mt-0.5" />
-                  <div className="space-y-0.5">
-                    <span className="font-mono text-[10px] uppercase text-[var(--success)] font-semibold">
-                      换来了什么
-                    </span>
-                    <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
-                      {decision.impact}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {decision.tradeoff && (
-                <div className="flex items-start gap-2 p-2.5 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)]">
-                  <Scale className="h-3.5 w-3.5 text-[var(--fg-faint)] shrink-0 mt-0.5" />
-                  <div className="space-y-0.5">
-                    <span className="font-mono text-[10px] uppercase text-[var(--fg-faint)] font-semibold">
-                      有什么代价
-                    </span>
-                    <p className="font-sans text-xs text-[var(--fg-muted)] leading-relaxed">
-                      {decision.tradeoff}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Technical Highlight Code Chip */}
-            {decision.highlight && (
-              <div className="flex items-center gap-2 p-2 px-3 rounded-[var(--radius-xs)] bg-[var(--surface)] border border-[var(--border)] font-mono text-[11px] text-[var(--fg)]">
-                <Code2 className="h-3.5 w-3.5 text-[var(--accent)] shrink-0" />
-                <span className="text-[var(--fg-faint)]">KEY CODE :: </span>
-                <code className="text-[var(--fg)] font-bold">{decision.highlight}</code>
-              </div>
-            )}
-          </div>
-        ) : null}
-      </div>
-    ),
-  }));
+  const active = activeIndex === null ? null : decisions[activeIndex];
 
   return (
-    <div className="decisions-toolbar-section my-4" data-reveal="group">
-      <ToolbarExpandable
-        steps={steps}
-        badgeText={`${decisions.length} KEY CHOICES`}
-        defaultActiveStep="decision-0"
-      />
+    <div className="choice-lens" data-reveal="group">
+      <div className="choice-lens__rail" aria-label="架构取舍">
+        {decisions.map((decision, index) => {
+          const selected = activeIndex === index;
+          return (
+            <button
+              type="button"
+              key={decision.what}
+              className="choice-lens__choice"
+              data-active={selected || undefined}
+              aria-pressed={selected}
+              onClick={() => setActiveIndex(selected ? null : index)}
+            >
+              {selected && (
+                <motion.span
+                  className="choice-lens__marker"
+                  layoutId="choice-lens-marker"
+                  transition={SPRING}
+                  aria-hidden="true"
+                />
+              )}
+              <span className="choice-lens__number tabular">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="choice-lens__label">
+                <span className="caps">{decision.tag ?? "技术取舍"}</span>
+                <strong>{decision.what}</strong>
+              </span>
+              <ChevronRight size={17} aria-hidden="true" />
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="choice-lens__stage" data-empty={!active || undefined}>
+        <AnimatePresence mode="wait" initial={false}>
+          {active ? (
+            <motion.div
+              key={active.what}
+              className="choice-lens__detail"
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -8 }}
+              transition={reduceMotion ? { duration: 0.01 } : { duration: 0.2 }}
+            >
+              <header>
+                <span className="caps">为什么这样选</span>
+                <h3>{active.why}</h3>
+              </header>
+              <div className="choice-lens__path">
+                {active.problem && (
+                  <div>
+                    <ArrowDownRight size={16} aria-hidden="true" />
+                    <span className="caps">先遇到</span>
+                    <p>{active.problem}</p>
+                  </div>
+                )}
+                {active.solution && (
+                  <div>
+                    <Wrench size={16} aria-hidden="true" />
+                    <span className="caps">于是这样做</span>
+                    <p>{active.solution}</p>
+                  </div>
+                )}
+                {active.impact && (
+                  <div>
+                    <CheckCircle2 size={16} aria-hidden="true" />
+                    <span className="caps">得到</span>
+                    <p>{active.impact}</p>
+                  </div>
+                )}
+                {active.tradeoff && (
+                  <div>
+                    <Scale size={16} aria-hidden="true" />
+                    <span className="caps">同时接受</span>
+                    <p>{active.tradeoff}</p>
+                  </div>
+                )}
+              </div>
+              {active.highlight && <code className="choice-lens__signature">{active.highlight}</code>}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              className="choice-lens__empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <span className="tabular">{String(decisions.length).padStart(2, "0")}</span>
+              <p>几次关键取舍，共同守住同一套工程约束。</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

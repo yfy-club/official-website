@@ -147,6 +147,8 @@ export const workSchema = z.object({
           z.object({
             title: z.string().min(2),
             detail: z.string().min(6),
+            boundary: z.string().min(6).optional(),
+            next: z.string().min(6).optional(),
           }),
         )
         .min(2)
