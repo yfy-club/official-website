@@ -1,6 +1,10 @@
 # 原始素材、群聊记录与汇报源文件（含敏感隐私与大文件）
 materials/
 
+# 本地参考组件库与原型
+cult-ui/
+
+
 # Dependencies
 node_modules/
 .pnp
