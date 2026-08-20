@@ -37,9 +37,6 @@ export function OrbitalGallery({
 
   const [containerWidth, setContainerWidth] = useState(1200);
   const [isMobile, setIsMobile] = useState(false);
-  const isDraggingRef = useRef(false);
-  const dragStartXRef = useRef(0);
-  const startProgressRef = useRef(0);
 
   const count = photos.length;
 
@@ -182,35 +179,60 @@ export function OrbitalGallery({
     };
   }, [count, goToIndex, isMobile, targetProgress, activeIndex]);
 
-  // Touch / Mouse Drag handlers
+  // Touch / Mouse Drag handlers with proper click differentiation
+  const isPointerDownRef = useRef(false);
+  const hasDraggedRef = useRef(false);
+  const dragStartXRef = useRef(0);
+  const startProgressRef = useRef(0);
+
   const handlePointerDown = (e: React.PointerEvent) => {
-    isDraggingRef.current = true;
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    isPointerDownRef.current = true;
+    hasDraggedRef.current = false;
     dragStartXRef.current = e.clientX;
     startProgressRef.current = targetProgress.get();
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current) return;
+    if (!isPointerDownRef.current) return;
     const deltaX = e.clientX - dragStartXRef.current;
-    // Map horizontal pixel drag to index progress
-    const dragSensitivity = isMobile ? 160 : 220;
-    const progressDelta = -deltaX / dragSensitivity;
-    targetProgress.set(clamp(startProgressRef.current + progressDelta, -0.5, count - 0.5));
+
+    // Only treat as drag when pointer moves past threshold
+    if (!hasDraggedRef.current && Math.abs(deltaX) > 6) {
+      hasDraggedRef.current = true;
+      try {
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+    }
+
+    if (hasDraggedRef.current) {
+      const dragSensitivity = isMobile ? 160 : 220;
+      const progressDelta = -deltaX / dragSensitivity;
+      targetProgress.set(clamp(startProgressRef.current + progressDelta, -0.5, count - 0.5));
+    }
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current) return;
-    isDraggingRef.current = false;
-    try {
-      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch {
-      // ignore
-    }
+    if (!isPointerDownRef.current) return;
+    isPointerDownRef.current = false;
 
-    const currentP = targetProgress.get();
-    const nearestIndex = clamp(Math.round(currentP), 0, count - 1);
-    goToIndex(nearestIndex);
+    if (hasDraggedRef.current) {
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {
+        // ignore
+      }
+
+      const currentP = targetProgress.get();
+      const nearestIndex = clamp(Math.round(currentP), 0, count - 1);
+      goToIndex(nearestIndex);
+
+      setTimeout(() => {
+        hasDraggedRef.current = false;
+      }, 80);
+    }
   };
 
   // Center active title pill in title track
@@ -318,18 +340,15 @@ export function OrbitalGallery({
                   filter: `blur(${currentBlur}px) brightness(${currentBrightness}%) saturate(${currentSaturation}%)`,
                   zIndex,
                   willChange: "transform, filter",
-                  transition: isDraggingRef.current
+                  transition: hasDraggedRef.current
                     ? "none"
                     : "border-color 0.3s ease, box-shadow 0.3s ease",
                 }}
                 onClick={(e) => {
-                  if (isDraggingRef.current) return;
+                  if (hasDraggedRef.current) return;
                   e.stopPropagation();
-                  if (isCenterFocus) {
-                    onSelectPhoto?.(photo);
-                  } else {
-                    goToIndex(i);
-                  }
+                  goToIndex(i);
+                  onSelectPhoto?.(photo);
                 }}
               >
                 <div className="relative w-full h-full bg-[var(--surface-2)]">
