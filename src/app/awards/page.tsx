@@ -100,18 +100,22 @@ export default function AwardsPage() {
         <CertArchive awards={certAwards} />
       </section>
 
-      <section id="awards-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
-        <div className="space-y-2 text-left">
-          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">04 // RECRUITMENT</p>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--fg)] leading-[1.15] m-0">
-            加入云飞扬技术战队，在国家级与省级学科竞赛中攻坚立项、斩获奖项。
-          </h2>
+      <section id="awards-join" className="border-t border-[var(--border)] pt-14 pb-16 mt-20" aria-label="加入社团" data-reveal="group">
+        <div className="space-y-4">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase m-0">
+            04 // RECRUITMENT
+          </p>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-12">
+            <h2 className="text-2xl sm:text-4xl lg:text-[2.5rem] font-bold tracking-tight text-[var(--fg)] leading-[1.18] m-0 max-w-4xl">
+              加入云飞扬技术战队，在国家级与省级学科竞赛中攻坚立项、斩获奖项。
+            </h2>
+            <Button asChild size="md" className="px-7 h-12 text-xs sm:text-sm font-bold shrink-0 self-start lg:self-center">
+              <Link href="/join">
+                立即投递申请 <ArrowRight aria-hidden="true" size={17} />
+              </Link>
+            </Button>
+          </div>
         </div>
-        <Button asChild size="md" className="px-7 h-12 text-xs sm:text-sm shrink-0">
-          <Link href="/join">
-            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
-          </Link>
-        </Button>
       </section>
     </main>
   );
