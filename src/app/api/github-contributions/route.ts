@@ -69,10 +69,10 @@ export async function GET() {
 
     const repos = (await reposRes.json()) as GithubRepo[];
 
-    // 2. 并行拉取各仓库的近半年 commits
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-    const sinceIso = sixMonthsAgo.toISOString();
+    // 2. 并行拉取各仓库的近一年 commits
+    const oneYearAgo = new Date();
+    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+    const sinceIso = oneYearAgo.toISOString();
 
     const commitPromises = repos.map(async (repo) => {
       try {
@@ -113,8 +113,8 @@ export async function GET() {
       dateMap.set(c.date, existing);
     }
 
-    // 4. 生成连续 180 天（6 个月）完整网格
-    const totalDays = 180;
+    // 4. 生成连续 52 周（364 天，近一年）完整全宽网格
+    const totalDays = 52 * 7 - 1; // 363 + today = 364 days (exact 52 weeks)
     const contributions: GithubContributionItem[] = [];
     const today = new Date();
 

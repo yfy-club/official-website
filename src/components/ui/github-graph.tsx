@@ -23,10 +23,10 @@ export interface GithubGraphProps {
 }
 
 // Generate realistic baseline contributions if no data provided
-function generateDefaultContributions(months = 6): GithubContribution[] {
+function generateDefaultContributions(months = 12): GithubContribution[] {
   const contributions: GithubContribution[] = [];
   const today = new Date();
-  const totalDays = months * 30;
+  const totalDays = Math.max(52 * 7 - 1, months * 30);
 
   // Key milestones
   const milestones: Record<string, string> = {
@@ -38,6 +38,9 @@ function generateDefaultContributions(months = 6): GithubContribution[] {
     "90": "智学伴大模型 RAG 向量召回优化",
     "120": "蓝桥杯省一等奖赛前高强度模拟",
     "150": "年度全员复盘与新人导师带学启动",
+    "200": "仓库统一重构与工业规范升级",
+    "240": "暑期集训算法攻坚与工程实战",
+    "300": "智能硬件与云平台端到端联调",
   };
 
   for (let i = totalDays; i >= 0; i--) {
@@ -108,7 +111,7 @@ const COLOR_MAPS = {
 
 export function GithubGraph({
   data,
-  months = 6,
+  months = 12,
   variant = "emerald",
   className,
   showLegend = true,
@@ -218,7 +221,7 @@ export function GithubGraph({
           <div className="flex items-center gap-4 text-[var(--fg-muted)]">
             <div className="flex items-center gap-1.5">
               <GitCommit className="h-3.5 w-3.5 text-[var(--accent)]" />
-              <span>近半年审码与提交：</span>
+              <span>近一年审码与提交：</span>
               <strong className="text-[var(--fg)]">{totalCommits}+ 次</strong>
             </div>
             <div className="flex items-center gap-1.5">
@@ -230,18 +233,18 @@ export function GithubGraph({
         </div>
       )}
 
-      {/* Grid view */}
+      {/* Grid view - 全宽自适应拉伸 */}
       <div className="overflow-x-auto no-scrollbar pb-2">
-        <div className="flex gap-[3px] min-w-max">
+        <div className="flex gap-[3px] sm:gap-1 w-full min-w-[700px]">
           {weeks.map((week, weekIdx) => (
-            <div key={weekIdx} className="flex flex-col gap-[3px]">
+            <div key={weekIdx} className="flex-1 flex flex-col gap-[3px] sm:gap-1">
               {week.map((day) => (
                 <div
                   key={day.date}
                   onMouseEnter={() => setHoveredDay(day)}
                   onMouseLeave={() => setHoveredDay(null)}
                   className={cn(
-                    "h-3 w-3 sm:h-3.5 sm:w-3.5 rounded-[2px] border transition-all cursor-pointer",
+                    "w-full aspect-square rounded-[2px] border transition-all cursor-pointer",
                     colors[day.level],
                     "hover:scale-125 hover:z-10 hover:shadow-xs"
                   )}
