@@ -2,7 +2,13 @@
 
 import { Activity, CheckCircle, ShieldCheck, Zap } from "lucide-react";
 
-import { CardFrame, CardPanel } from "@/components/ui/card";
+import {
+  CutoutCard,
+  CutoutCardAction,
+  CutoutCardContent,
+  CutoutCardPin,
+  CutoutCorner,
+} from "@/components/ui/cutout-card";
 import type { WorkMetric } from "@/content/schema";
 
 interface WorkEngineeringSpecsProps {
@@ -43,34 +49,39 @@ export function WorkEngineeringSpecs({ metrics }: WorkEngineeringSpecsProps) {
   if (!metrics || metrics.length === 0) return null;
 
   return (
-    <div className="work-engineering-specs space-y-4" data-reveal="group">
+    <div className="work-engineering-specs space-y-4 my-6" data-reveal="group">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {metrics.map((metric, idx) => {
           const statusKey = metric.status ?? (idx % 2 === 0 ? "verified" : "hardened");
           const status = STATUS_CONFIG[statusKey] ?? STATUS_CONFIG.verified;
           const progressVal = metric.progress ?? 100;
+          const StatusIcon = status.icon;
 
           return (
-            <CardFrame
+            <CutoutCard
               key={metric.label}
-              className="group/spec-card flex flex-col justify-between border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs overflow-hidden"
+              className="flex flex-col justify-between relative overflow-hidden bg-[var(--surface)] hover:border-[var(--border-strong)]"
             >
-              {/* Card Header */}
-              <div className="flex items-center justify-between gap-2 px-4 py-3 bg-[var(--surface-2)]/35 border-b border-[var(--border)] font-mono text-[10px]">
-                <span className="font-bold text-[var(--accent)] tracking-wider">
-                  0{idx + 1} {"//"} {metric.tag ?? "SPEC"}
+              {/* Cutout Top-Right Status Pin */}
+              <CutoutCardPin className="top-0 right-0 rounded-bl-[14px] bg-[var(--surface-2)] border-b border-l border-[var(--border)] px-3 py-1.5 flex items-center gap-1.5">
+                <span className={`h-1.5 w-1.5 rounded-full ${status.dotClass} animate-pulse`} />
+                <span className={`font-mono text-[9px] font-bold tracking-wider ${status.textClass}`}>
+                  {status.label}
                 </span>
+                <CutoutCorner className="absolute -left-[20px] top-0 text-[var(--surface-2)]" size={20} />
+                <CutoutCorner className="absolute right-0 -bottom-[20px] text-[var(--surface-2)]" size={20} />
+              </CutoutCardPin>
 
-                <div className="flex items-center gap-1.5 font-semibold">
-                  <span className={`h-1.5 w-1.5 rounded-full ${status.dotClass} animate-pulse`} />
-                  <span className={status.textClass}>{status.label}</span>
+              {/* Metric Card Body */}
+              <CutoutCardContent className="p-0 space-y-4">
+                {/* Index tag */}
+                <div className="font-mono text-[10px] text-[var(--accent)] font-bold tracking-wider">
+                  0{idx + 1} {"//"} {metric.tag ?? "SPEC"}
                 </div>
-              </div>
 
-              {/* Metric Body */}
-              <CardPanel className="p-4 sm:p-5 flex flex-col justify-between flex-1 gap-3">
+                {/* Big Metric Value */}
                 <div className="space-y-1">
-                  <div className="text-2xl sm:text-3xl font-bold font-mono text-[var(--fg)] tracking-tight tabular leading-tight group-hover/spec-card:text-[var(--accent)] transition-colors">
+                  <div className="text-2xl sm:text-3xl font-bold font-mono text-[var(--fg)] tracking-tight tabular leading-tight group-hover/cutout:text-[var(--accent)] transition-colors">
                     {metric.value}
                   </div>
                   <div className="text-xs font-mono font-medium text-[var(--fg-muted)] uppercase tracking-wider">
@@ -78,7 +89,7 @@ export function WorkEngineeringSpecs({ metrics }: WorkEngineeringSpecsProps) {
                   </div>
                 </div>
 
-                {/* Coss-inspired Industrial Meter Gauge */}
+                {/* Micro Gauge Meter */}
                 <div className="space-y-1 pt-1" aria-hidden="true">
                   <div className="h-1.5 w-full bg-[var(--surface-2)] rounded-full overflow-hidden border border-[var(--border)]/50">
                     <div
@@ -98,8 +109,17 @@ export function WorkEngineeringSpecs({ metrics }: WorkEngineeringSpecsProps) {
                     {metric.description}
                   </p>
                 )}
-              </CardPanel>
-            </CardFrame>
+              </CutoutCardContent>
+
+              {/* Hover Action Reveal */}
+              <CutoutCardAction className="pt-3 border-t border-[var(--border)]/40 mt-3 flex items-center justify-between text-[10px] font-mono text-[var(--fg-muted)]">
+                <span className="flex items-center gap-1 text-[var(--accent)]">
+                  <StatusIcon className="h-3 w-3" />
+                  <span>SPEC CERTIFIED</span>
+                </span>
+                <span>0{idx + 1} / 0{metrics.length}</span>
+              </CutoutCardAction>
+            </CutoutCard>
           );
         })}
       </div>
