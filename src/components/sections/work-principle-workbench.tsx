@@ -5,6 +5,7 @@ import { Braces, Check, ChevronDown, Copy, Terminal } from "lucide-react";
 import { useState } from "react";
 
 import type { WorkPrinciple } from "@/content/schema";
+import { MathFormula } from "@/components/ui/math-formula";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 
 interface WorkPrincipleWorkbenchProps {
@@ -127,7 +128,11 @@ export function WorkPrincipleWorkbench({
                             </button>
                           )}
                         </div>
-                        {item.formula && <code className="kernel-slice__formula">{item.formula}</code>}
+                        {item.formula && (
+                          <div className="kernel-slice__formula py-2 px-3 rounded-[var(--radius-2xs)] bg-[var(--surface-2)] border border-[var(--border)] overflow-x-auto my-2">
+                            <MathFormula formula={item.formula} displayMode={true} />
+                          </div>
+                        )}
                         {item.codeSnippet && <pre><code>{item.codeSnippet}</code></pre>}
                       </div>
                     )}

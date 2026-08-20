@@ -52,4 +52,21 @@ describe("track deep dives content & schema", () => {
       expect(deepDive.trackName).toBe(track.nameZh);
     }
   });
+
+  it("validates that all mathematical formulas compile cleanly with KaTeX", async () => {
+    const katex = (await import("katex")).default;
+
+    for (const deepDive of Object.values(trackDeepDives)) {
+      for (const concept of deepDive.concepts) {
+        if (concept.formula) {
+          const rendered = katex.renderToString(concept.formula, {
+            throwOnError: true,
+            displayMode: false,
+          });
+          expect(rendered).toContain("katex");
+          expect(rendered.length).toBeGreaterThan(10);
+        }
+      }
+    }
+  });
 });

@@ -18,6 +18,7 @@ import {
 import { TrackArchitectureVisualizer } from "@/components/motion/track-architecture-visualizer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { MathFormula } from "@/components/ui/math-formula";
 import type { TrackDeepDive } from "@/content";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { cn } from "@/lib/utils";
@@ -124,17 +125,17 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
 
           {/* 核心公式紧凑预览栏 (Formula Preview) */}
           {currentConcept.formula && (
-            <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="space-y-1">
+            <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1.5 min-w-0 flex-1">
                 <span className="text-[11px] font-mono text-[var(--fg-faint)] uppercase tracking-wider block">
-                  MATHEMATICAL PRINCIPLE // 数学定义
+                  {"MATHEMATICAL PRINCIPLE // 数学定义"}
                 </span>
-                <div className="font-mono text-sm sm:text-base font-bold text-[var(--fg)] tracking-wide">
-                  {currentConcept.formula}
+                <div className="text-sm sm:text-base text-[var(--fg)] overflow-x-auto overflow-y-hidden no-scrollbar py-2 min-h-[2.75rem] flex items-center">
+                  <MathFormula formula={currentConcept.formula} displayMode={false} />
                 </div>
               </div>
               {currentConcept.formulaDescription && (
-                <span className="text-xs text-[var(--fg-muted)] font-mono sm:text-right max-w-xs">
+                <span className="text-xs text-[var(--fg-muted)] font-mono md:text-right max-w-xs shrink-0">
                   {currentConcept.formulaDescription}
                 </span>
               )}

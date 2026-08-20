@@ -12,6 +12,7 @@ import { awards, club } from "@/content";
 import { siteUrl } from "@/lib/seo";
 
 import "./globals.css";
+import "katex/dist/katex.min.css";
 
 const display = localFont({
   src: "../../public/fonts/InstrumentSerif-Regular.woff2",

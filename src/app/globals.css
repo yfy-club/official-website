@@ -2107,3 +2107,28 @@ button, a, [role='button'] {
 @media (min-width: 1280px) {
   .trajectory-rail { display: block; }
 }
+
+/* ==========================================================================
+   Math Formula & KaTeX Customizations
+   ========================================================================== */
+.math-formula {
+  overflow-y: hidden;
+  vertical-align: middle;
+}
+
+.math-formula .katex {
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: inherit;
+  text-rendering: auto;
+}
+
+.math-formula .katex-display {
+  margin: 0.25rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.math-formula .katex-html {
+  overflow-y: hidden;
+}
