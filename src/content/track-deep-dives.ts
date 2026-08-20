@@ -3,6 +3,7 @@ import type { Track } from "./schema";
 export interface TrackConcept {
   code: string;
   title: string;
+  shortTitle?: string;
   question: string;
   summary: string;
   mechanism: string;
@@ -42,7 +43,8 @@ export const trackDeepDives: Record<string, TrackDeepDive> = {
     concepts: [
       {
         code: "AI_NN_01",
-        title: "全连接层与反向传播：计算图上的梯度流动",
+        title: "全连接层与反向传播",
+        shortTitle: "全连接网络",
         question: "为什么深层网络不能仅由线性层堆叠，且必须严格设计激活函数？",
         summary: "线性变换的复合仍是线性变换。深层网络的表达能力依赖非线性激活函数，而反向传播通过链式法则将损失函数的误差梯度逐层反传更新权重矩阵。",
         mechanism: "全连接层（Dense/Linear Layer）执行仿射变换 z = W · x + b，并通过非线性激活函数 a = σ(z) 引入特征空间的非线性扭曲。在反向传播中，基于链式求导法则，第 l 层的误差敏感度 δ^[l] 通过权重转置与下一层敏感度点乘得到。选择 GELU 或 LeakyReLU 能有效避免深层网络中的梯度消失（Vanishing Gradient）与神经元坏死问题。",
@@ -79,7 +81,8 @@ class CustomDenseLayer(nn.Module):
       },
       {
         code: "AI_ATTN_02",
-        title: "Transformer 自注意力机制：Scaled Dot-Product Attention",
+        title: "自注意力机制与 Transformer",
+        shortTitle: "自注意力",
         question: "为什么自注意力计算必须除以根号 d_k？它如何突破 RNN 的时序计算瓶颈？",
         summary: "自注意力机制废除了序列依赖的循环结构，通过 Q 与 K 的缩放点积计算全局上下文关联度，并行加权聚合 Value 向量，彻底释放 GPU 矩阵并行算力。",
         mechanism: "输入矩阵经投影生成 Query (Q)、Key (K) 与 Value (V)。点积 QK^T 计算词对间的相似度得分。当隐层维度 d_k 较大时，点积的方差会随之增大，将 Softmax 函数推向梯度极小的饱和区。除以 √d_k 能够使方差保持为 1，确保反向传播梯度的稳定流动。多头机制（Multi-Head）允许模型在不同子空间同时捕获语法与语义多重关联。",
@@ -114,7 +117,8 @@ def scaled_dot_product_attention(q, k, v, mask=None):
       },
       {
         code: "AI_CV_03",
-        title: "目标检测与边缘量化：YOLO 与 TensorRT 落地",
+        title: "目标检测与边缘量化",
+        shortTitle: "目标检测",
         question: "工业缺陷检测如何兼顾微小瑕疵的微米级检出率与 100 FPS 的严苛产线节拍？",
         summary: "结合 PANet 双向特征金字塔与跨尺度特征融合，在 Anchor-Free 架构下运用 CIOU 损失函数与 TensorRT INT8 对称量化，实现边缘端亚毫秒级目标检测。",
         mechanism: "现代检测器采用主干网络提取多尺度特征，PANet 将浅层高分辨率纹理信息与深层丰富语义特征进行自顶向下与自底向上的双向融合。预测层直接回归中心点偏移与高宽。在边缘端部署时，通过校准数据集收集激活值分布，运用 KL 散度（相对熵）最小化量化误差，将 FP32 权重量化至 INT8，推理吞吐量提升 3-4 倍。",
@@ -155,7 +159,8 @@ def build_int8_engine(onnx_file_path, calibrator):
     concepts: [
       {
         code: "SW_DIST_01",
-        title: "分布式 ID 与一致性哈希：数据分片与路由",
+        title: "分布式 ID 与一致性哈希",
+        shortTitle: "分布式 ID",
         question: "在千万级高并发写入场景下，如何保证全局 ID 严格单调递增且分库分表负载均匀？",
         summary: "采用 Snowflake 雪花算法按时间戳+机器码+序列号位运算生成 64-bit 唯一 ID，配合虚拟节点一致性哈希环，在节点扩缩容时最小化数据迁移扰动。",
         mechanism: "Snowflake ID 将 64 位分为 1 位符号位、41 位时间戳（毫秒级，可用 69 年）、10 位机器工作节点 ID 与 12 位自增序列号（单节点每毫秒可生成 4096 个 ID）。分库分表路由采用带有虚拟节点（Virtual Nodes）的一致性哈希环，将哈希空间映射到 0 ~ 2^32-1，有效消除由于物理节点较少导致的数据倾斜问题，节点增删时仅影响相邻区间数据。",
@@ -198,7 +203,8 @@ def build_int8_engine(onnx_file_path, calibrator):
       },
       {
         code: "SW_CACHE_02",
-        title: "多级缓存与并发击穿防护：SingleFlight 模式",
+        title: "多级缓存与并发击穿防护",
+        shortTitle: "多级缓存",
         question: "当高热度热点 Key 突然在缓存中过期失效时，如何防止十万 QPS 请求瞬间打垮底层数据库？",
         summary: "构建内存级 Local Cache + 分布式 Redis 二级缓存，利用 SingleFlight 并发归并技术确保同时间同 Key 的请求仅由单一协程穿透回源，其余请求共享返回结果。",
         mechanism: "在缓存击穿场景下，成百上千个并发请求发现缓存 Miss 时会同时尝试查询数据库并回写缓存。SingleFlight 模式维护一个互斥锁与以 Key 为标识的正在执行调用的映射表（Call Map）。首个请求进入后注册 Call 对象并释放大锁开始查库，后续相同 Key 的请求直接阻塞等待首个调用的完成事件，从而将压入 DB 的请求量从 N 骤降至 1。",
@@ -235,7 +241,8 @@ def build_int8_engine(onnx_file_path, calibrator):
       },
       {
         code: "SW_AGENT_03",
-        title: "AI 智能体调度管道：ReAct Loop 与结构化契约",
+        title: "AI 智能体调度管道",
+        shortTitle: "AI 智能体",
         question: "大模型如何从泛化的对话生成进化为具备自主调用 API、解析错误并自我修正的工程智能体？",
         summary: "构建基于 ReAct（Thought → Action → Observation）的状态机控制循环，以严密的 JSON Schema 作为工具契约，配合流式 SSE 实现交互反馈。",
         mechanism: "智能体框架首先将可用工具（Tools）的 JSON Schema 注入系统上下文。大模型在每轮生成中先输出结构化思考（Thought）与行动指令（Action: function_name + arguments）。调度器拦截指令并在受控沙箱中执行对应函数，将返回结果包装为观察（Observation）回传给模型。循环直到模型输出 Final Answer 或触发最大迭代步数保护机制。",
@@ -281,7 +288,8 @@ export async function executeAgentStep(prompt: string, toolsRegistry: Map<string
     concepts: [
       {
         code: "DB_BTREE_01",
-        title: "B+ 树物理页结构与中位分裂：磁盘 I/O 的最优化",
+        title: "B+ 树物理页结构与中位分裂",
+        shortTitle: "B+ 树索引",
         question: "为什么数据库索引普遍选择 B+ 树而不是二叉搜索树（BST）或红黑树（Red-Black Tree）？",
         summary: "磁盘以页（Page, 通常 16KB）为最小物理读取单位。B+ 树拥有高达数百的高分支因子（Fan-out），将数千万数据的树高压制在 3-4 层，同时叶子节点的双向链表使范围扫描具备极致的顺序 I/O 吞吐。",
         mechanism: "二叉树由于分支因子仅为 2，树高随数据量增长极快，每次节点寻址均触发一次昂贵的随机磁盘 I/O。B+ 树的非叶子节点只存储键值（Key）和子节点指针（Pointer），一个 16KB 页可容纳千余个路由项。所有实际数据记录均保存在叶子节点中，叶子节点之间通过双向链表相连。当向已满的叶子页插入新记录时，触发 50/50 中位分裂（Page Split），并将中间键提升至父节点。",
@@ -324,7 +332,8 @@ export async function executeAgentStep(prompt: string, toolsRegistry: Map<string
       },
       {
         code: "DB_MVCC_02",
-        title: "MVCC 多版本并发控制与 ReadView 快照读",
+        title: "MVCC 多版本并发控制与快照读",
+        shortTitle: "MVCC 版本链",
         question: "在可重复读（RR）隔离级别下，读操作如何做到完全不加锁就能避免脏读与不可重复读？",
         summary: "InnoDB 依靠聚簇索引中的隐藏列（DB_TRX_ID、DB_ROLL_PTR）结合 Undo Log 构建版本链，配合事务启动时生成的 ReadView 活跃事务快照进行可见性判定，实现读写互不阻塞。",
         mechanism: "每行记录均包含 6 字节事务 ID（DB_TRX_ID）与 7 字节回滚指针（DB_ROLL_PTR）。更新操作会在 Undo Log 中写入历史版本并将回滚指针串联成单向版本链。快照读时，系统生成 ReadView，记录当前活跃且未提交的事务 ID 列表（m_ids）、最小活跃 ID（min_trx_id）及下一个分配 ID（max_trx_id）。遍历版本链，若某版本的 trx_id < min_trx_id 或已提交，则该版本可见。",
@@ -360,7 +369,8 @@ export async function executeAgentStep(prompt: string, toolsRegistry: Map<string
       },
       {
         code: "DB_WAL_03",
-        title: "WAL 预写日志与 ARIES 崩溃恢复机制",
+        title: "WAL 预写日志与崩溃恢复机制",
+        shortTitle: "WAL 预写日志",
         question: "为什么数据库崩溃时尚未写入数据文件的脏页（Dirty Pages）可以通过 Redo Log 完美恢复且不丢数据？",
         summary: "遵循 WAL 原则：日志必须先于数据落盘。Redo Log 采用物理日志顺序追加，具有极高的磁盘吞吐，结合 LSN 检查点机制保障系统掉电时的原子性与持久性（Atomicity & Durability）。",
         mechanism: "修改内存缓冲池（Buffer Pool）中的数据页前，必须先将对应的物理修改记录写入 Redo Log Buffer，并在事务提交时执行一次 fsync 顺序刷盘。由于顺序写入速度远超随机写入数据文件，系统允许脏页在内存中延迟合并刷新。恢复阶段基于 ARIES 算法执行三阶段：分析阶段（Analysis）确认脏页与活跃事务、重做阶段（Redo）基于 LSN 幂等重放物理修改、回滚阶段（Undo）利用 Undo Log 撤销未提交事务。",
@@ -398,7 +408,8 @@ SHOW ENGINE INNODB STATUS;
     concepts: [
       {
         code: "IOT_MQTT_01",
-        title: "MQTT 协议状态机与 QoS 0/1/2 握手：不可靠网络下的可靠通信",
+        title: "MQTT 协议状态机与 QoS 握手",
+        shortTitle: "MQTT 协议",
         question: "在弱网易掉线的工业无线场景中，MQTT QoS 2 是如何通过四步报文握手确保消息有且仅有一次（Exactly Once）到达？",
         summary: "MQTT 基于轻量级发布/订阅模型。QoS 0 至多一次，QoS 1 至少一次（可能重传重发），QoS 2 则通过 PUBLISH → PUBREC → PUBREL → PUBCOMP 状态机闭环消除重复消费。",
         mechanism: "在 QoS 2 流程中，客户端发送带有 Packet Identifier 的 PUBLISH 报文并保存状态；Broker 收到后暂存消息并返回 PUBREC（发布已收到）；客户端收到后释放原始报文并发送 PUBREL（发布释放）；Broker 收到 PUBREL 后将消息向下游订阅者投递，并回传 PUBCOMP（发布完成）。双向状态确认彻底消除了网络超时重传导致的重复消息与乱序。",
@@ -439,7 +450,8 @@ export class MqttQos2PacketHandler {
       },
       {
         code: "IOT_EDGE_02",
-        title: "边缘计算流式过滤与 Protobuf 二进制编解码",
+        title: "边缘计算流式过滤与编解码",
+        shortTitle: "边缘滤波",
         question: "为什么工业边缘网关必须在本地进行降采样与异常滑动窗口过滤，而不是将全部原始采集数据直传云端？",
         summary: "高频传感器产生海量冗余数据，直接上云会迅速耗尽蜂窝带宽与云存储预算。在边缘端利用滑动窗口均值滤波与 Google Protocol Buffers 二进制压缩，可降低 80% 以上的网络带宽负荷。",
         mechanism: "边缘网关（如运行 EdgeX Foundry 的嵌入式 Linux 设备）在采集到 100Hz 原始高频振动与电流数据后，维护一个基于时间维度的滑动窗口（Sliding Window）。仅当指标偏离基线设定阈值（3-Sigma 异常）或到达固定降采样聚合心跳时才触发打包。数据使用 Protobuf 序列化为紧凑的 Varint 二进制字节流，相比冗长的 JSON 报文体积压缩 60%-75%。",
@@ -474,7 +486,8 @@ message DeviceTelemetry {
       },
       {
         code: "IOT_TSDB_03",
-        title: "时序数据库 LSM/TSM 树结构与降采样聚合",
+        title: "时序数据库存储引擎与降采样",
+        shortTitle: "时序中枢",
         question: "时序数据（Time Series）具备高频写入、极少修改、强时间关联的特性，为什么专用 TSDB 的写入速度能超越传统关系型数据库百倍？",
         summary: "TSDB 针对按时间递增的单调数据流优化，采用内存 MemTable 缓冲 + 顺序追加 TSM 文件，利用 Gorilla 浮点异或压缩与 Delta-of-Delta 时间戳压缩，将单条时序指标压缩至 1.5 字节以内。",
         mechanism: "时序数据无随机 UPDATE，几乎全为按时间顺序的批量 INSERT。TSDB（如 InfluxDB/TDengine）采用专用的 TSM 存储引擎，将数据按 Tag（设备维度）与 Field（指标维度）分块连续存储。时间戳通过相邻二阶差分（Delta-of-Delta）编码，稳定周期的差分值直接编码为 0 仅占 1 bit；浮点数据通过与前一值异或（XOR）仅保存有效变化位，实现超高压缩比与极速范围查询。",
@@ -513,7 +526,8 @@ END;`,
     concepts: [
       {
         code: "IND_CALIB_01",
-        title: "机械臂手眼标定与齐次坐标变换：AX = XB 求解",
+        title: "机械臂手眼标定与齐次变换",
+        shortTitle: "手眼标定",
         question: "在工业视觉引导抓取中，如何精确计算出相机坐标系、机械臂末端与工业基座之间的空间映射矩阵？",
         summary: "手眼标定（Hand-Eye Calibration）将相机拍摄到的像素物料坐标转换为机械臂基座执行坐标，通过多姿态采集建立 AX = XB 刚体矩阵方程，利用四元数或旋转向量分解求解空间旋转平移量。",
         mechanism: "设 A 为机械臂末端在两次动作之间的相对位姿变换矩阵（来自机械臂正运动学编码器），B 为标定板在相机坐标系下的相对位姿变换矩阵（来自 OpenCV PnP 算法）。未知的相机与机械臂安装关系矩阵 X 满足 AX = XB。通过采集 3 组以上非平行轴旋转位姿，采用 Tsai-Lenz 或 Dual Quaternion（双四元数）算法分离求解旋转矩阵 R 与平移向量 t，标定精度可达 0.05mm。",
@@ -554,7 +568,8 @@ void calibrate_robot_hand_eye(
       },
       {
         code: "IND_OPC_02",
-        title: "OPC-UA 工业通信与信息模型：跨协议互联底座",
+        title: "OPC-UA 工业通信与信息模型",
+        shortTitle: "OPC-UA 总线",
         question: "面对现场西门子、三菱、欧姆龙等数十种专有协议林立的产线，OPC-UA 是如何统一数据语义与毫秒级防抖采集的？",
         summary: "OPC-UA 废除了传统依赖 Windows DCOM 的旧架构，基于面向对象的节点地址空间（AddressSpace）建立标准化类型模型，采用高效二进制 TCP 通信并支持基于订阅与死区（Deadband）的事件推送。",
         mechanism: "OPC-UA 将工业对象抽象为带有属性（Attributes）和引用关系（References）的节点（Node）。客户端无需高频主动轮询，而是向服务端创建订阅（Subscription）与监控项（MonitoredItem）。通过设置绝对死区或百分比死区（Deadband），当传感器模拟量波动在正常工业噪声范围内时不产生网络报文，仅当数值跨越阈值或状态改变时立即通过二进制通道毫秒级推送至 SCADA/MES 系统。",
@@ -592,7 +607,8 @@ async def main():
       },
       {
         code: "IND_VISION_03",
-        title: "工业机器视觉：亚像素边缘提取与瑕疵检测",
+        title: "工业机器视觉与亚像素检测",
+        shortTitle: "亚像素检测",
         question: "当工业工件边缘由于光学模糊和像素离散化导致边界存在 1-2 像素模糊时，如何达到 ±0.02 像素的亚微米级测量精度？",
         summary: "传统整像素边缘检测受限于相机物理分辨率；利用 Zernike 正交矩或多项式曲面拟合插值，从连续灰度梯度场中精确计算亚像素物理交界坐标。",
         mechanism: "整像素 Canny 算子仅能在离散网格上寻找极大值点。亚像素算法在整像素粗定位的基础上，利用边缘邻域的灰度剖面符合误差函数（Error Function）的物理特性，通过 Zernike 空间正交矩投影计算边缘的法线方向与距像素中心的真实偏置量 h，将边缘坐标从整数推升至浮点精度，使普通千万像素工业相机即可达到接触式三坐标测量机的检测精度。",

@@ -16,6 +16,7 @@ const stageSchema = z.object({
 export const trackConceptSchema = z.object({
   code: z.string(),
   title: z.string().min(2),
+  shortTitle: z.string().min(2).optional(),
   question: z.string().min(5),
   summary: z.string().min(10),
   mechanism: z.string().min(20),

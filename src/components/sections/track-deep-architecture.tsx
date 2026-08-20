@@ -56,7 +56,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
         <div className="flex items-center gap-2 p-1.5 rounded-[var(--radius-sm)] bg-[var(--surface-2)] border border-[var(--border)] overflow-x-auto no-scrollbar">
           {concepts.map((concept, idx) => {
             const isActive = activeConceptIndex === idx;
-            const shortTitle = concept.title.split("：")[0]?.trim() || concept.title;
+            const displayTitle = concept.shortTitle || concept.title.split("：")[0]?.trim() || concept.title;
 
             return (
               <button
@@ -64,14 +64,14 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                 type="button"
                 onClick={() => handleConceptChange(idx)}
                 className={cn(
-                  "relative z-10 flex-1 min-w-[160px] flex items-center justify-center gap-2.5 py-3 px-4 rounded-[var(--radius-xs)] text-xs sm:text-sm font-mono transition-all whitespace-nowrap cursor-pointer",
+                  "relative z-10 flex-1 min-w-[120px] flex items-center justify-center gap-2 py-2.5 px-3.5 rounded-[var(--radius-xs)] text-xs sm:text-sm font-mono transition-all whitespace-nowrap cursor-pointer",
                   isActive
                     ? "text-[var(--fg)] font-bold shadow-xs"
                     : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
                 )}
               >
-                <span className="text-[11px] text-[var(--accent)] font-semibold">{`0${idx + 1} //`}</span>
-                <span>{shortTitle}</span>
+                <span className="text-[11px] text-[var(--accent)] font-semibold">{`0${idx + 1}`}</span>
+                <span>{displayTitle}</span>
 
                 {isActive && (
                   <motion.div
@@ -194,7 +194,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                       <div className="flex items-center gap-2">
                         <Code2 size={16} className="text-[var(--accent)]" />
                         <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                          核心工程源码实现 // CODE IMPLEMENTATION ({currentConcept.codeSnippet.language.toUpperCase()})
+                          工程源码 // {currentConcept.codeSnippet.language.toUpperCase()}
                         </h4>
                       </div>
                       <span className="text-xs font-mono text-[var(--fg-faint)]">

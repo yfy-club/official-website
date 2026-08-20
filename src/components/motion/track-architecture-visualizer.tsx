@@ -122,7 +122,7 @@ export function TrackNeuralNetworkVisualizer() {
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            全连接网络 (Dense MLP)
+            全连接网络
           </button>
           <button
             type="button"
@@ -134,7 +134,7 @@ export function TrackNeuralNetworkVisualizer() {
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            Transformer 自注意力 (Self-Attention)
+            自注意力
           </button>
         </div>
       </div>
@@ -564,7 +564,7 @@ export function TrackBTreeVisualizer() {
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            B+ 树页索引 (Index Tree)
+            B+ 树索引
           </button>
           <button
             type="button"
@@ -576,7 +576,7 @@ export function TrackBTreeVisualizer() {
                 : "text-[var(--fg-muted)] hover:text-[var(--fg)]",
             )}
           >
-            MVCC 版本链 (Undo Log)
+            MVCC 版本链
           </button>
         </div>
       </div>
