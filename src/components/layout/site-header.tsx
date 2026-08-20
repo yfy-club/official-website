@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { useBlueprintEasterEgg } from "@/hooks/use-blueprint-easter-egg";
 import { MobileNav } from "./mobile-nav";
 import { navItems } from "./nav-items";
 import { ThemeToggle } from "./theme-toggle";
@@ -13,6 +14,7 @@ import { ThemeToggle } from "./theme-toggle";
 export function SiteHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState<boolean | null>(null);
+  const { handleTriggerClick } = useBlueprintEasterEgg();
 
   useEffect(() => {
     const syncScroll = () => setScrolled(window.scrollY > 24);
@@ -33,7 +35,12 @@ export function SiteHeader() {
       data-scrolled={scrolled === null ? undefined : String(scrolled)}
     >
       <div className="site-header__inner page-shell">
-        <Link className="site-header__brand" href="/" aria-label="YFY 云飞扬社团首页">
+        <Link
+          className="site-header__brand cursor-pointer select-none active:scale-[0.94] transition-transform"
+          href="/"
+          onClick={handleTriggerClick}
+          aria-label="YFY 云飞扬社团首页"
+        >
           YFY
         </Link>
         <div className="site-header__nav">

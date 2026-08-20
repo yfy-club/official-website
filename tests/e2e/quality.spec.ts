@@ -855,3 +855,24 @@ test("site footer exposes Code by Dawn easter egg activating 5-second blueprint 
   await expect(page.locator("html")).not.toHaveClass(/mode-blueprint/);
   await expect(page.getByText("SYS // BLUEPRINT_RESTORED", { exact: true })).toBeVisible();
 });
+
+test("site header YFY brand triggers 5-second blueprint mode on 5 rapid clicks", async ({ page }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const headerBrand = page.getByRole("link", { name: "YFY 云飞扬社团首页" });
+  await expect(headerBrand).toBeVisible();
+
+  // Rapidly click 5 times to trigger easter egg
+  for (let i = 0; i < 5; i++) {
+    await headerBrand.click();
+  }
+
+  // Verify blueprint mode is active
+  await expect(page.locator("html")).toHaveClass(/mode-blueprint/);
+  await expect(page.getByText("SYS // BLUEPRINT_OVERRIDE", { exact: true })).toBeVisible();
+
+  // Verify Escape key terminates blueprint mode early
+  await page.keyboard.press("Escape");
+  await expect(page.locator("html")).not.toHaveClass(/mode-blueprint/);
+  await expect(page.getByText("SYS // BLUEPRINT_RESTORED", { exact: true })).toBeVisible();
+});
