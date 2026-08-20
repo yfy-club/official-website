@@ -1393,21 +1393,6 @@ button, a, [role='button'] {
 .about-culture {
   margin-top: var(--space-10);
 }
-.culture-orbit-stage {
-  position: relative;
-  width: 100%;
-  margin-top: var(--space-6);
-  padding: var(--space-6) 0 var(--space-8);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-md);
-  background: radial-gradient(ellipse 95% 75% at 50% 35%, color-mix(in srgb, var(--surface-2), black 6%) 0%, var(--surface) 100%);
-  box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.12), var(--inner-highlight);
-  overflow: hidden;
-}
-[data-theme='dark'] .culture-orbit-stage {
-  background: radial-gradient(ellipse 95% 75% at 50% 35%, #0d121c 0%, #040711 100%);
-  border-color: rgba(255, 255, 255, 0.14);
-}
 .orbital-gallery,
 .orbital-image-wheel {
   position: relative;

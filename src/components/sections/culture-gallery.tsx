@@ -22,12 +22,11 @@ export function CultureGallery({ photos }: CultureGalleryProps) {
         if (!open) setSelectedPhoto(null);
       }}
     >
-      <div className="culture-orbit-stage" data-reveal="section">
-        <OrbitalGallery
-          photos={photos}
-          onSelectPhoto={(photo) => setSelectedPhoto(photo)}
-        />
-      </div>
+      <OrbitalGallery
+        photos={photos}
+        onSelectPhoto={(photo) => setSelectedPhoto(photo)}
+        className="my-6 sm:my-8"
+      />
 
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="dialog__overlay fixed inset-0 z-50 bg-black/85 backdrop-blur-md animate-in fade-in-0 duration-200" />

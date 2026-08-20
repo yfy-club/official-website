@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMotionValue, useSpring } from "motion/react";
 import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
 import Image from "next/image";
-import { ShaderLensBlur } from "@/components/ui/shader-lens-blur";
 import { cn } from "@/lib/utils";
 
 export interface OrbitalPhotoItem {
@@ -247,32 +246,10 @@ export function OrbitalGallery({
       role="region"
       aria-label="团队文化实拍弧形轮盘"
     >
-      {/* Dynamic Ambient Optical Shader Lens in Stage Background */}
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-        style={{
-          maskImage: "radial-gradient(ellipse 95% 75% at 50% 35%, black 30%, transparent 95%)",
-          WebkitMaskImage: "radial-gradient(ellipse 95% 75% at 50% 35%, black 30%, transparent 95%)",
-        }}
-        aria-hidden="true"
-      >
-        <ShaderLensBlur
-          className="opacity-45 mix-blend-screen transition-opacity duration-700 pointer-events-none"
-          variation="ring"
-          color1="#0f172a"
-          color2="#d97706"
-          color3="#0284c7"
-          color4="#1e1b4b"
-          speed={0.45}
-          intensity={0.85}
-        />
-        <div className="absolute inset-0 bg-radial from-transparent via-[var(--surface)]/25 to-[var(--surface)]/80 pointer-events-none" />
-      </div>
-
       {/* Viewport frame holding the massive circular wheel */}
       <div
         ref={viewportRef}
-        className="relative z-10 w-full overflow-hidden flex justify-center cursor-grab active:cursor-grabbing touch-pan-y"
+        className="relative w-full overflow-hidden flex justify-center cursor-grab active:cursor-grabbing touch-pan-y"
         style={{ height: wheelViewportHeight }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
