@@ -149,18 +149,6 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                 })}
               </motion.div>
             </AnimatePresence>
-
-            {/* 底部：工程实战标杆指标 */}
-            {data.practicalApplication && (
-              <div className="pt-4 border-t border-[var(--border)] flex items-center justify-between gap-4 text-xs font-mono">
-                <span className="text-[var(--fg-muted)] truncate">
-                  标杆落地：{data.practicalApplication.domain}
-                </span>
-                <span className="text-[var(--accent)] font-bold shrink-0">
-                  {data.practicalApplication.metric}
-                </span>
-              </div>
-            )}
           </div>
         </div>
       </div>
