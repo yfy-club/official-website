@@ -59,11 +59,11 @@ function LiveCharacterMeter({ count }: { count: number }) {
     : Math.min(100, (count / 20) * 100);
 
   return (
-    <div className="flex items-center justify-between gap-3 font-mono text-[11px] mt-1.5 pt-1">
-      <div className="flex items-center gap-1.5 min-w-0">
+    <div className="flex items-center justify-between gap-3 font-mono mt-2 pt-1">
+      <div className="flex items-center gap-2 min-w-0">
         <span
           className={cn(
-            "h-1.5 w-1.5 rounded-full shrink-0 transition-colors",
+            "h-2 w-2 rounded-full shrink-0 transition-colors",
             isSatisfied
               ? "bg-[var(--success)]"
               : count > 0
@@ -74,19 +74,19 @@ function LiveCharacterMeter({ count }: { count: number }) {
         />
         <span
           className={cn(
-            "truncate text-[11px]",
+            "truncate text-xs sm:text-xs font-mono font-medium",
             isSatisfied
-              ? "text-[var(--success)] font-medium"
+              ? "text-[var(--success)] font-semibold"
               : count > 0
                 ? "text-[var(--warn)]"
-                : "text-[var(--fg-faint)]"
+                : "text-[var(--fg-muted)]"
           )}
         >
           {isSatisfied ? `[ ✓ 达标 · ${count}/1000 字 ]` : `[ 需满 20 字 · 当前 ${count} 字 ]`}
         </span>
       </div>
       <div
-        className="w-20 sm:w-28 h-1.5 bg-[var(--surface-2)] rounded-full overflow-hidden border border-[var(--border)] shrink-0"
+        className="w-24 sm:w-32 h-2 bg-[var(--surface-2)] rounded-full overflow-hidden border border-[var(--border)] shrink-0"
         aria-hidden="true"
       >
         <div
@@ -369,7 +369,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
               autoComplete="off"
               inputMode="numeric"
               pattern="[0-9]*"
-              placeholder="8-20 位数字学号"
+              placeholder="10 位数字学号"
               aria-describedby={descriptionId("join-student-id", studentIdError)}
               aria-invalid={Boolean(studentIdError)}
               required
@@ -383,7 +383,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           <Input
             id="join-major"
             autoComplete="organization-title"
-            placeholder="如：软件工程 2401 班"
+            placeholder="26 智能云物联 1 班"
             aria-describedby={descriptionId("join-major", majorError)}
             aria-invalid={Boolean(majorError)}
             required
@@ -396,7 +396,7 @@ export function JoinForm({ siteKey, tracks }: JoinFormProps) {
           <Input
             id="join-grade"
             autoComplete="off"
-            placeholder="如：2026 级"
+            placeholder="2026 级"
             aria-describedby={descriptionId("join-grade", gradeError)}
             aria-invalid={Boolean(gradeError)}
             required
