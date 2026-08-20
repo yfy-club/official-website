@@ -146,7 +146,7 @@ export function TracksMap({ tracks }: TracksMapProps) {
               <footer className="tracks-detail__footer">
                 <span><small>目标领域</small>{track.goal}</span>
                 <Link className="tracks-detail__route track-panel font-mono text-xs font-bold transition-all active:scale-[0.96]" href={`/tracks/${track.slug}`}>
-                  <span>TRK-0{track.index} {"//"} DOSSIER</span>
+                  <span>查看详情</span>
                   <ArrowRight aria-hidden="true" size={15} />
                 </Link>
               </footer>
