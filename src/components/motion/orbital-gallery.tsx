@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useMotionValue, useSpring } from "motion/react";
-import { ArrowLeft, ArrowRight, Expand } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -305,10 +305,10 @@ export function OrbitalGallery({
               <div
                 key={photo.src}
                 className={cn(
-                  "oiw-item absolute left-1/2 overflow-hidden rounded-[var(--radius-sm)] border cursor-pointer select-none",
+                  "oiw-item absolute left-1/2 overflow-hidden rounded-[var(--radius-sm)] border select-none",
                   isCenterFocus
-                    ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/35 shadow-2xl"
-                    : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-xl"
+                    ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/35 shadow-2xl cursor-zoom-in"
+                    : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-xl cursor-pointer"
                 )}
                 style={{
                   width: itemWidth,
@@ -349,16 +349,6 @@ export function OrbitalGallery({
                   <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-[var(--radius-xs)] border border-white/20 bg-black/55 backdrop-blur-xs font-mono text-[10px] text-white">
                     0{i + 1}
                   </div>
-
-                  {/* Active Click to View Hint */}
-                  {isCenterFocus && (
-                    <div className="absolute inset-x-0 bottom-3 flex items-center justify-center pointer-events-none">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-[var(--accent)]/70 text-[11px] font-mono text-[var(--accent)] shadow-xl animate-in fade-in zoom-in-95 duration-200">
-                        <Expand size={12} />
-                        <span>点击查看大图</span>
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
             );
