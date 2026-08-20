@@ -15,7 +15,6 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { BorderBeam } from "@/components/ui/border-beam";
 import type { Mechanism } from "@/content";
 import { cn } from "@/lib/utils";
 
@@ -130,15 +129,6 @@ export function MechanismAccordion({ items }: { items: readonly Mechanism[] }) {
 
         {/* 右侧：单项高精密电影级仪表舱 (Console) */}
         <div className="lg:col-span-8 relative overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10 shadow-sm flex flex-col justify-between min-h-[380px]">
-          {/* 流光边框 */}
-          <BorderBeam
-            size={120}
-            duration={8}
-            colorFrom="var(--accent)"
-            colorTo="var(--fg-muted)"
-            borderWidth={1.5}
-          />
-
           {/* 背景大号等宽水印编号 */}
           <div
             className="pointer-events-none absolute right-6 top-6 font-mono text-7xl sm:text-9xl font-black text-[var(--fg)] opacity-[0.03] select-none"
