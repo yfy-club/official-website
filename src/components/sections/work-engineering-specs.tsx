@@ -41,7 +41,7 @@ export function WorkEngineeringSpecs({ metrics }: WorkEngineeringSpecsProps) {
             >
               <button
                 type="button"
-                className="spec-reading__trigger"
+                className="spec-reading__trigger active:scale-[0.99] transition-transform"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setActiveIndex(isOpen ? null : index)}

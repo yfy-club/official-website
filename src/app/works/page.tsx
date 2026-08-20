@@ -48,11 +48,14 @@ export default function WorksPage() {
 
       <WorksFilterView works={works} />
 
-      <section id="works-join" className="cta-band mt-12" aria-label="加入社团" data-reveal="group">
-        <p>想参与开发更多实际工程项目？</p>
-        <Button asChild>
+      <section id="works-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
+        <div className="space-y-1 text-left">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">04 // RECRUITMENT</p>
+          <p>参与真实高可用系统、算法原型与前沿边缘计算工程攻坚。</p>
+        </div>
+        <Button asChild className="active:scale-[0.96] transition-transform">
           <Link href="/join">
-            立即报名 <ArrowRight aria-hidden="true" size={17} />
+            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </Button>
       </section>

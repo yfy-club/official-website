@@ -5,7 +5,6 @@ import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { SpotlightCard } from "@/components/motion/spotlight-card";
-import { Badge } from "@/components/ui/badge";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, CardFooter, CardMeta } from "@/components/ui/card";
@@ -170,22 +169,22 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
     <Tabs value={activeFilter} onValueChange={setActiveFilter} className="works-explorer">
       <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <TabsList className="flex-wrap h-auto gap-1">
-          <TabsTrigger value="all">
+          <TabsTrigger value="all" className="active:scale-[0.96] transition-transform">
             全部 ({works.length})
           </TabsTrigger>
-          <TabsTrigger value="shipped">
+          <TabsTrigger value="shipped" className="active:scale-[0.96] transition-transform">
             已上线 ({works.filter((w) => w.status === "已上线").length})
           </TabsTrigger>
-          <TabsTrigger value="incubating">
+          <TabsTrigger value="incubating" className="active:scale-[0.96] transition-transform">
             在研项目 ({works.filter((w) => w.status === "在研").length})
           </TabsTrigger>
-          <TabsTrigger value="software">
+          <TabsTrigger value="software" className="active:scale-[0.96] transition-transform">
             软件全栈
           </TabsTrigger>
-          <TabsTrigger value="ai">
+          <TabsTrigger value="ai" className="active:scale-[0.96] transition-transform">
             AI 智能
           </TabsTrigger>
-          <TabsTrigger value="iot">
+          <TabsTrigger value="iot" className="active:scale-[0.96] transition-transform">
             物联网
           </TabsTrigger>
         </TabsList>
@@ -222,14 +221,14 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                     <div className="work-row__copy flex flex-col justify-between p-6 sm:p-8 lg:p-10">
                       <div>
                         <div className="work-row__status flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-[var(--border)]">
-                          <div className="flex items-center gap-3">
-                            <Badge variant="active" pulse>
-                              {work.status}
-                            </Badge>
+                          <div className="flex items-center gap-2 font-mono text-xs">
+                            <span className="text-[var(--accent)] font-bold">STATUS //</span>
+                            <span className="text-[var(--fg)] font-medium">{work.status}</span>
                             {work.period && (
-                              <span className="font-mono text-xs text-[var(--fg-faint)]">
-                                {work.period}
-                              </span>
+                              <>
+                                <span className="text-[var(--fg-faint)]">·</span>
+                                <span className="text-[var(--fg-muted)]">{work.period}</span>
+                              </>
                             )}
                           </div>
                           {work.detail && (
@@ -269,7 +268,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
 
                         <div className="mb-6">
                           <div className="font-mono text-[11px] uppercase tracking-wider text-[var(--fg-faint)] mb-2.5">
-                            {"技术体系与选型 // ARCHITECTURE STACK"}
+                            {"TECH STACK //"}
                           </div>
                           <div className="stack-row">
                             {work.stackSummary.map((item) => (
@@ -282,7 +281,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                       <div className="work-row__links flex flex-wrap items-center justify-between gap-4 pt-5 mt-auto border-t border-[var(--border)]">
                         <div className="flex flex-wrap items-center gap-3">
                           {work.detail && (
-                            <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-10 px-5 shadow-xs">
+                            <Button asChild className="rounded-[var(--radius-xs)] font-mono text-xs sm:text-sm font-semibold h-10 px-5 shadow-xs active:scale-[0.96] transition-transform">
                               <Link
                                 href={`/works/${work.slug}`}
                                 onClick={() => saveWorksState(work.slug)}
@@ -293,7 +292,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                             </Button>
                           )}
                           {work.liveUrl && (
-                            <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs sm:text-sm h-10 px-5 hover:bg-[var(--surface-2)]">
+                            <Button asChild variant="ghost" className="rounded-[var(--radius-xs)] border border-[var(--border)] font-mono text-xs sm:text-sm h-10 px-5 hover:bg-[var(--surface-2)] active:scale-[0.96] transition-transform">
                               <a href={work.liveUrl} target="_blank" rel="noreferrer">
                                 <span>在线体验</span>
                                 <ExternalLink aria-hidden="true" size={14} />
@@ -323,7 +322,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
                     id={`work-${work.slug}`}
                     data-work-slug={work.slug}
                     variant="frame"
-                    className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all shadow-xs"
+                    className="relative flex flex-col justify-between overflow-hidden border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)] transition-all active:scale-[0.98] shadow-xs"
                   >
                     <div className="flex flex-col flex-1">
                       <CardMeta
@@ -362,7 +361,7 @@ export function WorksFilterView({ works }: WorksFilterViewProps) {
 
                         <div className="mt-auto pt-3 border-t border-[var(--border)]">
                           <div className="font-mono text-[11px] uppercase tracking-wider text-[var(--fg-faint)] mb-2.5">
-                            {"在研验证栈 // STACK"}
+                            {"TECH STACK //"}
                           </div>
                           <div className="flex flex-wrap gap-2 w-full">
                             {work.stackSummary.map((item) => (

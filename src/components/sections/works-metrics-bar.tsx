@@ -10,28 +10,28 @@ export function WorksMetricsBar() {
 
   const metrics = [
     {
-      code: "METRIC 01",
+      code: "METRIC-01 //",
       value: `${shippedCount + incubatingCount}`,
       label: "工程项目总数",
       subtext: `${shippedCount} 个已上线 · ${incubatingCount} 个在研`,
     },
     {
-      code: "METRIC 02",
+      code: "METRIC-02 //",
       value: "100%",
-      label: "真实项目代码",
-      subtext: "具备完整工程闭环与可验证成果",
+      label: "真实代码闭环",
+      subtext: "全部具备完整架构与可验证成果",
     },
     {
-      code: "METRIC 03",
+      code: "METRIC-03 //",
       value: `${totalScreenshots}+`,
       label: "系统界面实录",
-      subtext: "多模块实机截图与真实交互",
+      subtext: "多模块高保真实机操作截图",
     },
     {
-      code: "METRIC 04",
+      code: "METRIC-04 //",
       value: `${allTracks}`,
-      label: "技术方向全面覆盖",
-      subtext: "全栈开发 / 算法应用 / 物联网 / 工业数智",
+      label: "覆盖技术方向",
+      subtext: "全栈开发 · 算法应用 · 物联网 · 工业数智",
     },
   ];
 
@@ -45,10 +45,9 @@ export function WorksMetricsBar() {
               className="p-4 sm:p-5 flex flex-col justify-between hover:bg-[var(--surface-2)]/50 transition-colors"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="font-mono text-[10px] text-[var(--fg-faint)] tracking-wider">
+                <span className="font-mono text-[10px] text-[var(--accent)] font-bold tracking-wider">
                   {metric.code}
                 </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
               </div>
               <div>
                 <div className="font-mono text-2xl sm:text-3xl font-semibold text-[var(--fg)] tabular">

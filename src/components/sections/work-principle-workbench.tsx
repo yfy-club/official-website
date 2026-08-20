@@ -40,8 +40,8 @@ export function WorkPrincipleWorkbench({
     <div className="kernel-slices" data-reveal="group">
       <div className="kernel-slices__intro">
         <span className="caps">实现切面</span>
-        <span className="kernel-slices__count tabular">
-          {String(items.length).padStart(2, "0")} 条真实实现
+        <span className="kernel-slices__count tabular font-mono">
+          {String(items.length).padStart(2, "0")} {"//"} SLICES
         </span>
       </div>
 
@@ -68,7 +68,7 @@ export function WorkPrincipleWorkbench({
               )}
               <button
                 type="button"
-                className="kernel-slice__trigger"
+                className="kernel-slice__trigger active:scale-[0.99] transition-transform"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpenCode(isOpen ? null : item.code)}
@@ -123,6 +123,7 @@ export function WorkPrincipleWorkbench({
                               type="button"
                               onClick={() => copyToClipboard(item.codeSnippet ?? "")}
                               aria-label={`复制${item.name}源码摘录`}
+                              className="active:scale-[0.92] transition-transform cursor-pointer"
                             >
                               {isCopied ? <Check size={14} /> : <Copy size={14} />}
                             </button>

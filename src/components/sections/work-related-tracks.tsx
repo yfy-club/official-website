@@ -49,7 +49,7 @@ export function WorkRelatedTracks({ tracks }: WorkRelatedTracksProps) {
               )}
               <button
                 type="button"
-                className="track-route__trigger"
+                className="track-route__trigger active:scale-[0.98] transition-transform"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setActiveIndex(isOpen ? null : index)}
@@ -72,7 +72,7 @@ export function WorkRelatedTracks({ tracks }: WorkRelatedTracksProps) {
                     transition={{ duration: reduceMotion ? 0.01 : 0.2 }}
                   >
                     <p>{track.positioning}</p>
-                    <Link href={`/tracks/${track.slug}`}>
+                    <Link href={`/tracks/${track.slug}`} className="active:scale-[0.96] transition-transform">
                       进入方向
                       <ArrowUpRight size={15} aria-hidden="true" />
                     </Link>

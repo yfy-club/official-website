@@ -2,10 +2,8 @@
 
 import { Check, Copy } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   CardFrame,
-  CardFrameAction,
   CardFrameDescription,
   CardFrameHeader,
   CardFrameTitle,
@@ -42,9 +40,9 @@ function CopyCell({ value, label }: { value: string; label: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      aria-label={`点击复制${label} ${value}`}
+      aria-label={`复制${label} ${value}`}
       className={cn(
-        "group inline-flex items-center justify-between gap-2.5 px-2.5 py-1 rounded-[var(--radius-xs)] font-mono text-xs cursor-pointer transition-all border outline-none select-all text-left",
+        "group inline-flex items-center justify-between gap-2.5 px-2.5 py-1 rounded-[var(--radius-xs)] font-mono text-xs cursor-pointer transition-all border outline-none select-all text-left active:scale-[0.94]",
         isCopied
           ? "bg-[var(--success)]/10 border-[var(--success)]/40 text-[var(--success)] font-bold shadow-2xs"
           : "bg-[var(--surface-2)] border-[var(--border)] text-[var(--fg)] hover:bg-[var(--surface-3)] hover:border-[var(--accent)]/50 hover:text-[var(--fg)]"
@@ -73,12 +71,9 @@ export function DemoAccountsTable({ workNameZh, accounts }: DemoAccountsTablePro
     <CardFrame className="demo-access mb-8 border-[var(--border)] bg-[var(--surface)] shadow-xs">
       <CardFrameHeader className="py-3.5 px-5 sm:px-6">
         <div>
-          <CardFrameTitle>02.1 // 公开体验账号</CardFrameTitle>
-          <CardFrameDescription>鼠标悬浮点击账号或密码即可一键复制，免注册直接进入系统</CardFrameDescription>
+          <CardFrameTitle>02.1 // 演示账号</CardFrameTitle>
+          <CardFrameDescription>免注册直接体验系统功能权限</CardFrameDescription>
         </div>
-        <CardFrameAction>
-          <Badge variant="neutral">PUBLIC DEMO</Badge>
-        </CardFrameAction>
       </CardFrameHeader>
       <CardPanel className="p-0 overflow-x-auto">
         <table className="data-table">

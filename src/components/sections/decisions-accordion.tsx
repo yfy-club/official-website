@@ -29,7 +29,7 @@ export function DecisionsAccordion({ decisions }: DecisionsAccordionProps) {
             <button
               type="button"
               key={decision.what}
-              className="choice-lens__choice"
+              className="choice-lens__choice active:scale-[0.98] transition-transform"
               data-active={selected || undefined}
               aria-pressed={selected}
               onClick={() => setActiveIndex(selected ? null : index)}

@@ -36,7 +36,7 @@ export function WorkTradeoffsDeck({ tradeoffs }: WorkTradeoffsDeckProps) {
           >
             <button
               type="button"
-              className="evolution-note__trigger"
+              className="evolution-note__trigger active:scale-[0.99] transition-transform"
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => setOpenIndex(isOpen ? null : index)}

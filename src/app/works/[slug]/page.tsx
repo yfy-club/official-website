@@ -83,20 +83,30 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <header id="work-start" className="work-detail__hero">
         <div>
-          <p className="caps">01 / Project Dossier · {work.status}</p>
-          <h1>{work.nameZh}</h1>
-          {work.nameEn && <p className="display-latin">{work.nameEn}</p>}
-          <p>{work.tagline}</p>
-          <div className="stack-row">
+          <div className="flex items-center gap-2 font-mono text-xs font-bold text-[var(--accent)] tracking-widest uppercase mb-3">
+            <span>WRK-{String(index + 1).padStart(2, "0")} {"//"} TECHNICAL SPEC</span>
+            <span className="text-[var(--fg-faint)]">·</span>
+            <span className="text-[var(--fg-muted)]">{work.status}</span>
+          </div>
+          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[var(--fg)] leading-[1.05]">
+            {work.nameZh}
+          </h1>
+          {work.nameEn && (
+            <p className="display-latin font-display text-xl sm:text-2xl text-[var(--fg-muted)] tracking-tight pt-1">
+              {work.nameEn}
+            </p>
+          )}
+          <p className="pt-2 text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed font-sans">{work.tagline}</p>
+          <div className="stack-row pt-2">
             {work.stackSummary.map((item) => (
               <TechTag key={item} name={item} />
             ))}
           </div>
-          <div className="work-detail__actions">
+          <div className="work-detail__actions pt-2">
             {work.liveUrl && (
-              <Button asChild className="rounded-[var(--radius-xs)]">
+              <Button asChild className="rounded-[var(--radius-xs)] active:scale-[0.96] transition-transform font-mono text-xs">
                 <a href={work.liveUrl} target="_blank" rel="noreferrer">
-                  在线体验 <ExternalLink aria-hidden="true" size={16} />
+                  在线体验 <ExternalLink aria-hidden="true" size={14} className="ml-1" />
                 </a>
               </Button>
             )}
@@ -142,7 +152,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {(detail.demoAccounts?.length || detail.shots || detail.gallery?.length) && (
         <section id="work-interface" className="section" aria-labelledby="shots-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">02 / Systems & Interfaces</p>
+            <p className="caps section__index">02 / SYSTEMS & INTERFACES</p>
             <h2 id="shots-title" className="section__title">系统界面与交互实录。</h2>
           </div>
           {detail.demoAccounts && (
@@ -175,7 +185,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-problem" className="section" aria-labelledby="problem-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">03 / The Story</p>
+          <p className="caps section__index">03 / THE STORY</p>
           <h2 id="problem-title" className="section__title">为什么做这个项目。</h2>
         </div>
         <div className="prose">
@@ -187,7 +197,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-build" className="section" aria-labelledby="build-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">04 / 核心剖面</p>
+          <p className="caps section__index">04 / ARCHITECTURE SLICES</p>
           <h2 id="build-title" className="section__title">拆开看，它怎样真正运转。</h2>
         </div>
         <WorkPrincipleWorkbench principles={detail.principles} fallbackStack={detail.stack} />
@@ -196,7 +206,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.decisions && detail.decisions.length > 0 && (
         <section id="work-decisions" className="section" aria-labelledby="decisions-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">05 / 技术取舍</p>
+            <p className="caps section__index">05 / ENGINEERING DECISIONS</p>
             <h2 id="decisions-title" className="section__title">每个选择，都有不选的那一边。</h2>
           </div>
           <DecisionsAccordion decisions={detail.decisions} />
@@ -206,7 +216,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.metrics && detail.metrics.length > 0 && (
         <section id="work-specs" className="section" aria-labelledby="specs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">06 / 可复核读数</p>
+            <p className="caps section__index">06 / SPEC READINGS</p>
             <h2 id="specs-title" className="section__title">只放能从源码或测试里复核的读数。</h2>
           </div>
           <WorkEngineeringSpecs metrics={detail.metrics} />
@@ -216,7 +226,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
       {detail.tradeoffs && detail.tradeoffs.length > 0 && (
         <section id="work-tradeoffs" className="section" aria-labelledby="tradeoffs-title" data-reveal="section">
           <div className="section__head">
-            <p className="caps section__index">07 / 回看与演进</p>
+            <p className="caps section__index">07 / EVOLUTION & BOUNDARIES</p>
             <h2 id="tradeoffs-title" className="section__title">哪些边界，我们没有藏起来。</h2>
           </div>
           <WorkTradeoffsDeck tradeoffs={detail.tradeoffs} />
@@ -225,27 +235,27 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
 
       <section id="work-related" className="section" aria-labelledby="related-track-title" data-reveal="section">
         <div className="section__head">
-          <p className="caps section__index">08 / 能力去向</p>
+          <p className="caps section__index">08 / CAREER PATHWAYS</p>
           <h2 id="related-track-title" className="section__title">这件作品，通向哪些能力路径。</h2>
         </div>
         <WorkRelatedTracks tracks={relatedTracks} />
       </section>
 
       <nav id="work-switch" className="pager pager--with-overview" aria-label="项目切换" data-reveal="group">
-        <Link href={`/works/${previous.slug}`}>
+        <Link href={`/works/${previous.slug}`} className="active:scale-[0.98] transition-transform">
           <ArrowLeft aria-hidden="true" size={18} />
           <span>
             <small>上一个项目</small>
             {previous.nameZh}
           </span>
         </Link>
-        <WorkReturnLink href="/works" slug={work.slug} className="pager__overview">
+        <WorkReturnLink href="/works" slug={work.slug} className="pager__overview active:scale-[0.98] transition-transform">
           <LayoutGrid aria-hidden="true" size={16} />
           <span>
             <small>总览索引</small>全部项目列表
           </span>
         </WorkReturnLink>
-        <Link href={`/works/${next.slug}`}>
+        <Link href={`/works/${next.slug}`} className="active:scale-[0.98] transition-transform">
           <span>
             <small>下一个项目</small>
             {next.nameZh}
@@ -254,11 +264,14 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
         </Link>
       </nav>
 
-      <section id="work-join" className="cta-band" aria-label="加入社团" data-reveal="group">
-        <p>想参与开发更多实际工程项目？</p>
-        <Button asChild>
+      <section id="work-join" className="cta-band mt-16" aria-label="加入社团" data-reveal="group">
+        <div className="space-y-1 text-left">
+          <p className="font-mono text-xs text-[var(--accent)] font-bold tracking-widest uppercase">10 // RECRUITMENT</p>
+          <p>加入云飞扬工程研发团队，参与真实高可用系统与前沿算法攻坚。</p>
+        </div>
+        <Button asChild className="active:scale-[0.96] transition-transform">
           <Link href="/join">
-            立即报名 <ArrowRight aria-hidden="true" size={17} />
+            立即投递申请 <ArrowRight aria-hidden="true" size={17} />
           </Link>
         </Button>
       </section>
