@@ -25,13 +25,6 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-function shortestAngleDistance(a: number, b: number) {
-  const full = Math.PI * 2;
-  const raw = ((a - b + Math.PI) % full) - Math.PI;
-  const normalized = raw < -Math.PI ? raw + full : raw;
-  return Math.abs(normalized);
-}
-
 export function OrbitalGallery({
   photos,
   onSelectPhoto,
@@ -47,7 +40,7 @@ export function OrbitalGallery({
   const [isMobile, setIsMobile] = useState(false);
   const isDraggingRef = useRef(false);
   const dragStartXRef = useRef(0);
-  const startRotationRef = useRef(0);
+  const startProgressRef = useRef(0);
 
   const count = photos.length;
 
@@ -70,61 +63,59 @@ export function OrbitalGallery({
     };
   }, []);
 
-  // Geometry configuration (aligning with official spec)
-  const responsiveWheelSize = isMobile
-    ? clamp(containerWidth * 1.85, 750, 1100)
-    : clamp(containerWidth * 1.55, 1300, 2200);
-  const radius = responsiveWheelSize / 2;
-  const cropRatio = isMobile ? 0.72 : 0.74;
-  const itemWidth = isMobile ? 210 : 270;
-  const itemHeight = isMobile ? 290 : 370;
-  const focusArc = Math.PI * 0.38;
-  const topAnchor = -Math.PI / 2;
+  // Geometry configuration
+  const itemWidth = isMobile ? 190 : 250;
+  const itemHeight = isMobile ? 260 : 340;
+  const wheelViewportHeight = isMobile ? 360 : 460;
+  const paddingTop = isMobile ? 18 : 28;
 
-  // Continuous rotation angle in radians
-  const targetRotation = useMotionValue(0);
-  const smoothRotation = useSpring(targetRotation, {
-    stiffness: 180,
+  // True circular radius and angular spacing
+  const radius = isMobile
+    ? clamp(containerWidth * 1.3, 480, 680)
+    : clamp(containerWidth * 0.85, 750, 1100);
+
+  const angularSpacingDeg = isMobile ? 24 : 16.5;
+  const angularSpacingRad = (angularSpacingDeg * Math.PI) / 180;
+
+  // Center card vertical position
+  const centerCardY = paddingTop + itemHeight / 2;
+  // Center of the circular orbit
+  const orbitCenterY = centerCardY + radius;
+
+  // Continuous progress tracking
+  const targetProgress = useMotionValue(0);
+  const smoothProgress = useSpring(targetProgress, {
+    stiffness: 200,
     damping: 26,
-    mass: 0.7,
+    mass: 0.65,
   });
 
-  const [renderRotation, setRenderRotation] = useState(0);
+  const [renderProgress, setRenderProgress] = useState(0);
 
   useEffect(() => {
-    return smoothRotation.on("change", (latest) => {
-      setRenderRotation(latest);
+    return smoothProgress.on("change", (latest) => {
+      setRenderProgress(latest);
     });
-  }, [smoothRotation]);
+  }, [smoothProgress]);
 
-  // Rotate to specific photo index
-  const rotateToIndex = useCallback(
+  // Navigate to photo index
+  const goToIndex = useCallback(
     (index: number) => {
       if (count === 0) return;
       const targetIdx = clamp(index, 0, count - 1);
       setActiveIndex(targetIdx);
-
-      // Target angle such that targetIdx is at topAnchor (-PI / 2)
-      // theta = (targetIdx / count) * 2 * PI - PI / 2 + rot = -PI / 2 => rot = - (targetIdx / count) * 2 * PI
-      const baseTarget = -(targetIdx / count) * Math.PI * 2;
-      const currentRot = targetRotation.get();
-      const fullTurn = Math.PI * 2;
-
-      // Find nearest rotational equivalent
-      const diff = ((baseTarget - currentRot + Math.PI) % fullTurn) - Math.PI;
-      const normalizedDiff = diff < -Math.PI ? diff + fullTurn : diff;
-      targetRotation.set(currentRot + normalizedDiff);
+      targetProgress.set(targetIdx);
     },
-    [count, targetRotation]
+    [count, targetProgress]
   );
 
   const handlePrev = useCallback(() => {
-    rotateToIndex(activeIndex > 0 ? activeIndex - 1 : count - 1);
-  }, [activeIndex, count, rotateToIndex]);
+    goToIndex(activeIndex > 0 ? activeIndex - 1 : count - 1);
+  }, [activeIndex, count, goToIndex]);
 
   const handleNext = useCallback(() => {
-    rotateToIndex(activeIndex < count - 1 ? activeIndex + 1 : 0);
-  }, [activeIndex, count, rotateToIndex]);
+    goToIndex(activeIndex < count - 1 ? activeIndex + 1 : 0);
+  }, [activeIndex, count, goToIndex]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -147,20 +138,21 @@ export function OrbitalGallery({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePrev, handleNext]);
 
-  // Touch / Mouse Drag handlers for rotating the wheel
+  // Touch / Mouse Drag handlers
   const handlePointerDown = (e: React.PointerEvent) => {
     isDraggingRef.current = true;
     dragStartXRef.current = e.clientX;
-    startRotationRef.current = targetRotation.get();
+    startProgressRef.current = targetProgress.get();
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDraggingRef.current) return;
     const deltaX = e.clientX - dragStartXRef.current;
-    // Map horizontal pixel drag to angular rotation
-    const angleDelta = (deltaX / radius) * 1.1;
-    targetRotation.set(startRotationRef.current + angleDelta);
+    // Map horizontal pixel drag to index progress
+    const dragSensitivity = isMobile ? 160 : 220;
+    const progressDelta = -deltaX / dragSensitivity;
+    targetProgress.set(clamp(startProgressRef.current + progressDelta, -0.5, count - 0.5));
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
@@ -172,11 +164,9 @@ export function OrbitalGallery({
       // ignore
     }
 
-    // Snap to closest card
-    const currentRot = targetRotation.get();
-    const phaseRaw = (-currentRot / (Math.PI * 2)) * count;
-    const nearestIndex = ((Math.round(phaseRaw) % count) + count) % count;
-    rotateToIndex(nearestIndex);
+    const currentP = targetProgress.get();
+    const nearestIndex = clamp(Math.round(currentP), 0, count - 1);
+    goToIndex(nearestIndex);
   };
 
   // Center active title pill in title track
@@ -215,127 +205,125 @@ export function OrbitalGallery({
       {/* Viewport frame holding the massive circular wheel */}
       <div
         ref={viewportRef}
-        className="relative w-full overflow-hidden flex justify-center"
-        style={{ height: isMobile ? 420 : 520 }}
+        className="relative w-full overflow-hidden flex justify-center cursor-grab active:cursor-grabbing touch-pan-y"
+        style={{ height: wheelViewportHeight }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
       >
         {/* Subtle circular background guide ring */}
         <div
-          className="pointer-events-none absolute left-1/2 -translate-x-1/2 rounded-full border border-dashed border-[var(--border-strong)] opacity-30"
+          className="pointer-events-none absolute left-1/2 -translate-x-1/2 rounded-full border border-dashed border-[var(--border-strong)] opacity-25"
           style={{
-            width: responsiveWheelSize,
-            height: responsiveWheelSize,
-            bottom: `-${responsiveWheelSize * cropRatio}px`,
+            width: radius * 2,
+            height: radius * 2,
+            top: orbitCenterY - radius,
           }}
           aria-hidden="true"
         />
 
-        {/* The Wheel Center (anchored below the viewport) */}
+        {/* Circular Cards Container */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 cursor-grab active:cursor-grabbing touch-pan-y"
-          style={{
-            width: responsiveWheelSize,
-            height: responsiveWheelSize,
-            bottom: `-${responsiveWheelSize * cropRatio}px`,
-          }}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
+          className="relative w-full h-full"
+          style={{ perspective: "1200px" }}
         >
-          <div
-            className="relative h-full w-full"
-            style={{ perspective: "1200px" }}
-          >
-            {photos.map((photo, i) => {
-              // Base angle for this card
-              const baseAngle = (i / count) * Math.PI * 2 - Math.PI / 2;
-              const theta = baseAngle + renderRotation;
-              const x = Math.cos(theta) * radius;
-              const y = Math.sin(theta) * radius;
+          {photos.map((photo, i) => {
+            // Delta distance from current continuous progress
+            const delta = i - renderProgress;
+            const absDelta = Math.abs(delta);
 
-              const distanceToFocus = shortestAngleDistance(theta, topAnchor);
-              const focusIntensity = clamp(distanceToFocus / focusArc, 0, 1);
-              const darkIntensity = clamp(focusIntensity * 1.05, 0, 1);
+            // True circular trigonometry
+            const thetaRad = delta * angularSpacingRad;
+            const x = Math.sin(thetaRad) * radius;
+            const y = orbitCenterY - Math.cos(thetaRad) * radius;
+            const tiltDeg = (thetaRad * 180) / Math.PI; // Tangent angle of circle
 
-              const currentBlur = darkIntensity * 4.5;
-              const peakBrightness = 115;
-              const minBrightness = 40;
-              const currentBrightness =
-                minBrightness +
-                (1 - darkIntensity) * (peakBrightness - minBrightness);
-              const currentSaturation = 55 + (1 - darkIntensity * 0.6) * 45;
-              const currentScale = 1 - darkIntensity * 0.08;
-              const drift = clamp(x / radius, -1, 1);
-              const tilt = drift * 8.5;
-              const depth = clamp((1 - focusIntensity) * 100, 0, 100);
-              const zIndex = Math.round(depth);
-              const isCenterFocus = distanceToFocus < 0.25;
+            // Focus intensity
+            const focusIntensity = clamp(absDelta, 0, 1);
+            const isCenterFocus = absDelta < 0.35;
 
-              return (
-                <div
-                  key={photo.src}
-                  className={cn(
-                    "oiw-item absolute left-1/2 top-1/2 overflow-hidden rounded-[var(--radius-sm)] border cursor-pointer select-none",
-                    isCenterFocus
-                      ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/35 shadow-2xl"
-                      : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-xl"
-                  )}
-                  style={{
-                    width: itemWidth,
-                    height: itemHeight,
-                    transform: `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), ${depth}px) rotate(${tilt}deg) scale(${currentScale})`,
-                    filter: `blur(${currentBlur}px) brightness(${currentBrightness}%) saturate(${currentSaturation}%)`,
-                    zIndex,
-                    willChange: "transform, filter",
-                    transition: isDraggingRef.current
-                      ? "none"
-                      : "border-color 0.3s ease, box-shadow 0.3s ease",
-                  }}
-                  onClick={() => {
-                    if (isCenterFocus) {
-                      onSelectPhoto?.(photo);
-                    } else {
-                      rotateToIndex(i);
-                    }
-                  }}
-                >
-                  <div className="relative w-full h-full bg-[var(--surface-2)]">
-                    <Image
-                      src={photo.src}
-                      alt={photo.alt}
-                      fill
-                      sizes="(max-width: 768px) 60vw, 320px"
-                      className="object-cover object-center pointer-events-none"
-                      priority={i <= 2}
-                    />
+            // Visual effects matching official spec
+            const currentBlur = clamp(focusIntensity * 4.2, 0, 5);
+            const peakBrightness = 115;
+            const minBrightness = 45;
+            const currentBrightness =
+              minBrightness + (1 - focusIntensity) * (peakBrightness - minBrightness);
+            const currentSaturation = 55 + (1 - focusIntensity * 0.55) * 45;
+            const currentScale = 1 - clamp(absDelta * 0.07, 0, 0.2);
+            const depth = clamp((1 - focusIntensity) * 80, 0, 80);
+            const zIndex = Math.round(100 - absDelta * 15);
 
-                    {/* Dark Vignette Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+            // Hide cards that are too far offscreen
+            if (absDelta > 3.6) return null;
 
-                    {/* Badge in Top Right */}
-                    <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-[var(--radius-xs)] border border-white/20 bg-black/55 backdrop-blur-xs font-mono text-[10px] text-white">
-                      0{i + 1}
-                    </div>
+            return (
+              <div
+                key={photo.src}
+                className={cn(
+                  "oiw-item absolute left-1/2 overflow-hidden rounded-[var(--radius-sm)] border cursor-pointer select-none",
+                  isCenterFocus
+                    ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/35 shadow-2xl"
+                    : "border-[var(--border-strong)] hover:border-[var(--fg-muted)] shadow-xl"
+                )}
+                style={{
+                  width: itemWidth,
+                  height: itemHeight,
+                  top: 0,
+                  transform: `translate3d(calc(-50% + ${x}px), calc(${y - itemHeight / 2}px), ${depth}px) rotate(${tiltDeg}deg) scale(${currentScale})`,
+                  filter: `blur(${currentBlur}px) brightness(${currentBrightness}%) saturate(${currentSaturation}%)`,
+                  zIndex,
+                  willChange: "transform, filter",
+                  transition: isDraggingRef.current
+                    ? "none"
+                    : "border-color 0.3s ease, box-shadow 0.3s ease",
+                }}
+                onClick={(e) => {
+                  if (isDraggingRef.current) return;
+                  e.stopPropagation();
+                  if (isCenterFocus) {
+                    onSelectPhoto?.(photo);
+                  } else {
+                    goToIndex(i);
+                  }
+                }}
+              >
+                <div className="relative w-full h-full bg-[var(--surface-2)]">
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(max-width: 768px) 60vw, 300px"
+                    className="object-cover object-center pointer-events-none"
+                    priority={i <= 2}
+                  />
 
-                    {/* Active Click to View Hint */}
-                    {isCenterFocus && (
-                      <div className="absolute inset-x-0 bottom-3 flex items-center justify-center pointer-events-none">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-[var(--accent)]/70 text-[11px] font-mono text-[var(--accent)] shadow-xl animate-in fade-in zoom-in-95 duration-200">
-                          <Expand size={12} />
-                          <span>点击查看大图</span>
-                        </span>
-                      </div>
-                    )}
+                  {/* Dark Vignette Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent pointer-events-none" />
+
+                  {/* Badge in Top Right */}
+                  <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-[var(--radius-xs)] border border-white/20 bg-black/55 backdrop-blur-xs font-mono text-[10px] text-white">
+                    0{i + 1}
                   </div>
+
+                  {/* Active Click to View Hint */}
+                  {isCenterFocus && (
+                    <div className="absolute inset-x-0 bottom-3 flex items-center justify-center pointer-events-none">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-[var(--accent)]/70 text-[11px] font-mono text-[var(--accent)] shadow-xl animate-in fade-in zoom-in-95 duration-200">
+                        <Expand size={12} />
+                        <span>点击查看大图</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
       {/* Centered Dynamic Captions & Scrolling Title Pill Track */}
-      <div className="relative z-30 w-full max-w-3xl px-4 flex flex-col items-center text-center -mt-2">
+      <div className="relative z-30 w-full max-w-3xl px-4 flex flex-col items-center text-center mt-2">
         {/* Subtitle tag reveal */}
         <div className="inline-flex items-center gap-2 mb-2">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)]/90 backdrop-blur-md text-[11px] font-mono text-[var(--fg-muted)] shadow-2xs">
@@ -344,7 +332,7 @@ export function OrbitalGallery({
           </span>
         </div>
 
-        {/* Horizontal Scrolling Centered Title Track (1:1 with official) */}
+        {/* Horizontal Scrolling Centered Title Track */}
         <div
           ref={titleViewportRef}
           className="relative w-full overflow-x-auto no-scrollbar py-2"
@@ -366,7 +354,7 @@ export function OrbitalGallery({
                   type="button"
                   key={photo.src}
                   data-title-index={i}
-                  onClick={() => rotateToIndex(i)}
+                  onClick={() => goToIndex(i)}
                   className={cn(
                     "oiw-title-item shrink-0 inline-flex items-center justify-center whitespace-nowrap rounded-full border px-5 py-2 text-center text-sm sm:text-base font-medium tracking-tight transition-all duration-300 cursor-pointer shadow-xs",
                     isCur
@@ -405,7 +393,7 @@ export function OrbitalGallery({
               <button
                 type="button"
                 key={dotIdx}
-                onClick={() => rotateToIndex(dotIdx)}
+                onClick={() => goToIndex(dotIdx)}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
                   dotIdx === activeIndex
