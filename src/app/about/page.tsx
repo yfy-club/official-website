@@ -134,23 +134,42 @@ export default function AboutPage() {
           <GithubGraph variant="emerald" />
         </div>
       </section>
-      <section id="about-advisor" className="section advisor" aria-labelledby="advisor-title" data-reveal="group">
-        <div className="flex justify-center md:justify-end w-full">
-          <div className="advisor__portrait w-full max-w-[280px] sm:max-w-[320px]">
-            <DitherImage
-              src={advisorProfile.image}
-              alt={`${advisorProfile.name}教授肖像`}
-              fill
-              sizes="(max-width: 768px) 80vw, 320px"
-              priority
-            />
-          </div>
+      <section id="about-advisor" className="section advisor !grid-cols-1 lg:!grid-cols-[300px_1fr] gap-8 lg:gap-12 items-start" aria-labelledby="advisor-title" data-reveal="group">
+        <div className="advisor__portrait w-full max-w-[280px] sm:max-w-[300px] mx-auto lg:mx-0">
+          <DitherImage
+            src={advisorProfile.image}
+            alt={`${advisorProfile.name}教授肖像`}
+            fill
+            sizes="(max-width: 768px) 80vw, 300px"
+            priority
+          />
         </div>
-        <div>
-          <p className="caps section__index">08 / Advisor</p>
-          <h2 id="advisor-title" className="section__title">指导教师：{advisorProfile.name} {advisorProfile.title}</h2>
-          <p className="section__intro">{advisorProfile.summary}</p>
-          <ul>{advisorProfile.roles.map((role) => <li key={role}>{role}</li>)}</ul>
+        <div className="space-y-6">
+          <div>
+            <p className="caps section__index">08 / Advisor</p>
+            <h2 id="advisor-title" className="section__title">指导教师：{advisorProfile.name} {advisorProfile.title}。</h2>
+            <p className="section__intro">{advisorProfile.summary}</p>
+          </div>
+
+          {/* 兼任职务与社会任职分层 Markdown 列表 */}
+          <div className="pt-5 border-t border-[var(--border)] space-y-3">
+            <h3 className="font-mono text-xs text-[var(--accent)] font-semibold uppercase tracking-wider flex items-center gap-2">
+              <span>{"### 主要兼任与学术职务 // ROLES & APPOINTMENTS"}</span>
+            </h3>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 clean-list m-0 p-0">
+              {advisorProfile.roles.map((role, idx) => (
+                <li
+                  key={role}
+                  className="flex items-center gap-2.5 text-xs text-[var(--fg-muted)] p-2.5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] hover:text-[var(--fg)] hover:border-[var(--border-strong)] transition-colors"
+                >
+                  <span className="font-mono text-[11px] text-[var(--accent)] font-bold shrink-0">
+                    {`0${idx + 1} //`}
+                  </span>
+                  <span className="leading-snug">{role}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
       <section id="about-culture" className="about-culture" aria-labelledby="culture-title" data-reveal="section">

@@ -109,7 +109,7 @@ export const mentorship = {
 
 export const advisorProfile = {
   name: "陈可",
-  title: "教授 · 指导教师",
+  title: "教授",
   image: "/images/advisor/陈可2.webp",
   roles: [
     "创新创业与就业指导中心副主任",
