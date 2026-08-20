@@ -164,20 +164,12 @@ export function TechStackCutoutConsole({ stack, className }: TechStackCutoutCons
                   </div>
 
                   <div className="flex items-start gap-4 sm:gap-6">
-                    {/* Dither 半色调工业点阵工牌 + SVG 图标 */}
-                    <div className="relative shrink-0 flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-[var(--radius-xs)] bg-[#0B0D10] border border-[var(--border-strong)] overflow-hidden shadow-inner group">
-                      <div
-                        aria-hidden="true"
-                        className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none"
-                        style={{
-                          backgroundImage: `radial-gradient(circle, var(--accent) 1.2px, transparent 1.2px)`,
-                          backgroundSize: "4px 4px",
-                        }}
-                      />
+                    {/* 矢量图标展台 (主题自适应微透背景) */}
+                    <div className="relative shrink-0 flex items-center justify-center h-16 w-16 sm:h-20 sm:w-20 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-[var(--border)] hover:border-[var(--accent)] transition-colors group">
                       <TechIcon
                         name={selectedTech}
-                        size={32}
-                        className="relative z-10 text-[var(--accent)] transition-transform duration-200 group-hover:scale-110"
+                        size={36}
+                        className="text-[var(--accent)] transition-transform duration-200 group-hover:scale-110"
                       />
                     </div>
 

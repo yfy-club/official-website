@@ -173,7 +173,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                       )}
                     </Button>
                   </div>
-                  <div className="rounded-[var(--radius-xs)] border border-[var(--border)] bg-[#0B0D10] p-4 font-mono text-xs overflow-x-auto text-[var(--fg)] leading-relaxed">
+                  <div className="rounded-[var(--radius-xs)] border border-[var(--border)] bg-[var(--surface-2)] p-4 font-mono text-xs overflow-x-auto text-[var(--fg)] leading-relaxed">
                     <pre>
                       <code>{activeConcept.codeSnippet.code}</code>
                     </pre>
