@@ -9,6 +9,7 @@ import { WorkBackButton, WorkReturnLink } from "@/components/layout/work-back-bu
 import { CompareSlider } from "@/components/motion/compare-slider";
 import { DecisionsAccordion } from "@/components/sections/decisions-accordion";
 import { DemoAccountsTable } from "@/components/sections/demo-accounts-table";
+import { WorkArchitectureStack } from "@/components/sections/work-architecture-stack";
 import { WorkEngineeringSpecs } from "@/components/sections/work-engineering-specs";
 import { WorkSystemTour } from "@/components/sections/work-system-tour";
 import { WorkTradeoffsDeck } from "@/components/sections/work-tradeoffs-deck";
@@ -189,18 +190,7 @@ export default async function WorkDetailPage({ params }: { params: Promise<{ slu
           <p className="caps section__index">04 / Architecture Stack</p>
           <h2 id="build-title" className="section__title">技术架构与选型全景。</h2>
         </div>
-        <div className="stack-groups" data-reveal="group">
-          {Object.entries(detail.stack).map(([label, items]) => (
-            <div key={label}>
-              <h3 className="caps">{label}</h3>
-              <div className="stack-row">
-                {items.map((item) => (
-                  <TechTag key={item} name={item} />
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <WorkArchitectureStack stack={detail.stack} architecture={detail.architecture} />
       </section>
 
       {detail.decisions && detail.decisions.length > 0 && (

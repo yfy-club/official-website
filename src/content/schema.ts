@@ -67,6 +67,47 @@ export const trackSchema = z.object({
   relatedAwardIds: z.array(z.string()).default([]),
 });
 
+export const workArchitectureTierSchema = z.object({
+  code: z.string(),
+  name: z.string(),
+  role: z.string(),
+  techTags: z.array(z.string()),
+  features: z.array(z.string()).optional(),
+});
+
+export const workDataflowStepSchema = z.object({
+  step: z.string(),
+  title: z.string(),
+  detail: z.string(),
+  protocol: z.string().optional(),
+});
+
+export const workArchitectureSchema = z.object({
+  summary: z.string().optional(),
+  tiers: z.array(workArchitectureTierSchema).min(2),
+  dataflow: z.array(workDataflowStepSchema).optional(),
+});
+
+export const workDecisionSchema = z.object({
+  what: z.string(),
+  why: z.string(),
+  tag: z.string().optional(),
+  problem: z.string().optional(),
+  solution: z.string().optional(),
+  impact: z.string().optional(),
+  tradeoff: z.string().optional(),
+  highlight: z.string().optional(),
+});
+
+export const workMetricSchema = z.object({
+  label: z.string().min(2),
+  value: z.string().min(1),
+  description: z.string().optional(),
+  tag: z.string().optional(),
+  status: z.enum(["verified", "realtime", "benchmark", "hardened"]).optional(),
+  progress: z.number().min(0).max(100).optional(),
+});
+
 export const workSchema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   nameZh: z.string().min(2),
@@ -85,17 +126,9 @@ export const workSchema = z.object({
     .object({
       problem: z.array(z.string()).min(2),
       stack: z.record(z.string(), z.array(z.string())),
-      decisions: z.array(z.object({ what: z.string(), why: z.string() })).min(3),
-      metrics: z
-        .array(
-          z.object({
-            label: z.string().min(2),
-            value: z.string().min(1),
-            description: z.string().optional(),
-          }),
-        )
-        .min(2)
-        .optional(),
+      architecture: workArchitectureSchema.optional(),
+      decisions: z.array(workDecisionSchema).min(3),
+      metrics: z.array(workMetricSchema).min(2).optional(),
       tradeoffs: z
         .array(
           z.object({
@@ -222,6 +255,11 @@ export type TrackCurriculumModule = z.infer<typeof trackCurriculumModuleSchema>;
 export type TrackDeepFocusItem = z.infer<typeof trackDeepFocusSchema>;
 export type Track = z.infer<typeof trackSchema>;
 export type Work = z.infer<typeof workSchema>;
+export type WorkArchitectureTier = z.infer<typeof workArchitectureTierSchema>;
+export type WorkDataflowStep = z.infer<typeof workDataflowStepSchema>;
+export type WorkArchitecture = z.infer<typeof workArchitectureSchema>;
+export type WorkDecision = z.infer<typeof workDecisionSchema>;
+export type WorkMetric = z.infer<typeof workMetricSchema>;
 export type Award = z.infer<typeof awardSchema>;
 export type Club = z.infer<typeof clubSchema>;
 export type TimelineItem = z.infer<typeof timelineItemSchema>;
