@@ -97,7 +97,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
         {/* 阶段标题与双通道切换 */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-[var(--border)]">
           <div className="space-y-2 max-w-3xl">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[var(--fg)] tracking-tight">
+            <h3 className="text-xl sm:text-2xl font-bold text-[var(--fg)] tracking-tight">
               {currentModule.title}
             </h3>
             <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed font-sans pt-1">

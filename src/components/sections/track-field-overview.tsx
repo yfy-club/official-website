@@ -18,9 +18,9 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
 
   return (
     <div className="w-full space-y-12">
-      {/* 1. 纲领大字导引 */}
+      {/* 1. 纲领导引 */}
       <div className="pb-8 border-b border-[var(--border)]">
-        <p className="text-xl sm:text-2xl lg:text-3xl text-[var(--fg)] leading-relaxed font-normal tracking-tight max-w-4xl">
+        <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed font-sans max-w-4xl">
           {data.leadParagraph}
         </p>
       </div>
@@ -46,7 +46,7 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                   <div className="flex items-baseline gap-4 sm:gap-6 min-w-0">
                     <span
                       className={cn(
-                        "font-mono text-xl sm:text-2xl font-bold tracking-tight shrink-0 transition-colors",
+                        "font-mono text-lg sm:text-xl font-bold tracking-tight shrink-0 transition-colors",
                         isSelected ? "text-[var(--accent)]" : "text-[var(--fg-faint)] group-hover:text-[var(--fg)]"
                       )}
                     >
@@ -54,7 +54,7 @@ export function TrackFieldOverview({ data }: TrackFieldOverviewProps) {
                     </span>
                     <div className="space-y-2 min-w-0">
                       <div className="flex items-center gap-3 flex-wrap">
-                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--fg)] tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-bold text-[var(--fg)] tracking-tight">
                           {pillar.title}
                         </h3>
                         <span className="font-mono text-xs text-[var(--fg-faint)]">
