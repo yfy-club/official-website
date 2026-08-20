@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
+import { ArrowLeft, ArrowRight, LayoutGrid } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -114,9 +114,9 @@ export default async function TrackDetailPage({
         </Button>
       </div>
 
-      {/* 01 / Swiss Editorial 巨幅大字 Hero (首屏大呼吸感，与主页一致的下沉与留白) */}
-      <header id="track-start" className="track-detail__hero min-h-[75vh] sm:min-h-[82vh] flex flex-col justify-center py-16 sm:py-24 space-y-12">
-        <div className="space-y-8 max-w-5xl">
+      {/* 01 / Swiss Editorial 巨幅大字 Hero (严格左侧顶满对齐，大气留白) */}
+      <header id="track-start" className="w-full text-left pt-6 pb-20 sm:pb-28 space-y-8">
+        <div className="space-y-6">
           <div className="flex items-center gap-3">
             <span className="font-mono text-xs sm:text-sm font-bold text-[var(--accent)] tracking-widest">
               TRK-0{track.index} {"//"} TECHNICAL SPEC
@@ -124,29 +124,23 @@ export default async function TrackDetailPage({
             <Badge variant="active">ACTIVE TRACK</Badge>
           </div>
 
-          <div className="space-y-4">
-            <h1 className="font-display text-5xl sm:text-7xl lg:text-9xl font-normal leading-[0.92] tracking-tight text-[var(--fg)]">
+          <div className="space-y-3">
+            <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-normal leading-[0.95] tracking-tight text-[var(--fg)]">
               {track.nameEn}.
             </h1>
-            <p className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[var(--fg)] tracking-tight">
+            <p className="text-2xl sm:text-4xl font-bold text-[var(--fg)] tracking-tight">
               {track.nameZh}
             </p>
           </div>
 
-          <p className="text-lg sm:text-2xl text-[var(--fg-muted)] leading-relaxed max-w-3xl font-sans font-normal pt-2">
+          <p className="text-base sm:text-xl text-[var(--fg-muted)] leading-relaxed max-w-4xl font-sans font-normal pt-2">
             {track.positioning}
           </p>
 
-          <div className="flex items-center gap-3 pt-4 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
+          <div className="flex items-center gap-3 pt-2 text-xs sm:text-sm font-mono text-[var(--fg-muted)]">
             <span className="text-[var(--fg-faint)]">目标领域：</span>
             <span className="font-bold text-[var(--fg)]">{track.goal}</span>
           </div>
-        </div>
-
-        {/* 底部极简向下指示 */}
-        <div className="pt-8 flex items-center gap-2 text-xs font-mono text-[var(--fg-faint)]">
-          <span>SCROLL FOR TECH MATRIX & TOPOLOGY</span>
-          <ArrowDown size={14} className="animate-bounce" aria-hidden="true" />
         </div>
       </header>
 
