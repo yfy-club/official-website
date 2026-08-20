@@ -108,6 +108,8 @@ test("works page preserves and restores scroll position when returning from deta
 
   await card.getByRole("link", { name: /项目|工程/ }).click();
   await expect(page).toHaveURL("/works/zgyc-smart-light");
+  const detailScrollY = await page.evaluate(() => window.scrollY);
+  expect(detailScrollY).toBeLessThan(100);
 
   const backButton = page.getByRole("link", { name: "返回项目列表" });
   await expect(backButton).toBeVisible();

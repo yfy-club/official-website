@@ -15,6 +15,9 @@ export function RouteTransitions() {
   useEffect(() => {
     finishNavigation.current?.();
     finishNavigation.current = null;
+    if (pathname !== "/works") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -27,8 +30,9 @@ export function RouteTransitions() {
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin || url.pathname === window.location.pathname || url.hash) return;
 
-      const documentWithTransition = document as TransitionDocument;
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isReturningToWorksList =
+        window.location.pathname.startsWith("/works/") &&
+        (url.pathname === "/works" || url.pathname === "/works/");
 
       // Automatically capture scroll position and flags between /works and /works/[slug]
       try {
@@ -39,7 +43,7 @@ export function RouteTransitions() {
           sessionStorage.setItem("yfy_works_restore", "true");
           const targetSlug = url.pathname.replace("/works/", "").split("/")[0];
           if (targetSlug) sessionStorage.setItem("yfy_works_last_slug", targetSlug);
-        } else if (window.location.pathname.startsWith("/works/") && url.pathname === "/works") {
+        } else if (isReturningToWorksList) {
           sessionStorage.setItem("yfy_works_restore", "true");
           const fromSlug = window.location.pathname.replace("/works/", "").split("/")[0];
           if (fromSlug) sessionStorage.setItem("yfy_works_last_slug", fromSlug);
@@ -48,13 +52,27 @@ export function RouteTransitions() {
         // Ignore storage errors
       }
 
-      if (!documentWithTransition.startViewTransition || reduce) return;
+      const documentWithTransition = document as TransitionDocument;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!documentWithTransition.startViewTransition || reduce) {
+        if (!isReturningToWorksList) {
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        }
+        return;
+      }
 
       event.preventDefault();
       documentWithTransition.startViewTransition(
         () => new Promise<void>((resolve) => {
           finishNavigation.current = resolve;
-          router.push(`${url.pathname}${url.search}${url.hash}`, { scroll: false });
+          // When entering a new page (e.g. detail page), reset scroll to top immediately.
+          // When returning to works list, let works-filter-view restore the previous scroll position.
+          if (!isReturningToWorksList) {
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+          }
+          router.push(`${url.pathname}${url.search}${url.hash}`, {
+            scroll: !isReturningToWorksList,
+          });
         }),
       );
     }
