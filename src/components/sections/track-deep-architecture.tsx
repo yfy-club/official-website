@@ -12,11 +12,9 @@ import {
   Code2,
   Copy,
   Layers,
-  Sparkles,
 } from "lucide-react";
 
 import { TrackArchitectureVisualizer } from "@/components/motion/track-architecture-visualizer";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MathFormula } from "@/components/ui/math-formula";
 import type { TrackDeepDive } from "@/content";
@@ -89,14 +87,9 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
         <div className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-10 shadow-xs space-y-8 transition-all">
           {/* 顶栏元数据 */}
           <div className="flex items-center justify-between flex-wrap gap-3 pb-2 border-b border-[var(--border)]">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
-                DOSSIER 0{activeConceptIndex + 1} {"//"} {currentConcept.code}
-              </span>
-              <Badge variant="outline" className="font-mono text-[10px]">
-                THEORY & SYSTEM
-              </Badge>
-            </div>
+            <span className="font-mono text-xs font-bold text-[var(--accent)] tracking-wider">
+              DOSSIER 0{activeConceptIndex + 1} {"//"} {currentConcept.code}
+            </span>
             <div className="flex items-center gap-1.5 flex-wrap">
               {currentConcept.tags.map((tag) => (
                 <span
@@ -109,12 +102,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
             </div>
           </div>
 
-          {/* 灵魂提问（大字号、强冲击力、呼吸感排版） */}
+          {/* 核心问题与摘要（大字号、强冲击力、呼吸感排版） */}
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[var(--radius-xs)] bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-xs font-mono text-[var(--accent)] font-semibold">
-              <Sparkles size={13} />
-              <span>CORE ENGINEERING QUESTION</span>
-            </div>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[var(--fg)] tracking-tight leading-snug">
               {currentConcept.question}
             </h3>
@@ -127,8 +116,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
           {currentConcept.formula && (
             <div className="p-4 sm:p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-1.5 min-w-0 flex-1">
-                <span className="text-[11px] font-mono text-[var(--fg-faint)] uppercase tracking-wider block">
-                  {"MATHEMATICAL PRINCIPLE // 数学定义"}
+                <span className="text-xs font-mono text-[var(--fg-faint)] block">
+                  数学原理
                 </span>
                 <div className="text-sm sm:text-base text-[var(--fg)] overflow-x-auto overflow-y-hidden no-scrollbar py-2 min-h-[2.75rem] flex items-center">
                   <MathFormula formula={currentConcept.formula} displayMode={false} />
@@ -152,12 +141,12 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
               {isExpanded ? (
                 <>
                   <ChevronUp size={16} className="text-[var(--accent)]" />
-                  <span>收起深度工程讲义与代码 // COLLAPSE DEEP DIVE</span>
+                  <span>收起详细讲义与源码</span>
                 </>
               ) : (
                 <>
                   <ChevronDown size={16} className="text-[var(--accent)]" />
-                  <span>展开深度工程机制、源码与误区排雷 // EXPAND DEEP DIVE</span>
+                  <span>展开详细讲义与源码</span>
                 </>
               )}
             </button>
@@ -178,8 +167,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Layers size={16} className="text-[var(--accent)]" />
-                    <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                      底层机制与系统推演 // MECHANISM DEEP DIVE
+                    <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
+                      底层机制
                     </h4>
                   </div>
                   <p className="text-sm sm:text-base text-[var(--fg-muted)] leading-relaxed">
@@ -193,8 +182,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2">
                         <Code2 size={16} className="text-[var(--accent)]" />
-                        <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                          工程源码 // {currentConcept.codeSnippet.language.toUpperCase()}
+                        <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
+                          源码实现 ({currentConcept.codeSnippet.language})
                         </h4>
                       </div>
                       <span className="text-xs font-mono text-[var(--fg-faint)]">
@@ -223,7 +212,7 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                   <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)]/60 border border-amber-500/30 space-y-3">
                     <div className="flex items-center gap-2 text-amber-500 font-mono text-xs font-bold">
                       <AlertTriangle size={15} />
-                      <span>COMMON MISCONCEPTION // 常见认知误区排雷</span>
+                      <span>认知误区排雷</span>
                     </div>
                     <div className="space-y-2 text-xs sm:text-sm">
                       <p className="text-[var(--fg-muted)]">
@@ -242,8 +231,8 @@ export function TrackDeepArchitecture({ deepDive }: TrackDeepArchitectureProps) 
                 {currentConcept.ourWork && (
                   <div className="p-4 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-between flex-wrap gap-3">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-[var(--accent)] font-bold">
-                        YFY LAB PRACTICAL CASE // 社团落地成果
+                      <span className="text-xs font-mono text-[var(--accent)] font-bold">
+                        社团落地成果
                       </span>
                       <div className="text-xs sm:text-sm text-[var(--fg)] font-semibold">
                         {currentConcept.ourWork.title}：{currentConcept.ourWork.evidence}

@@ -145,7 +145,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
                       <Sparkles className="h-4 w-4 text-[var(--accent)]" />
-                      <span>KEY HIGHLIGHTS // 核心攻坚亮点</span>
+                      <span>核心攻坚亮点</span>
                     </div>
                     <ul className="space-y-2">
                       {selectedWork.highlights.map((highlight) => (
@@ -166,7 +166,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
                   <div className="space-y-3 pt-2 border-t border-[var(--border)]">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
                       <ShieldCheck className="h-4 w-4 text-[var(--success)]" />
-                      <span>ENGINEERING DECISIONS // 架构权衡决策</span>
+                      <span>架构权衡决策</span>
                     </div>
                     <div className="space-y-2.5">
                       {selectedWork.detail.decisions.slice(0, 3).map((dec, i) => (
@@ -189,7 +189,7 @@ export function TrackEvidenceInspector({ works, awards }: TrackEvidenceInspector
                   <div className="space-y-3 pt-2 border-t border-[var(--border)]">
                     <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
                       <Layers className="h-4 w-4 text-[var(--accent)]" />
-                      <span>TECH STACK // 依赖技术栈</span>
+                      <span>依赖技术栈</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedWork.stackSummary.map((tag) => (

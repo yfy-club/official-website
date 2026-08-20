@@ -160,8 +160,8 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
             <div className="space-y-3">
               <div className="flex items-center gap-2">
                 <Compass size={16} className="text-[var(--accent)]" />
-                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                  核心学习内容与实战攻坚 // CORE SYLLABUS
+                <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
+                  核心学习与实战课题
                 </h4>
               </div>
               <div className="space-y-2.5">
@@ -183,8 +183,8 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
             <div className="space-y-3 pt-2">
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-emerald-500" />
-                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
-                  阶段阶段性达标清单 // MILESTONES CHECKLIST
+                <h4 className="font-mono text-xs font-bold text-[var(--fg)]">
+                  阶段达标清单
                 </h4>
               </div>
               <div className="space-y-2">
@@ -204,7 +204,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
             <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border)] space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--fg)]">
                 <FlaskConical size={15} className="text-[var(--accent)]" />
-                <span>STAGE DELIVERABLE // 阶段结项实训项目</span>
+                <span>阶段结项实训</span>
               </div>
               <p className="text-xs sm:text-sm text-[var(--fg)] leading-relaxed">
                 {currentModule.experiment}
@@ -215,7 +215,7 @@ export function TrackStageConsole({ modules = [], roadmap }: TrackStageConsolePr
             <div className="p-5 rounded-[var(--radius-xs)] bg-[var(--surface-2)] border border-[var(--border-strong)] space-y-3">
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-[var(--accent)]">
                 <ShieldCheck size={15} />
-                <span>CODE REVIEW CRITERIA // 导师代码审查标准</span>
+                <span>代码审查标准</span>
               </div>
               <p className="text-xs sm:text-sm text-[var(--fg-muted)] leading-relaxed">
                 {currentModule.reviewStandard}
