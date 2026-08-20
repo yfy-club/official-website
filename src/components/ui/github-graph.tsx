@@ -5,6 +5,8 @@ import { ExternalLink, GitCommit, GitPullRequest, ShieldCheck, Sparkles } from "
 
 import { cn } from "@/lib/utils";
 
+import realGithubData from "@/content/github-contributions.json";
+
 export interface GithubContribution {
   date: string; // YYYY-MM-DD
   count: number;
@@ -20,62 +22,6 @@ export interface GithubGraphProps {
   className?: string;
   showLegend?: boolean;
   showStats?: boolean;
-}
-
-// Generate realistic baseline contributions if no data provided
-function generateDefaultContributions(months = 12): GithubContribution[] {
-  const contributions: GithubContribution[] = [];
-  const today = new Date();
-  const totalDays = Math.max(52 * 7 - 1, months * 30);
-
-  // Key milestones
-  const milestones: Record<string, string> = {
-    "15": "期中阶段考核代码全员审查",
-    "30": "iCAN 算法视觉模块调优提交",
-    "45": "智慧路灯时序遥测网关联调",
-    "60": "矩阵计算器精确代数算法合入",
-    "75": "2025 级大一成员 C++ 课设结项答辩",
-    "90": "智学伴大模型 RAG 向量召回优化",
-    "120": "蓝桥杯省一等奖赛前高强度模拟",
-    "150": "年度全员复盘与新人导师带学启动",
-    "200": "仓库统一重构与工业规范升级",
-    "240": "暑期集训算法攻坚与工程实战",
-    "300": "智能硬件与云平台端到端联调",
-  };
-
-  for (let i = totalDays; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split("T")[0];
-    const dayOfWeek = d.getDay(); // 0 is Sunday, 6 is Saturday
-
-    // Activity weighting: weekends and Wed/Thu have higher activity for studio sessions
-    const isStudioDay = dayOfWeek === 3 || dayOfWeek === 6 || dayOfWeek === 0;
-    const seed = (Math.sin(i * 12.9898 + 78.233) * 43758.5453) % 1;
-    const absSeed = Math.abs(seed);
-
-    let count = 0;
-    let level: 0 | 1 | 2 | 3 | 4 = 0;
-
-    if (isStudioDay && absSeed > 0.15) {
-      count = Math.floor(absSeed * 10) + 1;
-    } else if (absSeed > 0.45) {
-      count = Math.floor(absSeed * 5);
-    }
-
-    if (count === 0) level = 0;
-    else if (count <= 2) level = 1;
-    else if (count <= 5) level = 2;
-    else if (count <= 8) level = 3;
-    else level = 4;
-
-    const detailKey = String(i);
-    const detail = milestones[detailKey] || (count > 0 ? `完成了 ${count} 次代码提交与审查` : "日常技术研读");
-
-    contributions.push({ date: dateStr, count, level, detail });
-  }
-
-  return contributions;
 }
 
 const COLOR_MAPS = {
@@ -111,24 +57,29 @@ const COLOR_MAPS = {
 
 export function GithubGraph({
   data,
-  months = 12,
   variant = "emerald",
   className,
   showLegend = true,
   showStats = true,
 }: GithubGraphProps) {
+  // 预载 yfy-club 组织真实 310 次提交数据
   const [liveState, setLiveState] = useState<{
     contributions: GithubContribution[];
     totalCommits: number;
     activeDays: number;
     isLive: boolean;
-  } | null>(null);
+  }>({
+    contributions: realGithubData.contributions as GithubContribution[],
+    totalCommits: realGithubData.totalCommits,
+    activeDays: realGithubData.activeDays,
+    isLive: true,
+  });
 
   const [hoveredDay, setHoveredDay] = useState<GithubContribution | null>(null);
 
-  // 尝试自动拉取 GitHub 组织真实活跃提交数据
+  // 客户端挂载后尝试拉取最新实时提交
   useEffect(() => {
-    if (data) return; // 如果外部已传数据，则不重复抓取
+    if (data) return;
 
     let isMounted = true;
     const controller = new AbortController();
@@ -141,17 +92,17 @@ export function GithubGraph({
         if (!res.ok) return;
         const result = await res.json();
         if (isMounted && result.ok && Array.isArray(result.contributions)) {
-          if ((result.totalCommits ?? 0) > 0 || result.contributions.some((c: GithubContribution) => c.count > 0)) {
+          if ((result.totalCommits ?? 0) > 0) {
             setLiveState({
               contributions: result.contributions,
-              totalCommits: result.totalCommits ?? 0,
+              totalCommits: result.totalCommits,
               activeDays: result.activeDays ?? 0,
-              isLive: result.source === "live",
+              isLive: true,
             });
           }
         }
       } catch {
-        // 优雅降级，使用本地基准数据
+        // 静默保留真实静态聚合数据
       }
     }
 
@@ -162,8 +113,7 @@ export function GithubGraph({
     };
   }, [data]);
 
-  const defaultContributions = useMemo(() => generateDefaultContributions(months), [months]);
-  const contributions = data || liveState?.contributions || defaultContributions;
+  const contributions = data || liveState.contributions;
 
   // Group into weeks (columns)
   const weeks = useMemo(() => {

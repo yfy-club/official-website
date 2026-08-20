@@ -1,0 +1,2226 @@
+{
+  "ok": true,
+  "source": "live",
+  "org": "yfy-club",
+  "totalCommits": 310,
+  "activeDays": 26,
+  "repos": [
+    "yfy-club.github.io",
+    "intellibuddy",
+    "Matrix_Calculator",
+    "MoeNews",
+    "warehouse-inventory-management-system"
+  ],
+  "contributions": [
+    {
+      "date": "2025-08-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-08-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-28",
+      "count": 6,
+      "level": 3,
+      "detail": "[intellibuddy] remove sensitive .env file；[intellibuddy] 鑷姩鎻愪氦: 2025-09-28 20:00:13；[intellibuddy] test",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-09-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-09-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-09",
+      "count": 2,
+      "level": 1,
+      "detail": "[intellibuddy] 鑷姩鎻愪氦: 2025-10-09 21:38:00；[intellibuddy] test",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-10",
+      "count": 2,
+      "level": 1,
+      "detail": "[intellibuddy] 鑷姩鎻愪氦: 2025-10-10 17:14:31；[intellibuddy] 鑷姩鎻愪氦: 2025-10-10 14:03:49",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-11",
+      "count": 19,
+      "level": 4,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-11 21:16:01；[intellibuddy] Auto-commit: 2025-10-11 21:04:30；[intellibuddy] Auto-commit: 2025-10-11 21:00:26",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-12",
+      "count": 4,
+      "level": 2,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-12 21:52:06；[intellibuddy] Auto-commit: 2025-10-12 18:44:23；[intellibuddy] Auto-commit: 2025-10-12 16:36:11",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-13",
+      "count": 1,
+      "level": 1,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-13 14:48:24",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-14",
+      "count": 1,
+      "level": 1,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-14 21:42:17",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-15",
+      "count": 1,
+      "level": 1,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-15 20:51:56",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-16",
+      "count": 22,
+      "level": 4,
+      "detail": "[intellibuddy] fix(build): Simplify frontend build command to bypass vue-tsc bug；[intellibuddy] fix(build): Simplify frontend build command to bypass vue-tsc bug；[intellibuddy] fix(build): Finally fix frontend build script for Vercel",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-17",
+      "count": 2,
+      "level": 1,
+      "detail": "[intellibuddy] fix(vercel): install devDependencies during build by removing NODE_ENV=production；[intellibuddy] chore: unify pnpm configs; fix deps; upgrade ESLint to v9 (flat config); lint fixes; vercel rewrites & ignore; add .nvmrc",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-18",
+      "count": 15,
+      "level": 4,
+      "detail": "[intellibuddy] fix: remove buildCommand and framework from vercel.json for auto-detection；[intellibuddy] fix: use esbuild instead of tsc to transpile TypeScript without type checking；[intellibuddy] fix: add noEmitOnError false to tsconfig to generate JS files despite type errors",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-19",
+      "count": 21,
+      "level": 4,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-19 18:35:10；[intellibuddy] Auto-commit: 2025-10-19 18:31:02；[intellibuddy] fix: reuse existing Mongoose models to avoid OverwriteModelError",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-25",
+      "count": 1,
+      "level": 1,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-25 21:50:00",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-26",
+      "count": 6,
+      "level": 3,
+      "detail": "[intellibuddy] Auto-commit: 2025-10-26 19:31:37；[intellibuddy] Auto-commit: 2025-10-26 18:24:32；[intellibuddy] Auto-commit: 2025-10-26 18:10:03",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2025-10-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-10-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-11-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2025-12-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-02",
+      "count": 3,
+      "level": 2,
+      "detail": "[Matrix_Calculator] Add Chinese README section；[Matrix_Calculator] Add README；[Matrix_Calculator] Add frontend matrix calculator",
+      "repo": "Matrix_Calculator"
+    },
+    {
+      "date": "2026-01-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-01-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-02-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-22",
+      "count": 9,
+      "level": 3,
+      "detail": "[warehouse-inventory-management-system] Deepen presentation guide code explanations；[warehouse-inventory-management-system] Expand presentation guide with code walkthroughs；[warehouse-inventory-management-system] Remove archive from tracking",
+      "repo": "warehouse-inventory-management-system"
+    },
+    {
+      "date": "2026-03-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-03-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-04-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-05-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-22",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-23",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-26",
+      "count": 6,
+      "level": 3,
+      "detail": "[MoeNews] style: 系统前端视觉与交互体验深度优化美化 (Sweet Moe Candy 风格)；[MoeNews] chore: add rich database seed script；[MoeNews] docs: add setup and maintenance guides",
+      "repo": "MoeNews"
+    },
+    {
+      "date": "2026-06-27",
+      "count": 4,
+      "level": 2,
+      "detail": "[MoeNews] 为Java企业应用开发添加课程设计任务文档；[MoeNews] 移除gitignore忽略的文章封面图片目录；[MoeNews] 添加项目文档和数据库模式",
+      "repo": "MoeNews"
+    },
+    {
+      "date": "2026-06-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-06-29",
+      "count": 1,
+      "level": 1,
+      "detail": "[MoeNews] docs: 添加 Git 协作提交指南与团队分工说明文档",
+      "repo": "MoeNews"
+    },
+    {
+      "date": "2026-06-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-15",
+      "count": 4,
+      "level": 2,
+      "detail": "[Matrix_Calculator] 配置可复用的 GitHub Pages 自动部署；[Matrix_Calculator] 精简计算结果并重构推导步骤浏览体验；[Matrix_Calculator] 重构 Vue 前端并完善交互与主题体验",
+      "repo": "Matrix_Calculator"
+    },
+    {
+      "date": "2026-07-16",
+      "count": 4,
+      "level": 2,
+      "detail": "[Matrix_Calculator] fix: remove unused Grid2X2 import in App.vue to resolve TS compilation error；[Matrix_Calculator] feat: design new brand icon and adapt for light and dark modes；[Matrix_Calculator] style: optimize header brand, slogan, and operation panel typography",
+      "repo": "Matrix_Calculator"
+    },
+    {
+      "date": "2026-07-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-18",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-19",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-20",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-21",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-22",
+      "count": 13,
+      "level": 4,
+      "detail": "[intellibuddy] fix: robust error handling during initial auth check to prevent black screen；[intellibuddy] fix: DNS fallback in seed scripts for reliable seeding；[intellibuddy] fix: explicit 200 OK for OPTIONS preflight and URL path normalization on Vercel",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2026-07-23",
+      "count": 5,
+      "level": 2,
+      "detail": "[intellibuddy] fix: 增加星火 AI 凭证兜底与无服务器函数异常捕获；[intellibuddy] fix: 修正星火大模型授权版本为 generalv3 并配置自动模型降级；[intellibuddy] feat: 接入科大讯飞星火大模型作为主 AI 服务模型",
+      "repo": "intellibuddy"
+    },
+    {
+      "date": "2026-07-24",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-25",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-26",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-27",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-28",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-29",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-30",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-07-31",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-01",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-02",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-03",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-04",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-05",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-06",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-07",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-08",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-09",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-10",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-11",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-12",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-13",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-14",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-15",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-16",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-17",
+      "count": 0,
+      "level": 0,
+      "detail": "日常代码研读与课设准备"
+    },
+    {
+      "date": "2026-08-18",
+      "count": 10,
+      "level": 3,
+      "detail": "[yfy-club.github.io] feat(quality): 完成 M4 打磨与上线准备；[yfy-club.github.io] feat(join): 完成 M3 报名表单与服务端链路；[yfy-club.github.io] feat(motion): 完成 M2 阶段全站记忆点与微反馈动效系统",
+      "repo": "yfy-club.github.io"
+    },
+    {
+      "date": "2026-08-19",
+      "count": 66,
+      "level": 4,
+      "detail": "[yfy-club.github.io] fix(join): 恢复 04 Testimonials 跑马灯默认持续流动与悬停平滑暂停行为 (pauseOnHover)；[yfy-club.github.io] feat(join): 升级 02 Requirements, 03 Process, 05 FAQ 工业精工动效与无碎片化交互；[yfy-club.github.io] feat(ui): 全面融入 Cult UI 高阶精工动效组件集 (All-in-one Upgrade)",
+      "repo": "yfy-club.github.io"
+    },
+    {
+      "date": "2026-08-20",
+      "count": 82,
+      "level": 4,
+      "detail": "[yfy-club.github.io] fix(about): 修复 GitHub API 限流或零提交时热力图全白问题，增强优雅降级与真实数据防护；[yfy-club.github.io] fix(home): 重构代表项目展示区排版，去除「已上线」赘述文案并升级为 Swiss 精工微卡片；[yfy-club.github.io] fix(tracks): 将航道标题由浮夸的 TOPOLOGY MATRIX 改为稳妥务实的「专业技术方向与培养方案」",
+      "repo": "yfy-club.github.io"
+    }
+  ]
+}
