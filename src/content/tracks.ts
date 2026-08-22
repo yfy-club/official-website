@@ -113,7 +113,7 @@ export const tracksRaw = [
     tagline: "融合现代软件工程与 AI 智能体",
     positioning: "融合现代微服务架构、全栈工程化与 AI 智能体开发范式，打造高并发、高可用、可部署的现代化企业级软件系统。",
     stack: {
-      languages: ["Java", "TypeScript", "C/C++", "SQL"],
+      languages: ["Python", "TypeScript", "C/C++", "SQL"],
       frameworks: ["Spring Boot", "Spring Cloud", "Vue 3", "Next.js", "MyBatis-Plus", "Express"],
       engineering: ["微服务架构", "高并发与缓存治理", "Docker 容器编排", "CI/CD 流水线", "RESTful / RPC 协议", "AI 智能体开发"],
       toolchain: ["Git", "Maven", "Docker", "Postman", "Nginx", "Linux", "Vite"],
