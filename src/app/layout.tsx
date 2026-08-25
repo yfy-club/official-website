@@ -61,7 +61,12 @@ export const metadata: Metadata = {
   description: "南阳理工学院云飞扬社团官方网站。涵盖五个核心技术方向，提供真实工程实践、学科竞赛指导与一对一师徒培养体系。",
   icons: {
     icon: [
-      { url: "/favicon.svg?v=3", type: "image/svg+xml" },
+      { url: "/favicon.svg?v=4", type: "image/svg+xml", sizes: "any" },
+      { url: "/favicon-light.svg?v=4", media: "(prefers-color-scheme: light)", type: "image/svg+xml", sizes: "any" },
+      { url: "/favicon-dark.svg?v=4", media: "(prefers-color-scheme: dark)", type: "image/svg+xml", sizes: "any" },
+    ],
+    apple: "/apple-touch-icon.png?v=4",
+  },
       { url: "/favicon-light.svg?v=3", media: "(prefers-color-scheme: light)", type: "image/svg+xml" },
       { url: "/favicon-dark.svg?v=3", media: "(prefers-color-scheme: dark)", type: "image/svg+xml" },
       { url: "/favicon-32x32.png?v=3", sizes: "32x32", type: "image/png" },
