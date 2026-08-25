@@ -59,6 +59,14 @@ export const metadata: Metadata = {
     template: "%s · 云飞扬社团",
   },
   description: "南阳理工学院云飞扬社团官方网站。涵盖五个核心技术方向，提供真实工程实践、学科竞赛指导与一对一师徒培养体系。",
+  icons: {
+    icon: [
+      { url: "/favicon-light.svg", media: "(prefers-color-scheme: light)", type: "image/svg+xml" },
+      { url: "/favicon-dark.svg", media: "(prefers-color-scheme: dark)", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 export const viewport: Viewport = {
