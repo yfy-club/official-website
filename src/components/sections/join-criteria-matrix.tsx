@@ -42,6 +42,7 @@ const CRITERIA_DIMENSIONS: readonly CriteriaDimension[] = [
 export function JoinCriteriaMatrix({ className }: { className?: string }) {
   const shouldReduceMotion = useReducedMotion();
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<"suitable" | "unsuitable">("suitable");
 
   return (
     <CardFrame
@@ -52,8 +53,8 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
     >
       <CardCorners />
 
-      {/* 双轨对照表头 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[var(--border)] border-b border-[var(--border)] bg-[var(--surface-2)]/35">
+      {/* 桌面端双轨对照表头 */}
+      <div className="hidden md:grid md:grid-cols-2 divide-x divide-[var(--border)] border-b border-[var(--border)] bg-[var(--surface-2)]/35">
         {/* 左表头：适合加入 */}
         <div className="flex items-center justify-between gap-3 px-5 py-3.5 sm:px-6">
           <div className="flex items-center gap-2">
@@ -81,6 +82,36 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
         </div>
       </div>
 
+      {/* 移动端轻量双段切换器 */}
+      <div className="md:hidden grid grid-cols-2 p-1.5 bg-[var(--surface-2)]/35 border-b border-[var(--border)] gap-1.5 font-mono text-xs">
+        <button
+          type="button"
+          onClick={() => setActiveTab("suitable")}
+          className={cn(
+            "flex items-center justify-center gap-1.5 py-2 px-3 rounded-[var(--radius-xs)] font-medium transition-all duration-150 active:scale-[0.98]",
+            activeTab === "suitable"
+              ? "bg-[var(--surface)] text-[var(--success)] shadow-2xs border border-[var(--border)] font-semibold"
+              : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
+          )}
+        >
+          <span className="font-bold">03.1 //</span>
+          <span>适合加入</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("unsuitable")}
+          className={cn(
+            "flex items-center justify-center gap-1.5 py-2 px-3 rounded-[var(--radius-xs)] font-medium transition-all duration-150 active:scale-[0.98]",
+            activeTab === "unsuitable"
+              ? "bg-[var(--surface)] text-[var(--danger)] shadow-2xs border border-[var(--border)] font-semibold"
+              : "text-[var(--fg-muted)] hover:text-[var(--fg)]"
+          )}
+        >
+          <span className="font-bold">03.2 //</span>
+          <span>暂不适合</span>
+        </button>
+      </div>
+
       {/* 三维双轨对照清单 */}
       <div className="divide-y divide-[var(--border)]">
         {CRITERIA_DIMENSIONS.map((item, idx) => {
@@ -98,8 +129,13 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
                 isDimmed && "opacity-60"
               )}
             >
-              {/* 左侧：适合维度 */}
-              <div className="p-5 sm:p-6 flex flex-col justify-between gap-3">
+              {/* 适合维度 */}
+              <div
+                className={cn(
+                  "p-5 sm:p-6 flex flex-col justify-between gap-3",
+                  activeTab !== "suitable" && "hidden md:flex"
+                )}
+              >
                 <div className="flex items-center justify-between font-mono text-xs text-[var(--success)]">
                   <span className="font-semibold tracking-wider">
                     {item.index} {"//"} {item.suitableDimension}
@@ -116,8 +152,13 @@ export function JoinCriteriaMatrix({ className }: { className?: string }) {
                 </div>
               </div>
 
-              {/* 右侧：暂不适合维度 */}
-              <div className="p-5 sm:p-6 flex flex-col justify-between gap-3 bg-[var(--surface-2)]/15 md:bg-transparent">
+              {/* 暂不适合维度 */}
+              <div
+                className={cn(
+                  "p-5 sm:p-6 flex flex-col justify-between gap-3 bg-[var(--surface-2)]/15 md:bg-transparent",
+                  activeTab !== "unsuitable" && "hidden md:flex"
+                )}
+              >
                 <div className="flex items-center justify-between font-mono text-xs text-[var(--danger)]">
                   <span className="font-semibold tracking-wider">
                     {item.index} {"//"} {item.unsuitableDimension}
